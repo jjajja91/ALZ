@@ -2,8 +2,10 @@ package alz.main.controller;
 
 public class HiGit {
 	public static void main(String[] args) {
-		System.out.println("hi git");
+		int yerim = 0;
 		
+		System.out.println("hi git");
 		System.out.println("HIMSUMJJIN REAL JJINDDA");
+
 	}
 }
