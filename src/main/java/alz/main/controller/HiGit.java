@@ -5,6 +5,7 @@ public class HiGit {
 		int yerim = 0;
 		
 		System.out.println("hi git");
-		
+		System.out.println("HIMSUMJJIN REAL JJINDDA");
+
 	}
 }
