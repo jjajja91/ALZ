@@ -2,10 +2,8 @@ package alz.user.domain;
 
 import java.util.Date;
 
-import alz.classes.domain.ClassDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -32,5 +30,8 @@ public class UserDTO {
 	private Long boardCnt;
 	private Long reservCnt;
 	private Long commentCnt;
+	private String state;
+	private Date startAt;
+	private Date endAt;
 	
 }
