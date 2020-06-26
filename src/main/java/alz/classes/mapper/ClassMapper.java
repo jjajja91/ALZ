@@ -6,7 +6,6 @@ import org.apache.ibatis.annotations.Mapper;
 
 import alz.classes.domain.ClassDTO;
 
-@Mapper
 public interface ClassMapper {
 
 	int insert(ClassDTO classes);

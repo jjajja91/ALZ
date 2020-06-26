@@ -2,9 +2,21 @@ package alz.user.domain;
 
 import java.util.Date;
 
+import alz.classes.domain.ClassDTO;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.Accessors;
 
-@Data
+@Getter
+@Setter
+@Builder
+@Accessors(chain=true)
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserDTO {
 
 	private Long id;
@@ -12,7 +24,7 @@ public class UserDTO {
 	private String nickName;
 	private String password;
 	private String role;
-	private int certificationState;
+	private Integer certificationState;
 	private Date recentlogAt;
 	private Date modifiedAt;
 	private String introduce;

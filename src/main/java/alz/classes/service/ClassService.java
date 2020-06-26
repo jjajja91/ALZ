@@ -2,6 +2,7 @@ package alz.classes.service;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import alz.classes.domain.ClassDTO;
@@ -12,6 +13,7 @@ public class ClassService {
 
 	private ClassMapper classMapper;
 	
+	@Autowired
 	public ClassService(ClassMapper classMapper) {
 		this.classMapper = classMapper;
 	}
