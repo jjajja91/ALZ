@@ -5,8 +5,6 @@ import java.util.List;
 import alz.board.domain.BoardDTO;
 
 public interface BoardService {
-
-	//mapper 가져올 것
 	
 	BoardDTO create(BoardDTO board);
 

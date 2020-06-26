@@ -8,6 +8,8 @@ import alz.board.domain.BoardDTO;
 
 @Service
 public class BoardServiceImpl implements BoardService {
+	
+	//mapper 가져와서 사용
 
 	@Override
 	public BoardDTO create(BoardDTO board) {

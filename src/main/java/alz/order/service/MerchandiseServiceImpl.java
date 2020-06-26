@@ -1,36 +1,36 @@
-package alz.user.service;
+package alz.order.service;
 
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import alz.user.domain.UserDTO;
+import alz.order.domain.MerchandiseDTO;
 
 @Service
-public class UserServiceImpl implements UserService {
-
-	//mapper 가져와서 사용
+public class MerchandiseServiceImpl implements MerchandiseService {
 	
+	//mapper 가져와서 사용
+
 	@Override
-	public UserDTO create(UserDTO user) {
+	public MerchandiseDTO create(MerchandiseDTO merchandise) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public UserDTO readById(Long id) {
+	public MerchandiseDTO readById(Long id) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public List<UserDTO> readAll() {
+	public List<MerchandiseDTO> readAll() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public UserDTO updateById(Long id, UserDTO user) {
+	public MerchandiseDTO updateById(Long id, MerchandiseDTO merchandise) {
 		// TODO Auto-generated method stub
 		return null;
 	}

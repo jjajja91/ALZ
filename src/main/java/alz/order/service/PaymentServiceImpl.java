@@ -1,36 +1,36 @@
-package alz.user.service;
+package alz.order.service;
 
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import alz.user.domain.UserDTO;
+import alz.order.domain.PaymentDTO;
 
 @Service
-public class UserServiceImpl implements UserService {
+public class PaymentServiceImpl implements PaymentService {
 
-	//mapper 가져와서 사용
+	//mapper 가져오기
 	
 	@Override
-	public UserDTO create(UserDTO user) {
+	public PaymentDTO create(PaymentDTO payment) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public UserDTO readById(Long id) {
+	public PaymentDTO readById(Long id) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public List<UserDTO> readAll() {
+	public List<PaymentDTO> readAll() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public UserDTO updateById(Long id, UserDTO user) {
+	public PaymentDTO updateById(Long id, PaymentDTO payment) {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -8,6 +8,8 @@ import alz.board.domain.CommentDTO;
 
 @Service
 public class CommentServiceImpl implements CommentService {
+	
+	//mapper 가져와서 사용
 
 	@Override
 	public CommentDTO create() {
