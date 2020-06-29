@@ -34,6 +34,7 @@
 			<property name="configLocation" value="classpath:/mybatis/config//mybatis-config.xml"></property>
 		</bean>
 		
+		<mybatis-spring:scan base-package="alz.user.mapper"/>
 		<mybatis-spring:scan base-package="alz.classes.mapper"/>
 		<mybatis-spring:scan base-package="alz.board.mapper"/>
 		
