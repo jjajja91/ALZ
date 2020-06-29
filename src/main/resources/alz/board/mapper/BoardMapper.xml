@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  
+<mapper namespace="alz.board.mapper.BoardMapper">
+  
+  <insert id="insert" parameterType="alz.board.domain.BoardDTO">
+	<selectKey keyProperty="id" order="BEFORE"
+	resultType="long">
+	SELECT seq_board.nextval FROM dual
+	</selectKey>
+	INSERT INTO ALZ_BOARD(ID,TITLE,CONTENT,WRITER_ID,TYPE_ID)
+	VALUES ( #{id}, #{title}, #{content}, #{writerId}, #{typeId})	
+</insert>
+<select id="selectById" resultType="alz.board.domain.BoardDTO">
+	<![CDATA[SELECT * FROM ALZ_BOARD WHERE id = #{id}]]>
+</select>
+<select id="selectAll" resultType="alz.board.domain.BoardDTO">
+	<![CDATA[SELECT 
+	ID, TITLE, CONTENT, WRITTEN_AT, UPDATED_AT, LIKE_CNT, COMMENT_CNT, VIEW_CNT, DEPTH, B_ORDER, WRITER_ID, PARENT_ID, TYPE_ID
+ FROM ALZ_BOARD]]>
+</select>
+<update id="updateById" parameterType="alz.board.domain.BoardDTO">
+	UPDATE ALZ_BOARD
+	SET title = #{title},
+	content = #{content},
+	writtenAt = sysdate
+
+	WHERE id = #{id}
+</update>
+<delete id="deleteById">
+	DELETE FROM ALZ_BOARD WHERE id = #{id}
+</delete>
+
+   
+</mapper>
