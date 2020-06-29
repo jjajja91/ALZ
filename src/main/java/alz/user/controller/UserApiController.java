@@ -21,7 +21,7 @@ import alz.user.service.UserService;
 @RestController
 @RequestMapping("/users")
 public class UserApiController {
-//유저api컨트롤러
+
 	private UserService userService;
 
 	@Autowired
