@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="alz.user.mapper.UserMapper">
+	<select id="selectAll" resultType="alz.user.domain.UserDTO">
+		<![CDATA[SELECT * FROM alz_user WHERE id > 0]]>
+	</select>
+
+	<insert id="insert" parameterType="alz.user.domain.UserDTO">
+	<selectKey keyProperty="id" order="BEFORE"
+	resultType="long">
+		SELECT alz_user_seq.nextval FROM dual
+	</selectKey>
+		INSERT INTO ALZ_USER (ID, EMAIL, NICKNAME, PASSWORD, ROLE, CERTIFICATIONSTATE, <!-- RECENTLOGAT, --> MODIFIEDAT,<!-- MODIFIEDAT, --> INTRODUCE, LIKECNT, BOARDCNT, RESERVCNT, COMMENTCNT, STATE,<!-- STARTAT, --> <!-- ENDAT, --> ENDAT)
+		VALUES(#{id}, #{email}, #{nickName}, #{password}, #{role}, #{certificationState}, <!-- sysdate, --> #{modifiedAt},<!-- sysdate, --> #{introduce}, #{likeCnt}, #{boardCnt}, #{reservCnt}, #{commentCnt}, #{state},<!-- #{startAt}, --> <!-- sysdate, --> #{endAt})
+	</insert>
+
+	<select id="selectById" resultType="alz.user.domain.UserDTO">
+		SELECT * FROM alz_user WHERE id = #{id}
+	</select>
+
+	<update id="updatedById">
+		UPDATE alz_user
+		SET nickName = #{nickName},
+		password = #{password},
+		role = #{role},
+		certificationState = #{certificationState},
+		<!-- recentlogAt = sysdate, --> <!-- 디폴트값이 시스데이트 이므로 필요없음 -->
+		<!-- modifiedAt = sysdate, -->
+		modifiedAt = #{modifiedAt}, <!-- 직접 값을 넣고 싶으면 활성화 -->
+		introduce = #{introduce},
+		likeCnt = #{likeCnt},
+		boardCnt = #{boardCnt},
+		reservCnt = #{reservCnt},
+		commentCnt = #{commentCnt},
+		state = #{state},
+		<!-- startAt = sysdate,-->
+		<!-- endAt = sysdate, -->
+		endAt = #{endAt} <!-- 직접 값을 넣고 싶으면 활성화 -->
+		
+		WHERE id = #{id}
+	</update>
+
+	<delete id="deleteById">
+		DELETE FROM alz_user WHERE id = #{id}
+	</delete>
+</mapper>

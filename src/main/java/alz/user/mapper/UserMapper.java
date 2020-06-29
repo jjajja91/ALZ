@@ -15,5 +15,5 @@ public interface UserMapper {
 	int updatedById(UserDTO user);
 	
 	int deleteById(Long id);
-
+	
 }
