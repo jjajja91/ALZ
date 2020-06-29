@@ -3,6 +3,7 @@ package alz.board.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,32 +30,32 @@ public class CommentApiController {
 	
 	@PostMapping
 	public ResponseEntity<?> create(@RequestBody CommentDTO comment){
-		CommentDTO registerComment = commentService.create();
-		return null;
+		CommentDTO registerComment = commentService.create(comment);
+		return ResponseEntity.status(HttpStatus.CREATED).body(registerComment);
 	}
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<?> readOne(@PathVariable Long id){
 		CommentDTO searchedComment = commentService.readById(id);
-		return null;
+		return ResponseEntity.status(HttpStatus.OK).body(searchedComment);
 	}
 	
 	@GetMapping()
 	public ResponseEntity<?> readAll() {
 		List<CommentDTO> comments = commentService.readAll();
-		return null;
+		return ResponseEntity.status(HttpStatus.OK).body(comments);
 	}
 	
 	@PutMapping("/{id}")
 	public ResponseEntity<?> updateOne(@PathVariable Long id, CommentDTO comment){
 		CommentDTO updatedComment = commentService.updateById(id, comment);
-		return null;
+		return ResponseEntity.status(HttpStatus.OK).body(updatedComment);
 	}
 	
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> deleteOne(@PathVariable Long id) {
 		int affectedRowCount = commentService.deleteById(id);
-		return null;
+		return ResponseEntity.status(HttpStatus.OK).body("ok");
 	}
 
 }
