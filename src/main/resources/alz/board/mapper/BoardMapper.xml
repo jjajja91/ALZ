@@ -34,7 +34,7 @@
 		delete from alz_board where id = #{id}
 	</delete>
 	
-	<update id="updateById">
+	<update id="updateById" parameterType="alz.board.domain.BoardDTO">
 		update alz_board
 		set title = #{title},
 			content = #{content},

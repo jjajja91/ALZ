@@ -47,7 +47,7 @@ public class BoardApiController {
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<?> updateOne(@PathVariable Long id, BoardDTO board){
+	public ResponseEntity<?> updateOne(@PathVariable Long id, @RequestBody BoardDTO board){
 		BoardDTO updatedBoard = boardService.updateById(id, board);
 		return ResponseEntity.status(HttpStatus.OK).body(updatedBoard);
 	}
