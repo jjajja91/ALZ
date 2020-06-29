@@ -2,6 +2,8 @@ package alz.classes.domain;
 
 import java.util.Date;
 
+import javax.validation.constraints.NotEmpty;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -18,6 +20,7 @@ import lombok.experimental.Accessors;
 public class ClassDTO {
 
 	private Long id;
+	@NotEmpty
 	private String name;
 	private String description;
 	private Date openAt;
