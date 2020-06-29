@@ -1,5 +1,6 @@
 package alz.board.service;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +12,6 @@ import alz.board.mapper.BoardMapper;
 @Service
 public class BoardServiceImpl implements BoardService {
 	
-	//mapper 媛��졇���꽌 �궗�슜
-	
 	private BoardMapper boardMapper;
 	
 	@Autowired
@@ -22,8 +21,8 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public BoardDTO create(BoardDTO board) {
-	int boardRowCnt = boardMapper.insert(board);
-	BoardDTO createBoard = boardMapper.selectById(board.getId());
+    int affectedRowCount = boardMapper.insert(board);
+	  BoardDTO createBoard = boardMapper.selectById(board.getId());
 		return createBoard;
 	}
 
@@ -41,19 +40,17 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public BoardDTO updateById(Long id, BoardDTO board) {
-		BoardDTO searchBoardWriter = boardMapper.selectById(id);
-		searchBoardWriter.setTitle(board.getTitle()).setContent(board.getContent())
-		.setUpdatedAt(board.getUpdatedAt());
-		int boardRowCnt = boardMapper.updateById(searchBoardWriter);
-		return searchBoardWriter;
+		BoardDTO searchedBoard = boardMapper.selectById(id);
+		searchedBoard.setTitle(board.getTitle()).setContent(board.getContent());
+		int affectedRowCount = boardMapper.updateById(searchedBoard);
+		return searchedBoard;
 	}
 
 	@Override
 	public int deleteById(Long id) {
-		BoardDTO searchBoardWriter = boardMapper.selectById(id);
-		int boardRowCnt = boardMapper.deleteById(id);
-		
-		return boardRowCnt;
+		BoardDTO searchedBoard = boardMapper.selectById(id);
+		int affectedRowCount = boardMapper.deleteById(id);
+		return affectedRowCount;
 	}
 
 }

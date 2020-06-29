@@ -20,8 +20,8 @@ public class MerchandiseDTO {
 	private Long id;
 	private String codeType;
 	private String name;
-	private String discription;
-	private Date registeAt;
+	private String description;
+	private Date registerAt;
 	private Date updatedAt;
 	private Date closedAt;
 	private Long originPrice;

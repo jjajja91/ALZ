@@ -19,7 +19,7 @@ public class ClassDTO {
 
 	private Long id;
 	private String name;
-	private String discription;
+	private String description;
 	private Date openAt;
 	private Date closeAt;
 	private String startAt;

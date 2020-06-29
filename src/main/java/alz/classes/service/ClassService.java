@@ -36,7 +36,8 @@ public class ClassService {
 
 	public ClassDTO updateById(Long id, ClassDTO classes) {
 		ClassDTO searchedClass = classMapper.findById(id);
-		searchedClass.setName(classes.getName()).setDiscription(classes.getDiscription())
+		
+		searchedClass.setName(classes.getName()).setDescription(classes.getDescription())
 		.setOpenAt(classes.getOpenAt()).setCloseAt(classes.getCloseAt())
 		.setStartAt(classes.getStartAt()).setEndAt(classes.getEndAt())
 		.setState(classes.getState()).setCategoryId(classes.getCategoryId());
