@@ -13,7 +13,6 @@ import alz.order.mapper.MerchandiseMapper;
 @Service
 public class MerchandiseServiceImpl implements MerchandiseService {
 	
-	//mapper 가져와서 사용
 	private MerchandiseMapper merchandiseMapper;
 	
 	@Autowired
@@ -24,14 +23,14 @@ public class MerchandiseServiceImpl implements MerchandiseService {
 	@Override
 	public MerchandiseDTO create(MerchandiseDTO merchandise) {
 		int affectedRowCount = merchandiseMapper.insert(merchandise);
-		MerchandiseDTO createdMerchandise = merchandiseMapper.selectById(merchandise.getId());
-		return createdMerchandise;
+		MerchandiseDTO registeredMerchandise = merchandiseMapper.selectById(merchandise.getId());
+		return registeredMerchandise;
 	}
 
 	@Override
 	public MerchandiseDTO readById(Long id) {
-		MerchandiseDTO merchandise = merchandiseMapper.selectById(id);
-		return merchandise;
+		MerchandiseDTO searchedMerchandise = merchandiseMapper.selectById(id);
+		return searchedMerchandise;
 	}
 
 	@Override
@@ -42,23 +41,22 @@ public class MerchandiseServiceImpl implements MerchandiseService {
 
 	@Override
 	public MerchandiseDTO updateById(Long id, MerchandiseDTO merchandise) {
-		MerchandiseDTO searchedMerchandise = merchandiseMapper.selectById(id);
-
+    
+		MerchandiseDTO updatedMerchandise = merchandiseMapper.selectById(id);
 		
-		searchedMerchandise.setId(merchandise.getId()).setCodeType(merchandise.getCodeType())
-						.setName(merchandise.getName()).setDiscription(merchandise.getDiscription())
-						.setClosedAt(merchandise.getClosedAt()).setOriginPrice(merchandise.getOriginPrice())
-						.setSalePrice(merchandise.getSalePrice()).setDiscountRate(merchandise.getDiscountRate())
-						.setDiscountDeadline(merchandise.getDiscountDeadline()).setDisplayState(merchandise.getDisplayState());
-						
-		return searchedMerchandise;
+		updatedMerchandise.setCodeType(merchandise.getCodeType()).setName(merchandise.getName())
+		.setDescription(merchandise.getDescription()).setUpdatedAt(merchandise.getUpdatedAt())
+		.setClosedAt(merchandise.getClosedAt()).setOriginPrice(merchandise.getOriginPrice())
+		.setSalePrice(merchandise.getOriginPrice());
+		
+		int affectedRowCount = merchandiseMapper.updateById(updatedMerchandise);
+		return updatedMerchandise;
 	}
 
 	@Override
 	public int deleteById(Long id) {
-		MerchandiseDTO merchandise = merchandiseMapper.selectById(id);
+
 		int affectedRowCount = merchandiseMapper.deleteById(id);
-		
 		return affectedRowCount;
 	}
 
