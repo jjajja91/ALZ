@@ -18,7 +18,7 @@ import alz.classes.domain.ClassDTO;
 import alz.classes.service.ClassService;
 
 @RestController
-@RequestMapping("/classes")
+@RequestMapping("/api/classes")
 public class ClassApiController {
 
 	private ClassService classService;
