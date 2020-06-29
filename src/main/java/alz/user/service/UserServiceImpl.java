@@ -11,7 +11,7 @@ import alz.user.mapper.UserMapper;
 @Service
 public class UserServiceImpl implements UserService {
 
-	// mapper 가져와서 사용
+	// mapper 가져와서 사용함
 	private UserMapper userMapper;
 
 	@Autowired

@@ -33,7 +33,7 @@
 		reservCnt = #{reservCnt},
 		commentCnt = #{commentCnt},
 		state = #{state},
-		<!-- startAt = sysdate,-->
+		<!-- startAt = sysdate, -->
 		<!-- endAt = sysdate, -->
 		endAt = #{endAt} <!-- 직접 값을 넣고 싶으면 활성화 -->
 		

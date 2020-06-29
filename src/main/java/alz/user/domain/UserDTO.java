@@ -16,7 +16,7 @@ import lombok.experimental.Accessors;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserDTO {
-
+//유저디티오
 	private Long id;
 	private String email;
 	private String nickName;
