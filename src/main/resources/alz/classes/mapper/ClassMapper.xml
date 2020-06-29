@@ -22,7 +22,7 @@
 <update id="updateById" parameterType="alz.classes.domain.ClassDTO">
 	UPDATE ALZ_CLASS
 	SET name = #{name},
-	discription = #{discription},
+	description = #{description},
 	open_at = #{openAt},
 	close_at = #{closeAt},
 	start_at = #{startAt},
