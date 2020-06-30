@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import alz.board.domain.BoardCriteria;
 import alz.board.domain.BoardDTO;
-import alz.board.domain.Criteria;
 import alz.board.service.BoardService;
 
 @RestController

@@ -25,7 +25,6 @@ public class BoardServiceImpl implements BoardService {
 	int boardRowCnt = boardMapper.insert(board);
 	BoardDTO createBoard = boardMapper.selectById(board.getId());
 		return createBoard;
-		int affectedRowCount = boardMapper.insert(board);
 		
 	}
 
