@@ -1,6 +1,7 @@
 package alz.board.domain;
 
 import java.util.Date;
+import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -30,6 +31,9 @@ public class BoardDTO {
 	private Long writerId;
 	private Long parentId;
 	private Long typeId;
+
+		
+	
 
 
 }

@@ -15,18 +15,38 @@
 	VALUES ( #{id}, #{title}, #{content}, #{writerId}, #{typeId})	
 </insert>
 <select id="selectById" resultType="alz.board.domain.BoardDTO">
-	<![CDATA[SELECT * FROM ALZ_BOARD WHERE id = #{id}]]>
+	<![CDATA[SELECT ID, TITLE, CONTENT, WRITTEN_AT, UPDATED_AT, LIKE_CNT, COMMENT_CNT, VIEW_CNT, DEPTH, B_ORDER, WRITER_ID, PARENT_ID, TYPE_ID FROM ALZ_BOARD WHERE id = #{id}]]>
 </select>
+
 <select id="selectAll" resultType="alz.board.domain.BoardDTO">
 	<![CDATA[SELECT 
 	ID, TITLE, CONTENT, WRITTEN_AT, UPDATED_AT, LIKE_CNT, COMMENT_CNT, VIEW_CNT, DEPTH, B_ORDER, WRITER_ID, PARENT_ID, TYPE_ID
- FROM ALZ_BOARD]]>
+ FROM ALZ_BOARD ORDER BY ID DESC]]>
 </select>
+
+
+<select id="getListWithPaging" resultType="alz.board.domain.BoardDTO">
+<![CDATA[
+SELECT 
+ID, TITLE, CONTENT, WRITTEN_AT, UPDATED_AT, LIKE_CNT, COMMENT_CNT, VIEW_CNT, DEPTH, B_ORDER, WRITER_ID, PARENT_ID, TYPE_ID
+FROM
+(
+SELECT /*+INDEX_DESC(ALZ_BOARD ID) */
+ROWNUM RN, ID, TITLE, CONTENT, WRITTEN_AT, UPDATED_AT, LIKE_CNT, COMMENT_CNT, VIEW_CNT, DEPTH, B_ORDER, WRITER_ID, PARENT_ID, TYPE_ID
+FROM 
+ALZ_BOARD
+WHERE ROWNUM <= #{pageNum} * #{amount}
+)
+WHERE RN >  (#{pageNum} -1) * #{amount}
+]]>
+</select>
+
+
 <update id="updateById" parameterType="alz.board.domain.BoardDTO">
 	UPDATE ALZ_BOARD
 	SET title = #{title},
 	content = #{content},
-	writtenAt = sysdate
+	WRITTEN_AT = sysdate
 
 	WHERE id = #{id}
 </update>

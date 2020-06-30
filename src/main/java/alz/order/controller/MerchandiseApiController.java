@@ -3,6 +3,7 @@ package alz.order.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,31 +31,31 @@ public class MerchandiseApiController {
 	@PostMapping
 	public ResponseEntity<?> create(@RequestBody MerchandiseDTO merchandise){
 		MerchandiseDTO displayedMerchandise = merchandiseService.create(merchandise);
-		return null;
+		return ResponseEntity.status(HttpStatus.CREATED).body(displayedMerchandise);
 	}
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<?> readOne(@PathVariable Long id){
 		MerchandiseDTO searchedMerchandise = merchandiseService.readById(id);
-		return null;
+		return ResponseEntity.status(HttpStatus.OK).body(searchedMerchandise);
 	}
 	
 	@GetMapping()
 	public ResponseEntity<?> readAll() {
 		List<MerchandiseDTO> merchandises = merchandiseService.readAll();
-		return null;
+		return ResponseEntity.status(HttpStatus.OK).body(merchandises);
 	}
 	
 	@PutMapping("/{id}")
 	public ResponseEntity<?> updateOne(@PathVariable Long id, @RequestBody MerchandiseDTO merchandise) {
 		MerchandiseDTO updatedMerchandise = merchandiseService.updateById(id, merchandise);
-		return null;
+		return ResponseEntity.status(HttpStatus.OK).body(updatedMerchandise);
 	}
 	
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> deleteOne(@PathVariable Long id) {
 		int affectedRowCount = merchandiseService.deleteById(id);
-		return null;
+		return ResponseEntity.status(HttpStatus.OK).body("ok");
 	}
 	
 }

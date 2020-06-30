@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import alz.board.domain.BoardDTO;
+import alz.board.domain.Criteria;
 import alz.board.service.BoardService;
 
 @RestController
@@ -47,7 +48,7 @@ public class BoardApiController {
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<?> updateOne(@PathVariable Long id, BoardDTO board){
+	public ResponseEntity<?> updateOne(@PathVariable Long id, @RequestBody BoardDTO board){
 		BoardDTO updatedBoard = boardService.updateById(id, board);
 		return ResponseEntity.status(HttpStatus.OK).body(updatedBoard);
 	}

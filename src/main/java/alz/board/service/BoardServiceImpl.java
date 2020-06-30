@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import alz.board.domain.BoardDTO;
+import alz.board.domain.Criteria;
 import alz.board.mapper.BoardMapper;
 
 @Service
@@ -38,12 +39,18 @@ public class BoardServiceImpl implements BoardService {
 		List<BoardDTO> boards = boardMapper.selectAll();
 		return boards;
 	}
+	
+	@Override
+	public List<BoardDTO> readAll(Criteria cri){
+	
+		return boardMapper.getListWithPaging(cri);
+	}
 
 	@Override
 	public BoardDTO updateById(Long id, BoardDTO board) {
 		BoardDTO searchBoardWriter = boardMapper.selectById(id);
 		searchBoardWriter.setTitle(board.getTitle()).setContent(board.getContent())
-		.setUpdatedAt(board.getUpdatedAt());
+		.setWrittenAt(board.getWrittenAt());
 		int boardRowCnt = boardMapper.updateById(searchBoardWriter);
 		return searchBoardWriter;
 	}
