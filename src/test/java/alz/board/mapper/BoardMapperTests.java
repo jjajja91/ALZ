@@ -1,11 +1,14 @@
 package alz.board.mapper;
 
+import java.util.List;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import alz.board.domain.BoardCriteria;
 import alz.board.domain.BoardDTO;
 import alz.board.mapper.BoardMapper;
 import lombok.Setter;
@@ -18,6 +21,29 @@ public class BoardMapperTests {
 
 	@Setter(onMethod_ = @Autowired)
 	private BoardMapper boardMapper;
+	
+	@Test
+	public void testSearch() {
+
+		BoardCriteria cri = new BoardCriteria();
+		cri.setKeyword("NEW");
+		cri.setType("TC");
+
+		List<BoardDTO> list = boardMapper.selectWithPaging(cri);
+
+		list.forEach(board -> log.info(board));
+	}
+	
+	@Test
+	public void testPaging() {
+		BoardCriteria cri = new BoardCriteria();
+		cri.setPageNum(1);
+		cri.setAmount(10);
+		
+		List<BoardDTO> list = boardMapper.selectWithPaging(cri);
+		
+		list.forEach(board -> log.info(board));
+	}
 	
 	@Test
 	public void testUpdate() {
