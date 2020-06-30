@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import alz.board.domain.BoardCriteria;
 import alz.board.domain.BoardDTO;
 import alz.board.service.BoardService;
 
@@ -33,21 +34,23 @@ public class BoardApiController {
 		BoardDTO savedBoard = boardService.create(board);
 		return ResponseEntity.status(HttpStatus.CREATED).body(savedBoard);
 	}
-	
+	 
 	@GetMapping("/{id}")
 	public ResponseEntity<?> readOne(@PathVariable Long id){
 		BoardDTO searchedBoard = boardService.readById(id);
+		
 		return ResponseEntity.status(HttpStatus.OK).body(searchedBoard);
 	}
 	
 	@GetMapping
 	public ResponseEntity<?> readAll() {
 		List<BoardDTO> boards = boardService.readAll();
+		
 		return ResponseEntity.status(HttpStatus.OK).body(boards);
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<?> updateOne(@PathVariable Long id, BoardDTO board){
+	public ResponseEntity<?> updateOne(@PathVariable Long id, @RequestBody BoardDTO board){
 		BoardDTO updatedBoard = boardService.updateById(id, board);
 		return ResponseEntity.status(HttpStatus.OK).body(updatedBoard);
 	}

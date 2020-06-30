@@ -1,11 +1,11 @@
 package alz.board.service;
 
-import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import alz.board.domain.BoardCriteria;
 import alz.board.domain.BoardDTO;
 import alz.board.mapper.BoardMapper;
 
@@ -23,7 +23,9 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public BoardDTO create(BoardDTO board) {
 		int affectedRowCount = boardMapper.insert(board);
+		
 		BoardDTO createdPost = boardMapper.selectById(board.getId());
+
 		return createdPost;
 	}
 
@@ -40,12 +42,27 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
+	public List<BoardDTO> readAll(BoardCriteria cri) {
+		List<BoardDTO> list = boardMapper.selectWithPaging(cri);
+		return list;
+	}
+
+	@Override
 	public BoardDTO updateById(Long id, BoardDTO board) {
 		BoardDTO searchedBoard = boardMapper.selectById(id);
-		
 		searchedBoard.setTitle(board.getTitle()).setContent(board.getContent());
 		int affectedRowCount = boardMapper.updateById(searchedBoard);
+		
 		return searchedBoard;
+	}
+	
+	@Override
+	public boolean update(Long id, BoardDTO board) {
+		BoardDTO searchedBoard = boardMapper.selectById(id);
+		searchedBoard.setTitle(board.getTitle()).setContent(board.getContent());
+		int affectedRowCount = boardMapper.updateById(searchedBoard);
+		
+		return affectedRowCount==1;
 	}
 
 	@Override
@@ -54,6 +71,12 @@ public class BoardServiceImpl implements BoardService {
 		int affectedRowCount = boardMapper.deleteById(id);
 		
 		return affectedRowCount;
+	}
+
+	@Override
+	public int getTotal(BoardCriteria cri) {
+		int total = boardMapper.getTotalCount(cri);
+		return total;
 	}
 
 }
