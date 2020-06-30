@@ -12,7 +12,7 @@ import alz.board.mapper.BoardMapper;
 @Service
 public class BoardServiceImpl implements BoardService {
 	
-	//mapper 가져와서 사용
+
 	private BoardMapper boardMapper;
 	
 	@Autowired
@@ -22,25 +22,25 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public BoardDTO create(BoardDTO board) {
+	int boardRowCnt = boardMapper.insert(board);
+	BoardDTO createBoard = boardMapper.selectById(board.getId());
+		return createBoard;
 		int affectedRowCount = boardMapper.insert(board);
 		
-		BoardDTO createdPost = boardMapper.selectById(board.getId());
-
-		return createdPost;
 	}
 
 	@Override
 	public BoardDTO readById(Long id) {
-		BoardDTO board = boardMapper.selectById(id);
-		return board;
+		BoardDTO searchBoardWriter = boardMapper.selectById(id);
+		return searchBoardWriter;
 	}
 
 	@Override
 	public List<BoardDTO> readAll() {
-		List<BoardDTO> list = boardMapper.selectAll();
-		return list;
+		List<BoardDTO> boards = boardMapper.selectAll();
+		return boards;
 	}
-
+	
 	@Override
 	public List<BoardDTO> readAll(BoardCriteria cri) {
 		List<BoardDTO> list = boardMapper.selectWithPaging(cri);
@@ -52,7 +52,6 @@ public class BoardServiceImpl implements BoardService {
 		BoardDTO searchedBoard = boardMapper.selectById(id);
 		searchedBoard.setTitle(board.getTitle()).setContent(board.getContent());
 		int affectedRowCount = boardMapper.updateById(searchedBoard);
-		
 		return searchedBoard;
 	}
 	

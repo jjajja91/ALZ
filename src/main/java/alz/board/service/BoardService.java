@@ -4,6 +4,7 @@ import java.util.List;
 
 import alz.board.domain.BoardCriteria;
 import alz.board.domain.BoardDTO;
+import alz.board.domain.Criteria;
 
 public interface BoardService {
 	

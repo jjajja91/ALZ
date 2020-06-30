@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import alz.board.domain.BoardCriteria;
 import alz.board.domain.BoardDTO;
+import alz.board.domain.Criteria;
 import alz.board.service.BoardService;
 
 @RestController
@@ -38,14 +39,12 @@ public class BoardApiController {
 	@GetMapping("/{id}")
 	public ResponseEntity<?> readOne(@PathVariable Long id){
 		BoardDTO searchedBoard = boardService.readById(id);
-		
 		return ResponseEntity.status(HttpStatus.OK).body(searchedBoard);
 	}
 	
 	@GetMapping
 	public ResponseEntity<?> readAll() {
 		List<BoardDTO> boards = boardService.readAll();
-		
 		return ResponseEntity.status(HttpStatus.OK).body(boards);
 	}
 	
@@ -61,5 +60,4 @@ public class BoardApiController {
 		return ResponseEntity.status(HttpStatus.OK).body("ok");
 	}
 	
-
 }

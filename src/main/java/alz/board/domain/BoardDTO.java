@@ -37,5 +37,8 @@ public class BoardDTO {
 	
 	private List<BoardFileDTO> fileList;
 
+		
+	
+
 
 }
