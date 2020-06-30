@@ -35,6 +35,7 @@
 		</bean>
 		
 		<mybatis-spring:scan base-package="alz.classes.mapper"/>
+		<mybatis-spring:scan base-package="alz.user.mapper"/>
 		<mybatis-spring:scan base-package="alz.board.mapper"/>
 		
 		<context:component-scan base-package="alz.user.service">
