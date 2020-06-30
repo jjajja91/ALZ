@@ -5,15 +5,14 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import alz.board.domain.BoardCriteria;
 import alz.board.domain.BoardDTO;
-import alz.board.domain.Criteria;
 import alz.board.mapper.BoardMapper;
 
 @Service
 public class BoardServiceImpl implements BoardService {
 	
-	//mapper 媛��졇���꽌 �궗�슜
-	
+
 	private BoardMapper boardMapper;
 	
 	@Autowired
@@ -26,6 +25,8 @@ public class BoardServiceImpl implements BoardService {
 	int boardRowCnt = boardMapper.insert(board);
 	BoardDTO createBoard = boardMapper.selectById(board.getId());
 		return createBoard;
+		int affectedRowCount = boardMapper.insert(board);
+		
 	}
 
 	@Override
@@ -41,26 +42,40 @@ public class BoardServiceImpl implements BoardService {
 	}
 	
 	@Override
-	public List<BoardDTO> readAll(Criteria cri){
-	
-		return boardMapper.getListWithPaging(cri);
+	public List<BoardDTO> readAll(BoardCriteria cri) {
+		List<BoardDTO> list = boardMapper.selectWithPaging(cri);
+		return list;
 	}
 
 	@Override
 	public BoardDTO updateById(Long id, BoardDTO board) {
-		BoardDTO searchBoardWriter = boardMapper.selectById(id);
-		searchBoardWriter.setTitle(board.getTitle()).setContent(board.getContent())
-		.setWrittenAt(board.getWrittenAt());
-		int boardRowCnt = boardMapper.updateById(searchBoardWriter);
-		return searchBoardWriter;
+		BoardDTO searchedBoard = boardMapper.selectById(id);
+		searchedBoard.setTitle(board.getTitle()).setContent(board.getContent());
+		int affectedRowCount = boardMapper.updateById(searchedBoard);
+		return searchedBoard;
+	}
+	
+	@Override
+	public boolean update(Long id, BoardDTO board) {
+		BoardDTO searchedBoard = boardMapper.selectById(id);
+		searchedBoard.setTitle(board.getTitle()).setContent(board.getContent());
+		int affectedRowCount = boardMapper.updateById(searchedBoard);
+		
+		return affectedRowCount==1;
 	}
 
 	@Override
 	public int deleteById(Long id) {
-		BoardDTO searchBoardWriter = boardMapper.selectById(id);
-		int boardRowCnt = boardMapper.deleteById(id);
+		BoardDTO searchedBoard = boardMapper.selectById(id);
+		int affectedRowCount = boardMapper.deleteById(id);
 		
-		return boardRowCnt;
+		return affectedRowCount;
+	}
+
+	@Override
+	public int getTotal(BoardCriteria cri) {
+		int total = boardMapper.getTotalCount(cri);
+		return total;
 	}
 
 }

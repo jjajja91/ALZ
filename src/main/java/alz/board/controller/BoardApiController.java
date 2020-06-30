@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import alz.board.domain.BoardCriteria;
 import alz.board.domain.BoardDTO;
 import alz.board.domain.Criteria;
 import alz.board.service.BoardService;
@@ -34,7 +35,7 @@ public class BoardApiController {
 		BoardDTO savedBoard = boardService.create(board);
 		return ResponseEntity.status(HttpStatus.CREATED).body(savedBoard);
 	}
-	
+	 
 	@GetMapping("/{id}")
 	public ResponseEntity<?> readOne(@PathVariable Long id){
 		BoardDTO searchedBoard = boardService.readById(id);

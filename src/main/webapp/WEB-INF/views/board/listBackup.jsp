@@ -14,7 +14,8 @@
 	<div>
 		<div>
 		
-				<select id='type' name='type'>
+			<form id='searchForm' action="/board/list" method='get'>
+				<select name='type'>
 					<option value="" <c:out value="${pageMaker.cri.type == null? 'selected':'' }"/>>--</option>
 					<option value="T" <c:out value="${pageMaker.cri.type == 'T'? 'selected':'' }"/>>제목</option>
 					<option value="C" <c:out value="${pageMaker.cri.type == 'C'? 'selected':'' }"/>>내용</option>
@@ -23,16 +24,17 @@
 					<option value="TW" <c:out value="${pageMaker.cri.type == 'TW'? ' selected':'' }"/>>제목 or 작성자</option>
 					<option value="TWC" <c:out value="${pageMaker.cri.type == 'TWC'? 'selected':'' }"/>>제목 or 내용 or 작성자</option>
 				</select>
-				<input type='text' id='keyword' name='keyword' value='<c:out value="${pageMaker.cri.keyword }"/>' />
-				<input type='hidden' id='pageNum' name='pageNum' value='<c:out value="${pageMaker.cri.pageNum }"/>' />
-				<input type='hidden' id='amount' name='amount' value='<c:out value="${pageMaker.cri.amount }"/>' />
-				<button class='btn btn-default' id='searchBtn' >Search</button>
+				<input type='text' name='keyword' value='<c:out value="${pageMaker.cri.keyword }"/>' />
+				<input type='hidden' name='pageNum' value='<c:out value="${pageMaker.cri.pageNum }"/>' />
+				<input type='hidden' name='amount' value='<c:out value="${pageMaker.cri.amount }"/>' />
+				<button class='btn btn-default'>Search</button>
+			</form>
 			
 		</div>
 	</div>
 	
-	<table class="table table-striped" id="table" >
-		<thead id="table-header">
+	<table class="table table-striped">
+		<thead>
 			<tr>
 				<th>번호</th>
 				<th>제목</th>
@@ -111,84 +113,25 @@
 		})
 		
 		// 검색이벤트
-		var $pageNum = $("#pageNum");
-		var $amount = $("#amount");
-		var $type = $("#type");
-		var $keyword = $("#keyword");
+		var searchForm = $("#searchForm");
 		
-		var $table = $("#table");
-		var $searchBtn = $("#searchBtn");
-		
-		$searchBtn.on("click", function(e) {
-
-			e.preventDefault();
-			
-			var data = {
-					pageNum : $pageNum.val(),
-					amount : $amount.val(),
-					type : $type.val(),
-					keyword : $keyword.val()
-				};
-			boardSearch(data)
-				.then(function(response) {
-					console.log(response);
-					return printBoardList(response);
-				})
-				.catch(function(error) {
-					console.log(error);
-				});
-		});
-		
-		function boardSearch(data) {
-			return $.ajax({
-				url : "/boards",
-				type : "GET",
-				data : JSON.stringify(data),
-				contentType : "application/json"
-			});
-		}
-		
-		function printBoardList(boards) {
-			var $tableHeader = $table.find("#table-header").clone();
-			
-			$table.empty();
-			$table.append($tableHeader);
-			
-			var frag = document.createDocumentFragment();
-			
-			for(var i=0; i<boards.length; i++) {
-				var board= boars[i];
-				var tr = document.createElement("tr");
-
-				var id = document.createElement("td");
-				id.textContent = board.id;
-				tr.appendChild(id);
-				
-				var title = document.createElement("td");
-				title.textContent = board.title;
-				tr.appendChild(title);
-				
-				var content = document.createElement("td");
-				content.textContent = board.content;
-				tr.appendChild(content);
-				
-				var writerId = document.createElement("td");
-				writerId.textContent = board.writerId;
-				tr.appendChild(writerId);
-				
-				var writtenAt = document.createElement("td");
-				writtenAt.textContent = board.writtenAt;
-				tr.appendChild(writtenAt);
-				
-				var viewCnt = document.createElement("td");
-				viewCnt.textContent = board.viewCnt;
-				tr.appendChild(viewCnt);
-				
-				frag.appendChild(tr);
+		$("#searchForm button").on("click", function(e) {
+			if(!searchForm.find("option:selected").val()) {
+				alert("검색종류를 입력하세요");
+				return false;
 			}
 			
-			$table.append($(frag));
-		}
+			if(!searchForm.find("input[name='keyword']").val()) {
+				alert("키워드를 입력하세요");
+				return false;
+			}
+			
+			searchForm.find("input[name='pageNum']").val("1");
+			e.preventDefault();
+			
+			searchForm.submit();
+		});
+		
 	});
 </script>
 </body>
