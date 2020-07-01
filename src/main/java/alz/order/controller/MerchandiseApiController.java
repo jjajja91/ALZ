@@ -55,7 +55,7 @@ public class MerchandiseApiController {
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> deleteOne(@PathVariable Long id) {
 		int affectedRowCount = merchandiseService.deleteById(id);
-		return ResponseEntity.status(HttpStatus.OK).body("OK");
+		return ResponseEntity.status(HttpStatus.OK).body("ok");
 	}
 	
 }
