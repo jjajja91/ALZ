@@ -143,7 +143,6 @@ $(document).ready(function(e){
 			lang : 'ko-KR'
 			
 		});
-	});
   
 	var formObj = $("form[role='form']");
 	
