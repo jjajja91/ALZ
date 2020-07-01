@@ -21,6 +21,14 @@
 		<level value="info" />
 	</logger>
 
+	<logger name="alz.board.controller">
+		<level value="info" />
+	</logger>
+
+	<logger name="alz.board.service">
+		<level value="info" />
+	</logger>
+
 	<!-- 3rdparty Loggers -->
 	<logger name="org.springframework.core">
 		<level value="info" />

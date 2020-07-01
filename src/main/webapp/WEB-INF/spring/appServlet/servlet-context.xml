@@ -23,7 +23,6 @@
 	
 	<context:component-scan base-package="alz.classes.controller" />
 	<context:component-scan base-package="alz.board.controller" />
-
 	<context:component-scan base-package="alz.file.controller" />
 	
 	<beans:bean id="multipartResolver"
