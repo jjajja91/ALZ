@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,9 +15,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import alz.board.domain.BoardCriteria;
 import alz.board.domain.BoardDTO;
 import alz.board.service.BoardService;
+import alz.file.domain.BoardFileDTO;
 
 @RestController
 @RequestMapping("/boards")
@@ -29,10 +30,16 @@ public class BoardApiController {
 		this.boardService = boardService;
 	}
 	
+	@GetMapping(value="/getFileList", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public ResponseEntity<List<BoardFileDTO>> getFileList(Long boardId){
+		List<BoardFileDTO> boardFiles = boardService.getFileList(boardId);
+		return ResponseEntity.status(HttpStatus.OK).body(boardFiles);
+	}
+	
 	@PostMapping
 	public ResponseEntity<?> create(@RequestBody BoardDTO board){
-		BoardDTO savedBoard = boardService.create(board);
-		return ResponseEntity.status(HttpStatus.CREATED).body(savedBoard);
+		boardService.create(board);
+		return ResponseEntity.status(HttpStatus.CREATED).body(board);
 	}
 	 
 	@GetMapping("/{id}")

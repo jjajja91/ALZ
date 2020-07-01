@@ -1,5 +1,10 @@
 package alz.board.controller;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,6 +19,7 @@ import alz.board.domain.BoardCriteria;
 import alz.board.domain.BoardDTO;
 import alz.board.domain.BoardPageDTO;
 import alz.board.service.BoardService;
+import alz.file.domain.BoardFileDTO;
 import lombok.extern.log4j.Log4j;
 
 @Controller
@@ -37,18 +43,22 @@ public class BoardPageController {
 	@PostMapping("/delete")
 	public String delete(@RequestParam("id") Long id, @ModelAttribute("cri") BoardCriteria cri, RedirectAttributes rttr) {
 		
-		if(boardService.deleteById(id) == 1) {
+		List<BoardFileDTO> fileList = boardService.getFileList(id);
+		if(boardService.deleteById(id)==1) {
+			deleteFiles(fileList);
 			rttr.addFlashAttribute("result", "success");
 		}
 		
 		rttr.addAttribute("pageNum", cri.getPageNum());
 		rttr.addAttribute("amount", cri.getAmount());
 		
-		return "redirect:/board/list";
+		return "redirect:/board/list" + cri.getListLink();
 	}
 	
 	@PostMapping("/update")
 	public String update(BoardDTO board, @ModelAttribute("cri") BoardCriteria cri, RedirectAttributes rttr) {
+		
+		log.info("안녕");
 		
 		if(boardService.update(board.getId(), board)) {
 			rttr.addFlashAttribute("result", "success");
@@ -67,7 +77,7 @@ public class BoardPageController {
 	}
 	
 	@GetMapping("/list")
-	public void list2(BoardCriteria cri, Model model) {
+	public void list(BoardCriteria cri, Model model) {
 		
 		model.addAttribute("list", boardService.readAll(cri));
 
@@ -86,10 +96,36 @@ public class BoardPageController {
 		
 		log.info("write: " + board);
 		
+		if(board.getFileList() != null) {
+			board.getFileList().forEach(file -> log.info(file));
+		}
+		
 		boardService.create(board);
 		
 		rttr.addFlashAttribute("result", board.getId());
 		
 		return "redirect:/board/list";
+	}
+	
+	private void deleteFiles(List<BoardFileDTO> fileList) {
+		
+		if(fileList == null || fileList.size()==0) {
+			return;
+		}
+		log.info("delete board files.................");
+		log.info(fileList);
+		
+		fileList.forEach(file -> {
+			try {
+				Path files = Paths.get("C:\\upload\\"+file.getUploadPath()+"\\"+file.getUuid()+"_"+file.getFileName());
+				Files.deleteIfExists(files);
+				if(Files.probeContentType(files).startsWith("image")) {
+					Path thumbNail = Paths.get("C:\\upload\\"+file.getUploadPath()+"\\s_"+file.getUuid()+"_"+file.getFileName());
+					Files.delete(thumbNail);
+				}
+			} catch(Exception e) {
+				log.error("delete file error" + e.getMessage());
+			}
+		});
 	}
 }

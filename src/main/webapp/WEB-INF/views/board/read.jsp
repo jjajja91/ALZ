@@ -41,6 +41,25 @@
 			</a>
 		</div>
 
+		<div class="bigPictureWrapper">
+			<div class="bigPicture"></div>
+		</div>
+
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="panel panel-defualt">
+					<div class="panel-heading">Files</div>
+					<div class="panel-body">
+						<div class='uploadResult'>
+							<ul>
+
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
 		<!-- 댓글  -->
 		<%-- div>
 			<table border="1" width="1200px" id="reply_area">
@@ -104,12 +123,67 @@
 
 <script type="text/javascript">
 	$(document).ready(function() {
+
+		(function() {
+			var boardId = '<c:out value="${board.id}"/>';
+
+			$.getJSON("/boards/getFileList", {
+				boardId : boardId
+			}, function(arr) {
+				console.log(arr);
+				
+				var str = "";
+				
+				$(arr).each(function(i, file){
+					
+					//image type
+					if(file.fileType){
+						var fileCallPath = encodeURIComponent(file.uploadPath+"/s_"+file.uuid+"_"+file.fileName);
+						
+						str += "<li data-path='"+file.uploadPath+"' data-uuid='"+file.uuid+"' data-filename='"+file.fileName+"'";
+						str += "data-type='"+file.fileType+"'><div>";
+						str += "<img src='/file/display?fileName="+fileCallPath+"'>";
+						str += "</div></li>";
+					} else {
+						str += "<li data-path='"+file.uploadPath+"' data-uuid='"+file.uuid+"' data-filename='"+file.fileName+"'";
+						str += "data-type='"+file.fileType+"'><div>";
+						str += "<img src='/resources/img/attach.png'>";
+						str += "</div></li>";
+					}
+				});
+				$(".uploadResult ul").html(str);
+			});
+		})();
 		
+
 		var $content = $('#content');
 		
 		$content.summernote('code', $content.val());
 		$("div[class*=toolbar]").css("display", "none");
 		$("div[class*=note-editable]").attr("contenteditable", "false");
+
+		$(".uploadResult").on("click", "li", function(e){
+			console.log("view image");
+			
+			var liObj = $(this);
+			
+			var path = encodeURIComponent(liObj.data("path")+"/"+liObj.data("uuid")+"_"+liObj.data("filename"));
+			
+			if(liObj.data("type")){
+				showImage(path.replace(new RegExp(/\\/g),"/"));
+			} else {
+				self.location = "/file/download?fileName="+path;
+			}
+		});
+		
+		function showImage(fileCallPath){
+			alert(fileCallPath);
+			$(".bigPictureWrapper").css("display","flex").show();
+			$(".bigPicture")
+			.html("<img src='/file/display?fileName="+fileCallPath+"'>")
+			.animate({width:'100%', height:'100%'}, 1000);	
+		}
+
 
 		var operForm = $("#operForm");
 
@@ -123,10 +197,7 @@
 			operForm.attr("action", "/board/list")
 			operForm.submit();
 		});
-		
-		//summernote 적용해서 읽기
-
-		
+				
 	});
 </script>
 </body>

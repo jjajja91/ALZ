@@ -14,6 +14,10 @@
 	DELETE FROM alz_board_file WHERE uuid = #{uuid}
 </delete>
 
+<delete id="deleteAll">
+	DELETE FROM alz_board_file WHERE board_id = #{boardId}
+</delete>
+
 <select id="findByBoardId" resultType="alz.file.domain.BoardFileDTO">
 	SELECT * FROM alz_board_file WHERE board_id = #{boardId}
 </select>

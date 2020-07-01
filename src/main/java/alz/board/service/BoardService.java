@@ -4,10 +4,11 @@ import java.util.List;
 
 import alz.board.domain.BoardCriteria;
 import alz.board.domain.BoardDTO;
+import alz.file.domain.BoardFileDTO;
 
 public interface BoardService {
 	
-	BoardDTO create(BoardDTO board);
+	void create(BoardDTO board);
 
 	BoardDTO readById(Long id);
 
@@ -20,5 +21,7 @@ public interface BoardService {
 	int deleteById(Long id);
 
 	int getTotal(BoardCriteria cri);
+	
+	public List<BoardFileDTO> getFileList(Long boardId);
 
 }

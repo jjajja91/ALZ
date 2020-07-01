@@ -4,28 +4,42 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import alz.board.domain.BoardCriteria;
 import alz.board.domain.BoardDTO;
 import alz.board.mapper.BoardMapper;
+import alz.file.domain.BoardFileDTO;
+import alz.file.mapper.BoardFileMapper;
+import lombok.extern.log4j.Log4j;
 
+@Log4j
 @Service
 public class BoardServiceImpl implements BoardService {
-	
 
 	private BoardMapper boardMapper;
-	
+	private BoardFileMapper boardFileMapper;
+
 	@Autowired
-	public BoardServiceImpl(BoardMapper boardMapper) {
+	public BoardServiceImpl(BoardMapper boardMapper, BoardFileMapper boardFileMapper) {
 		this.boardMapper = boardMapper;
+		this.boardFileMapper = boardFileMapper;
 	}
 
+	@Transactional
 	@Override
-	public BoardDTO create(BoardDTO board) {
-	int boardRowCnt = boardMapper.insert(board);
-	BoardDTO createBoard = boardMapper.selectById(board.getId());
-		return createBoard;
-		
+	public void create(BoardDTO board) {
+		boardMapper.insert(board);
+
+		if (board.getFileList() == null || board.getFileList().size() <= 0) {
+			return;
+		}
+
+		board.getFileList().forEach(file -> {
+			file.setBoardId(board.getId());
+			boardFileMapper.insert(file);
+		});
+
 	}
 
 	@Override
@@ -39,7 +53,7 @@ public class BoardServiceImpl implements BoardService {
 		List<BoardDTO> boards = boardMapper.selectAll();
 		return boards;
 	}
-	
+
 	@Override
 	public List<BoardDTO> readAll(BoardCriteria cri) {
 		List<BoardDTO> list = boardMapper.selectWithPaging(cri);
@@ -53,21 +67,23 @@ public class BoardServiceImpl implements BoardService {
 		int affectedRowCount = boardMapper.updateById(searchedBoard);
 		return searchedBoard;
 	}
-	
+
 	@Override
 	public boolean update(Long id, BoardDTO board) {
 		BoardDTO searchedBoard = boardMapper.selectById(id);
 		searchedBoard.setTitle(board.getTitle()).setContent(board.getContent());
 		int affectedRowCount = boardMapper.updateById(searchedBoard);
-		
-		return affectedRowCount==1;
+
+		return affectedRowCount == 1;
 	}
 
+	@Transactional
 	@Override
 	public int deleteById(Long id) {
+		boardFileMapper.deleteAll(id);
 		BoardDTO searchedBoard = boardMapper.selectById(id);
 		int affectedRowCount = boardMapper.deleteById(id);
-		
+
 		return affectedRowCount;
 	}
 
@@ -75,6 +91,12 @@ public class BoardServiceImpl implements BoardService {
 	public int getTotal(BoardCriteria cri) {
 		int total = boardMapper.getTotalCount(cri);
 		return total;
+	}
+
+	@Override
+	public List<BoardFileDTO> getFileList(Long boardId) {
+		log.info("get File list by board_id" + boardId);
+		return boardFileMapper.findByBoardId(boardId);
 	}
 
 }
