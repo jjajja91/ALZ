@@ -58,6 +58,8 @@ public class BoardPageController {
 	@PostMapping("/update")
 	public String update(BoardDTO board, @ModelAttribute("cri") BoardCriteria cri, RedirectAttributes rttr) {
 		
+		log.info("안녕");
+		
 		if(boardService.update(board.getId(), board)) {
 			rttr.addFlashAttribute("result", "success");
 		}
