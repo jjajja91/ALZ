@@ -26,7 +26,7 @@
 				<input class="form-control" name='title' value='<c:out value="${board.title }"/>'>
 			</div>
 			<div class="form-group">
-				<textarea class="form-control" rows="10" name='content'><c:out value="${board.content }" />
+				<textarea id="summernote" class="form-control" rows="10" name='content'><c:out value="${board.content }" />
 				</textarea>
 			</div>
 			
@@ -68,7 +68,16 @@
 			}
 			formObj.submit();
 		});
+		
+		$('#summernote').summernote({
+			placeholder : 'content',
+			minHeight : 370,
+			maxHeight : null,
+			focus : true,
+			lang : 'ko-KR'
+		});
 	});
 </script>
+
 </body>
 </html>

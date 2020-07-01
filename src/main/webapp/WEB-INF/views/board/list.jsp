@@ -27,7 +27,7 @@
 				<input type='hidden' id='pageNum' name='pageNum' value='<c:out value="${pageMaker.cri.pageNum }"/>' />
 				<input type='hidden' id='amount' name='amount' value='<c:out value="${pageMaker.cri.amount }"/>' />
 				<button class='btn btn-default' id='searchBtn' >Search</button>
-			
+					<button class='writeBtn' id='writeBtn' type="button">글쓰기</button>
 		</div>
 	</div>
 	
@@ -86,8 +86,8 @@
 	$(document).ready(function() {
 		
 		// register button
-		$("#regBtn").on("click", function() {
-			self.location = "/board/register";
+		$("#writeBtn").on("click", function() {
+			self.location = "/board/write";
 		});
 		
 		// paging
