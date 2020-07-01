@@ -28,8 +28,7 @@
 					value='<c:out value="${board.title }"/>'>
 			</div>
 			<div class="form-group">
-				<textarea class="form-control" rows="10" name='content'><c:out
-						value="${board.content }" />
+				<textarea id="summernote" class="form-control" rows="10" name='content'><c:out value="${board.content }" />
 				</textarea>
 			</div>
 
@@ -62,59 +61,46 @@
 
 <script type="text/javascript">
 	$(document).ready(function() {
+		var formObj = $("#form");
 
-						var formObj = $("#form");
-
-						$('button')
-								.on(
-										"click",
-										function(e) {
-											e.preventDefault();
-
-											var operation = $(this)
-													.data("oper");
-
-											console.log(operation);
-
-											if (operation === 'delete') {
-												formObj.attr("action",
-														"/board/delete");
-											} else if (operation === 'list') {
-												//move to list
-												formObj.attr("action",
-														"/board/list").attr(
-														"method", "get");
-												var pageNumTag = $(
-														"input[name='pageNum']")
-														.clone();
-												var amountTag = $(
-														"input[name='amount']")
-														.clone();
-												var keywordTag = $(
-														"input[name='keyword']")
-														.clone();
-												var typeTag = $(
-														"input[name='type']")
-														.clone();
-
-												formObj.empty();
-												formObj.append(pageNumTag);
-												formObj.append(amountTag);
-												formObj.append(keywordTag);
-												formObj.append(typeTag);
-											}
-											formObj.submit();
-										});
-
-						(function() {
+		$('button').on("click", function(e) {
+			e.preventDefault();
+			
+			var operation = $(this).data("oper");
+			
+			console.log(operation);
+			
+			if(operation === 'delete') {
+				formObj.attr("action", "/board/delete");
+			} else if(operation === 'list') {
+				//move to list
+				formObj.attr("action", "/board/list").attr("method", "get");
+				var pageNumTag = $("input[name='pageNum']").clone();
+				var amountTag = $("input[name='amount']").clone();
+				var keywordTag = $("input[name='keyword']").clone();
+				var typeTag = $("input[name='type']").clone();
+				
+				formObj.empty();
+				formObj.append(pageNumTag);
+				formObj.append(amountTag);
+				formObj.append(keywordTag);
+				formObj.append(typeTag);
+			}
+			formObj.submit();
+		});
+		
+		$('#summernote').summernote({
+			placeholder : 'content',
+			minHeight : 370,
+			maxHeight : null,
+			focus : true,
+			lang : 'ko-KR'
+		});
+    
+    						(function() {
 							var boardId = '<c:out value="${board.id}"/>';
 
-							$
-									.getJSON(
-											"/boards/getFileList",
-											{
-												boardId : boardId
-											},
+							$.getJSON("/boards/getFileList",{boardId : boardId},
 											$(arr).each(function(i, file){
 												if(obj.file){
 													var fileCallPath = encodeURIComponent(file.uploadPath+"/s_"+file.uuid+"_"+file.fileName);
@@ -140,8 +126,9 @@
 												$(".uploadResult ul").html(str);
 											});
 						})();
-
-					});
+    
+	});
 </script>
+
 </body>
 </html>
