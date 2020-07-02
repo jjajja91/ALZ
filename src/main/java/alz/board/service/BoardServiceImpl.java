@@ -4,41 +4,54 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import alz.board.domain.BoardCriteria;
 import alz.board.domain.BoardDTO;
 import alz.board.mapper.BoardMapper;
+import alz.file.domain.BoardFileDTO;
+import alz.file.mapper.BoardFileMapper;
+import lombok.extern.log4j.Log4j;
 
+@Log4j
 @Service
 public class BoardServiceImpl implements BoardService {
-	
-	//mapper 가져와서 사용
+
 	private BoardMapper boardMapper;
-	
+	private BoardFileMapper boardFileMapper;
+
 	@Autowired
-	public BoardServiceImpl(BoardMapper boardMapper) {
+	public BoardServiceImpl(BoardMapper boardMapper, BoardFileMapper boardFileMapper) {
 		this.boardMapper = boardMapper;
+		this.boardFileMapper = boardFileMapper;
 	}
 
+	@Transactional
 	@Override
-	public BoardDTO create(BoardDTO board) {
-		int affectedRowCount = boardMapper.insert(board);
-		
-		BoardDTO createdPost = boardMapper.selectById(board.getId());
+	public void create(BoardDTO board) {
+		boardMapper.insert(board);
 
-		return createdPost;
+		if (board.getFileList() == null || board.getFileList().size() <= 0) {
+			return;
+		}
+
+		board.getFileList().forEach(file -> {
+			file.setBoardId(board.getId());
+			boardFileMapper.insert(file);
+		});
+
 	}
 
 	@Override
 	public BoardDTO readById(Long id) {
-		BoardDTO board = boardMapper.selectById(id);
-		return board;
+		BoardDTO searchBoardWriter = boardMapper.selectById(id);
+		return searchBoardWriter;
 	}
 
 	@Override
 	public List<BoardDTO> readAll() {
-		List<BoardDTO> list = boardMapper.selectAll();
-		return list;
+		List<BoardDTO> boards = boardMapper.selectAll();
+		return boards;
 	}
 
 	@Override
@@ -52,24 +65,36 @@ public class BoardServiceImpl implements BoardService {
 		BoardDTO searchedBoard = boardMapper.selectById(id);
 		searchedBoard.setTitle(board.getTitle()).setContent(board.getContent());
 		int affectedRowCount = boardMapper.updateById(searchedBoard);
-		
 		return searchedBoard;
 	}
-	
+
+	@Transactional
 	@Override
 	public boolean update(Long id, BoardDTO board) {
-		BoardDTO searchedBoard = boardMapper.selectById(id);
-		searchedBoard.setTitle(board.getTitle()).setContent(board.getContent());
-		int affectedRowCount = boardMapper.updateById(searchedBoard);
+		log.info("modify....."+board);
+		boardFileMapper.deleteAll(id);
 		
-		return affectedRowCount==1;
+		BoardDTO searchedBoard = boardMapper.selectById(id);
+		searchedBoard.setTitle(board.getTitle()).setContent(board.getContent()).setFileList(board.getFileList());
+		boolean modifyResult = boardMapper.updateById(searchedBoard)==1;
+		
+		if(modifyResult && board.getFileList() != null && board.getFileList().size()>0) {
+			board.getFileList().forEach(file -> {
+				file.setBoardId(id);
+				boardFileMapper.insert(file);
+			});
+		}
+
+		return modifyResult;
 	}
 
+	@Transactional
 	@Override
 	public int deleteById(Long id) {
+		boardFileMapper.deleteAll(id);
 		BoardDTO searchedBoard = boardMapper.selectById(id);
-		int affectedRowCount = boardMapper.deleteById(id);
-		
+		int affectedRowCount = boardMapper.deleteById(searchedBoard.getId());
+
 		return affectedRowCount;
 	}
 
@@ -77,6 +102,12 @@ public class BoardServiceImpl implements BoardService {
 	public int getTotal(BoardCriteria cri) {
 		int total = boardMapper.getTotalCount(cri);
 		return total;
+	}
+
+	@Override
+	public List<BoardFileDTO> getFileList(Long boardId) {
+		log.info("get File list by board_id" + boardId);
+		return boardFileMapper.findByBoardId(boardId);
 	}
 
 }
