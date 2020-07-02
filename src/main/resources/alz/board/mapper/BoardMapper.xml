@@ -33,6 +33,7 @@
 					parent_id parentId, type_id typeId
 			from alz_board 
 			where id > 0
+			
 		]]>
 	</select>
 	
@@ -40,8 +41,8 @@
 		<![CDATA[
 			select id, title, content, writtenAt, updatedAt, likeCnt, commentCnt,
 					viewCnt, depth, bOrder, writerId, parentId, typeId
-			from (select /*+INDEX_DESC(alz_board pk_board) */
-						rownum rn, id, title, content, written_at writtenAt, updated_at updatedAt, like_cnt likeCnt, 
+			from (select /*+INDEX_DESC(alz_board pk_board) */  
+					rownum rn, id, title, content, written_at writtenAt, updated_at updatedAt, like_cnt likeCnt, 
 						comment_cnt commentCnt, view_cnt viewCnt, depth, b_order bOrder, writer_id writerId, 
 						parent_id parentId, type_id typeId
 				  from alz_board
@@ -54,6 +55,7 @@
 					  rownum <= #{pageNum} * #{amount} 
 				  order by id desc)
 			where rn > (#{pageNum} -1) * #{amount}
+			
 		]]>
 	</select>
 

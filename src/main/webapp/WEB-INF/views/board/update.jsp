@@ -73,7 +73,7 @@
 		
 		var formObj = $("#form");
 
-		$('button').on("click", function(e) {
+		$('button[type=submit]').on("click", function(e) {
 			e.preventDefault();
 			
 			var operation = $(this).data("oper");
