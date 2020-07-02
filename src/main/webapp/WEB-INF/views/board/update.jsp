@@ -37,9 +37,6 @@
 					<div class="panel panel-defualt">
 						<div class="panel-heading">Files</div>
 						<div class="panel-body">
-							<div class="form-group uploadDiv">
-								<input type="file" name="uploadFile" multiple="multiple">
-							</div>
 							<div class='uploadResult'>
 								<ul>
 
@@ -69,6 +66,20 @@
 			focus : true,
 			lang : 'ko-KR'
 		});
+		
+		makeFileBtn();
+		
+		function makeFileBtn() {
+			$("button[data-original-title=Picture]").remove();
+			$("button[data-original-title=Video]").remove();
+			$("button[data-original-title^=Link]").remove();
+			$("div[class$=note-insert]").remove();
+			var str = ""
+			str += "<div class='note-btn-group btn-group note-file form-group uploadDiv'>";
+			str += "<input type='file' name='uploadFile' multiple='multiple'>";
+			str += "</div>";
+			$("div[class*=toolbar]").append(str);
+		}
     
 		
 		var formObj = $("#form");
@@ -168,10 +179,11 @@
   			var str = "";
   			
   			$(uploadResultArr).each(function(i, obj){
-  				if(obj.fileType){
+  				console.log(obj);
+  				if(obj.image){
   					var fileCallPath = encodeURIComponent(obj.uploadPath+"/s_"+obj.uuid+"_"+obj.fileName);
   					str += "<li data-path='"+obj.uploadPath+"'";
-  					str += " data-uuid='"+obj.uuid+"' data-filename='"+obj.fileName+"' data-type='"+obj.fileType+"'><div>";
+  					str += " data-uuid='"+obj.uuid+"' data-filename='"+obj.fileName+"' data-type='"+obj.image+"'><div>";
   					str += "<span> " + obj.fileName+"</span>";
   					str += "<button type='button' data-file=\'"+fileCallPath+"\' data-type='image' class='btn btn-warning btn-circle'><i class='fa fa-times'></i></button><br>";
   					str += "<img src='/file/display?fileName="+fileCallPath+"'>";
@@ -181,7 +193,7 @@
   					var fileLink = fileCallPath.replace(new RegExp(/\\/g), "/");
   					
   					str += "<li data-path='"+obj.uploadPath+"'";
-  					str += " data-uuid='"+obj.uuid+"' data-filename='"+obj.fileName+"' data-type='"+obj.fileType+"'><div>";
+  					str += " data-uuid='"+obj.uuid+"' data-filename='"+obj.fileName+"' data-type='"+obj.image+"'><div>";
   					str += "<span> " + obj.fileName+"</span>";
   					str += "<button type='button' data-file=\'"+fileCallPath+"\' data-type='file' class='btn btn-warning btn-circle'><i class='fa fa-times'></i></button><br>";
   					str += "<img src='/resources/img/attach.png'>";
