@@ -13,5 +13,7 @@ public interface BoardFileMapper {
 	public List<BoardFileDTO> findByBoardId(Long boardId);
 	
 	public void deleteAll(Long boardId);
+	
+	public List<BoardFileDTO> getOldFiles();
 
 }
