@@ -68,13 +68,24 @@ public class BoardServiceImpl implements BoardService {
 		return searchedBoard;
 	}
 
+	@Transactional
 	@Override
 	public boolean update(Long id, BoardDTO board) {
+		log.info("modify....."+board);
+		boardFileMapper.deleteAll(id);
+		
 		BoardDTO searchedBoard = boardMapper.selectById(id);
-		searchedBoard.setTitle(board.getTitle()).setContent(board.getContent());
-		int affectedRowCount = boardMapper.updateById(searchedBoard);
+		searchedBoard.setTitle(board.getTitle()).setContent(board.getContent()).setFileList(board.getFileList());
+		boolean modifyResult = boardMapper.updateById(searchedBoard)==1;
+		
+		if(modifyResult && board.getFileList() != null && board.getFileList().size()>0) {
+			board.getFileList().forEach(file -> {
+				file.setBoardId(id);
+				boardFileMapper.insert(file);
+			});
+		}
 
-		return affectedRowCount == 1;
+		return modifyResult;
 	}
 
 	@Transactional

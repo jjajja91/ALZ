@@ -22,4 +22,8 @@
 	SELECT * FROM alz_board_file WHERE board_id = #{boardId}
 </select>
 
+<select id="getOldFiles" resultType="alz.file.domain.BoardFileDTO">
+	SELECT * FROM alz_board_file WHERE uploadpath = to_char(sysdate -1, 'yyyy\mm\dd')
+</select>
+
 </mapper>
