@@ -27,14 +27,14 @@ public class FileCheckTask {
 	}
 	
 	private String getFolderYesterDay() {
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		Calendar cal = Calendar.getInstance();
 		cal.add(Calendar.DATE, -1);
 		String str = sdf.format(cal.getTime());
 		return str.replace("-", File.separator);
 	}
 	
-	@Scheduled(cron="0 0 2 * * *")
+	@Scheduled(cron="0 13 11 * * *")
 	public void checkFiles() throws Exception {
 		log.warn("File Check Task run.......");
 		log.warn(new Date());
@@ -51,7 +51,13 @@ public class FileCheckTask {
 		// files in yesterday directory
 		File targetDir = Paths.get("C:\\upload", getFolderYesterDay()).toFile();
 		
+		
+		log.warn("===========================================================");
+		log.warn(targetDir);
+		
 		File[] removeFiles = targetDir.listFiles(file -> fileListPaths.contains(file.toPath())==false);
+		
+		
 		
 		log.warn("===========================================================");
 		

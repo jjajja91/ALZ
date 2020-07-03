@@ -137,7 +137,7 @@ $(document).ready(function(e){
 		var $summernote = $('#summernote');
 	
 	
-		$('#summernote').summernote({
+		$summernote.summernote({
 				placeholder : 'content',
 				minHeight : 370,
 				maxHeight : null,
