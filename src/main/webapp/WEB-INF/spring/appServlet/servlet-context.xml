@@ -28,7 +28,11 @@
 	<context:component-scan base-package="alz.classes.controller" />
 	<context:component-scan base-package="alz.order.controller" />
 	<context:component-scan base-package="alz.user.controller" />
-	<context:component-scan base-package="alz.board.controller" />
+	<context:component-scan base-package="alz.file.controller" />
+	
+	<beans:bean id="multipartResolver"
+	class="org.springframework.web.multipart.support.StandardServletMultipartResolver">
+	</beans:bean>
 	
 	
 	

@@ -5,44 +5,57 @@
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:jdbc="http://www.springframework.org/schema/jdbc"
 	xmlns:mvc="http://www.springframework.org/schema/mvc"
-	xsi:schemaLocation="http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-4.3.xsd
-		http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
-		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
+	xsi:schemaLocation="
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
+		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.3.xsd
 		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
-		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
-	
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+    http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-4.3.xs
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
+
 	<!-- Root Context: defines shared resources visible to all other web components -->
-		
-				<bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
-<!-- 			<property name="driverClassName"
-			value="oracle.jdbc.driver.OracleDriver"></property>
-			<property name="jdbcUrl"
-			value="jdbc:oracle:thin:@localhost:1521:XE"></property> -->
-			
-			<property name="driverClassName"
+
+	<context:annotation-config></context:annotation-config>
+
+	<bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
+		<!-- <property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"></property> 
+			<property name="jdbcUrl" value="jdbc:oracle:thin:@localhost:1521:XE"></property> -->
+
+		<property name="driverClassName"
 			value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"></property>
-			<property name="jdbcUrl"
+		<property name="jdbcUrl"
 			value="jdbc:log4jdbc:oracle:thin:@localhost:1521:XE"></property>
-			<property name="username" value="c##alz_ex"></property>
-			<property name="password" value="alz_ex"></property>
-		</bean>
-		
-		<!-- HikariCP configuration -->
-		<bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource"
+		<property name="username" value="c##alz_ex"></property>
+		<property name="password" value="alz_ex"></property>
+	</bean>
+
+	<!-- HikariCP configuration -->
+	<bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource"
 		destroy-method="close">
 		<constructor-arg ref="hikariConfig" />
+
 		</bean>
 		
 		<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 			<property name="dataSource" ref="dataSource"></property>
-			<property name="configLocation" value="classpath:/mybatis/config/mybatis-config.xml"></property>
-
+			<property name="configLocation" value="classpath:/mybatis/config//mybatis-config.xml"></property>
 		</bean>
 		
-		<mybatis-spring:scan base-package="alz.classes.mapper"/>		
-		<mybatis-spring:scan base-package="alz.order.mapper"/>
-		<mybatis-spring:scan base-package="alz.board.mapper"/>
+		<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+			<property name="dataSource" ref="dataSource"></property>
+		</bean>
+		
+		<mybatis-spring:scan base-package="alz.classes.mapper"/>
 		<mybatis-spring:scan base-package="alz.user.mapper"/>
+    <mybatis-spring:scan base-package="alz.order.mapper"/>
+		<mybatis-spring:scan base-package="alz.board.mapper"/>
+		<mybatis-spring:scan base-package="alz.file.mapper"/>
+
 		
 		<context:component-scan base-package="alz.user.service">
 		</context:component-scan>
@@ -52,6 +65,13 @@
 		</context:component-scan>
 		<context:component-scan base-package="alz.board.service">
 		</context:component-scan>
-
+		<context:component-scan base-package="alz.file.task">
+		</context:component-scan>
 		
+		<tx:annotation-driven/>
+		<task:annotation-driven/>
+
+		<aop:aspectj-autoproxy></aop:aspectj-autoproxy>
+		
+
 </beans>

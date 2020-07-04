@@ -15,10 +15,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import alz.classes.domain.ClassDTO;
+import alz.classes.domain.ClassRequestDTO;
 import alz.classes.service.ClassService;
 
 @RestController
-@RequestMapping("/classes")
+@RequestMapping("/api/classes")
 public class ClassApiController {
 
 	private ClassService classService;
@@ -29,7 +30,7 @@ public class ClassApiController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<?> create(@RequestBody ClassDTO classes){
+	public ResponseEntity<?> create(@RequestBody ClassRequestDTO classes){
 		ClassDTO openedClass = classService.create(classes);
 		return ResponseEntity.status(HttpStatus.CREATED).body(openedClass);
 	}
