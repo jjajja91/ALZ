@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import alz.order.domain.MerchandiseCriteria;
 import alz.order.domain.MerchandiseDTO;
 import alz.order.service.MerchandiseService;
 
@@ -55,7 +56,8 @@ public class MerchandiseApiController {
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> deleteOne(@PathVariable Long id) {
 		int affectedRowCount = merchandiseService.deleteById(id);
-		return ResponseEntity.status(HttpStatus.OK).body("OK");
+		return ResponseEntity.status(HttpStatus.OK).body("ok");
 	}
+	
 	
 }

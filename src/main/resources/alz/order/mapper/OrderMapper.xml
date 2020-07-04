@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="alz.order.mapper.OrderMapper">
+
+	<insert id="insert" parameterType="alz.order.domain.OrderDTO">
+		<selectKey keyProperty="id" order="BEFORE" resultType="long">
+			SELECT alz_order_seq.nextval FROM dual
+		</selectKey>
+		INSERT INTO	ALZ_ORDER
+		(ID,ORDER_AT,PRICE,STATE,USER_ID)
+		VALUES 
+		(#{id}, #{orderAt}, #{price},
+		#{state}, #{userID})
+	</insert>
+	
+	<select id="findById" resultType="alz.order.domain.OrderDTO">
+		SELECT * FROM ALZ_ORDER WHERE id = #{id}
+	</select>
+	
+	<select id="findAll" resultType="alz.order.domain.OrderDTO">
+		SELECT * FROM ALZ_ORDER
+	</select>
+	
+	<update id="updateById"
+		parameterType="alz.order.domain.OrderDTO">
+		UPDATE ALZ_ORDER
+		SET state = #{state},
+		WHERE id = #{id}
+	</update>
+	
+	<delete id="deleteById">
+		DELETE FROM ALZ_ORDER WHERE id = #{id}
+	</delete>
+
+
+</mapper>

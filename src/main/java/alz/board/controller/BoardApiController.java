@@ -15,9 +15,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import alz.board.domain.BoardCriteria;
 import alz.board.domain.BoardDTO;
 import alz.board.service.BoardService;
+import alz.file.domain.BoardFileDTO;
 
 @RestController
 @RequestMapping("/boards")
@@ -30,23 +30,27 @@ public class BoardApiController {
 		this.boardService = boardService;
 	}
 	
+	@GetMapping(value="/getFileList", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public ResponseEntity<List<BoardFileDTO>> getFileList(Long boardId){
+		List<BoardFileDTO> boardFiles = boardService.getFileList(boardId);
+		return ResponseEntity.status(HttpStatus.OK).body(boardFiles);
+	}
+	
 	@PostMapping
 	public ResponseEntity<?> create(@RequestBody BoardDTO board){
-		BoardDTO savedBoard = boardService.create(board);
-		return ResponseEntity.status(HttpStatus.CREATED).body(savedBoard);
+		boardService.create(board);
+		return ResponseEntity.status(HttpStatus.CREATED).body(board);
 	}
 	 
 	@GetMapping("/{id}")
 	public ResponseEntity<?> readOne(@PathVariable Long id){
 		BoardDTO searchedBoard = boardService.readById(id);
-		
 		return ResponseEntity.status(HttpStatus.OK).body(searchedBoard);
 	}
 	
 	@GetMapping
 	public ResponseEntity<?> readAll() {
 		List<BoardDTO> boards = boardService.readAll();
-		
 		return ResponseEntity.status(HttpStatus.OK).body(boards);
 	}
 	
@@ -98,5 +102,4 @@ public class BoardApiController {
 		return ResponseEntity.status(HttpStatus.OK).body("ok");
 	}
 	
-
 }

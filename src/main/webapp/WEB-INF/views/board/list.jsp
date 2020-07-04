@@ -97,8 +97,8 @@
 		var data;
 		
 		// register button
-		$("#regBtn").on("click", function() {
-			self.location = "/board/register";
+		$("#writeBtn").on("click", function() {
+			self.location = "/board/write";
 		});
 		
 		var actionForm = $("#actionForm");
