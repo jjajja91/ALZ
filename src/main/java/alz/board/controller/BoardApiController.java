@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import alz.board.domain.BoardCriteria;
 import alz.board.domain.BoardDTO;
 import alz.board.service.BoardService;
 import alz.file.domain.BoardFileDTO;

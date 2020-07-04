@@ -40,7 +40,7 @@
 				<c:out value="${board.commentCnt }" />
 			</a>
 		</div>
-<<<<<<< HEAD
+
 		
 		
 		<%-- <div>
@@ -114,7 +114,6 @@
 				type='hidden' name='type' value='<c:out value="${cri.type }"/>'>
 		</form>
 	</div>
-<<<<<<< HEAD
      
     <!-- 댓글  -->
 	<div class="container">
@@ -137,9 +136,7 @@
 			</div>
 		</div>
 	</div>
-=======
 
->>>>>>> branch 'develop' of https://github.com/jjajja91/ALZ.git
 </div>
 <script src="/resources/js/summernote-ko-KR.js"></script>
 
@@ -229,8 +226,7 @@
 			operForm.attr("action", "/board/list")
 			operForm.submit();
 		});
-<<<<<<< HEAD
-		
+	
 		showComment();
 		
 		var commentUL = $(".chat");
@@ -255,9 +251,6 @@
 				commentUL.html(str);
 			});
 		}
-=======
-				
->>>>>>> branch 'develop' of https://github.com/jjajja91/ALZ.git
 	});
 </script>
 </body>

@@ -40,12 +40,12 @@ public class MerchandiseServiceImpl implements MerchandiseService {
 		return searchedMerchandise;
 	}
 	
-//	@Override
-//	public List<MerchandiseDTO> readAll() {
-//		List<MerchandiseDTO> merchandises = merchandiseMapper.selectAll();
-//		System.out.println(merchandises);
-//		return merchandises;
-//	}
+	@Override
+	public List<MerchandiseDTO> readAll() {
+		List<MerchandiseDTO> merchandises = merchandiseMapper.selectAll();
+		System.out.println(merchandises);
+		return merchandises;
+	}
 
 	@Override
 	public List<MerchandiseDTO> readAll(MerchandiseCriteria cri) {

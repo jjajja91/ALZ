@@ -11,7 +11,7 @@ public interface MerchandiseService {
 
 	MerchandiseDTO readById(Long id);
 
-//	List<MerchandiseDTO> readAll();
+	List<MerchandiseDTO> readAll();
 	
 	List<MerchandiseDTO> readAll(MerchandiseCriteria cri);
 

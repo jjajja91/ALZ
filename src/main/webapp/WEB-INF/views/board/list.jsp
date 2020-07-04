@@ -85,7 +85,6 @@
 
 <script type="text/javascript">
 	$(document).ready(function() {
-
 		var $pageNum = $("#pageNum");
 		var $amount = $("#amount");
 		var $type = $("#type");
@@ -97,8 +96,8 @@
 		var data;
 		
 		// register button
-		$("#writeBtn").on("click", function() {
-			self.location = "/board/write";
+		$("#regBtn").on("click", function() {
+			self.location = "/board/register";
 		});
 		
 		var actionForm = $("#actionForm");
@@ -121,7 +120,6 @@
 		
 		// 검색버튼 이벤트
 		$("#searchBtn").on("click", function(e) {
-
 			e.preventDefault();
 			
 			 data = {
@@ -142,7 +140,6 @@
 					// 페이지 번호 출력
 					showPage(totalCnt);
 				});
-
 			// 글목록
 			getList(data);
 		});
@@ -224,7 +221,6 @@
 		
 		// 글목록
 		function getList(data) {
-
 			// 글 검색 결과
 			boardSearch(data)
 				.then(function(response) {
@@ -232,7 +228,6 @@
 					return printBoardList(response, pageNum);
 				})
 				.then(function(response) {
-
 					// 읽기 이벤트 추가
 					$(".read").on("click", function(e) {
 						e.preventDefault();
@@ -271,12 +266,10 @@
 			$table.append($tableHeader);
 			
 			var frag = document.createDocumentFragment();
-
 			for(var i=0; i<boards.length; i++) {
 				var board= boards[i];
 				
 				var tr = document.createElement("tr");
-
 				var id = document.createElement("td");
 				id.textContent = board.id;
 				tr.appendChild(id);
@@ -289,7 +282,6 @@
 				
 				title.appendChild(titleA);
 				tr.appendChild(title);
-
 				var writerId = document.createElement("td");
 				writerId.textContent = board.writerId;
 				tr.appendChild(writerId);
