@@ -26,8 +26,8 @@
 			<input type='text' id='keyword' name='keyword' value='<c:out value="${pageMaker.cri.keyword }"/>' />
 			<input type='hidden' id='pageNum' name='pageNum' value='<c:out value="${pageMaker.cri.pageNum }"/>' />
 			<input type='hidden' id='amount' name='amount' value='<c:out value="${pageMaker.cri.amount }"/>' />
-			<button class='btn btn-default' id='searchBtn' >Search</button>
-			
+			<button class='writeBtn' id='searchBtn' >Search</button>
+			<button class='writeBtn' id='writeBtn' type="button">글쓰기</button>
 		</div>
 	</div>
 	
@@ -96,8 +96,8 @@
 		var data;
 		
 		// register button
-		$("#regBtn").on("click", function() {
-			self.location = "/board/register";
+		$("#writeBtn").on("click", function() {
+			self.location = "/board/write";
 		});
 		
 		var actionForm = $("#actionForm");
@@ -170,7 +170,7 @@
 			
 			pageFooter.empty();
 			
-			var endNum = Math.ceil(pageNum / 10.0) * 10;
+			var endNum = Math.ceil(data.pageNum / 10.0) * 10;
 			var startNum = endNum - 9;
 			
 			var prev = startNum != 1;
@@ -183,7 +183,7 @@
 			if(endNum * 10 < totalCnt) {
 				next = true;
 			}
-			
+
 			var str = "<ul class='pagination pull-right'>";
 			
 			if(prev) {
@@ -191,7 +191,7 @@
 			}
 			
 			for(var i=startNum; i<=endNum; i++) {
-				var active = pageNum ==i? "active":"";
+				var active = data.pageNum ==i? "active":"";
 				str += "<li class='page-item"+active+" '><a class='page-link' href='"+i+"'>"+i+"</a></li>";
 			}
 			
@@ -213,10 +213,10 @@
 			
 			//console.log("targetNum: " + targetPageNum);
 			
-			pageNum = targetPageNum;
+			data.pageNum = targetPageNum;
 			
 			// 글 목록 출력
-			getList(data);
+			getList(data, pageNum);
 		});
 		
 		// 글목록
@@ -225,7 +225,7 @@
 			boardSearch(data)
 				.then(function(response) {
 					// 글 검색결과 출력
-					return printBoardList(response, pageNum);
+					return printBoardList(response);
 				})
 				.then(function(response) {
 					// 읽기 이벤트 추가
@@ -254,7 +254,6 @@
 		
 		// 글목록 출력
 		function printBoardList(boards, page) {
-			
 			if(page == -1) {
 				pageNum = Math.ceil(totalCnt/10.0);
 				printBoardList(boards, pageNum);
