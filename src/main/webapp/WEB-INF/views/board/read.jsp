@@ -33,8 +33,8 @@
 			<a class='commentCnt' href='<c:out value="${board.commentCnt }"/>'>댓글 <c:out value="${board.commentCnt }" /></a>
 		</div>
 		
-		<!-- 댓글  -->
-		<%-- div>
+		
+		<%-- <div>
 			<table border="1" width="1200px" id="reply_area">
 			    <tr reply_type="all"  style="display:none"><!-- 뒤에 댓글 붙이기 쉽게 선언 -->
 				    <td colspan="4"></td>
@@ -79,8 +79,30 @@
 		</form>
 	</div>
      
+    <!-- 댓글  -->
+	<div class="container">
+		<div class="panel-body">
+			<ul class="chat">
+				<li class="left clearfix" data-boardId='12'>
+					<div>
+						<div class="header">
+							<strong class="primary-font">user00</strong>
+							<small class="pull-right text-muted">2020-07-03</small>
+						</div>
+						<p>Good job!</p>
+					</div>
+				</li>
+			</ul>
+			
+			<div class="form-group">
+				<textarea class="form-control" name='comment' value='New comment'>
+				</textarea>
+			</div>
+		</div>
+	</div>
 </div>
 
+<script type="text/javascript" src="/resources/js/comment.js"></script>
 <script type="text/javascript">
 	$(document).ready(function() {
 		
@@ -96,6 +118,31 @@
 			operForm.attr("action", "/board/list")
 			operForm.submit();
 		});
+		
+		showComment();
+		
+		var commentUL = $(".chat");
+		
+		function showComment() {
+			commentService.getList({boardId:12}, function(list) {
+				
+				var str="";
+
+				if(list==null || list.length==0) {
+					commentUL.html("");
+					return;
+				}
+
+				for(var i=0, len=list.length||0; i<len; i++) {
+					str += "<li class='left clearfix' data-boardId='" + list[i].boardId + "'>";
+					str += "	<div><div class='header'><strong class='primary-font'>["+list[i].id+"] "+list[i].writerId+"</strong>";
+					str += "		<small class='pull-right text-muted'>" + moment(list[i].writtenAt).format('YYYY-MM-DD')+"</small></div>";
+					str += "		<p>"+list[i].content+"</p></div></li>";
+				}
+				
+				commentUL.html(str);
+			});
+		}
 	});
 </script>
 </body>

@@ -10,7 +10,7 @@ public interface CommentService {
 
 	CommentDTO readById(Long id);
 
-	List<CommentDTO> readAll();
+	List<CommentDTO> readAll(Long boardId);
 
 	CommentDTO updateById(Long id, CommentDTO comment);
 

@@ -166,7 +166,6 @@
 			});
 		}
 		
-		var pageNum = 1;
 		var pageFooter = $(".page-footer");
 		
 		// 페이지 번호 출력
@@ -217,7 +216,7 @@
 			
 			//console.log("targetNum: " + targetPageNum);
 			
-			data.pageNum = targetPageNum;
+			pageNum = targetPageNum;
 			
 			// 글 목록 출력
 			getList(data);

@@ -33,8 +33,8 @@ public class CommentServiceImpl implements CommentService {
 	}
 
 	@Override
-	public List<CommentDTO> readAll() {
-		List<CommentDTO> list = commentMapper.selectAll();
+	public List<CommentDTO> readAll(Long boardId) {
+		List<CommentDTO> list = commentMapper.selectAll(boardId);
 		return list;
 	}
 

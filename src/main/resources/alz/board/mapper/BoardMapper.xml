@@ -37,6 +37,29 @@
 	
 	<select id="selectWithPaging" resultType="alz.board.domain.BoardDTO">
 		<![CDATA[
+			
+			select id, title, content, writtenAt, updatedAt, likeCnt, commentCnt, viewCnt, depth, 
+				   bOrder, writerId, parentId, typeId  
+			from (select rownum, rn, id, title, content, writtenAt, updatedAt, likeCnt, commentCnt, 
+						 viewCnt, depth, bOrder, writerId, parentId, typeId 
+     			    from (select rownum rn, id, title, content, writtenAt, updatedAt, likeCnt, commentCnt, 
+     			    			 viewCnt, depth, bOrder, writerId, parentId, typeId
+           					from (select id, title, content, written_at writtenAt, updated_at updatedAt, 
+           								 like_cnt likeCnt, comment_cnt commentCnt, view_cnt viewCnt, depth, 
+           								 b_order bOrder, writer_id writerId, parent_id parentId, type_id typeId  
+                  					from alz_board order by id desc) 
+            				where 
+		]]>
+		<include refid="boardCriteria"></include>
+		<![CDATA[
+									rownum <= #{pageNum} * #{amount} )
+			      	order by rn desc) 
+			where rn > (#{pageNum} -1) * #{amount} order by id desc
+		]]>
+	</select>
+
+	<!-- <select id="selectWithPaging" resultType="alz.board.domain.BoardDTO">
+		<![CDATA[
 			select id, title, content, writtenAt, updatedAt, likeCnt, commentCnt,
 					viewCnt, depth, bOrder, writerId, parentId, typeId
 			from (select /*+INDEX_DESC(alz_board pk_board) */
@@ -47,16 +70,16 @@
 				  where
 		]]>
 		
+		
 		<include refid="boardCriteria"></include>
 		
 		<![CDATA[
 					  rownum <= #{pageNum} * #{amount} 
 				  order by id desc)
 			where rn > (#{pageNum} -1) * #{amount}
+			order by id desc
 		]]>
-	</select>
-
-	
+	</select> -->
 	<select id="selectById" resultType="alz.board.domain.BoardDTO">
 		select id, title, content, written_at writtenAt, updated_at updatedAt, like_cnt likeCnt, comment_cnt commentCnt,
 					view_cnt viewCnt, depth, b_order bOrder, writer_id writerId, parent_id parentId, type_id typeId

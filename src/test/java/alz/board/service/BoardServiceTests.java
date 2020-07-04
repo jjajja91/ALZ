@@ -23,7 +23,7 @@ public class BoardServiceTests {
 	@Test
 	public void testSelect() {
 		
-		boardService.readAll(new BoardCriteria(2, 10)).forEach(board -> log.info(board));
+		boardService.readAll(new BoardCriteria(1, 10)).forEach(board -> log.info(board));
 		
 	}
 	
