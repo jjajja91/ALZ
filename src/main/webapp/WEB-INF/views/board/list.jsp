@@ -26,8 +26,8 @@
 			<input type='text' id='keyword' name='keyword' value='<c:out value="${pageMaker.cri.keyword }"/>' />
 			<input type='hidden' id='pageNum' name='pageNum' value='<c:out value="${pageMaker.cri.pageNum }"/>' />
 			<input type='hidden' id='amount' name='amount' value='<c:out value="${pageMaker.cri.amount }"/>' />
-			<button class='btn btn-default' id='searchBtn' >Search</button>
-			
+			<button class='writeBtn' id='searchBtn' >Search</button>
+			<button class='writeBtn' id='writeBtn' type="button">글쓰기</button>
 		</div>
 	</div>
 	
@@ -85,7 +85,6 @@
 
 <script type="text/javascript">
 	$(document).ready(function() {
-
 		var $pageNum = $("#pageNum");
 		var $amount = $("#amount");
 		var $type = $("#type");
@@ -121,7 +120,6 @@
 		
 		// 검색버튼 이벤트
 		$("#searchBtn").on("click", function(e) {
-
 			e.preventDefault();
 			
 			 data = {
@@ -142,7 +140,6 @@
 					// 페이지 번호 출력
 					showPage(totalCnt);
 				});
-
 			// 글목록
 			getList(data);
 		});
@@ -173,7 +170,7 @@
 			
 			pageFooter.empty();
 			
-			var endNum = Math.ceil(pageNum / 10.0) * 10;
+			var endNum = Math.ceil(data.pageNum / 10.0) * 10;
 			var startNum = endNum - 9;
 			
 			var prev = startNum != 1;
@@ -186,7 +183,7 @@
 			if(endNum * 10 < totalCnt) {
 				next = true;
 			}
-			
+
 			var str = "<ul class='pagination pull-right'>";
 			
 			if(prev) {
@@ -194,7 +191,7 @@
 			}
 			
 			for(var i=startNum; i<=endNum; i++) {
-				var active = pageNum ==i? "active":"";
+				var active = data.pageNum ==i? "active":"";
 				str += "<li class='page-item"+active+" '><a class='page-link' href='"+i+"'>"+i+"</a></li>";
 			}
 			
@@ -216,23 +213,21 @@
 			
 			//console.log("targetNum: " + targetPageNum);
 			
-			pageNum = targetPageNum;
+			data.pageNum = targetPageNum;
 			
 			// 글 목록 출력
-			getList(data);
+			getList(data, pageNum);
 		});
 		
 		// 글목록
 		function getList(data) {
-
 			// 글 검색 결과
 			boardSearch(data)
 				.then(function(response) {
 					// 글 검색결과 출력
-					return printBoardList(response, pageNum);
+					return printBoardList(response);
 				})
 				.then(function(response) {
-
 					// 읽기 이벤트 추가
 					$(".read").on("click", function(e) {
 						e.preventDefault();
@@ -259,7 +254,6 @@
 		
 		// 글목록 출력
 		function printBoardList(boards, page) {
-			
 			if(page == -1) {
 				pageNum = Math.ceil(totalCnt/10.0);
 				printBoardList(boards, pageNum);
@@ -271,12 +265,10 @@
 			$table.append($tableHeader);
 			
 			var frag = document.createDocumentFragment();
-
 			for(var i=0; i<boards.length; i++) {
 				var board= boards[i];
 				
 				var tr = document.createElement("tr");
-
 				var id = document.createElement("td");
 				id.textContent = board.id;
 				tr.appendChild(id);
@@ -289,7 +281,6 @@
 				
 				title.appendChild(titleA);
 				tr.appendChild(title);
-
 				var writerId = document.createElement("td");
 				writerId.textContent = board.writerId;
 				tr.appendChild(writerId);

@@ -41,7 +41,6 @@
 			</a>
 		</div>
 		
-		
 		<%-- <div>
 
 		<div class="bigPictureWrapper">
@@ -111,7 +110,7 @@
 				type='hidden' name='type' value='<c:out value="${cri.type }"/>'>
 		</form>
 	</div>
-	
+
     <!-- 댓글  -->
 	<div class="container">
 		<div class="panel-body">
@@ -212,7 +211,7 @@
 			operForm.attr("action", "/board/list")
 			operForm.submit();
 		});
-		
+
 		showComment();
 		
 		var commentUL = $(".chat");
