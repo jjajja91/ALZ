@@ -57,6 +57,7 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public List<BoardDTO> readAll(BoardCriteria cri) {
 		List<BoardDTO> list = boardMapper.selectWithPaging(cri);
+		
 		return list;
 	}
 
