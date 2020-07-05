@@ -38,25 +38,30 @@
 	</select>
 	
 	<select id="selectWithPaging" resultType="alz.board.domain.BoardDTO">
-		<![CDATA[
-			select id, title, content, writtenAt, updatedAt, likeCnt, commentCnt,
-					viewCnt, depth, bOrder, writerId, parentId, typeId
-			from (select /*+INDEX_DESC(alz_board pk_board) */  
-					rownum rn, id, title, content, written_at writtenAt, updated_at updatedAt, like_cnt likeCnt, 
-						comment_cnt commentCnt, view_cnt viewCnt, depth, b_order bOrder, writer_id writerId, 
-						parent_id parentId, type_id typeId
-				  from alz_board
-				  where
+ <![CDATA[
+		 select id, title, content, writtenAt, updatedAt, likeCnt, commentCnt, viewCnt, depth, 
+               bOrder, writerId, parentId, typeId  
+         from (select rownum, rn, id, title, content, writtenAt, updatedAt, likeCnt, commentCnt, 
+                   viewCnt, depth, bOrder, writerId, parentId, typeId 
+                  from (select rownum rn, id, title, content, writtenAt, updatedAt, likeCnt, commentCnt, 
+                            viewCnt, depth, bOrder, writerId, parentId, typeId
+                          from (select id, title, content, written_at writtenAt, updated_at updatedAt, 
+                                    like_cnt likeCnt, comment_cnt commentCnt, view_cnt viewCnt, depth, 
+                                    b_order bOrder, writer_id writerId, parent_id parentId, type_id typeId  
+                                 from alz_board  order by parentId desc, bOrder asc) 
+                        where
 		]]>
 		
 		<include refid="boardCriteria"></include>
 		
 		<![CDATA[
-					  rownum <= #{pageNum} * #{amount} 
-				  order by id desc)
+					  rownum <= #{pageNum} * #{amount} )
+				   order by parentId desc, bOrder asc)
 			where rn > (#{pageNum} -1) * #{amount}
-			
+			 order by parentId desc, bOrder asc
 		]]>
+			 
+		
 	</select>
 
 	
@@ -80,9 +85,22 @@
 			select alz_board_seq.nextval from dual
 		</selectKey>
 		
-		insert into alz_board (id, title, content, writer_id, type_id)
-		values (#{id}, #{title}, #{content}, #{writerId}, #{typeId})
+		insert into alz_board (id, title, content, writer_id, type_id, parent_id)
+		values (#{id}, #{title}, #{content}, #{writerId}, #{typeId}, #{id})
+		
+		
 	</insert>
+	
+	<insert id="replyInsert">
+			<selectKey keyProperty="id" order="BEFORE" resultType="long">
+			select alz_board_seq.nextval from dual	
+			</selectKey>	
+		insert into alz_board (id, title, content, writer_id, type_id, parent_id, b_order, depth)
+		values (#{id}, #{title}, #{content}, #{writerId}, #{typeId}, #{parentId}, #{BOrder}, #{depth}+1)
+		
+	</insert>
+	
+	
 	
 	<delete id="deleteById">
 		delete from alz_board where id = #{id}
@@ -96,4 +114,11 @@
 		where id = #{id}
 	</update>
 
+	<update id="updateBorders" parameterType="alz.board.domain.BoardDTO">
+	update alz_board set b_order = b_order +1 where parent_id =#{parentId} and b_order > #{BOrder}
+	
+	</update>
+<update id="updateBorder" parameterType="alz.board.domain.BoardDTO">
+		update alz_board set b_order = #{BOrder} +1 where id = #{id}
+	</update>
 </mapper>

@@ -29,12 +29,21 @@ public class BoardServiceImpl implements BoardService {
 	@Transactional
 	@Override
 	public void create(BoardDTO board) {
+		
+		if(board.getParentId()==null) {
 		boardMapper.insert(board);
-
+		}else {
+		boardMapper.replyInsert(board);	
+		boardMapper.updateBorders(board);
+		boardMapper.updateBorder(board);
+	
+		System.out.println("들어왔다");
+		}
 		if (board.getFileList() == null || board.getFileList().size() <= 0) {
 			return;
 		}
 
+		
 		board.getFileList().forEach(file -> {
 			file.setBoardId(board.getId());
 			boardFileMapper.insert(file);
@@ -51,13 +60,15 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public List<BoardDTO> readAll() {
 		List<BoardDTO> boards = boardMapper.selectAll();
+
 		return boards;
 	}
 
 	@Override
 	public List<BoardDTO> readAll(BoardCriteria cri) {
 		List<BoardDTO> list = boardMapper.selectWithPaging(cri);
-		return list;
+		System.out.println(list);
+			return list;
 	}
 
 	@Override
