@@ -23,7 +23,7 @@
 		<tr>
 			<c:forEach items="${list}" var="classes">
 				<tr>
-					<td><c:out value="${classes.name}" /></td>
+					<td><a href="get?id=${classes.id}"><c:out value="${classes.name}" /></a></td>
 					<td><c:out value="${classes.description}" /></td>
 					<td><fmt:formatDate pattern="yyyy/MM/dd"
 							value="${classes.openAt}" />~<fmt:formatDate pattern="yyyy/MM/dd"
@@ -37,6 +37,10 @@
 				</tr>
 			</c:forEach>
 	</table>
+	<select name="type"></select>
+	<input type="text" name="keyword">
+	<button id="searchBtn">검색</button>
+	
 
 </body>
 </html>

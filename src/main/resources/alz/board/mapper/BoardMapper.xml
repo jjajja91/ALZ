@@ -2,22 +2,97 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-
+  
+  
 <mapper namespace="alz.board.mapper.BoardMapper">
+
+	<sql id="boardCriteria">
+		<trim prefix="(" suffix=") AND " prefixOverrides="OR">
+			<foreach collection="typeArr" item='type'>
+				<trim prefix="OR">
+					<choose>
+						<when test="type == 'T'.toString()">
+							title like '%'||#{keyword}||'%'
+						</when>
+						<when test="type == 'C'.toString()">
+							content like '%'||#{keyword}||'%'
+						</when>
+						<when test="type == 'W'.toString()">
+							writer like '%'||#{keyword}||'%'
+						</when>
+					</choose>
+				</trim>
+			</foreach>
+		</trim>
+	</sql>
 
 	<select id="selectAll" resultType="alz.board.domain.BoardDTO">
 		<![CDATA[
-			select id, title, content, written_at writtenAt, updated_at updatedAt, like_cnt likeCnt, comment_cnt commentCnt,
-					view_cnt viewCnt, depth, b_order bOrder, writer_id writerId, parent_id parentId, type_id typeId
+			select id, title, content, written_at writtenAt, updated_at updatedAt, like_cnt likeCnt, 
+					comment_cnt commentCnt, view_cnt viewCnt, depth, b_order bOrder, writer_id writerId, 
+					parent_id parentId, type_id typeId
 			from alz_board 
 			where id > 0
 		]]>
 	</select>
 	
+	<select id="selectWithPaging" resultType="alz.board.domain.BoardDTO">
+		<![CDATA[
+			
+			select id, title, content, writtenAt, updatedAt, likeCnt, commentCnt, viewCnt, depth, 
+				   bOrder, writerId, parentId, typeId  
+			from (select rownum, rn, id, title, content, writtenAt, updatedAt, likeCnt, commentCnt, 
+						 viewCnt, depth, bOrder, writerId, parentId, typeId 
+     			    from (select rownum rn, id, title, content, writtenAt, updatedAt, likeCnt, commentCnt, 
+     			    			 viewCnt, depth, bOrder, writerId, parentId, typeId
+           					from (select id, title, content, written_at writtenAt, updated_at updatedAt, 
+           								 like_cnt likeCnt, comment_cnt commentCnt, view_cnt viewCnt, depth, 
+           								 b_order bOrder, writer_id writerId, parent_id parentId, type_id typeId  
+                  					from alz_board order by id desc) 
+            				where 
+		]]>
+		<include refid="boardCriteria"></include>
+		<![CDATA[
+									rownum <= #{pageNum} * #{amount} )
+			      	order by rn desc) 
+			where rn > (#{pageNum} -1) * #{amount} order by id desc
+		]]>
+	</select>
+
+	<!-- <select id="selectWithPaging" resultType="alz.board.domain.BoardDTO">
+		<![CDATA[
+			select id, title, content, writtenAt, updatedAt, likeCnt, commentCnt,
+					viewCnt, depth, bOrder, writerId, parentId, typeId
+			from (select /*+INDEX_DESC(alz_board pk_board) */
+						rownum rn, id, title, content, written_at writtenAt, updated_at updatedAt, like_cnt likeCnt, 
+						comment_cnt commentCnt, view_cnt viewCnt, depth, b_order bOrder, writer_id writerId, 
+						parent_id parentId, type_id typeId
+				  from alz_board
+				  where
+		]]>
+		
+		
+		<include refid="boardCriteria"></include>
+		
+		<![CDATA[
+					  rownum <= #{pageNum} * #{amount} 
+				  order by id desc)
+			where rn > (#{pageNum} -1) * #{amount}
+			order by id desc
+		]]>
+	</select> -->
 	<select id="selectById" resultType="alz.board.domain.BoardDTO">
 		select id, title, content, written_at writtenAt, updated_at updatedAt, like_cnt likeCnt, comment_cnt commentCnt,
 					view_cnt viewCnt, depth, b_order bOrder, writer_id writerId, parent_id parentId, type_id typeId
 		from alz_board where id = #{id}
+	</select>
+	
+	<select id="getTotalCount" resultType="int">
+		select count(*)
+		from alz_board
+		where 
+		<include refid="boardCriteria"></include>
+			id > 0
 	</select>
 
 	<insert id="insert">

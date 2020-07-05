@@ -3,6 +3,7 @@ package alz.order.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,31 +31,31 @@ public class PaymentApiController {
 	@PostMapping
 	public ResponseEntity<?> create(@RequestBody PaymentDTO payment) {
 		PaymentDTO registeredPayment = paymentService.create(payment);
-		return null;
+		return ResponseEntity.status(HttpStatus.CREATED).body(registeredPayment);
 	}
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<?> readOne(@PathVariable Long id) {
 		PaymentDTO searchedPayment = paymentService.readById(id);
-		return null;
+		return ResponseEntity.status(HttpStatus.OK).body(searchedPayment);
 	}
 	
 	@GetMapping
 	public ResponseEntity<?> readAll() {
 		List<PaymentDTO> payments = paymentService.readAll();
-		return null;
+		return ResponseEntity.status(HttpStatus.OK).body(payments);
 	}
 	
 	@PutMapping("/{id}")
 	public ResponseEntity<?> updateOne(@PathVariable Long id, @RequestBody PaymentDTO payment) {
 		PaymentDTO updatedPayment = paymentService.updateById(id, payment);
-		return null;
+		return ResponseEntity.status(HttpStatus.OK).body(updatedPayment);
 	}
 	
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> deleteOne(@PathVariable Long id) {
 		int affectedRowCount = paymentService.deleteById(id);
-		return null;
+		return ResponseEntity.status(HttpStatus.OK).body(affectedRowCount);
 	}
 	
 }
