@@ -43,5 +43,4 @@
 		DELETE FROM ALZ_CLASS WHERE id = #{id}
 	</delete>
 
-
 </mapper>

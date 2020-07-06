@@ -42,8 +42,8 @@ public class MerchandiseApiController {
 	}
 	
 	@GetMapping()
-	public ResponseEntity<?> readAll(MerchandiseCriteria cri) {
-		List<MerchandiseDTO> merchandises = merchandiseService.readAll(cri);
+	public ResponseEntity<?> readAll() {
+		List<MerchandiseDTO> merchandises = merchandiseService.readAll();
 		return ResponseEntity.status(HttpStatus.OK).body(merchandises);
 	}
 	
@@ -56,7 +56,7 @@ public class MerchandiseApiController {
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> deleteOne(@PathVariable Long id) {
 		int affectedRowCount = merchandiseService.deleteById(id);
-		return ResponseEntity.status(HttpStatus.OK).body(affectedRowCount);
+		return ResponseEntity.status(HttpStatus.OK).body("ok");
 	}
 	
 	

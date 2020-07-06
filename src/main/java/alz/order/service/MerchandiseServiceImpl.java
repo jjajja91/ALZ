@@ -1,6 +1,8 @@
 package alz.order.service;
 
+
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,12 +12,12 @@ import alz.order.domain.MerchandiseCriteria;
 import alz.order.domain.MerchandiseDTO;
 import alz.order.mapper.MerchandiseMapper;
 import lombok.extern.log4j.Log4j;
+import alz.classes.domain.ClassDTO;
 
 @Service
 @Log4j
 public class MerchandiseServiceImpl implements MerchandiseService {
 
-	// mapper 가져와서 사용
 	private MerchandiseMapper merchandiseMapper;
 
 	SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
@@ -38,12 +40,12 @@ public class MerchandiseServiceImpl implements MerchandiseService {
 		return searchedMerchandise;
 	}
 	
-//	@Override
-//	public List<MerchandiseDTO> readAll() {
-//		List<MerchandiseDTO> merchandises = merchandiseMapper.selectAll();
-//		System.out.println(merchandises);
-//		return merchandises;
-//	}
+	@Override
+	public List<MerchandiseDTO> readAll() {
+		List<MerchandiseDTO> merchandises = merchandiseMapper.selectAll();
+		System.out.println(merchandises);
+		return merchandises;
+	}
 
 	@Override
 	public List<MerchandiseDTO> readAll(MerchandiseCriteria cri) {

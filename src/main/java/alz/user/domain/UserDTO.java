@@ -1,7 +1,6 @@
 package alz.user.domain;
 
 import java.util.Date;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -33,5 +32,5 @@ public class UserDTO {
 	private String state;
 	private Date startAt;
 	private Date endAt;
-	
+
 }

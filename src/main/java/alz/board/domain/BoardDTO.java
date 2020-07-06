@@ -1,16 +1,20 @@
 package alz.board.domain;
 
 import java.util.Date;
+import java.util.List;
 
+import alz.file.domain.BoardFileDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 import lombok.experimental.Accessors;
 
 @Getter
 @Setter
+@ToString
 @Builder
 @Accessors(chain=true)
 @NoArgsConstructor
@@ -30,6 +34,11 @@ public class BoardDTO {
 	private Long writerId;
 	private Long parentId;
 	private Long typeId;
+	
+	private List<BoardFileDTO> fileList;
+
+		
+	
 
 
 }

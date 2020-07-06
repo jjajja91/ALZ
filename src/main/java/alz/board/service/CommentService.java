@@ -6,11 +6,11 @@ import alz.board.domain.CommentDTO;
 
 public interface CommentService {
 
-	CommentDTO create();
+	CommentDTO create(CommentDTO comment);
 
 	CommentDTO readById(Long id);
 
-	List<CommentDTO> readAll();
+	List<CommentDTO> readAll(Long boardId);
 
 	CommentDTO updateById(Long id, CommentDTO comment);
 
