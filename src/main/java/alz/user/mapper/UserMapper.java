@@ -10,6 +10,8 @@ public interface UserMapper {
 	
 	UserDTO selectById(Long id);
 	
+	UserDTO selectByEmail(String email);
+	
 	List<UserDTO> selectAll();
 	
 	int updatedById(UserDTO user);

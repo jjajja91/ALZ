@@ -8,7 +8,6 @@
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>/WEB-INF/spring/root-context.xml
-<!-- ingyo -->/WEB-INF/spring/security-context.xml<!-- ingyo -->
 		</param-value>
 	</context-param>
 
@@ -45,17 +44,6 @@
 		<servlet-name>appServlet</servlet-name>
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
-<!-- ingyo -->
-	<filter>
-		<filter-name>springSecurityFilterChain</filter-name>
-		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
-	</filter>
-	
-	<filter-mapping>
-		<filter-name>springSecurityFilterChain</filter-name>
-		<url-pattern>/*</url-pattern>
-	</filter-mapping>
-<!-- ingyo -->
 	
 	<filter>
 		<filter-name>encoding</filter-name>
