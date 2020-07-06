@@ -3,6 +3,9 @@ package alz.board.domain;
 import java.util.Date;
 import java.util.List;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 import alz.file.domain.BoardFileDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,7 +25,9 @@ import lombok.experimental.Accessors;
 public class BoardDTO {
 	
 	private Long id;
+	@NotBlank
 	private String title;
+	@NotBlank
 	private String content;
 	private Date writtenAt;
 	private Date updatedAt;

@@ -141,6 +141,7 @@ $(document).ready(function(e){
 				placeholder : 'content',
 				minHeight : 370,
 				maxHeight : null,
+				disableDragAndDrop: true,
 				focus : true,
 				lang : 'ko-KR'
 				

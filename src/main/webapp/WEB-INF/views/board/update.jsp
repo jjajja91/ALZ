@@ -65,6 +65,7 @@
 			minHeight : 370,
 			maxHeight : null,
 			focus : true,
+			disableDragAndDrop: true,
 			lang : 'ko-KR'
 		});
 		

@@ -52,6 +52,15 @@
 	<!-- <select id="selectById" resultType="alz.user.domain.UserDTO">
 		SELECT * FROM alz_user WHERE id = #{id}
 	</select> -->
+	
+	<select id="selectByEmail" resultType="alz.user.domain.UserDTO">
+		SELECT
+		users.id, email, nickName, password, role, certificationState, recentlogAt, modifiedAt, introduce, likeCnt, boardCnt, reservCnt, commentCnt, state, startAt, endAt 
+		FROM
+		alz_user users LEFT OUTER JOIN alz_user_state state on
+		users.id = state.id
+		WHERE users.email = #{email}
+	</select>
 
 	<update id="updatedById">
 		UPDATE alz_user
