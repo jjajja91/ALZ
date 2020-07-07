@@ -76,9 +76,12 @@ public class MerchandisePageController {
 			rttr.addFlashAttribute("result", "success");
 		}
 		
-		rttr.addAttribute("pageNum", cri.getPageNum());
-		rttr.addAttribute("amount", cri.getAmount());
-		return "redirect:/merchandise/list";
+//		rttr.addAttribute("pageNum", cri.getPageNum());
+//		rttr.addAttribute("amount", cri.getAmount());
+//		rttr.addAttribute("type", cri.getType());
+//		rttr.addAttribute("keyword", cri.getKeyword());
+		
+		return "redirect:/merchandise/list" + cri.getListLink();
 	}
 
 	@PostMapping("/modify")
@@ -89,10 +92,12 @@ public class MerchandisePageController {
 			rttr.addFlashAttribute("result", "success");
 		}
 		
-		rttr.addAttribute("pageNum", cri.getPageNum());
-		rttr.addAttribute("amount", cri.getAmount());
+//		rttr.addAttribute("pageNum", cri.getPageNum());
+//		rttr.addAttribute("amount", cri.getAmount());
+//		rttr.addAttribute("type", cri.getType());
+//		rttr.addAttribute("keyword", cri.getKeyword());
 		
-		return "redirect:/merchandise/list";
+		return "redirect:/merchandise/list" + cri.getListLink();
 	}
 
 //	@PostMapping("/modify")

@@ -13,7 +13,7 @@
 	<h2>상품 상세</h2>
 	<table border="1">
 		<tr>
-			<td>상품이미지넣기</td>
+			<td>상품이미지</td>
 			<td>
 				<table border="1" style="height: 200px; width: 250px;">
 					<tr align="center">
@@ -32,8 +32,9 @@
 						<td colspan="2">
 							<form name="orderform" method="post" action="/order/order">
 							
-								<input type="hidden" name="merchandiseName" value='<c:out value="${merchandise.name }"/>'> 
-								<input type="hidden" name="merchandisePrice" value='<c:out value="${merchandise.originPrice }"/>'> 
+								<input type="hidden" id="id" name="id" value='<c:out value="${merchandise.id }"/>'> 
+								<input type="hidden" id="name" name="name" value='<c:out value="${merchandise.name }"/>'> 
+								<input type="hidden" id="originPrice" name="originPrice" value='<c:out value="${merchandise.originPrice }"/>'> 
 								<input type="submit" value="구매하기">
 							</form>
 						</td>

@@ -41,5 +41,16 @@ public class MerchandiseMapperTests {
 	public void testGetList() {
 		merchandiseService.readAll(new MerchandiseCriteria(1, 10)).forEach(merchandise -> log.info(merchandise));
 	}
+	
+	@Test
+	public void testSearch() {
+		MerchandiseCriteria cri = new MerchandiseCriteria();
+		cri.setKeyword("수업1");
+		cri.setType("TC");
+
+		List<MerchandiseDTO> list = merchandiseMapper.getListWithPaging(cri);
+		
+		list.forEach(merchandise -> log.info(merchandise));
+	}
 
 }
