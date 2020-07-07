@@ -58,8 +58,6 @@ public class BoardPageController {
 	@PostMapping("/update")
 	public String update(BoardDTO board, @ModelAttribute("cri") BoardCriteria cri, RedirectAttributes rttr) {
 		
-		System.out.println("들어와따");
-		
 		if(boardService.update(board.getId(), board)) {
 			rttr.addFlashAttribute("result", "success");
 		}
@@ -82,7 +80,7 @@ public class BoardPageController {
 		model.addAttribute("list", boardService.readAll(cri));
 
 		int total = boardService.getTotal(cri);
-		
+
 		model.addAttribute("pageMaker", new BoardPageDTO(cri, total));
 	}
 	

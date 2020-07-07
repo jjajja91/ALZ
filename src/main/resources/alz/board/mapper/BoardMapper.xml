@@ -39,26 +39,38 @@
 	
 	<select id="selectWithPaging" resultType="alz.board.domain.BoardDTO">
  <![CDATA[
-		 select id, title, content, writtenAt, updatedAt, likeCnt, commentCnt, viewCnt, depth, 
+                                 
+                                 
+          select id, title, content, writtenAt, updatedAt, likeCnt, commentCnt, viewCnt, depth, 
                bOrder, writerId, parentId, typeId  
-         from (select rownum, rn, id, title, content, writtenAt, updatedAt, likeCnt, commentCnt, 
+            from (select rownum, rn, id, title, content, writtenAt, updatedAt, likeCnt, commentCnt, 
                    viewCnt, depth, bOrder, writerId, parentId, typeId 
-                  from (select rownum rn, id, title, content, writtenAt, updatedAt, likeCnt, commentCnt, 
+                from(select rownum rn, id, title, content, writtenAt, updatedAt, likeCnt, commentCnt, 
                             viewCnt, depth, bOrder, writerId, parentId, typeId
-                          from (select id, title, content, written_at writtenAt, updated_at updatedAt, 
+                        from (select id, title, content, written_at writtenAt, updated_at updatedAt, 
                                     like_cnt likeCnt, comment_cnt commentCnt, view_cnt viewCnt, depth, 
                                     b_order bOrder, writer_id writerId, parent_id parentId, type_id typeId  
-                                 from alz_board  order by parentId desc, bOrder asc) 
+                                from alz_board
+                                start with parent_id = 0
+                                connect by prior id = parent_id
+                                order siblings by b_order desc)
                         where
 		]]>
 		
 		<include refid="boardCriteria"></include>
 		
 		<![CDATA[
-					  rownum <= #{pageNum} * #{amount} )
-				   order by parentId desc, bOrder asc)
+						  rownum <= #{pageNum} * #{amount} )
+						   start with parentId = 0
+				 		connect by prior id = parentId
+				order siblings by bOrder desc)
 			where rn > (#{pageNum} -1) * #{amount}
-			 order by parentId desc, bOrder asc
+					   start with parentId = 0
+					connect by prior id = parentId
+				order siblings by bOrder desc
+			 
+			 
+			 
 		]]>
 			 
 		
@@ -85,8 +97,8 @@
 			select alz_board_seq.nextval from dual
 		</selectKey>
 		
-		insert into alz_board (id, title, content, writer_id, type_id, parent_id)
-		values (#{id}, #{title}, #{content}, #{writerId}, #{typeId}, #{id})
+		insert into alz_board (id, title, content, writer_id, type_id, parent_id, b_order)
+		values (#{id}, #{title}, #{content}, #{writerId}, #{typeId}, '0', #{id})
 		
 		
 	</insert>
@@ -95,12 +107,24 @@
 			<selectKey keyProperty="id" order="BEFORE" resultType="long">
 			select alz_board_seq.nextval from dual	
 			</selectKey>	
-		insert into alz_board (id, title, content, writer_id, type_id, parent_id, b_order, depth)
-		values (#{id}, #{title}, #{content}, #{writerId}, #{typeId}, #{parentId}, #{BOrder}, #{depth}+1)
+		insert into alz_board (id, title, content, writer_id, type_id, parent_id, b_order)
+		values (#{id}, #{title}, #{content}, #{writerId}, #{typeId}, #{BOrder}, #{BOrder})
+		
+	</insert>
+	
+		<insert id="rereplyInsert">
+			<selectKey keyProperty="id" order="BEFORE" resultType="long">
+			select alz_board_seq.nextval from dual	
+			</selectKey>	
+		insert into alz_board (id, title, content, writer_id, type_id, parent_id, b_order)
+		values (#{id}, #{title}, #{content}, #{writerId}, #{typeId}, #{parentId}, #{BOrder})
 		
 	</insert>
 	
 	
+	<update  id="insertReply" parameterType="alz.board.domain.BoardDTO">
+	    update alz_board set title ='re :'||title where id=#{id} 
+	</update>
 	
 	<delete id="deleteById">
 		delete from alz_board where id = #{id}
@@ -114,11 +138,6 @@
 		where id = #{id}
 	</update>
 
-	<update id="updateBorders" parameterType="alz.board.domain.BoardDTO">
-	update alz_board set b_order = b_order +1 where parent_id =#{parentId} and b_order > #{BOrder}
-	
-	</update>
-<update id="updateBorder" parameterType="alz.board.domain.BoardDTO">
-		update alz_board set b_order = #{BOrder} +1 where id = #{id}
-	</update>
+
+
 </mapper>

@@ -29,21 +29,24 @@ public class BoardServiceImpl implements BoardService {
 	@Transactional
 	@Override
 	public void create(BoardDTO board) {
-		
-		if(board.getParentId()==null) {
-		boardMapper.insert(board);
-		}else {
-		boardMapper.replyInsert(board);	
-		boardMapper.updateBorders(board);
-		boardMapper.updateBorder(board);
-	
-		System.out.println("들어왔다");
+
+		if (board.getParentId() == null) {
+			boardMapper.insert(board);
+		} else if (board.getParentId() == 0) {
+			boardMapper.replyInsert(board);
+			boardMapper.insertReply(board);
+			
+		} else  {
+			board.setParentId(board.getId());
+			boardMapper.rereplyInsert(board);
+			boardMapper.insertReply(board);
+			boardMapper.insertReply(board);
+
 		}
 		if (board.getFileList() == null || board.getFileList().size() <= 0) {
 			return;
 		}
 
-		
 		board.getFileList().forEach(file -> {
 			file.setBoardId(board.getId());
 			boardFileMapper.insert(file);
@@ -67,8 +70,7 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public List<BoardDTO> readAll(BoardCriteria cri) {
 		List<BoardDTO> list = boardMapper.selectWithPaging(cri);
-		System.out.println(list);
-			return list;
+		return list;
 	}
 
 	@Override
@@ -82,14 +84,14 @@ public class BoardServiceImpl implements BoardService {
 	@Transactional
 	@Override
 	public boolean update(Long id, BoardDTO board) {
-		log.info("modify....."+board);
+		log.info("modify....." + board);
 		boardFileMapper.deleteAll(id);
-		
+
 		BoardDTO searchedBoard = boardMapper.selectById(id);
 		searchedBoard.setTitle(board.getTitle()).setContent(board.getContent()).setFileList(board.getFileList());
-		boolean modifyResult = boardMapper.updateById(searchedBoard)==1;
-		
-		if(modifyResult && board.getFileList() != null && board.getFileList().size()>0) {
+		boolean modifyResult = boardMapper.updateById(searchedBoard) == 1;
+
+		if (modifyResult && board.getFileList() != null && board.getFileList().size() > 0) {
 			board.getFileList().forEach(file -> {
 				file.setBoardId(id);
 				boardFileMapper.insert(file);

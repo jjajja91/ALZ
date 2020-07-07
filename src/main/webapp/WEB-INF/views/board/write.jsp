@@ -112,7 +112,7 @@
                <input class="form-control" rows="1" name="typeId"></input>
       	<input type='hidden' name='parentId' value='<c:out value="${param.pid}"/>'>
       	  	<input type='hidden' name='bOrder' value='<c:out value="${param.border}"/>'>
-      	  	  	<input type='hidden' name='depth' value='<c:out value="${param.depth}"/>'>
+      	  	  	<input type='hidden' name='id' value='<c:out value="${param.id}"/>'>
             <div class="row">
                <div class="col-lg-12">
                   <div class="panel panel-defualt">

@@ -22,7 +22,7 @@ public interface BoardMapper {
 
 	int replyInsert(BoardDTO board);
 
-	int updateBorder(BoardDTO board);
-
-	int updateBorders(BoardDTO board);
+	int rereplyInsert(BoardDTO board);
+	
+	int insertReply(BoardDTO board);
 }
