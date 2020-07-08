@@ -38,6 +38,7 @@
 	</select>
 	
 	<select id="selectWithPaging" resultType="alz.board.domain.BoardDTO">
+
  <![CDATA[
                                  
                                  
@@ -57,6 +58,7 @@
                         where
 		]]>
 		
+		
 		<include refid="boardCriteria"></include>
 		
 		<![CDATA[
@@ -65,18 +67,14 @@
 				 		connect by prior id = parentId
 				order siblings by bOrder desc)
 			where rn > (#{pageNum} -1) * #{amount}
+
 					   start with parentId = 0
 					connect by prior id = parentId
 				order siblings by bOrder desc
-			 
-			 
-			 
-		]]>
-			 
-		
+	
+		]]>	
 	</select>
 
-	
 	<select id="selectById" resultType="alz.board.domain.BoardDTO">
 		select id, title, content, written_at writtenAt, updated_at updatedAt, like_cnt likeCnt, comment_cnt commentCnt,
 					view_cnt viewCnt, depth, b_order bOrder, writer_id writerId, parent_id parentId, type_id typeId

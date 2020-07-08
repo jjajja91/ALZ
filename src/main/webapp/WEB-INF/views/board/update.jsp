@@ -58,12 +58,14 @@
 
 <script type="text/javascript">
 	$(document).ready(function() {
+		var $summernote = $('#summernote');
 		
-		$('#summernote').summernote({
+		$summernote.summernote({
 			placeholder : 'content',
 			minHeight : 370,
 			maxHeight : null,
 			focus : true,
+			disableDragAndDrop: true,
 			lang : 'ko-KR'
 		});
 		
@@ -111,7 +113,26 @@
 				
 				var str = "";
 				
-				$(".uploadResult ul li").each(function(i, obj){
+				var blockImgArr = $(".card-block").find("img");
+				var targetLi = $(".uploadResult ul li").clone();
+
+				$(".uploadResult ul li").remove();
+				
+				var targetUl = $(".uploadResult ul");
+				
+				for(var i = 0; i < blockImgArr.length; i++){
+					var blockImg = $(blockImgArr[i]);
+					var blockImgSrc = blockImg.attr("src");
+					for(var j = 0; j < targetLi.length; j++){
+						var $targetLi = $(targetLi[j])
+						var targetUuid = $targetLi.data("uuid");
+						if(blockImgSrc.indexOf(targetUuid)!=-1){
+							targetUl.append($targetLi);
+						}
+					}
+				}
+				
+				$(targetUl).find("li").each(function(i, obj){
 					var jobj = $(obj);
 					console.dir(jobj);
 					
@@ -177,15 +198,18 @@
   			if(!uploadResultArr||uploadResultArr.length==0){return;}
   			var uploadUL = $(".uploadResult ul");
   			var str = "";
+  			var imgstr = "";
   			
   			$(uploadResultArr).each(function(i, obj){
   				console.log(obj);
   				if(obj.image){
   					var fileCallPath = encodeURIComponent(obj.uploadPath+"/s_"+obj.uuid+"_"+obj.fileName);
+  					var imagePath = encodeURIComponent(obj.uploadPath+"/"+obj.uuid+"_"+obj.fileName);
   					str += "<li data-path='"+obj.uploadPath+"'";
   					str += " data-uuid='"+obj.uuid+"' data-filename='"+obj.fileName+"' data-type='"+obj.image+"'><div>";
   					str += "<span> " + obj.fileName+"</span>";
   					str += "<button type='button' data-file=\'"+fileCallPath+"\' data-type='image' class='btn btn-warning btn-circle'><i class='fa fa-times'></i></button><br>";
+  		  			imgstr += "<pr><img src='/file/display?fileName="+imagePath+"'></pr>";
   					str += "<img src='/file/display?fileName="+fileCallPath+"'>";
   					str += "</div></li>";
   				} else {
@@ -202,6 +226,9 @@
   				}
   			});
   			uploadUL.append(str);
+  			$(".card-block").append(imgstr);
+  			$summernote.summernote("insertParagraph");
+  			
   		}
   		
   		$("input[type='file']").change(function(e){
@@ -235,7 +262,18 @@
   			console.log("delete file");
   			if(confirm("Remove this file? ")){
   				var targetLi=$(this).closest("li");
+  				var targetImgSrc = targetLi.find("img").attr("src").replace("s_","");
+  				var blockImgArr = $(".card-block").find("img");
+  				
+  				for(var i = 0; i<blockImgArr.length; i++){
+  					var blockImg = $(blockImgArr[i]);
+  					var blockImgSrc = blockImg.attr("src");
+  					if(blockImgSrc===targetImgSrc){
+  						blockImg.remove();
+  					}
+  				}
   				targetLi.remove();
+  				$summernote.summernote("insertParagraph");
   			}
   		});
 	});

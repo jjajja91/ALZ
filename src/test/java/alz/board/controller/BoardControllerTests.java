@@ -17,41 +17,34 @@ import lombok.extern.log4j.Log4j;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
-@ContextConfiguration({ "file:src/main/webapp/WEB-INF/spring/root-context.xml",
-	"file:src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml" })
+@ContextConfiguration({"file:src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml", 
+	"file:src/main/webapp/WEB-INF/spring/root-context.xml"})
 @Log4j
 public class BoardControllerTests {
 
 	@Setter(onMethod_ = {@Autowired})
 	private WebApplicationContext ctx;
-
 	private MockMvc mockMvc;
-	
+
 	@Before
 	public void setup() {
-	this.mockMvc = MockMvcBuilders.webAppContextSetup(ctx).build();
+		this.mockMvc = MockMvcBuilders.webAppContextSetup(ctx).build();
 	}
-
+	
+	@Test
+	public void testList() throws Exception {
+		log.info(mockMvc.perform(MockMvcRequestBuilders.get("/board/list"))
+				.andReturn()
+				.getModelAndView()
+				.getModelMap());
+	}
+	
 	@Test
 	public void testListPaging() throws Exception {
-		log.info(mockMvc.perform(
-				MockMvcRequestBuilders.get("/board/list")
+		log.info(mockMvc.perform(MockMvcRequestBuilders.get("/board/list")
 				.param("pageNum", "1")
-				.param("amount", "10"))
+				.param("amount", "20"))
 				.andReturn().getModelAndView().getModelMap());
-				
 	}
 	
-	@Test
-	public void testWrite() throws Exception{
-	
-		String resultPage = mockMvc.perform(MockMvcRequestBuilders.post("/board/write")
-				.param("title", "테스트 새 글 제목")
-				.param("content", "테스트 새글 내용")
-				.param("writerId", "1")		
-				.param("typeId", "1")
-				).andReturn().getModelAndView().getViewName();
-		log.info(resultPage);
-	}
 }
-

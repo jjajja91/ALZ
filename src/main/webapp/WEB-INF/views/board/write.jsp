@@ -141,36 +141,32 @@
 
 $(document).ready(function(e){
 	
-	
-      var $summernote = $('#summernote');
+    var $summernote = $('#summernote');
    
-   
-      $('#summernote').summernote({
-            placeholder : 'content',
-            minHeight : 370,
-            maxHeight : null,
-            focus : true,
-            lang : 'ko-KR'
-            
-      });
-      
-      makeFileBtn();
-      
-      function makeFileBtn() {
-         $("button[data-original-title=Picture]").remove();
-         $("button[data-original-title=Video]").remove();
-         $("button[data-original-title^=Link]").remove();
-         $("div[class$=note-insert]").remove();
-         var str = ""
-         str += "<div class='note-btn-group btn-group note-file form-group uploadDiv'>";
-         str += "<input type='file' name='uploadFile' multiple='multiple'>";
-         str += "</div>";
-         $("div[class*=toolbar]").append(str);
-      }
-      
-      
-      
-  
+		$summernote.summernote({
+				placeholder : 'content',
+				minHeight : 370,
+				maxHeight : null,
+				disableDragAndDrop: true,
+				focus : true,
+				lang : 'ko-KR'
+				
+		});
+		
+		makeFileBtn();
+		
+		function makeFileBtn() {
+			$("button[data-original-title=Picture]").remove();
+			$("button[data-original-title=Video]").remove();
+			$("button[data-original-title^=Link]").remove();
+			$("div[class$=note-insert]").remove();
+			var str = ""
+			str += "<div class='note-btn-group btn-group note-file form-group uploadDiv'>";
+			str += "<input type='file' name='uploadFile' multiple='multiple'>";
+			str += "</div>";
+			$("div[class*=toolbar]").append(str);
+		}
+		
         $("input[type='file']").change(function(e){
            var formData = new FormData();
            var inputFile = $("input[name='uploadFile']");

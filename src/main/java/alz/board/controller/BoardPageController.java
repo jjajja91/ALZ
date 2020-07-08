@@ -34,11 +34,10 @@ public class BoardPageController {
 		this.boardService = boardService;
 	}
 	
-//	@GetMapping("/list")
-//	public void list(Model model) {
-//		log.info("list");
-//		model.addAttribute("list", boardService.readAll());
-//	}
+	//@GetMapping("/list")
+	//public void list(Model model) {
+	//	model.addAttribute("list", boardService.readAll());
+	//}
 	
 	@PostMapping("/delete")
 	public String delete(@RequestParam("id") Long id, @ModelAttribute("cri") BoardCriteria cri, RedirectAttributes rttr) {

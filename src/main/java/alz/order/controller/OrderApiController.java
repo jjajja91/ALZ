@@ -3,6 +3,7 @@ package alz.order.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,31 +31,31 @@ public class OrderApiController {
 	@PostMapping
 	public ResponseEntity<?> create(@RequestBody OrderDTO order) {
 		OrderDTO registeredOrder = orderService.create(order);
-		return null;
+		return ResponseEntity.status(HttpStatus.CREATED).body(registeredOrder);
 	}
 
 	@GetMapping("/{id}")
 	public ResponseEntity<?> readOne(@PathVariable Long id) {
 		OrderDTO searchedOrder = orderService.readById(id);
-		return null;
+		return ResponseEntity.status(HttpStatus.OK).body(searchedOrder);
 	}
 
 	@GetMapping
 	public ResponseEntity<?> readAll() {
 		List<OrderDTO> orders = orderService.readAll();
-		return null;
+		return ResponseEntity.status(HttpStatus.OK).body(orders);
 	}
 
 	@PutMapping("/{id}")
 	public ResponseEntity<?> updateOne(@PathVariable Long id, @RequestBody OrderDTO order) {
 		OrderDTO updatedOrder = orderService.updateById(id, order);
-		return null;
+		return ResponseEntity.status(HttpStatus.OK).body(updatedOrder);
 	}
 	
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> deleteOne(@PathVariable Long id) {
 		int affectedRowCount = orderService.deleteById(id);
-		return null;
+		return ResponseEntity.status(HttpStatus.OK).body(affectedRowCount);
 	}
 
 }
