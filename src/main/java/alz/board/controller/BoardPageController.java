@@ -57,8 +57,6 @@ public class BoardPageController {
 	@PostMapping("/update")
 	public String update(BoardDTO board, @ModelAttribute("cri") BoardCriteria cri, RedirectAttributes rttr) {
 		
-		log.info("안녕");
-		
 		if(boardService.update(board.getId(), board)) {
 			rttr.addFlashAttribute("result", "success");
 		}
@@ -73,7 +71,7 @@ public class BoardPageController {
 	public void read(@RequestParam("id") Long id, @ModelAttribute("cri") BoardCriteria cri, Model model) {
 		log.info("/read or update");
 		model.addAttribute("board", boardService.readById(id));
-	}
+		}
 	
 	@GetMapping("/list")
 	public void list(BoardCriteria cri, Model model) {
@@ -81,7 +79,7 @@ public class BoardPageController {
 		model.addAttribute("list", boardService.readAll(cri));
 
 		int total = boardService.getTotal(cri);
-		
+
 		model.addAttribute("pageMaker", new BoardPageDTO(cri, total));
 	}
 	

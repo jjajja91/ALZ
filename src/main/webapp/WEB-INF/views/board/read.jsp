@@ -94,9 +94,11 @@
 			</table>
 			
 		</div> --%>
-
+	<button data-oper='write' class="btn btn-info"
+			onclick="location.href='/board/write?id=<c:out value="${board.id}"/>&pid=<c:out value="${board.parentId}"/>&border=<c:out value="${board.BOrder}"/>'">답글쓰기</button> 
+		
 		<button data-oper='update' class="btn btn-default"
-			onclick="location.href='/board/update?id=<c:out value="${board.id }"/>'">수정</button>
+			onclick="location.href='/board/update?id=<c:out value="${board.id}"/>'">수정</button>
 		<button data-oper='list' class="btn btn-info"
 			onclick="location.href='/board/list'">목록</button>
 
@@ -136,7 +138,10 @@
 
 <script type="text/javascript" src="/resources/js/comment.js"></script>
 <script type="text/javascript">
+
+
 	$(document).ready(function() {
+	
 
 		(function() {
 			var boardId = '<c:out value="${board.id}"/>';
