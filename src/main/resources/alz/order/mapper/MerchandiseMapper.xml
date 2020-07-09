@@ -33,7 +33,7 @@
 
 	<select id="selectAll"
 		resultType="alz.order.domain.MerchandiseDTO">
-		SELECT * FROM ALZ_MERCHANDISE_DETAIL
+		SELECT * FROM ALZ_MERCHANDISE_DETAIL order by id
 	</select>
 
 	<update id="updateById"
@@ -137,7 +137,45 @@
 
 	</select>
 
+	<insert id="insertCart" parameterType="alz.order.domain.CartDTO">
+		<selectKey keyProperty="cartNum" order="BEFORE"
+			resultType="long">
+			SELECT alz_cart_seq.nextval FROM dual
+		</selectKey>
+		insert into alz_cart (cartNum, userId, gdsNum,
+		cartStock)
+		values
+		(#{cartNum}, #{userId}, #{gdsNum}, #{cartStock})
+	</insert>
 
+	<select id="countCart" resultType="int">
+		SELECT COUNT(*) FROM alz_cart
+		WHERE userId= #{userId} AND gdsNum = #{gdsNum}
+	</select>
 
+	<select id="listCart" resultType="alz.order.domain.CartDTO">
+		SELECT c.CARTNUM, c.USERID,
+		p.ID
+		, m.NICK_NAME, p.NAME, p.ORIGIN_PRICE
+		FROM alz_user m,
+		alz_merchandise_detail p, alz_cart c
+		WHERE m.id = c.userId
+		AND p.id =
+		c.gdsNum
+		AND c.userId = #{userId}
+		ORDER BY c.cartNum
+	</select>
 
+	<select id="sumMoney" resultType="int">
+		SELECT NVL
+		(sum(ORIGIN_PRICE),
+		0) money
+		FROM alz_cart c, alz_merchandise_detail p
+		WHERE c.gdsNum = p.id
+		AND c.userId = #{userId}
+	</select>
+
+	<delete id="deleteCart">
+		DELETE FROM alz_cart WHERE cartNum = #{cartNum}
+	</delete>
 </mapper>
