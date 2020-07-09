@@ -69,7 +69,6 @@ public class BoardServiceImpl implements BoardService {
 		return searchedBoard;
 	}
 
-	@Transactional
 	@Override
 	public boolean update(Long id, BoardDTO board) {
 		log.info("modify....."+board);

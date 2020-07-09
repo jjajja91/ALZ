@@ -35,8 +35,20 @@ public class CommentApiController {
 	
 	@PostMapping
 	public ResponseEntity<?> create(@RequestBody CommentDTO comment){
-		CommentDTO registerComment = commentService.create(comment);
-		return ResponseEntity.status(HttpStatus.CREATED).body(registerComment);
+		int affectedRowCount = commentService.create(comment);
+		if(affectedRowCount!=1) 
+			return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("insert comment failed");
+		
+		return ResponseEntity.status(HttpStatus.CREATED).body("add comment success");
+	}
+	
+	@PostMapping("/reComment")
+	public ResponseEntity<?> create2(@RequestBody CommentDTO comment){
+		int affectedRowCount = commentService.create2(comment);
+		if(affectedRowCount!=1) 
+			return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("insert comment failed");
+		
+		return ResponseEntity.status(HttpStatus.CREATED).body("add comment success");
 	}
 	
 	@GetMapping()
@@ -53,7 +65,7 @@ public class CommentApiController {
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<?> updateOne(@PathVariable Long id, CommentDTO comment){
+	public ResponseEntity<?> updateOne(@PathVariable Long id, @RequestBody CommentDTO comment){
 		CommentDTO updatedComment = commentService.updateById(id, comment);
 		return ResponseEntity.status(HttpStatus.OK).body(updatedComment);
 	}
