@@ -25,6 +25,7 @@ public class CommentDTO {
 	private Date updatedAt;
 	private Long likeCnt;
 	private Long commentCnt;
+	private String commentCode;
 	private Long boardId;
 	private Long writerId;
 

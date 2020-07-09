@@ -61,6 +61,11 @@
 .bigpicture img {
    width: 600px
 }
+.note-dropzone {
+  opacity: 0 !important;
+}
+.note-editor note-frame card .note-dropzone { opacity: 0 !important; }
+
 </style>
 <script
    src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -141,36 +146,39 @@
 
 $(document).ready(function(e){
 	
+
+   /*  var $summernote = $('#summernote'); */
+   
+		$('#summernote').summernote({
+				placeholder : 'content',
+				minHeight : 370,
+				maxHeight : null,
+				disableDragAndDrop: true,
+				shortcuts: false,
+				focus : true,
+				lang : 'ko-KR'
+				
+				
+		});
+		$("div[class=note-editor note-frame card]").attr("disableDragAndDrop", "true");
 	
-      var $summernote = $('#summernote');
-   
-   
-      $('#summernote').summernote({
-            placeholder : 'content',
-            minHeight : 370,
-            maxHeight : null,
-            focus : true,
-            lang : 'ko-KR'
-            
-      });
-      
-      makeFileBtn();
-      
-      function makeFileBtn() {
-         $("button[data-original-title=Picture]").remove();
-         $("button[data-original-title=Video]").remove();
-         $("button[data-original-title^=Link]").remove();
-         $("div[class$=note-insert]").remove();
-         var str = ""
-         str += "<div class='note-btn-group btn-group note-file form-group uploadDiv'>";
-         str += "<input type='file' name='uploadFile' multiple='multiple'>";
-         str += "</div>";
-         $("div[class*=toolbar]").append(str);
-      }
-      
-      
-      
-  
+		
+		$("div[class=note-editable card-block]").attr("disableDragAndDrop", "true");
+		
+		makeFileBtn();
+		
+		function makeFileBtn() {
+			$("button[data-original-title=Picture]").remove();
+			$("button[data-original-title=Video]").remove();
+			$("button[data-original-title^=Link]").remove();
+			$("div[class$=note-insert]").remove();
+			var str = ""
+			str += "<div class='note-btn-group btn-group note-file form-group uploadDiv'>";
+			str += "<input type='file' name='uploadFile' multiple='multiple'>";
+			str += "</div>";
+			$("div[class*=toolbar]").append(str);
+		}
+		
         $("input[type='file']").change(function(e){
            var formData = new FormData();
            var inputFile = $("input[name='uploadFile']");

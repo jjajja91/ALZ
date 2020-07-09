@@ -10,7 +10,7 @@ public interface CommentMapper {
 	
 	CommentDTO selectById(Long id);
 	
-	List<CommentDTO> selectAll();
+	List<CommentDTO> selectAll(Long id);
 	
 	int updateById(CommentDTO comment);
 	

@@ -19,6 +19,7 @@ public class ClassService {
 		this.classMapper = classMapper;
 	}
 	
+
 	public ClassDTO create(ClassRequestDTO classes) 	{
 		ClassDTO classDTO = toEntity(classes);
 		int affectedRowCount = classMapper.insert(classDTO);
@@ -36,6 +37,7 @@ public class ClassService {
 		return classes;
 	}
 
+	//chain
 	public ClassDTO updateById(Long id, ClassDTO classes) {
 		ClassDTO searchedClass = classMapper.findById(id);
 		

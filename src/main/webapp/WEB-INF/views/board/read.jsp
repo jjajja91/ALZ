@@ -40,6 +40,8 @@
 				<c:out value="${board.commentCnt }" />
 			</a>
 		</div>
+		
+		<%-- <div>
 
 		<div class="bigPictureWrapper">
 			<div class="bigPicture"></div>
@@ -58,7 +60,7 @@
 					</div>
 				</div>
 			</div>
-		</div>
+		</div> --%>
 
 		<!-- 댓글  -->
 		<%-- div>
@@ -111,18 +113,30 @@
 		</form>
 	</div>
 
+    <!-- 댓글  -->
+	<div class="container">
+		<div class="panel-body">
+			<ul class="chat">
+				<li class="left clearfix" data-boardId='12'>
+					<div>
+						<div class="header">
+							<strong class="primary-font">user00</strong>
+							<small class="pull-right text-muted">2020-07-03</small>
+						</div>
+						<p>Good job!</p>
+					</div>
+				</li>
+			</ul>
+			
+			<div class="form-group">
+				<textarea class="form-control" name='comment' value='New comment'>
+				</textarea>
+			</div>
+		</div>
+	</div>
 </div>
-<script src="/resources/js/summernote-ko-KR.js"></script>
 
-<script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-
-    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
-
+<script type="text/javascript" src="/resources/js/comment.js"></script>
 <script type="text/javascript">
 
 
@@ -202,7 +216,31 @@
 			operForm.attr("action", "/board/list")
 			operForm.submit();
 		});
+
+		showComment();
+		
+		var commentUL = $(".chat");
+		
+		function showComment() {
+			commentService.getList({boardId:12}, function(list) {
 				
+				var str="";
+
+				if(list==null || list.length==0) {
+					commentUL.html("");
+					return;
+				}
+
+				for(var i=0, len=list.length||0; i<len; i++) {
+					str += "<li class='left clearfix' data-boardId='" + list[i].boardId + "'>";
+					str += "	<div><div class='header'><strong class='primary-font'>["+list[i].id+"] "+list[i].writerId+"</strong>";
+					str += "		<small class='pull-right text-muted'>" + moment(list[i].writtenAt).format('YYYY-MM-DD')+"</small></div>";
+					str += "		<p>"+list[i].content+"</p></div></li>";
+				}
+				
+				commentUL.html(str);
+			});
+		}
 	});
 </script>
 </body>

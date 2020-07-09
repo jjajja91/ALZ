@@ -3,18 +3,21 @@
 <!DOCTYPE html>
 <html>
 <head>
-
-<title>Board</title>
+<title>ALZ</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+
+
 
 <style>
 .uploadResult {
 	width: 100%;
 	background-color: gray;
 }
+
 
 .uploadResult ul {
 	display: flex;
@@ -94,7 +97,7 @@
 	rel="stylesheet">
 <script
 	src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+    
 </head>
-
 <body>
