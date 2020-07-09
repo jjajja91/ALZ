@@ -8,14 +8,13 @@ public interface UserMapper {
 
 	int insert(UserDTO user);
 	
-	UserDTO selectById(Long id);
-	
-	UserDTO selectByEmail(String email);
+	UserDTO selectById(UserDTO user);
 	
 	List<UserDTO> selectAll();
 	
-	int updatedById(UserDTO user);
+	int updateById(UserDTO user);
 	
-	int deleteById(Long id);
+	int deleteById(UserDTO user);
+
 	
 }

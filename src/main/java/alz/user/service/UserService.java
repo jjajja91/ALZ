@@ -8,12 +8,12 @@ public interface UserService {
 
 	UserDTO create(UserDTO user);
 
-	UserDTO readById(Long id);
+	UserDTO readById(UserDTO user);
 
 	List<UserDTO> readAll();
 
-	UserDTO updateById(Long id, UserDTO user);
+	UserDTO updateById(UserDTO user);
 
-	int deleteById(Long id);
+	int deleteById(UserDTO user);
 
 }

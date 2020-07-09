@@ -23,119 +23,86 @@ import alz.file.domain.BoardFileDTO;
 @RestController
 @RequestMapping("/boards")
 public class BoardApiController {
-	
-	private BoardService boardService;
-	
-	@Autowired
-	public BoardApiController(BoardService boardService) {
-		this.boardService = boardService;
-	}
-	
-	@GetMapping(value="/getFileList", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public ResponseEntity<List<BoardFileDTO>> getFileList(Long boardId){
-		List<BoardFileDTO> boardFiles = boardService.getFileList(boardId);
-		return ResponseEntity.status(HttpStatus.OK).body(boardFiles);
-	}
-	
-	@PostMapping
-	public ResponseEntity<?> create(@RequestBody BoardDTO board){
-		boardService.create(board);
-		return ResponseEntity.status(HttpStatus.CREATED).body(board);
-	}
-	 
-	@GetMapping("/{id}")
-	public ResponseEntity<?> readOne(@PathVariable Long id){
-		BoardDTO searchedBoard = boardService.readById(id);
-		return ResponseEntity.status(HttpStatus.OK).body(searchedBoard);
-	}
-	
-	@GetMapping
-	public ResponseEntity<?> readAll() {
-		List<BoardDTO> boards = boardService.readAll();
-		return ResponseEntity.status(HttpStatus.OK).body(boards);
-	}
-	
-	// 검색 결과 글목록
-	@GetMapping(value = {"/{pageNum}/{amount}/{type}/{keyword}", "/{pageNum}/{amount}/{type}"},
-			produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
-	public ResponseEntity<?> readAll(@PathVariable String type, 
-									@PathVariable(name="keyword", required = false) String keyword,
-									@PathVariable Integer pageNum, @PathVariable Integer amount) {
-		BoardCriteria cri = new BoardCriteria();
-		
-		cri.setKeyword(keyword);
-		cri.setType(type);
-		cri.setPageNum(pageNum);
-		cri.setAmount(amount);
-		
-		List<BoardDTO> boards = boardService.readAll(cri);
-		
-		return ResponseEntity.status(HttpStatus.OK).body(boards);
-	}
-	
-	// 글 수 카운트
-	@GetMapping(value = {"/type/{type}/keyword/{keyword}", "type/{type}"},
-			produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
-	public int readAll(@PathVariable String type, 
-					@PathVariable(name="keyword", required = false) String keyword) {
+   
+   private BoardService boardService;
+   
+   @Autowired
+   public BoardApiController(BoardService boardService) {
+      this.boardService = boardService;
+   }
+   
+   @GetMapping(value="/getFileList", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+   public ResponseEntity<List<BoardFileDTO>> getFileList(Long boardId){
+      List<BoardFileDTO> boardFiles = boardService.getFileList(boardId);
+      return ResponseEntity.status(HttpStatus.OK).body(boardFiles);
+   }
+   
+   @PostMapping
+   public ResponseEntity<?> create(@RequestBody BoardDTO board){
+      boardService.create(board);
+      return ResponseEntity.status(HttpStatus.CREATED).body(board);
+   }
+    
+   @GetMapping("/{id}")
+   public ResponseEntity<?> readOne(@PathVariable Long id){
+      BoardDTO searchedBoard = boardService.readById(id);
+      return ResponseEntity.status(HttpStatus.OK).body(searchedBoard);
+   }
+   
+   @GetMapping
+   public ResponseEntity<?> readAll() {
+      List<BoardDTO> boards = boardService.readAll();
+      return ResponseEntity.status(HttpStatus.OK).body(boards);
+   }
+   
+   // 검색 결과 글목록
+   @GetMapping(value = {"/{pageNum}/{amount}/{type}/{keyword}", "/{pageNum}/{amount}/{type}"},
+         produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
+   public ResponseEntity<?> readAll(@PathVariable String type, 
+                           @PathVariable(name="keyword", required = false) String keyword,
+                           @PathVariable Integer pageNum, @PathVariable Integer amount) {
+      BoardCriteria cri = new BoardCriteria();
+      
+      cri.setKeyword(keyword);
+      cri.setType(type);
+      cri.setPageNum(pageNum);
+      cri.setAmount(amount);
+      
+      List<BoardDTO> boards = boardService.readAll(cri);
+      
+      return ResponseEntity.status(HttpStatus.OK).body(boards);
+   }
+   
+   // 글 수 카운트
+   @GetMapping(value = {"/type/{type}/keyword/{keyword}", "type/{type}"},
+         produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
+   public int readAll(@PathVariable String type, 
+               @PathVariable(name="keyword", required = false) String keyword) {
 
-		BoardCriteria cri = new BoardCriteria();
-		
-		if(keyword!=null) {
-			cri.setKeyword(keyword);
-			cri.setType(type);
-		}
-		
-		int total = boardService.getTotal(cri);
-		
-		return total;
-	}
-	
-	@PutMapping("/{id}")
-	public ResponseEntity<?> updateOne(@PathVariable Long id, @RequestBody BoardDTO board){
-		BoardDTO updatedBoard = boardService.updateById(id, board);
-		return ResponseEntity.status(HttpStatus.OK).body(updatedBoard);
-	}
-	
-	@DeleteMapping("/{id}")
-	public ResponseEntity<?> deleteOne(@PathVariable Long id) {
-		int affectedRowCount = boardService.deleteById(id);
-		return ResponseEntity.status(HttpStatus.OK).body("ok");
-	}
-	
-	@GetMapping(value = {"/{pageNum}/{amount}/{type}/{keyword}", "/{pageNum}/{amount}/{type}"},
-		         produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
-		   public ResponseEntity<?> readAll(@PathVariable String type, 
-		                           @PathVariable(name="keyword", required = false) String keyword,
-		                           @PathVariable Integer pageNum, @PathVariable Integer amount) {
-		      BoardCriteria cri = new BoardCriteria();
-		      
-		      cri.setKeyword(keyword);
-		      cri.setType(type);
-		      cri.setPageNum(pageNum);
-		      cri.setAmount(amount);
-		      
-		      List<BoardDTO> boards = boardService.readAll(cri);
-		      
-		      return ResponseEntity.status(HttpStatus.OK).body(boards);
-		   }
-		   
-		   // 글 수 카운트
-		   @GetMapping(value = {"/type/{type}/keyword/{keyword}", "type/{type}"},
-		         produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
-		   public int readAll(@PathVariable String type, 
-		               @PathVariable(name="keyword", required = false) String keyword) {
+      BoardCriteria cri = new BoardCriteria();
+      
+      if(keyword!=null) {
+         cri.setKeyword(keyword);
+         cri.setType(type);
+      }
+      
+      int total = boardService.getTotal(cri);
+      
+      return total;
+   }
+   
+   @PutMapping("/{id}")
+   public ResponseEntity<?> updateOne(@PathVariable Long id, @RequestBody BoardDTO board){
+      BoardDTO updatedBoard = boardService.updateById(id, board);
+      return ResponseEntity.status(HttpStatus.OK).body(updatedBoard);
+   }
+   
+   @DeleteMapping("/{id}")
+   public ResponseEntity<?> deleteOne(@PathVariable Long id) {
+      int affectedRowCount = boardService.deleteById(id);
+      return ResponseEntity.status(HttpStatus.OK).body("ok");
+   }
+   
 
-		      BoardCriteria cri = new BoardCriteria();
-		      
-		      if(keyword!=null) {
-		         cri.setKeyword(keyword);
-		         cri.setType(type);
-		      }
-		      
-		      int total = boardService.getTotal(cri);
-		      
-		      return total;
-		   }
-	
+   
 }
