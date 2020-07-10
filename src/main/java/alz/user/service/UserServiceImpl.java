@@ -55,7 +55,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public UserDTO updateById(UserDTO user) {
 		UserDTO searchedUser = userMapper.selectById(user);
-		searchedUser.setNickName(user.getNickName()).setPassword(user.getPassword())
+		searchedUser.setNickname(user.getNickname()).setPassword(user.getPassword())
 					.setRole(user.getRole()).setCertificationState(user.getCertificationState())
 					.setModifiedAt(user.getModifiedAt()).setIntroduce(user.getIntroduce())
 					.setLikeCnt(user.getLikeCnt()).setBoardCnt(user.getBoardCnt())

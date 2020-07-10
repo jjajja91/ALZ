@@ -27,7 +27,7 @@
 				<tr>
 					<td>NICKNAME</td>
 					<td>
-						<input name="nickName" placeholder="NICKName" maxlength="10" autocomplete="off">
+						<input name="nickname" placeholder="NICKName" maxlength="10" autocomplete="off">
 					</td>
 				</tr>
 				<tr>

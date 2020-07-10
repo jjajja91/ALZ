@@ -7,7 +7,7 @@
 	<select id="selectAll" resultType="alz.user.domain.UserDTO">
 		<![CDATA[
 			SELECT
-			users.id, email, nick_Name nickName, password, role, certification_State certificationState, recentlog_At recentlogAt, modified_At modifiedAt, introduce, like_Cnt likeCnt, board_Cnt boardCnt, reserv_Cnt reservCnt, comment_Cnt commentCnt, state, start_At startAt, end_At endAt 
+			users.id, email, nickname nickName, password, role, certification_State certificationState, recentlog_At recentlogAt, modified_At modifiedAt, introduce, like_Cnt likeCnt, board_Cnt boardCnt, reserv_Cnt reservCnt, comment_Cnt commentCnt, state, start_At startAt, end_At endAt 
 			FROM
 			alz_user users LEFT OUTER JOIN alz_user_state state on
 			users.id = state.id
@@ -20,8 +20,8 @@
 	resultType="long">
 		SELECT alz_user_seq.nextval FROM dual
 	</selectKey>
-		INSERT INTO ALZ_USER (ID, EMAIL, NICK_NAME, PASSWORD, ROLE, INTRODUCE)
-		VALUES(#{id}, #{email}, #{nickName}, #{password}, '1', #{introduce})
+		INSERT INTO ALZ_USER (ID, EMAIL, NICKNAME, PASSWORD, ROLE, INTRODUCE)
+		VALUES(#{id}, #{email}, #{nickname}, #{password}, '1', #{introduce})
 		<!-- INSERT INTO ALZ_USER (ID, EMAIL, NICK_NAME, PASSWORD, ROLE, CERTIFICATION_STATE, RECENTLOG_AT, MODIFIED_AT,MODIFIED_AT, INTRODUCE)
 		VALUES(#{id}, #{email}, #{nickName}, #{password}, #{role}, #{certificationState}, sysdate, #{modifiedAt},sysdate, #{introduce})
 	
@@ -52,7 +52,7 @@
 	
 	<update id="updateById">
 		UPDATE alz_user
-		SET nick_Name = #{nickName},
+		SET nickname = #{nickname},
 		password = #{password},
 		introduce = #{introduce}
 		WHERE email = #{email}

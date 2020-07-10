@@ -19,7 +19,7 @@
 				<tr>
 					<td>NICKNAME</td>
 					<td>
-						${sessionUser.nickName}
+						${sessionUser.nickname}
 					</td>
 				</tr>
 				<tr>
@@ -32,7 +32,7 @@
 		
 		<hr>
 		
-		<a href="/portal">메인 페이지 이동</a>	<br>
+		<a href="/">메인 페이지 이동</a>	<br>
 		
 		
 </body>
