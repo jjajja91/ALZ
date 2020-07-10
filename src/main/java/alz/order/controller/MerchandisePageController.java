@@ -55,7 +55,6 @@ public class MerchandisePageController {
 
 		log.info("total: " + total);
 
-		System.out.println("11");
 		model.addAttribute("pageMaker", new MerchandisePageDTO(cri, total));
 	}
 
@@ -118,18 +117,20 @@ public class MerchandisePageController {
 	}
 
 	@PostMapping("/cartInsert.do")
-	public String addCart(@ModelAttribute CartDTO cart, @RequestParam("id") Long id,  UserDTO user, Model model) {
+	public String addCart(@ModelAttribute CartDTO cart, @RequestParam("id") Long id, Model model) {
 
-		long userId = 1;
+		long userId = 1L;
 		cart.setUserId(userId);
 		cart.setMerchandiseId(id);
-		// 장바구니에 기존 상품이 있는지 검사
-//		int count = merchandiseService.countCart(cart.getGdsNum(), userId);
-//		if(count == 0){		
-//			// 없으면 insert
+//		 장바구니에 기존 상품이 있는지 검사
+		int count = merchandiseService.countCart(cart.getMerchandiseId(), userId);
+		if(count == 0){		
+//			 없으면 insert
 			merchandiseService.insertCart(cart);
-//		} else {
-//			// 있으면 update
+		} 
+// ..수량 변경할 필요가 없으므로 생략.
+//		else {
+//			 있으면 update
 //			merchandiseService.updateCart(cart);
 //		}
 		return "redirect:/merchandise/list.do";

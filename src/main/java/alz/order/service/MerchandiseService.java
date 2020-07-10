@@ -28,19 +28,19 @@ public interface MerchandiseService {
 	public void insertCart(CartDTO cart);
 
 	// 2. 장바구니 목록
-	List<CartDTO> listCart(long id);
+	List<CartDTO> listCart(long userId);
 
 	// 3. 장바구니 삭제
-	public void deleteCart(long cartNum);
+	public void deleteCart(long cartId);
 
 	// 4. 장바구니 수정
 	public void modifyCart(CartDTO cart);
 
 	// 5. 장바구니 금액 합계
-	public int sumMoney(long id);
+	public int sumMoney(long userId);
 
 	// 6. 장바구니 상품확인
-	public int countCart(long gdsNum, long id);
+	public int countCart(long merchandiseId, long userId);
 
 	// 7. 장바구니 상품수량 변경
 	public void updateCart(CartDTO cart);
