@@ -5,7 +5,7 @@
 <%@include file="../includes/header.jsp"%>
 
 <div class="container">
-	<h1 class="page-header">Board</h1>
+   <h1 class="page-header">Board</h1>
 </div>
 
 <div class="container">     

@@ -110,4 +110,6 @@ public class BoardApiController {
 		return ResponseEntity.status(HttpStatus.OK).body("ok");
 	}
 	
+
+	
 }
