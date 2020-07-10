@@ -8,6 +8,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import alz.order.domain.CartDTO;
 import alz.order.domain.MerchandiseCriteria;
 import alz.order.domain.MerchandiseDTO;
 import alz.order.mapper.MerchandiseMapper;
@@ -90,6 +91,45 @@ public class MerchandiseServiceImpl implements MerchandiseService {
 		log.info("get total count");
 		
 		return merchandiseMapper.getTotalCount(cri);
+	}
+
+
+	@Override
+	public void insertCart(CartDTO cart) {
+		merchandiseMapper.insertCart(cart);
+		
+	}
+
+	@Override
+	public List<CartDTO> listCart(long id) {
+		return merchandiseMapper.listCart(id);
+	}
+
+	@Override
+	public void deleteCart(long cartNum) {
+		merchandiseMapper.deleteCart(cartNum);
+		
+	}
+
+	@Override
+	public void modifyCart(CartDTO cart) {
+		merchandiseMapper.modifyCart(cart);
+		
+	}
+
+	@Override
+	public int sumMoney(long id) {
+		return merchandiseMapper.sumMoney(id);
+	}
+
+	@Override
+	public int countCart(long gdsNum, long id) {
+		return merchandiseMapper.countCart(gdsNum, id);
+	}
+
+	@Override
+	public void updateCart(CartDTO cart) {
+		merchandiseMapper.updateCart(cart);
 	}
 
 
