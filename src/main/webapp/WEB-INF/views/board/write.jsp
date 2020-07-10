@@ -105,6 +105,7 @@
    <div class="container">
       <h2>Board Write</h2>
 
+
       <form role="form" action="/board/write" method="post">
          <div class="form-group">
             <label for="title">title:</label> 
@@ -145,11 +146,19 @@
 
 
 $(document).ready(function(e){
+		var $title = $("input[name=title]");
+		var $content = $("textarea[name=content]");
+		var inputData = {
+			title: $title,
+			content: $content
+		};
+		var $writer = $("input[name=writerId]");
+		var $boardType = $("input[name=typeId]");
+		var $summernote = $('#summernote');
 	
-
    /*  var $summernote = $('#summernote'); */
    
-		$('#summernote').summernote({
+		$summernote.summernote({
 				placeholder : 'content',
 				minHeight : 370,
 				maxHeight : null,
@@ -206,96 +215,156 @@ $(document).ready(function(e){
            });
         });
   
-   var formObj = $("form[role='form']");
-   
-   $("button[type='submit']").on("click", function(e){
-      e.preventDefault();
-      console.log("submit clicked");
-      
-      var str = "";
-      
-      $(".uploadResult ul li").each(function(i, obj){
-         var jobj = $(obj);
-         console.dir(jobj);
-         
-         str += "<input type='hidden' name='fileList["+i+"].fileName' value='"+jobj.data("filename")+"'>";
-         str += "<input type='hidden' name='fileList["+i+"].uuid' value='"+jobj.data("uuid")+"'>";
-         str += "<input type='hidden' name='fileList["+i+"].uploadPath' value='"+jobj.data("path")+"'>";
-         str += "<input type='hidden' name='fileList["+i+"].fileType' value='"+jobj.data("type")+"'>";
-      });
-      formObj.append(str).submit();
-   });
-   
-   var regex = new RegExp("(.*?)\.(exe|sh|zip|alz)$");
-   var maxSize = 5242880;
-   
-   function checkExtension(fileName, fileSize) {
-      if(fileSize >= maxSize){
-         alert("파일 사이즈 초과");
-         return false;
-      }
-      
-      if(regex.test(fileName)){
-         alert("해당 종류의 파일은 업로드할 수 없습니다.");
-         return false;
-      }
-      return true;
-   }
-   
-   function showUploadResult(uploadResultArr) {
-      if(!uploadResultArr||uploadResultArr.length==0){return;}
-      var uploadUL = $(".uploadResult ul");
-      var str = "";
-      var imgstr = "";
-      
-      $(uploadResultArr).each(function(i, obj){
-         if(obj.image){
-            var fileCallPath = encodeURIComponent(obj.uploadPath+"/s_"+obj.uuid+"_"+obj.fileName);
-            var imagePath = encodeURIComponent(obj.uploadPath+"/"+obj.uuid+"_"+obj.fileName);
-            str += "<li data-path='"+obj.uploadPath+"'";
-            str += " data-uuid='"+obj.uuid+"' data-filename='"+obj.fileName+"' data-type='"+obj.image+"'><div>";
-            str += "<span> " + obj.fileName+"</span>";
-            str += "<button type='button' data-file=\'"+fileCallPath+"\' data-type='image' class='btn btn-warning btn-circle'><i class='fa fa-times'></i></button><br>";
-            imgstr += "<pr><img src='/file/display?fileName="+imagePath+"'></pr>";
-            str += "<img src='/file/display?fileName="+fileCallPath+"'>";
-            str += "</div></li>";
-         } else {
-            var fileCallPath = encodeURIComponent(obj.uploadPath+"/"+obj.uuid+"_"+obj.fileName);
-            var fileLink = fileCallPath.replace(new RegExp(/\\/g), "/");
-            
-            str += "<li data-path='"+obj.uploadPath+"'";
-            str += " data-uuid='"+obj.uuid+"' data-filename='"+obj.fileName+"' data-type='"+obj.image+"'><div>";
-            str += "<span> " + obj.fileName+"</span>";
-            str += "<button type='button' data-file=\'"+fileCallPath+"\' data-type='file' class='btn btn-warning btn-circle'><i class='fa fa-times'></i></button><br>";
-            str += "<img src='/resources/img/attach.png'>";
-            str += "</div></li>";
-            
-         }
-      });
-      uploadUL.append(str);
-      $(".card-block").append(imgstr);
-      $summernote.summernote("insertParagraph");
-   }
-   
-   $(".uploadResult").on("click", "button", function(e){
-      console.log("delete file");
-      
-      var targetFile = $(this).data("file");
-      var type = $(this).data("type");
-      var targetLi = $(this).closest("li");
-      
-      $.ajax({
-         url: '/file/deleteFile',
-         data: {fileName: targetFile, type:type},
-         dataType: 'text',
-         type: 'POST',
-         success: function(result){
-            alert(result);
-            targetLi.remove();
-         }
-      });
-   });
-   
+  		$("input[type='file']").change(function(e){
+  			var formData = new FormData();
+  			var inputFile = $("input[name='uploadFile']");
+  			var files = inputFile[0].files;
+  			
+  			for(var i=0; i<files.length; i++){
+  				
+  				if(!checkExtension(files[i].name, files[i].size)){
+  					return false;
+  				}
+  				formData.append("uploadFile", files[i]);
+  			}
+  			
+  			$.ajax({
+  				url: '/file/uploadAjaxAction',
+  				processData: false,
+  				contentType: false,
+  				data: formData,
+  				type: 'POST',
+  				dataType: 'json',
+  				success: function(result){
+  					console.log(result);
+  					showUploadResult(result);
+  				}
+  			});
+  		});
+  
+	var formObj = $("form[role='form']");
+	
+	$("button[type='submit']").on("click", function(e){
+		e.preventDefault();
+		console.log("submit clicked");
+		
+		var fileList = [];
+		
+		$(".uploadResult ul li").each(function(i, obj){
+			var jobj = $(obj);
+			console.dir(jobj);
+			
+			var file = {
+					fileName: jobj.data("filename"),
+					uuid: jobj.data("uuid"),
+					uploadPath: jobj.data("path"),
+					fileType: jobj.data("type")
+			};
+			
+			fileList[i] = file;
+			
+		});
+		
+		var data = {
+				title: $title.val(),
+				content: $content.val(),
+				writerId: $writer.val(),
+				typeId: $boardType.val(),
+				fileList: fileList
+		};
+		console.log(data);
+		boardWriteApi(data)
+		.then(function(response){
+			console.log(response);
+			self.location = "/board/list";
+		})
+		.catch(function(error){
+			var errorMessage = error.responseJSON.defaultMessage;
+			console.log(error.responseJSON);
+			alert(errorMessage);
+			var errorFocus = error.responseJSON.field;
+			inputData[errorFocus].focus();
+		});
+	});
+	
+	function boardWriteApi(data) {
+		  return $.ajax({
+		    url: "/boards",
+		    type: "POST",
+		    data: JSON.stringify(data),
+		    contentType: "application/json",
+		  });
+		}
+	
+	var regex = new RegExp("(.*?)\.(exe|sh|zip|alz)$");
+	var maxSize = 5242880;
+	
+	function checkExtension(fileName, fileSize) {
+		if(fileSize >= maxSize){
+			alert("파일 사이즈 초과");
+			return false;
+		}
+		
+		if(regex.test(fileName)){
+			alert("해당 종류의 파일은 업로드할 수 없습니다.");
+			return false;
+		}
+		return true;
+	}
+	
+	function showUploadResult(uploadResultArr) {
+		if(!uploadResultArr||uploadResultArr.length==0){return;}
+		var uploadUL = $(".uploadResult ul");
+		var str = "";
+		var imgstr = "";
+		
+		$(uploadResultArr).each(function(i, obj){
+			if(obj.image){
+				var fileCallPath = encodeURIComponent(obj.uploadPath+"/s_"+obj.uuid+"_"+obj.fileName);
+				var imagePath = encodeURIComponent(obj.uploadPath+"/"+obj.uuid+"_"+obj.fileName);
+				str += "<li data-path='"+obj.uploadPath+"'";
+				str += " data-uuid='"+obj.uuid+"' data-filename='"+obj.fileName+"' data-type='"+obj.image+"'><div>";
+				str += "<span> " + obj.fileName+"</span>";
+				str += "<button type='button' data-file=\'"+fileCallPath+"\' data-type='image' class='btn btn-warning btn-circle'><i class='fa fa-times'></i></button><br>";
+				imgstr += "<pr><img src='/file/display?fileName="+imagePath+"'></pr>";
+				str += "<img src='/file/display?fileName="+fileCallPath+"'>";
+				str += "</div></li>";
+			} else {
+				var fileCallPath = encodeURIComponent(obj.uploadPath+"/"+obj.uuid+"_"+obj.fileName);
+				var fileLink = fileCallPath.replace(new RegExp(/\\/g), "/");
+				
+				str += "<li data-path='"+obj.uploadPath+"'";
+				str += " data-uuid='"+obj.uuid+"' data-filename='"+obj.fileName+"' data-type='"+obj.image+"'><div>";
+				str += "<span> " + obj.fileName+"</span>";
+				str += "<button type='button' data-file=\'"+fileCallPath+"\' data-type='file' class='btn btn-warning btn-circle'><i class='fa fa-times'></i></button><br>";
+				str += "<img src='/resources/img/attach.png'>";
+				str += "</div></li>";
+				
+			}
+		});
+		uploadUL.append(str);
+		$(".card-block").append(imgstr);
+		$summernote.summernote("insertParagraph");
+	}
+	
+	$(".uploadResult").on("click", "button", function(e){
+		console.log("delete file");
+		
+		var targetFile = $(this).data("file");
+		var type = $(this).data("type");
+		var targetLi = $(this).closest("li");
+		
+		$.ajax({
+			url: '/file/deleteFile',
+			data: {fileName: targetFile, type:type},
+			dataType: 'text',
+			type: 'POST',
+			success: function(result){
+				alert(result);
+				targetLi.remove();
+			}
+		});
+	});
 });
 
 </script>

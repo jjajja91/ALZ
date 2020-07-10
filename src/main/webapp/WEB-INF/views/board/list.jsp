@@ -13,7 +13,6 @@
 	<!-- 검색 -->
 	<div>
 		<div>
-		
 			<select id='type' name='type'>
 				<option value="" <c:out value="${pageMaker.cri.type == null? 'selected':'' }"/>>--</option>
 				<option value="T" <c:out value="${pageMaker.cri.type == 'T'? 'selected':'' }"/>>제목</option>

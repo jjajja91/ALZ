@@ -19,7 +19,6 @@ import lombok.experimental.Accessors;
 public class CommentDTO {
 	
 	private Long id;
-	private Long parentId;
 	private String content;
 	private Date writtenAt;
 	private Date updatedAt;
@@ -28,5 +27,6 @@ public class CommentDTO {
 	private String commentCode;
 	private Long boardId;
 	private Long writerId;
+	private Long depth;
 
 }

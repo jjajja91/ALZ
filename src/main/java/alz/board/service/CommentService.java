@@ -6,7 +6,8 @@ import alz.board.domain.CommentDTO;
 
 public interface CommentService {
 
-	CommentDTO create(CommentDTO comment);
+	int create(CommentDTO comment);
+	int create2(CommentDTO comment);
 
 	CommentDTO readById(Long id);
 

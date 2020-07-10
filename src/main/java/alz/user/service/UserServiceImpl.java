@@ -22,13 +22,27 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public UserDTO create(UserDTO user) {
 		int affectedRowCount = userMapper.insert(user);
-		UserDTO openUser = userMapper.selectById(user.getId());
+		UserDTO openUser = userMapper.selectById(user);
+		
+		if (openUser == null) {
+			System.out.println("Create Fail!!");
+		} else {
+			System.out.println("Create Success!!");
+		}
+		
 		return openUser;
 	}
 
 	@Override
-	public UserDTO readById(Long id) {
-		UserDTO searchedUser = userMapper.selectById(id);
+	public UserDTO readById(UserDTO user) {
+		UserDTO searchedUser = userMapper.selectById(user);
+		
+		if (searchedUser == null) {
+			System.out.println("Login Fail!!");
+		} else {
+			System.out.println("Login Success!!");
+		}
+		
 		return searchedUser;
 	}
 
@@ -39,23 +53,36 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public UserDTO updateById(Long id, UserDTO user) {
-		UserDTO searchedUser = userMapper.selectById(id);
+	public UserDTO updateById(UserDTO user) {
+		UserDTO searchedUser = userMapper.selectById(user);
 		searchedUser.setNickName(user.getNickName()).setPassword(user.getPassword())
 					.setRole(user.getRole()).setCertificationState(user.getCertificationState())
 					.setModifiedAt(user.getModifiedAt()).setIntroduce(user.getIntroduce())
 					.setLikeCnt(user.getLikeCnt()).setBoardCnt(user.getBoardCnt())
 					.setReservCnt(user.getReservCnt()).setCommentCnt(user.getCommentCnt())
 					.setState(user.getState()).setEndAt(user.getEndAt());
-		int affectedRowCount = userMapper.updatedById(searchedUser);
+		int affectedRowCount = userMapper.updateById(searchedUser);
+		
+		if(affectedRowCount == 0 ) {
+			System.out.println("Modify Fail!!");
+		} else {
+			System.out.println("Modify Success!!");
+		}
+		
 		return searchedUser;
 	}
 
 	@Override
-	public int deleteById(Long id) {
-		UserDTO searchedUser = userMapper.selectById(id);
-		int affectedRowCount = userMapper.deleteById(id);
+	public int deleteById(UserDTO user) {
+		UserDTO searchedUser = userMapper.selectById(user);
+		int affectedRowCount = userMapper.deleteById(user);
+		
+		if(affectedRowCount == 0 ) {
+			System.out.println("Delete Fail!!");
+		} else {
+			System.out.println("Delete Success!!");
+		}
+		
 		return affectedRowCount;
 	}
-
 }

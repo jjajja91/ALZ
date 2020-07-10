@@ -115,25 +115,30 @@
 
     <!-- 댓글  -->
 	<div class="container">
-		<div class="panel-body">
-			<ul class="chat">
-				<li class="left clearfix" data-boardId='12'>
-					<div>
-						<div class="header">
-							<strong class="primary-font">user00</strong>
-							<small class="pull-right text-muted">2020-07-03</small>
-						</div>
-						<p>Good job!</p>
-					</div>
-				</li>
-			</ul>
-			
-			<div class="form-group">
-				<textarea class="form-control" name='comment' value='New comment'>
-				</textarea>
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<i class="fa fa-comments fa-fw"></i> 댓글
 			</div>
+			
+			<div class="panel-body">
+				<ul class="chat"> 
+					<li>
+						<strong class="primary-font">user00</strong>
+						<small class="pull-right text-muted">2020-07-03</small>
+						<p>Good job!</p>
+					</li>
+				</ul>
+				
+				<!-- 댓글입력 -->
+				<div>
+					<textarea class="commentText" id="commentContent" name='comment' placeholder='댓글을 남겨보세요'></textarea>
+					<button id="registerCommentBtn">등록</button>
+				</div>
+			</div>
+		
 		</div>
 	</div>
+	
 </div>
 
 <script type="text/javascript" src="/resources/js/comment.js"></script>
@@ -143,8 +148,8 @@
 	$(document).ready(function() {
 	
 
+		var boardId = '<c:out value="${board.id}"/>';
 		(function() {
-			var boardId = '<c:out value="${board.id}"/>';
 
 			$.getJSON("/boards/getFileList", {
 				boardId : boardId
@@ -202,8 +207,7 @@
 			.html("<img src='/file/display?fileName="+fileCallPath+"'>")
 			.animate({width:'100%', height:'100%'}, 1000);	
 		}
-
-
+		
 		var operForm = $("#operForm");
 
 		// 버튼 클릭할때 operForm 전송
@@ -217,15 +221,20 @@
 			operForm.submit();
 		});
 
+		// 댓글 리스트
 		showComment();
 		
 		var commentUL = $(".chat");
 		
-		function showComment() {
-			commentService.getList({boardId:12}, function(list) {
+		// 댓글 리스트
+		function showComment(id) {
+			if(id==null) {
+				id = boardId;
+			}
+			commentService.getList({boardId:id}, function(list) {
 				
 				var str="";
-
+				
 				if(list==null || list.length==0) {
 					commentUL.html("");
 					return;
@@ -236,11 +245,235 @@
 					str += "	<div><div class='header'><strong class='primary-font'>["+list[i].id+"] "+list[i].nickname+"</strong>";
 					str += "		<small class='pull-right text-muted'>" + moment(list[i].writtenAt).format('YYYY-MM-DD')+"</small></div>";
 					str += "		<p>"+list[i].content+"</p></div></li>";
+					str += " <li class='reChat'> "; 
+					for(var j=0; j<list[i].depth; j++) {
+						str += "<ul><li> ";
+					}
+						str += "		<div class='commentDiv'>";
+					if(list[i].writerId==0) {
+						str += " 			<p style='margin:auto'>삭제된 댓글입니다.</p>";
+					} else {
+						str += "			<strong class='primary-font'> 작성자 : "+list[i].writerId+"</strong>";
+						str += "			<div class='commentDropdown'>";
+						str += "				<button class='commentDropBtn' data-toggle='dropdown'>:</button>";
+						str += "				<ul class='dropdown-menu'>";
+						str += "					<li><a class='commentEditBtn'>수정</a></li>";
+						str += "					<li><a class='commentDeleteBtn'>삭제</a></li>";
+						str += "				</ul>";
+						str += "			</div>";
+						str += "			<p style='margin:auto'>"+list[i].content+"</p>";
+						str += "			<small>" + moment(list[i].writtenAt).format('YYYY-MM-DD hh:mm')+"</small>";
+						str += "			<a role='button' class='coCommentBtn'>답글쓰기</a>";
+						str += "			<input type='hidden' class='commentId' id='commentId"+i+"' value='"+list[i].id+"'/>";
+						str += "			<input type='hidden' class='commentDepth' id='commentDepth"+i+"' value='"+list[i].depth+"'/>";
+						str += "			<input type='hidden' class='commentCnt' id='commentCnt"+i+"' value='"+list[i].commentCnt+"'/>";
+					}
+						str += "		</div>";
+					for(var j=0; j<list[i].depth; j++) {
+						str += "	</li></ul>";
+					}
+					str += " </li>";
+					str += "<hr> ";
+					
+
 				}
 				
 				commentUL.html(str);
 			});
+			
 		}
+		
+		// 댓글  드랍다운 수정 클릭시 수정창 보여주기
+		$(document).on("click","a[class='commentEditBtn']", function(e){
+
+			e.preventDefault();
+			// 숨겨둔 댓글 내용 보여줌
+			commentUL.find('p').css("display", "block");
+			
+			var commentId = $(this).parent().parent().parent().parent().find(".commentId").val();
+			var commentP = $(this).parent().parent().parent().parent().find("p");
+			var where= $(this).parent().parent().parent().parent().find("strong");
+			
+			// 수정할 댓글 내용 숨김
+			commentP.css("display", "none");
+			
+			// 수정창, 답댓글 입력창 지우기
+			$(".commentEditDiv").remove();
+			$(".replyDiv").remove();
+
+			var commentEditDiv = document.createElement("div");
+			commentEditDiv.setAttribute("class", "commentEditDiv");
+			 
+			var textAreaEdit = document.createElement("textarea");
+			textAreaEdit.setAttribute("class", "textAreaEdit");
+			textAreaEdit.setAttribute("id", "textAreaEdit");
+			textAreaEdit.innerText = commentP.html();
+			 
+			var reCommentEditBtn = document.createElement("button");
+			reCommentEditBtn.setAttribute("class", "reCommentEditBtn");
+			reCommentEditBtn.innerHTML="수정완료";
+
+			commentEditDiv.appendChild(textAreaEdit);
+			commentEditDiv.appendChild(reCommentEditBtn);
+			 
+			where.after(commentEditDiv);
+			
+			
+		});
+		
+		// 수정 완료 이벤트
+		$(document).on("click","button[class='reCommentEditBtn']", function(e){ 
+
+			//showComment();
+
+			var commentId = $(this).parent().parent().find(".commentId").val();
+			
+			var editVal = {
+					id : commentId,
+					content :  $('#textAreaEdit').val()
+			}
+			
+			editComment(editVal)
+				.then(function(response) {
+					showComment();
+				});
+			
+		});
+
+		// 댓글 수정
+		function editComment(editVal) {
+
+			return $.ajax({
+				type : 'PUT',
+				url : '/comments/' + editVal.id,
+				data : JSON.stringify(editVal),
+				contentType : "application/json; charset=utf-8"
+			}); 
+			
+		}
+		
+		// 댓글 삭제 버튼 이벤트
+		$(document).on("click","a[class='commentDeleteBtn']", function(e){
+
+			var commentId = $(this).parent().parent().parent().parent().find(".commentId").val();
+
+			deleteComment(commentId)
+			.then(function(response) {
+				showComment();
+			});
+			
+		});
+		
+		// 댓글 삭제(진짜 삭제 x 작성자 0으로 바꿔줌)
+		function deleteComment(commentId) {
+
+			return $.ajax({
+				type : 'DELETE',
+				url : '/comments/' + commentId,
+				data : JSON.stringify(commentId),
+				contentType : "application/json; charset=utf-8"
+			}); 
+			
+		}
+		
+		// 답글쓰기 버튼 이벤트
+		$(document).on("click","a[class='coCommentBtn']", function(e){
+			
+			$(".replyDiv").remove();
+			$(".commentEditDiv").remove();
+			 
+			var replyDiv = document.createElement("div");
+			replyDiv.setAttribute("class", "replyDiv");
+			 
+			var textArea = document.createElement("textarea");
+			textArea.setAttribute("class", "replyTextarea");
+			textArea.setAttribute("id", "replyTextarea");
+			textArea.setAttribute("placeholder", "댓글을 입력해주세요");
+			 
+			var reCommentRegBtn = document.createElement("button");
+			reCommentRegBtn.setAttribute("class", "reCommentRegBtn");
+			reCommentRegBtn.innerHTML="답변 등록";
+
+			replyDiv.appendChild(textArea);
+			replyDiv.appendChild(reCommentRegBtn);
+			 
+			e.target.after(replyDiv);
+		});
+		
+		// 답변 등록 버튼 이벤트
+		$(document).on("click","button[class='reCommentRegBtn']", function(e){
+			
+			var commentId = $(this).parent().parent().find(".commentId").val();
+			var commentDepth = $(this).parent().parent().find(".commentDepth").val();
+			var commentCnt = $(this).parent().parent().find(".commentCnt").val();
+			
+			var reCommentValue = { 
+					id : commentId,
+					content :  $('#replyTextarea').val(),
+					commentCnt : commentCnt,
+					boardId : boardId,
+					writerId : "2", // 임시아이디
+					depth : commentDepth,
+			}
+
+			// 대댓글추가
+			addReComment(reCommentValue)
+				.then(function(response) {
+					// 댓글 리스트 새로고침
+					showComment();
+				})
+				.catch(function(error) {
+					console.log("error="+error);
+				});
+			 
+		})
+		
+		// 대댓글 추가
+		function addReComment(comment) {
+
+			return $.ajax({
+				type : 'POST',
+				url : '/comments/reComment',
+				data : JSON.stringify(comment),
+				contentType : "application/json; charset=utf-8"
+			}); 
+		}
+		
+		// 댓글 등록버튼 이벤트
+		$("#registerCommentBtn").on("click", function(e) {
+			
+			var commentValue = {
+					content : $('#commentContent').val(),
+					boardId : boardId,
+					writerId : "2" // 임시아이디
+			};
+			
+			// 댓글추가
+			addComment(commentValue)
+				.then(function(response) {
+					// 댓글 리스트 새로고침
+					showComment();
+					$('#commentContent').val("");
+				})
+				.catch(function(error) {
+					console.log("error="+error);
+				});
+			
+		})
+		
+		// 댓글 추가
+		function addComment(comment) {
+			
+			return $.ajax({
+				type : 'POST',
+				url : '/comments',
+				data : JSON.stringify(comment),
+				contentType : "application/json; charset=utf-8"
+			});
+		}
+		
+		
+		
 	});
 </script>
 </body>

@@ -19,6 +19,7 @@
 			<div class="panel panel-default">
 				<div class="panel-heading">
 					Board List Page
+					<button id='cartBtn' type="button" class="btn btn-xs pull-right">장바구니</button>
 					<button id='regBtn' type="button" class="btn btn-xs pull-right">상품
 						등록</button>
 				</div>
@@ -118,6 +119,16 @@
 
 		</ul>
 	</div>
+	
+	<form id='actionForm' action="/merchandise/list" method='get'>
+		<input type='hidden' name='pageNum' value='${pageMaker.cri.pageNum}'>
+		<input type='hidden' name='amount' value='${pageMaker.cri.amount}'>
+		<input type='hidden' name='type'
+			value='<c:out value="${ pageMaker.cri.type }"/>'> <input
+			type='hidden' name='keyword'
+			value='<c:out value="${ pageMaker.cri.keyword }"/>'>
+	</form>
+	
 </body>
 
 <form id='actionForm' action="/merchandise/list" method='get'>
@@ -133,6 +144,10 @@
 					function() {
 						$('#regBtn').click(function() {
 							location.href = "/merchandise/register";
+						});
+						
+						$('#cartBtn').click(function() {
+							location.href = "/merchandise/list.do";
 						});
 
 						var actionForm = $("#actionForm");

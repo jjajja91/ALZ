@@ -2,9 +2,13 @@ package alz.board.service;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 
 import alz.board.domain.BoardCriteria;
 import alz.board.domain.BoardDTO;
@@ -29,7 +33,6 @@ public class BoardServiceImpl implements BoardService {
 	@Transactional
 	@Override
 	public void create(BoardDTO board) {
-
 		if (board.getParentId() == null) {
 			boardMapper.insert(board);
 		} else if (board.getParentId() == 0) {
@@ -82,7 +85,6 @@ public class BoardServiceImpl implements BoardService {
 		return searchedBoard;
 	}
 
-	@Transactional
 	@Override
 	public boolean update(Long id, BoardDTO board) {
 		log.info("modify....." + board);
