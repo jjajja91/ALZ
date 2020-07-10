@@ -35,6 +35,6 @@
 	
 	<hr>
 		
-	<a href="/portal">메인 페이지 이동</a>
+	<a href="/">메인 페이지 이동</a>
 </body>
 </html>

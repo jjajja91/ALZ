@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ page session="false" %>
+<%-- <%@ page session="false" %> --%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -330,10 +330,20 @@
                             <a href="/callJoin">회원가입</a>
                         </li>
                         <li>
-                            <a href="/callLogin">로그인</a>
+                            <c:if test="${empty sessionUser}">
+								<a href="/callLogin">로그인</a>
+							</c:if>
+							<c:if test="${!empty sessionUser}">
+								<a href="/logout">LOGOUT</a>
+								이메일 : ${sessionUser.email}
+							</c:if>
                         </li>
                         <li>
-                            <a href="">내정보</a>
+	                        <c:if test="${!empty sessionUser}">
+	                            <a href="loggedInfo">내정보</a>
+	                            <!-- <a href="/callModify">MODIFY</a> -->
+	                            <!-- <a href="/deleteById">REMOVE</a> -->
+	                        </c:if>
                         </li>
                     </ul>
                 </li>

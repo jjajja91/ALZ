@@ -1,4 +1,4 @@
-package alz.user.portal;
+package alz.user.controller;
 
 import java.text.DateFormat;
 import java.util.Date;
@@ -21,30 +21,30 @@ import alz.user.domain.UserDTO;
 import alz.user.service.UserService;
 
 @Controller
-public class PortalController {
+public class UserController {
 	
 	@Autowired
 	UserService userService;
 	
-	private static final Logger logger = LoggerFactory.getLogger(PortalController.class);
-	
-	@RequestMapping(value = "/portal", method = RequestMethod.GET)
-	public String login(Locale locale, Model model) {
-		logger.info("Welcome home! The client locale is {}.", locale);
-		
-		Date date = new Date();
-		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
-		
-		String formattedDate = dateFormat.format(date);
-		
-		model.addAttribute("serverTime", formattedDate );
-		
-		return "user/portal/main";
-	}
+//	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
+//	
+//	@RequestMapping(value = "/", method = RequestMethod.GET)
+//	public String login(Locale locale, Model model) {
+//		logger.info("Welcome home! The client locale is {}.", locale);
+//		
+//		Date date = new Date();
+//		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
+//		
+//		String formattedDate = dateFormat.format(date);
+//		
+//		model.addAttribute("serverTime", formattedDate );
+//		
+//		return "home";
+//	}
 
 //	@RequestMapping(value = "/", method = RequestMethod.GET)
 //	public String index() {
-//		return "user/portal/main";
+//		return "home";
 //	}
 	
 	@ModelAttribute("path")
@@ -100,7 +100,7 @@ public class PortalController {
 		
 		userService.create(user);
 		model.addAttribute("email", request.getParameter("email"));
-		model.addAttribute("nickName", request.getParameter("nickName"));
+		model.addAttribute("nickname", request.getParameter("nickname"));
 		model.addAttribute("introduce", request.getParameter("introduce"));
 		
 		return "user/anonymous/joinInfo";

@@ -20,22 +20,22 @@
 				<tr>
 					<td>NICKNAME</td>
 					<td>
-						${user.nickName}
+						${user.nickname}
 					</td>
 				</tr>
-				<tr>
+				<%-- <tr>
 					<td>INTRODUCE</td>
 					<td>
 						${user.introduce}
 					 </td>
-				</tr>
+				</tr> --%>
 			</table>
 		
 		<hr>
 		
 		<P>  The time on the server is ${serverTime}. </P>
 		
-		<a href="/portal">메인 페이지 이동</a>	<br>
+		<a href="/">메인 페이지 이동</a>	<br>
 		
 </body>
 </html>

@@ -2,6 +2,8 @@ package alz.order.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import alz.order.domain.CartDTO;
 import alz.order.domain.MerchandiseCriteria;
 import alz.order.domain.MerchandiseDTO;
@@ -41,7 +43,7 @@ public interface MerchandiseMapper {
 	public int sumMoney(long id);
 
 	// 6. 장바구니 상품확인
-	public int countCart(long gdsNum, long id);
+	public int countCart(@Param("merchandiseId") long merchandiseId, @Param("userId") long userId);
 
 	// 7. 장바구니 상품수량 변경
 	public void updateCart(CartDTO cart);

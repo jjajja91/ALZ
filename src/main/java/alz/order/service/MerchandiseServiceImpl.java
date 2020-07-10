@@ -101,13 +101,13 @@ public class MerchandiseServiceImpl implements MerchandiseService {
 	}
 
 	@Override
-	public List<CartDTO> listCart(long id) {
-		return merchandiseMapper.listCart(id);
+	public List<CartDTO> listCart(long userId) {
+		return merchandiseMapper.listCart(userId);
 	}
 
 	@Override
-	public void deleteCart(long cartNum) {
-		merchandiseMapper.deleteCart(cartNum);
+	public void deleteCart(long cartId) {
+		merchandiseMapper.deleteCart(cartId);
 		
 	}
 
@@ -118,13 +118,13 @@ public class MerchandiseServiceImpl implements MerchandiseService {
 	}
 
 	@Override
-	public int sumMoney(long id) {
-		return merchandiseMapper.sumMoney(id);
+	public int sumMoney(long userId) {
+		return merchandiseMapper.sumMoney(userId);
 	}
 
 	@Override
-	public int countCart(long gdsNum, long id) {
-		return merchandiseMapper.countCart(gdsNum, id);
+	public int countCart(long merchandiseId, long userId) {
+		return merchandiseMapper.countCart(merchandiseId, userId);
 	}
 
 	@Override
