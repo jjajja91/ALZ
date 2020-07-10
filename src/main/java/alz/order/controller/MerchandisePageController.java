@@ -111,13 +111,18 @@ public class MerchandisePageController {
 
 		return "redirect:/merchandise/list" + cri.getListLink();
 	}
+	
+	
+	@GetMapping("/cartList")
+	public void cartList() {
+	}
 
 	@PostMapping("/cartInsert.do")
 	public String addCart(@ModelAttribute CartDTO cart, @RequestParam("id") Long id,  UserDTO user, Model model) {
 
 		long userId = 1;
 		cart.setUserId(userId);
-		cart.setGdsNum(id);
+		cart.setMerchandiseId(id);
 		// 장바구니에 기존 상품이 있는지 검사
 //		int count = merchandiseService.countCart(cart.getGdsNum(), userId);
 //		if(count == 0){		
@@ -128,12 +133,8 @@ public class MerchandisePageController {
 //			merchandiseService.updateCart(cart);
 //		}
 		return "redirect:/merchandise/list.do";
-
 	}
 	
-	@GetMapping("/cartList")
-	public void cartList() {
-	}
 	
 	@RequestMapping("/list.do")
 	public ModelAndView list(@ModelAttribute CartDTO cart, ModelAndView mav){

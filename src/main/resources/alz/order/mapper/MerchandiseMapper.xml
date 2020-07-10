@@ -138,32 +138,32 @@
 	</select>
 
 	<insert id="insertCart" parameterType="alz.order.domain.CartDTO">
-		<selectKey keyProperty="cartNum" order="BEFORE"
+		<selectKey keyProperty="cartId" order="BEFORE"
 			resultType="long">
 			SELECT alz_cart_seq.nextval FROM dual
 		</selectKey>
-		insert into alz_cart (cartNum, userId, gdsNum,
-		cartStock)
+		insert into alz_cart (cart_id, user_Id, merchandise_id,
+		amount)
 		values
-		(#{cartNum}, #{userId}, #{gdsNum}, #{cartStock})
+		(#{cartId}, #{userId}, #{merchandiseId}, #{amount})
 	</insert>
 
 	<select id="countCart" resultType="int">
 		SELECT COUNT(*) FROM alz_cart
-		WHERE userId= #{userId} AND gdsNum = #{gdsNum}
+		WHERE user_Id= #{userId} AND merchandise_id = #{merchandise_id}
 	</select>
 
 	<select id="listCart" resultType="alz.order.domain.CartDTO">
-		SELECT c.CARTNUM, c.USERID,
+		SELECT c.CART_id, c.USER_ID,
 		p.ID
 		, m.NICK_NAME, p.NAME, p.ORIGIN_PRICE
 		FROM alz_user m,
 		alz_merchandise_detail p, alz_cart c
-		WHERE m.id = c.userId
+		WHERE m.id = c.user_Id
 		AND p.id =
-		c.gdsNum
-		AND c.userId = #{userId}
-		ORDER BY c.cartNum
+		c.merchandise_id
+		AND c.user_Id = #{userId}
+		ORDER BY c.cart_id
 	</select>
 
 	<select id="sumMoney" resultType="int">
@@ -171,11 +171,11 @@
 		(sum(ORIGIN_PRICE),
 		0) money
 		FROM alz_cart c, alz_merchandise_detail p
-		WHERE c.gdsNum = p.id
-		AND c.userId = #{userId}
+		WHERE c.merchandise_id = p.id
+		AND c.user_Id = #{userId}
 	</select>
 
 	<delete id="deleteCart">
-		DELETE FROM alz_cart WHERE cartNum = #{cartNum}
+		DELETE FROM alz_cart WHERE cart_ID = #{cartId}
 	</delete>
 </mapper>
