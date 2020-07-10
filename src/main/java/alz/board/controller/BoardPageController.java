@@ -5,9 +5,15 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
+import javax.validation.Valid;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -57,8 +63,6 @@ public class BoardPageController {
 	@PostMapping("/update")
 	public String update(BoardDTO board, @ModelAttribute("cri") BoardCriteria cri, RedirectAttributes rttr) {
 		
-		log.info("안녕");
-		
 		if(boardService.update(board.getId(), board)) {
 			rttr.addFlashAttribute("result", "success");
 		}
@@ -88,22 +92,6 @@ public class BoardPageController {
 	@GetMapping("/write")
 	public void write() {
 		
-	}
-	
-	@PostMapping("/write")
-	public String write(BoardDTO board, RedirectAttributes rttr) {
-		
-		log.info("write: " + board);
-		
-		if(board.getFileList() != null) {
-			board.getFileList().forEach(file -> log.info(file));
-		}
-		
-		boardService.create(board);
-		
-		rttr.addFlashAttribute("result", board.getId());
-		
-		return "redirect:/board/list";
 	}
 	
 	private void deleteFiles(List<BoardFileDTO> fileList) {

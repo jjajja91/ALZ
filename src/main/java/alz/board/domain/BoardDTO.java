@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import alz.file.domain.BoardFileDTO;
 import lombok.AllArgsConstructor;
@@ -25,9 +26,11 @@ import lombok.experimental.Accessors;
 public class BoardDTO {
 	
 	private Long id;
-	@NotBlank
+	@NotBlank(message = "글 제목을 입력해주세요")
+	@Size(min=1, max=100, message="제목은 100자 이내로 입력해주세요")
 	private String title;
-	@NotBlank
+	@NotBlank(message = "글 내용을 입력해주세요")
+	@Size(min=1, max=1000, message="내용은 1000자 이내로 입력해주세요")
 	private String content;
 	private Date writtenAt;
 	private Date updatedAt;
@@ -36,8 +39,10 @@ public class BoardDTO {
 	private Long likeCnt;
 	private Long commentCnt;
 	private Long viewCnt;
+	@NotNull(message = "서버 오류입니다")
 	private Long writerId;
 	private Long parentId;
+	@NotNull(message = "서버 오류입니다")
 	private Long typeId;
 	
 	private List<BoardFileDTO> fileList;

@@ -2,9 +2,13 @@ package alz.board.service;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 
 import alz.board.domain.BoardCriteria;
 import alz.board.domain.BoardDTO;
@@ -29,6 +33,7 @@ public class BoardServiceImpl implements BoardService {
 	@Transactional
 	@Override
 	public void create(BoardDTO board) {
+		
 		boardMapper.insert(board);
 
 		if (board.getFileList() == null || board.getFileList().size() <= 0) {

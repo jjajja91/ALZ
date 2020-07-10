@@ -101,7 +101,8 @@
 
 		<form role="form" action="/board/write" method="post">
 			<div class="form-group">
-				<label for="title">title:</label> <input class="form-control"
+				<label for="title">title:</label>
+				<input class="form-control"
 					rows="1" name="title"></input> <label for="content">content:</label>
 				<textarea id="summernote" name="content"></textarea>
 				<label>Writer:</label> <input class="form-control" rows="1"
@@ -134,6 +135,14 @@
 
 <script>
 $(document).ready(function(e){
+		var $title = $("input[name=title]");
+		var $content = $("textarea[name=content]");
+		var inputData = {
+			title: $title,
+			content: $content
+		};
+		var $writer = $("input[name=writerId]");
+		var $boardType = $("input[name=typeId]");
 		var $summernote = $('#summernote');
 	
 	
@@ -197,19 +206,53 @@ $(document).ready(function(e){
 		e.preventDefault();
 		console.log("submit clicked");
 		
-		var str = "";
+		var fileList = [];
 		
 		$(".uploadResult ul li").each(function(i, obj){
 			var jobj = $(obj);
 			console.dir(jobj);
 			
-			str += "<input type='hidden' name='fileList["+i+"].fileName' value='"+jobj.data("filename")+"'>";
-			str += "<input type='hidden' name='fileList["+i+"].uuid' value='"+jobj.data("uuid")+"'>";
-			str += "<input type='hidden' name='fileList["+i+"].uploadPath' value='"+jobj.data("path")+"'>";
-			str += "<input type='hidden' name='fileList["+i+"].fileType' value='"+jobj.data("type")+"'>";
+			var file = {
+					fileName: jobj.data("filename"),
+					uuid: jobj.data("uuid"),
+					uploadPath: jobj.data("path"),
+					fileType: jobj.data("type")
+			};
+			
+			fileList[i] = file;
+			
 		});
-		formObj.append(str).submit();
+		
+		var data = {
+				title: $title.val(),
+				content: $content.val(),
+				writerId: $writer.val(),
+				typeId: $boardType.val(),
+				fileList: fileList
+		};
+		console.log(data);
+		boardWriteApi(data)
+		.then(function(response){
+			console.log(response);
+			self.location = "/board/list";
+		})
+		.catch(function(error){
+			var errorMessage = error.responseJSON.defaultMessage;
+			console.log(error.responseJSON);
+			alert(errorMessage);
+			var errorFocus = error.responseJSON.field;
+			inputData[errorFocus].focus();
+		});
 	});
+	
+	function boardWriteApi(data) {
+		  return $.ajax({
+		    url: "/boards",
+		    type: "POST",
+		    data: JSON.stringify(data),
+		    contentType: "application/json",
+		  });
+		}
 	
 	var regex = new RegExp("(.*?)\.(exe|sh|zip|alz)$");
 	var maxSize = 5242880;
