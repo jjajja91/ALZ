@@ -151,13 +151,13 @@
 
 	<select id="countCart" resultType="int">
 		SELECT COUNT(*) FROM alz_cart
-		WHERE user_Id= #{userId} AND merchandise_id = #{merchandise_id}
+		WHERE user_Id= #{userId} AND merchandise_id = #{merchandiseId}
 	</select>
 
 	<select id="listCart" resultType="alz.order.domain.CartDTO">
 		SELECT c.CART_id, c.USER_ID,
 		p.ID
-		, m.NICK_NAME, p.NAME, p.ORIGIN_PRICE
+		, m.NICKNAME, p.NAME, p.ORIGIN_PRICE
 		FROM alz_user m,
 		alz_merchandise_detail p, alz_cart c
 		WHERE m.id = c.user_Id
