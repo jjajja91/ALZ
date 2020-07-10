@@ -45,32 +45,26 @@
           select id, title, content, writtenAt, updatedAt, likeCnt, commentCnt, viewCnt, depth, 
                bOrder, writerId, parentId, typeId  
             from (select rownum, rn, id, title, content, writtenAt, updatedAt, likeCnt, commentCnt, 
-                   viewCnt, depth, bOrder, writerId, parentId, typeId 
-                from(select rownum rn, id, title, content, writtenAt, updatedAt, likeCnt, commentCnt, 
+                         viewCnt, depth, bOrder, writerId, parentId, typeId 
+                 from (select rownum rn, id, title, content, writtenAt, updatedAt, likeCnt, commentCnt, 
                             viewCnt, depth, bOrder, writerId, parentId, typeId
                         from (select id, title, content, written_at writtenAt, updated_at updatedAt, 
-                                    like_cnt likeCnt, comment_cnt commentCnt, view_cnt viewCnt, depth, 
-                                    b_order bOrder, writer_id writerId, parent_id parentId, type_id typeId  
-                                from alz_board
-                                start with parent_id = 0
-                                connect by prior id = parent_id
-                                order siblings by b_order desc)
-                        where
-		]]>
-		
-		
-		<include refid="boardCriteria"></include>
-		
-		<![CDATA[
-						  rownum <= #{pageNum} * #{amount} )
-						   start with parentId = 0
-				 		connect by prior id = parentId
-				order siblings by bOrder desc)
-			where rn > (#{pageNum} -1) * #{amount}
-
-					   start with parentId = 0
-					connect by prior id = parentId
-				order siblings by bOrder desc
+                                     like_cnt likeCnt, comment_cnt commentCnt, view_cnt viewCnt, depth, 
+                                     b_order bOrder, writer_id writerId, parent_id parentId, type_id typeId  
+                               from alz_board
+                         start with parent_id = 0
+                         connect by prior id = parent_id
+                              order siblings by b_order desc)
+                     where rownum <= #{pageNum} * #{amount} )
+			)
+		where 		
+		   	]]>
+				<include refid="boardCriteria"></include>
+       <![CDATA[ 
+                      rn > (#{pageNum} -1) * #{amount}
+		start with parentId = 0
+		connect by prior id = parentId
+		order siblings by bOrder desc
 	
 		]]>	
 	</select>

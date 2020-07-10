@@ -5,7 +5,7 @@
 console.log("comment module......................................");
 
 var commentService = (function() {
-	
+
 	function getList(param, callback, error) {
 		
 		var boardId = param.boardId;
@@ -21,6 +21,7 @@ var commentService = (function() {
 					}
 		});
 	}
+	
 	
 	return {
 		getList : getList

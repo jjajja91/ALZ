@@ -2,6 +2,8 @@ package alz.board.service;
 
 import java.util.List;
 
+import org.springframework.validation.BindingResult;
+
 import alz.board.domain.BoardCriteria;
 import alz.board.domain.BoardDTO;
 import alz.file.domain.BoardFileDTO;
