@@ -31,8 +31,8 @@
 						<tr>
 							<td>${row.name }</td>
 							<td>${row.originPrice }</td>
-							<td><a href="/merchandise/delete.do?cartNum=${row.cartNum }">삭제</a></td>
-							<td><input type="hidden" name="count" value="${row.gdsNum}"></td>
+							<td><a href="/merchandise/delete.do?cartNum=${row.cartId }">삭제</a></td>
+							<td><input type="hidden" name="count" value="${row.merchandiseId}"></td>
 						</tr>
 					</c:forEach>
 					<tr>
