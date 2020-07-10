@@ -17,7 +17,7 @@
 				value='<c:out value="${board.title }"/>' readonly="readonly">
 		</div>
 		<div class="form-group">
-			<input name='writerId' value='<c:out value="${board.writerId }"/>'
+			<input name='nickname' value='<c:out value="${board.nickname }"/>'
 				readonly="readonly">
 		</div>
 		<div class="form-group">
@@ -233,7 +233,7 @@
 
 				for(var i=0, len=list.length||0; i<len; i++) {
 					str += "<li class='left clearfix' data-boardId='" + list[i].boardId + "'>";
-					str += "	<div><div class='header'><strong class='primary-font'>["+list[i].id+"] "+list[i].writerId+"</strong>";
+					str += "	<div><div class='header'><strong class='primary-font'>["+list[i].id+"] "+list[i].nickname+"</strong>";
 					str += "		<small class='pull-right text-muted'>" + moment(list[i].writtenAt).format('YYYY-MM-DD')+"</small></div>";
 					str += "		<p>"+list[i].content+"</p></div></li>";
 				}

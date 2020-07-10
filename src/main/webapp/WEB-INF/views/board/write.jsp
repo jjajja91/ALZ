@@ -112,7 +112,7 @@
                 <label for="content">content:</label>
                  <textarea id="summernote" name="content"></textarea>
             <label>Writer:</label>
-             <input class="form-control" rows="1" name="writerId"></input> 
+             <input class="form-control" rows="1" name="nickname"></input> 
                <label>boardType:</label> 
                <input class="form-control" rows="1" name="typeId"></input>
       	<input type='hidden' name='parentId' value='<c:out value="${param.pid}"/>'>
