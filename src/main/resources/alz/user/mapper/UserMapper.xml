@@ -7,7 +7,7 @@
 	<select id="selectAll" resultType="alz.user.domain.UserDTO">
 		<![CDATA[
 			SELECT
-			users.id, email, nickName, password, role, certificationState, recentlogAt, modifiedAt, introduce, likeCnt, boardCnt, reservCnt, commentCnt, state, startAt, endAt 
+			users.id, email, nick_Name nickName, password, role, certification_State certificationState, recentlog_At recentlogAt, modified_At modifiedAt, introduce, like_Cnt likeCnt, board_Cnt boardCnt, reserv_Cnt reservCnt, comment_Cnt commentCnt, state, start_At startAt, end_At endAt 
 			FROM
 			alz_user users LEFT OUTER JOIN alz_user_state state on
 			users.id = state.id
@@ -20,11 +20,13 @@
 	resultType="long">
 		SELECT alz_user_seq.nextval FROM dual
 	</selectKey>
-		INSERT INTO ALZ_USER (ID, EMAIL, NICKNAME, PASSWORD, ROLE, CERTIFICATIONSTATE, <!-- RECENTLOGAT, --><!--  MODIFIEDAT, --><!-- MODIFIEDAT, --> INTRODUCE)
-		VALUES(#{id}, #{email}, #{nickName}, #{password}, #{role}, #{certificationState}, <!-- sysdate, --> <!-- #{modifiedAt}, --><!-- sysdate, --> #{introduce})
+		INSERT INTO ALZ_USER (ID, EMAIL, NICK_NAME, PASSWORD, ROLE, INTRODUCE)
+		VALUES(#{id}, #{email}, #{nickName}, #{password}, '1', #{introduce})
+		<!-- INSERT INTO ALZ_USER (ID, EMAIL, NICK_NAME, PASSWORD, ROLE, CERTIFICATION_STATE, RECENTLOG_AT, MODIFIED_AT,MODIFIED_AT, INTRODUCE)
+		VALUES(#{id}, #{email}, #{nickName}, #{password}, #{role}, #{certificationState}, sysdate, #{modifiedAt},sysdate, #{introduce})
 	
-		INSERT INTO ALZ_USER_STATE(STATE, STARTAT, <!-- ENDAT, --> ENDAT)
-		VALUES(#{state},#{startAt}, <!-- sysdate, --> #{endAt})
+		INSERT INTO ALZ_USER_STATE(STATE, START_AT, END_AT, END_AT)
+		VALUES(#{state},#{startAt}, sysdate, #{endAt}) -->
 	</insert>
 	
 	
@@ -34,18 +36,13 @@
 	resultType="long">
 		SELECT alz_user_seq.nextval FROM dual
 	</selectKey>
-		INSERT INTO ALZ_USER (ID, EMAIL, NICKNAME, PASSWORD, ROLE, CERTIFICATIONSTATE, RECENTLOGAT, MODIFIEDAT,MODIFIEDAT, INTRODUCE, STATE,STARTAT, ENDAT, ENDAT)
+		INSERT INTO ALZ_USER (ID, EMAIL, NICK_NAME NICKNAME, PASSWORD, ROLE, CERTIFICATION_STATE CERTIFICATIONSTATE, RECENTLOG_AT RECENTLOGAT, MODIFIED_AT MODIFIEDAT, MODIFIED_AT MODIFIEDAT, INTRODUCE, STATE, START_AT STARTAT, END_AT ENDAT, END_AT ENDAT)
 		VALUES(#{id}, #{email}, #{nickName}, #{password}, #{role}, #{certificationState}, sysdate, #{modifiedAt},sysdate, #{introduce}, #{likeCnt}, #{boardCnt}, #{reservCnt}, #{commentCnt}, #{state},#{startAt}, sysdate, #{endAt})
 	</insert> -->
 
 
 	<select id="selectById" resultType="alz.user.domain.UserDTO">
-		SELECT
-		users.id, email, nickName, password, role, certificationState, recentlogAt, modifiedAt, introduce, likeCnt, boardCnt, reservCnt, commentCnt, state, startAt, endAt 
-		FROM
-		alz_user users LEFT OUTER JOIN alz_user_state state on
-		users.id = state.id
-		WHERE users.id = #{id}
+		SELECT * FROM alz_user WHERE email = #{email} AND password = #{password}
 	</select>
 	
 	<!-- 값을 다 넣을 때  -->
@@ -53,61 +50,38 @@
 		SELECT * FROM alz_user WHERE id = #{id}
 	</select> -->
 	
-	<select id="selectByEmail" resultType="alz.user.domain.UserDTO">
-		SELECT
-		users.id, email, nickName, password, role, certificationState, recentlogAt, modifiedAt, introduce, likeCnt, boardCnt, reservCnt, commentCnt, state, startAt, endAt 
-		FROM
-		alz_user users LEFT OUTER JOIN alz_user_state state on
-		users.id = state.id
-		WHERE users.email = #{email}
-	</select>
-
-	<update id="updatedById">
+	<update id="updateById">
 		UPDATE alz_user
-		SET nickName = #{nickName},
+		SET nick_Name = #{nickName},
 		password = #{password},
-		role = #{role},
-		certificationState = #{certificationState},
-		<!-- recentlogAt = sysdate, --> <!-- 디폴트값이 시스데이트 이므로 필요없음 -->
-		<!-- modifiedAt = sysdate, --> <!-- 디폴트값이 시스데이트 이므로 필요없음 -->
-		<!-- modifiedAt = #{modifiedAt}, --> <!-- 직접 값을 넣고 싶으면 활성화 -->
 		introduce = #{introduce}
-		WHERE id = #{id}
-		
-		
-		UPDATE alz_user_state
-		SET state = #{state},
-		startAt = sysdate, 
-		endAt = sysdate,
-		<!-- endAt = #{endAt} --> <!-- 직접 값을 넣고 싶으면 활성화 -->
-		WHERE id = #{id}
+		WHERE email = #{email}
 	</update>
 	
 	<!-- 값을 다 넣을 때  -->
 <!-- 	<update id="updatedById">   
 		UPDATE alz_user
-		SET nickName = #{nickName},
+		SET nick_Name = #{nickName},
 		password = #{password},
 		role = #{role},
-		certificationState = #{certificationState},
-		recentlogAt = sysdate, 디폴트값이 시스데이트 이므로 필요없음
-		modifiedAt = sysdate,
-		modifiedAt = #{modifiedAt}, 직접 값을 넣고 싶으면 활성화
+		certification_State = #{certificationState},
+		recentlog_At = sysdate, 디폴트값이 시스데이트 이므로 필요없음
+		modified_At = sysdate,
+		modified_At = #{modifiedAt}, 직접 값을 넣고 싶으면 활성화
 		introduce = #{introduce},
-		likeCnt = #{likeCnt},
-		boardCnt = #{boardCnt},
-		reservCnt = #{reservCnt},
-		commentCnt = #{commentCnt},
+		like_Cnt = #{likeCnt},
+		board_Cnt = #{boardCnt},
+		reserv_Cnt = #{reservCnt},
+		comment_Cnt = #{commentCnt},
 		state = #{state},
-		startAt = sysdate, 
-		endAt = sysdate,
-		endAt = #{endAt} 직접 값을 넣고 싶으면 활성화
+		start_At = sysdate, 
+		end_At = sysdate,
+		end_At = #{endAt} 직접 값을 넣고 싶으면 활성화
 		
 		WHERE id = #{id}
 	</update> -->
 
 	<delete id="deleteById">
-		DELETE FROM alz_user WHERE id = #{id}
-		DELETE FROM alz_user_state WHERE id = #{id}
+		DELETE FROM alz_user WHERE email = #{email}
 	</delete>
 </mapper>
