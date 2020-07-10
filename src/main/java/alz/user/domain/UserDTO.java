@@ -32,5 +32,5 @@ public class UserDTO {
 	private String state;
 	private Date startAt;
 	private Date endAt;
-	
+
 }

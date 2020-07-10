@@ -5,7 +5,7 @@
 <%@include file="../includes/header.jsp"%>
 
 <div class="container">
-	<h1 class="page-header">Board</h1>
+   <h1 class="page-header">Board</h1>
 </div>
 
 <div class="container">     
@@ -48,7 +48,7 @@
 					<td>
 						<a class='read' href='<c:out value="${board.id }"/>'><c:out value="${board.title }" /></a>
 					</td>
-					<td><c:out value="${board.writerId }" /></td>
+					<td><c:out value="${board.nickname }" /></td>
 					<td><fmt:formatDate pattern="yyyy-MM-dd" value="${board.writtenAt }"/></td>
 					<td><c:out value="${board.viewCnt }"/></td>
 				</tr>
@@ -279,9 +279,9 @@
 				
 				title.appendChild(titleA);
 				tr.appendChild(title);
-				var writerId = document.createElement("td");
-				writerId.textContent = board.writerId;
-				tr.appendChild(writerId);
+				var nickname = document.createElement("td");
+				nickname.textContent = board.nickname;
+				tr.appendChild(nickname);
 				
 				var writtenAt = document.createElement("td");
 				writtenAt.textContent = moment(board.writtenAt).format('YYYY-MM-DD'); 

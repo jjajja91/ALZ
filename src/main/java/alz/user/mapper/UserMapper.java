@@ -5,15 +5,16 @@ import java.util.List;
 import alz.user.domain.UserDTO;
 
 public interface UserMapper {
-	
+
 	int insert(UserDTO user);
 	
-	UserDTO selectById(Long id);
+	UserDTO selectById(UserDTO user);
 	
 	List<UserDTO> selectAll();
 	
-	int updatedById(UserDTO user);
+	int updateById(UserDTO user);
 	
-	int deleteById(Long id);
+	int deleteById(UserDTO user);
 
+	
 }

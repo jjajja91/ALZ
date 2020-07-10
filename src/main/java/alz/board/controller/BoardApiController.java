@@ -2,10 +2,14 @@ package alz.board.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,6 +21,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import alz.board.domain.BoardCriteria;
 import alz.board.domain.BoardDTO;
+import alz.board.exceptions.TemporaryServerException;
+import alz.board.exceptions.UnsatisfiedContentException;
 import alz.board.service.BoardService;
 import alz.file.domain.BoardFileDTO;
 
@@ -37,8 +43,14 @@ public class BoardApiController {
 		return ResponseEntity.status(HttpStatus.OK).body(boardFiles);
 	}
 	
-	@PostMapping
-	public ResponseEntity<?> create(@RequestBody BoardDTO board){
+	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<?> create(@RequestBody @Valid BoardDTO board, BindingResult result){
+		if(result.hasErrors()) {
+			FieldError error = result.getFieldError();
+			if(result.getFieldError().getCode().indexOf("NotNull")!=-1)
+				throw new TemporaryServerException(error);
+			else throw new UnsatisfiedContentException(error);
+		}
 		boardService.create(board);
 		return ResponseEntity.status(HttpStatus.CREATED).body(board);
 	}
@@ -61,13 +73,9 @@ public class BoardApiController {
 	public ResponseEntity<?> readAll(@PathVariable String type, 
 									@PathVariable(name="keyword", required = false) String keyword,
 									@PathVariable Integer pageNum, @PathVariable Integer amount) {
+		
 		BoardCriteria cri = new BoardCriteria();
-		
-		cri.setKeyword(keyword);
-		cri.setType(type);
-		cri.setPageNum(pageNum);
-		cri.setAmount(amount);
-		
+		cri.setKeyword(keyword).setType(type).setPageNum(pageNum).setAmount(amount);
 		List<BoardDTO> boards = boardService.readAll(cri);
 		
 		return ResponseEntity.status(HttpStatus.OK).body(boards);
@@ -82,8 +90,7 @@ public class BoardApiController {
 		BoardCriteria cri = new BoardCriteria();
 		
 		if(keyword!=null) {
-			cri.setKeyword(keyword);
-			cri.setType(type);
+			cri.setKeyword(keyword).setType(type);
 		}
 		
 		int total = boardService.getTotal(cri);
@@ -102,5 +109,7 @@ public class BoardApiController {
 		int affectedRowCount = boardService.deleteById(id);
 		return ResponseEntity.status(HttpStatus.OK).body("ok");
 	}
+	
+
 	
 }

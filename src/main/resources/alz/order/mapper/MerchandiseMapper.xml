@@ -6,70 +6,106 @@
 <mapper namespace="alz.order.mapper.MerchandiseMapper">
 
 
-	<insert id="insert" parameterType="alz.order.domain.MerchandiseDTO">
+	<insert id="insert"
+		parameterType="alz.order.domain.MerchandiseDTO">
 		<selectKey keyProperty="id" order="BEFORE" resultType="long">
 			SELECT alz_merchandise_detail_seq.nextval FROM dual
 		</selectKey>
 		INSERT INTO
 		alz_merchandise_detail(
-		ID, CODE_TYPE, NAME, DESCRIPTION, CLOSED_AT,
+		ID, CODE_TYPE, NAME, DESCRIPTION,
+		CLOSED_AT,
 		ORIGIN_PRICE, SALE_PRICE, DISCOUNT_RATE, DISCOUNT_DEADLINE,
 		DISPLAY_STATE, REF_ID, MERCHANDISE_ID
 		)
 		VALUES (
-		#{id}, #{codeType}, #{name}, #{description}, #{closedAt}, 
-		#{originPrice},#{salePrice},#{discountRate}, #{discountDeadline}, 
+		#{id}, #{codeType},
+		#{name}, #{description}, #{closedAt},
+		#{originPrice},#{salePrice},#{discountRate}, #{discountDeadline},
 		#{displayState}, #{refId}, #{merchandiseId}
 		)
 	</insert>
-	
-	<select id="selectById" resultType="alz.order.domain.MerchandiseDTO">
+
+	<select id="selectById"
+		resultType="alz.order.domain.MerchandiseDTO">
 		SELECT * FROM ALZ_MERCHANDISE_DETAIL WHERE id = #{id}
 	</select>
-	
-	<select id="selectAll" resultType="alz.order.domain.MerchandiseDTO">
-		SELECT * FROM ALZ_MERCHANDISE_DETAIL
+
+	<select id="selectAll"
+		resultType="alz.order.domain.MerchandiseDTO">
+
+		SELECT * FROM ALZ_MERCHANDISE_DETAIL order by id
 	</select>
-	
+
 	<update id="updateById"
 		parameterType="alz.order.domain.MerchandiseDTO">
 		UPDATE ALZ_MERCHANDISE_DETAIL
-		SET 
+		SET
 		CODE_TYPE = #{codeType},
 		NAME = #{name},
 		DESCRIPTION = #{description},
-		UPDATED_AT = sysdate,
+		UPDATED_AT
+		= sysdate,
 		CLOSED_AT = #{closedAt},
 		ORIGIN_PRICE = #{originPrice},
-		SALE_PRICE = #{salePrice},
+		SALE_PRICE =
+		#{salePrice},
 		DISCOUNT_RATE = #{discountRate},
-		DISCOUNT_DEADLINE = #{discountDeadline},
-		DISPLAY_STATE = #{displayState}
+		DISCOUNT_DEADLINE =
+		#{discountDeadline},
+		DISPLAY_STATE =
+		#{displayState}
 		WHERE id = #{id}
 	</update>
-	
+
 	<update id="update"
 		parameterType="alz.order.domain.MerchandiseDTO">
 		UPDATE ALZ_MERCHANDISE_DETAIL
-		SET 
+		SET
 		CODE_TYPE = #{codeType},
 		NAME = #{name},
 		DESCRIPTION = #{description},
-		UPDATED_AT = sysdate,
+		UPDATED_AT
+		= sysdate,
 		CLOSED_AT = #{closedAt},
 		ORIGIN_PRICE = #{originPrice},
-		SALE_PRICE = #{salePrice},
+		SALE_PRICE =
+		#{salePrice},
 		DISCOUNT_RATE = #{discountRate},
-		DISCOUNT_DEADLINE = #{discountDeadline},
-		DISPLAY_STATE = #{displayState}
+		DISCOUNT_DEADLINE =
+		#{discountDeadline},
+		DISPLAY_STATE =
+		#{displayState}
 		WHERE id = #{id}
 	</update>
-	
+
 	<delete id="deleteById">
 		DELETE FROM ALZ_MERCHANDISE_DETAIL WHERE id = #{id}
 	</delete>
-	
-	<select id="getListWithPaging" resultType="alz.order.domain.MerchandiseDTO">
+
+
+	<sql id="criteria">
+		<trim prefix="(" suffix=") AND " prefixOverrides="OR">
+			<foreach item='type' collection="typeArr">
+				<trim prefix="OR">
+					<choose>
+						<when test="type == 'T'.toString()">
+							CODE_TYPE like '%'||#{keyword}||'%'
+						</when>
+						<when test="type == 'C'.toString()">
+							name like '%'||#{keyword}||'%'
+						</when>
+						<when test="type == 'W'.toString()">
+							DESCRIPTION like '%'||#{keyword}||'%'
+						</when>
+					</choose>
+				</trim>
+			</foreach>
+		</trim>
+	</sql>
+
+	<select id="getListWithPaging"
+		resultType="alz.order.domain.MerchandiseDTO">
 	<![CDATA[
   select 
     id, code_Type, name, origin_Price
@@ -80,15 +116,69 @@
       from 
         alz_merchandise_detail
       where 
-      rownum <= #{pageNum} * #{amount}
-      )
-  where rn > (#{pageNum} -1) * #{amount}
+     
   ]]>
-	</select>
+
+		<include refid="criteria"></include>
 	
-	<select id="getTotalCount" resultType="int">
-		SELECT count(*) from alz_merchandise_detail where id > 0
+	<![CDATA[
+		 rownum <= #{pageNum} * #{amount}
+      )
+  		where rn > (#{pageNum} -1) * #{amount}
+  	]]>
+
 	</select>
 
+	<select id="getTotalCount" resultType="int">
+		SELECT count(*) from
+		alz_merchandise_detail where
+
+		<include refid="criteria"></include>
+		id > 0
+
+	</select>
+
+	<insert id="insertCart" parameterType="alz.order.domain.CartDTO">
+		<selectKey keyProperty="cartId" order="BEFORE"
+			resultType="long">
+			SELECT alz_cart_seq.nextval FROM dual
+		</selectKey>
+		insert into alz_cart (cart_id, user_Id, merchandise_id,
+		amount)
+		values
+		(#{cartId}, #{userId}, #{merchandiseId}, #{amount})
+	</insert>
+
+	<select id="countCart" resultType="int">
+		SELECT COUNT(*) FROM alz_cart
+		WHERE user_Id= #{userId} AND merchandise_id = #{merchandise_id}
+	</select>
+
+	<select id="listCart" resultType="alz.order.domain.CartDTO">
+		SELECT c.CART_id, c.USER_ID,
+		p.ID
+		, m.NICK_NAME, p.NAME, p.ORIGIN_PRICE
+		FROM alz_user m,
+		alz_merchandise_detail p, alz_cart c
+		WHERE m.id = c.user_Id
+		AND p.id =
+		c.merchandise_id
+		AND c.user_Id = #{userId}
+		ORDER BY c.cart_id
+	</select>
+
+	<select id="sumMoney" resultType="int">
+		SELECT NVL
+		(sum(ORIGIN_PRICE),
+		0) money
+		FROM alz_cart c, alz_merchandise_detail p
+		WHERE c.merchandise_id = p.id
+		AND c.user_Id = #{userId}
+	</select>
+
+
+	<delete id="deleteCart">
+		DELETE FROM alz_cart WHERE cart_ID = #{cartId}
+	</delete>
 
 </mapper>

@@ -10,6 +10,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import alz.order.domain.MerchandiseDTO;
 import alz.order.domain.OrderDTO;
+import alz.order.service.MerchandiseService;
 import alz.order.service.OrderService;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
@@ -19,12 +20,14 @@ import lombok.extern.log4j.Log4j;
 @AllArgsConstructor
 @RequestMapping("/order/*")
 public class OrderPageController {
-	
+
 	private OrderService orderService;
-	
+	private MerchandiseService merchandiseService;
+
 	@GetMapping("/register")
-	public void register() {}
-	
+	public void register() {
+	}
+
 	@GetMapping("/list")
 	public void list(Model model) {
 
@@ -32,7 +35,7 @@ public class OrderPageController {
 		model.addAttribute("list", orderService.readAll());
 
 	}
-	
+
 	@PostMapping("/register")
 	public String register(OrderDTO order, RedirectAttributes rttr) {
 
@@ -41,10 +44,9 @@ public class OrderPageController {
 		orderService.create(order);
 
 		rttr.addFlashAttribute("result", order.getId());
-		
+
 		return "redirect:/order/list";
 	}
-	
 
 	@GetMapping("/get")
 	public void get(@RequestParam("id") Long id, Model model) {
@@ -52,19 +54,20 @@ public class OrderPageController {
 		log.info("/get");
 		model.addAttribute("orders", orderService.readById(id));
 	}
-	
+
 	@PostMapping("/modify")
 	public String modify(OrderDTO order, RedirectAttributes rttr, Long Long) {
-		
-		log.info("modify:" + order );
-		
+
+		log.info("modify:" + order);
+
 		return "redirect:/order/list";
 	}
-	
+
 	@PostMapping("/order")
-	public void order(Model model) {
-
-
+	public void order(@RequestParam("id") Long id, Model model) {
+		
+		log.info(1234);
+		model.addAttribute("merchandise", merchandiseService.readById(id));
 	}
-	
+
 }
