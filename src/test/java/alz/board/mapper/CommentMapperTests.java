@@ -34,7 +34,6 @@ public class CommentMapperTests {
 			
 			CommentDTO comment = new CommentDTO();
 			//alz_comment_seq.nextval, 3, '댓글1-1-1-1', 1, 00101010101, 12, 1
-			comment.setParentId(4L);
 			comment.setContent("댓글 1-2-1");
 			comment.setCommentCnt(1L);
 			comment.setCommentCode("001010201");
