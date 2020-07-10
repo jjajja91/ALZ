@@ -27,7 +27,7 @@
 				<tr>
 					<td>NICKNAME</td>
 					<td>
-						<input name="nickName" placeholder="NICKName" maxlength="10" autocomplete="off">
+						<input name="nickname" placeholder="Nickname" maxlength="10" autocomplete="off">
 					</td>
 				</tr>
 				<tr>
@@ -42,12 +42,12 @@
 						<input name="memberPwChk" type="password" placeholder="Pw확인" maxlength="10" autocomplete="off">
 					</td>
 				</tr> -->
-				<tr>
+				<!-- <tr>
 					<td>INTRODUCE</td>
 					<td>
 						<input name="introduce" type="text" placeholder="Introduce" maxlength="10" autocomplete="off">
 					</td>
-				</tr>
+				</tr> -->
 	
 				<tr>
 					<td align="center">
@@ -60,6 +60,6 @@
 		
 		<hr>
 		
-		<a href="/portal">메인 페이지 이동</a>
+		<a href="/">메인 페이지 이동</a>
 </body>
 </html>
