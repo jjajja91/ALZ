@@ -6,16 +6,67 @@
 <mapper namespace="alz.board.mapper.CommentMapper">
 
 	<select id="selectAll" resultType="alz.board.domain.CommentDTO">
-		select id, parent_id parentId, content, written_at writtenAt, updated_at updatedAt, like_cnt likeCnt,
-				comment_cnt commentCnt, comment_code commentCode, board_id boardId, writer_id writerId
+		select id, content, written_at writtenAt, updated_at updatedAt, like_cnt likeCnt,
+				comment_cnt commentCnt, comment_code commentCode, board_id boardId, writer_id writerId, depth
 		from alz_comment
 		where board_id = #{id}
 		order by comment_code
 	</select>
+	
+	<select id="selectById" resultType="alz.board.domain.CommentDTO">
+		select id, content, written_at writtenAt, updated_at updatedAt, like_cnt likeCnt,
+				comment_cnt commentCnt, comment_code commentCode, board_id boardId, writer_id writerId, depth
+		from alz_comment
+		where id = #{id}
+	</select>
 
 	<insert id="insert">
-		insert into alz_comment (id, parent_id, content, comment_cnt, comment_code, board_id, writer_id)
-		values (alz_comment_seq.nextval, #{parentId}, #{content}, #{commentCnt}, #{commentCode}, #{boardId}, #{writerId})
+	
+		<selectKey keyProperty="commentCode" order="BEFORE" resultType="String">
+			select lpad(max(comment_code)+1, 2, '0') commentCode
+			from alz_comment
+			where board_id = #{boardId} and depth =0
+		</selectKey>
+		
+		insert into alz_comment (id, content, comment_code, board_id, writer_id)
+		values (alz_comment_seq.nextval, #{content}, #{commentCode}, #{boardId}, #{writerId})
 	</insert>
+	
+	<insert id="insert2">
+	
+		<selectKey keyProperty="commentCode" order="BEFORE" resultType="String">
+			select comment_code|| code
+			from (select LPAD(max(comment_cnt)+1, 2, '0') code
+					from alz_comment
+					where id=#{id} ), alz_comment
+			where id=#{id}
+		</selectKey>
+		
+		insert into alz_comment (id, content, comment_code, board_id, writer_id, depth)
+		values (alz_comment_seq.nextval, #{content}, #{commentCode}, #{boardId}, #{writerId}, #{depth})
+	</insert>
+	
+	<update id="updateCnt">
+	
+		update alz_comment
+		set comment_cnt = #{commentCnt}
+		where id = #{id}
+	
+	</update>
+	
+	<update id="updateById">
+	
+		update alz_comment
+		set content = #{content},
+			updated_at = sysdate
+		where id = #{id}
+		
+	</update>
+	
+	<delete id="deleteById">
+		update alz_comment
+		set writer_id = 0
+		where id = #{id}
+	</delete>
 
 </mapper>

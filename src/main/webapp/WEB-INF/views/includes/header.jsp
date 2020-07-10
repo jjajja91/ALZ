@@ -10,6 +10,34 @@
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 
 <style>
+.commentDiv {
+	width: inherit;
+    position: relative;
+}
+.commentDropBtn {
+    font-weight: bold;
+    border: none;
+    background-color: transparent;
+	position: absolute;
+    left: 95%;
+	top: 0;
+}
+.replyTextarea {
+	width : 80%;
+	resize: none;
+}
+.textAreaEdit {
+	width : 80%;
+	resize: none;
+}
+.commentText {
+	width : 90%;
+	resize: none;
+}
+.chat, .chat li{
+	padding-left: 0px;
+	list-style :none;
+}
 .uploadResult {
 	width: 100%;
 	background-color: gray;
