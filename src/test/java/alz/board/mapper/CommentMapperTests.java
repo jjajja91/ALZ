@@ -38,7 +38,6 @@ public class CommentMapperTests {
 			comment.setCommentCnt(1L);
 			comment.setCommentCode("001010201");
 			comment.setBoardId(12L);
-			comment.setWriterId(1L);
 			
 			commentMapper.insert(comment);
 		});

@@ -31,7 +31,7 @@ public class BoardDTO {
 	private Long likeCnt;
 	private Long commentCnt;
 	private Long viewCnt;
-	private Long writerId;
+	private String nickname;
 	private Long parentId;
 	private Long typeId;
 	

@@ -17,7 +17,7 @@
 				value='<c:out value="${board.title }"/>' readonly="readonly">
 		</div>
 		<div class="form-group">
-			<input name='writerId' value='<c:out value="${board.writerId }"/>'
+			<input name='nickname' value='<c:out value="${board.nickname }"/>'
 				readonly="readonly">
 		</div>
 		<div class="form-group">
@@ -209,10 +209,10 @@
 						str += "<ul><li> ";
 					}
 						str += "		<div class='commentDiv'>";
-					if(list[i].writerId==0) {
+					if(list[i].deleted=="Y") {
 						str += " 			<p style='margin:auto'>삭제된 댓글입니다.</p>";
 					} else {
-						str += "			<strong class='primary-font'> 작성자 : "+list[i].writerId+"</strong>";
+						str += "			<strong class='primary-font'> 작성자 : "+list[i].nickname+"</strong>";
 						str += "			<div class='commentDropdown'>";
 						str += "				<button class='commentDropBtn' data-toggle='dropdown'>:</button>";
 						str += "				<ul class='dropdown-menu'>";
@@ -339,7 +339,7 @@
 			
 			$(".replyDiv").remove();
 			$(".commentEditDiv").remove();
-			 
+			
 			var replyDiv = document.createElement("div");
 			replyDiv.setAttribute("class", "replyDiv");
 			 
@@ -370,7 +370,7 @@
 					content :  $('#replyTextarea').val(),
 					commentCnt : commentCnt,
 					boardId : boardId,
-					writerId : "2", // 임시아이디
+					nickname : "2", // 임시아이디
 					depth : commentDepth,
 			}
 
@@ -403,7 +403,7 @@
 			var commentValue = {
 					content : $('#commentContent').val(),
 					boardId : boardId,
-					writerId : "2" // 임시아이디
+					nickname : "2" // 임시아이디
 			};
 			
 			// 댓글추가

@@ -26,7 +26,8 @@ public class CommentDTO {
 	private Long commentCnt;
 	private String commentCode;
 	private Long boardId;
-	private Long writerId;
+	private String nickname;
 	private Long depth;
+	private String deleted;
 
 }
