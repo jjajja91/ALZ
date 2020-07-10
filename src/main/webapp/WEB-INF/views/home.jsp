@@ -1,11 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%-- <%@ page session="false" %> --%>
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -16,6 +15,11 @@
             src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
             font-weight: normal;
             font-style: normal;
+        }
+
+        .choice {
+            color: #dba531;
+            font-weight: bold;
         }
 
         a {
@@ -89,11 +93,15 @@
             display: none;
             background: #fff;
             text-align: center;
+            padding-bottom: 10px;
         }
 
         .sub li {
-            font-size: 20px;
             margin-top: 10px;
+        }
+
+        .sub li a {
+            font-size: 20px;
         }
 
         .info {
@@ -105,7 +113,7 @@
             justify-content: space-between;
             align-items: center;
             text-align: center;
-            width: 200px;
+            width: 400px;
         }
 
         .info li {
@@ -115,12 +123,14 @@
             font-size: 22px;
         }
 
-        .info1 ul {
-            top: 50px;
+        .info2 {
+            position: relative;
+            width: 300px;
         }
 
         .info2 ul {
-            top: 51px;
+            top: 27px;
+            padding-bottom: 10px;
         }
 
         .slide {
@@ -151,7 +161,6 @@
             height: 500px;
         }
 
-        #searchBtn,
         #myInfoBtn {
             width: 30px;
             height: 30px;
@@ -161,19 +170,20 @@
             margin-top: 10px;
         }
 
-        #myInfoBtn{
+        #myInfoBtn {
             width: 35px;
             height: 35px;
-            margin-top: 7px;
-        }
-
-        #searchBtn {
-
-            background: transparent url("/resources/img/검색2.png") no-repeat center;
-            background-size: contain;
+            position: absolute;
+            right: 10px;
+            bottom: -19px;
         }
 
         #myInfoBtn {
+            background: transparent url("/resources/img/마이.png") no-repeat center;
+            background-size: contain;
+        }
+
+        .info2:hover #myInfoBtn {
             background: transparent url("/resources/img/마이2.png") no-repeat center;
             background-size: contain;
         }
@@ -249,6 +259,94 @@
             background: transparent url("/resources/img/챗봇.png") no-repeat center;
             background-size: contain;
         }
+
+        /* 중단 서치바 관련 */
+        .search-wrapper {
+            position: absolute;
+            top: 45%;
+            width: 100%;
+        }
+
+        .search-div {
+            position: absolute;
+            top: 50%;
+            right: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        /* 검색바 */
+
+        .searchInput {
+            position: absolute;
+            right: -110px;
+            top: -15px;
+            width: 27px;
+            height: 27px;
+            background: none;
+            border-radius: 50%;
+            border: 3px solid #43516c;
+            box-sizing: border-box;
+            outline: none;
+            transition: width 0.4s ease-in-out,
+                border-radius 0.8s ease-in-out,
+                padding 0.2s;
+            transition-delay: 0.4s;
+            color: #43516c;
+            font-family: 'GmarketSansMedium';
+            font-size: 15px;
+        }
+
+        .inclicked {
+            width: 300px;
+            border-radius: 20px;
+            padding: 4px 15px;
+            padding-right: 30px;
+            border: 3px solid #dba531;
+        }
+
+        .searchBtn {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            top: -15px;
+            right: -116px;
+            box-sizing: border-box;
+            background: none;
+            border: none;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .searchBtn::before {
+            content: "";
+            width: 3px;
+            height: 15px;
+            background: #43516c;
+            position: absolute;
+            transform: rotate(-45deg);
+            bottom: 3px;
+            right: 2px;
+            transition: 0.5s;
+        }
+
+        .close::before,
+        .close::after {
+            content: "";
+            width: 3px;
+            height: 15px;
+            background: #dba531;
+            position: absolute;
+            bottom: 19px;
+            right: 19px;
+        }
+
+        .close::before {
+            transform: rotate(-45deg);
+        }
+
+        .close::after {
+            transform: rotate(45deg);
+        }
     </style>
 </head>
 
@@ -282,10 +380,34 @@
                     </a>
                     <ul class="sub">
                         <li>
+                            <a href="/merchandise/list">미술</a>
+                        </li>
+                        <li>
                             <a href="">공예</a>
                         </li>
                         <li>
-                            <a href="">요리</a>
+                            <a href="">디지털드로잉</a>
+                        </li>
+                        <li>
+                            <a href="">사진/영상</a>
+                        </li>
+                        <li>
+                            <a href="">라이프스타일</a>
+                        </li>
+                        <li>
+                            <a href="">뷰티</a>
+                        </li>
+                        <li>
+                            <a href="">요리/음료</a>
+                        </li>
+                        <li>
+                            <a href="">음악</a>
+                        </li>
+                        <li>
+                            <a href="">운동</a>
+                        </li>
+                        <li>
+                            <a href="">댄스</a>
                         </li>
                     </ul>
                 </li>
@@ -293,10 +415,25 @@
                     </a>
                     <ul class="sub">
                         <li>
-                            <a href="">웹개발</a>
+                            <a href="">언어</a>
                         </li>
                         <li>
-                            <a href="">안드로이드</a>
+                            <a href="">직무/커리어</a>
+                        </li>
+                        <li>
+                            <a href="">개발</a>
+                        </li>
+                        <li>
+                            <a href="">디자인</a>
+                        </li>
+                        <li>
+                            <a href="">부업/창업</a>
+                        </li>
+                        <li>
+                            <a href="">자격증</a>
+                        </li>
+                        <li>
+                            <a href="">심리상담</a>
                         </li>
                     </ul>
                 </li>
@@ -308,21 +445,22 @@
                             <a href="/board/list">커뮤니티</a>
                         </li>
                         <li>
-                            <a href="/board/list">후기</a>
+                            <a href="">후기</a>
                         </li>
                         <li>
-                            <a href="/board/list">문의하기</a>
+                            <a href="">문의하기</a>
                         </li>
                     </ul>
                 </li>
             </ul>
             <ul class="info">
-                <li class="info1"><button id="searchBtn"></button>
-                    <ul class="sub">
-                        <li>
-                            <input type="text" name="" id="">
-                        </li>
-                    </ul>
+                <li class="info1">
+                    <div class="middle">
+                        <form class="search-box" action="index.html" method="post">
+                            <input type="text" class="searchInput" name="searchInput" value="">
+                            <button type="button" class="searchBtn" name="searchBtn"></button>
+                        </form>
+                    </div>
                 </li>
                 <li class="info2"><button id="myInfoBtn"></button>
                     <ul class="sub">
@@ -330,20 +468,10 @@
                             <a href="/callJoin">회원가입</a>
                         </li>
                         <li>
-                            <c:if test="${empty sessionUser}">
-								<a href="/callLogin">로그인</a>
-							</c:if>
-							<c:if test="${!empty sessionUser}">
-								<a href="/logout">LOGOUT</a>
-								이메일 : ${sessionUser.email}
-							</c:if>
+                            <a href="/callLogin">로그인</a>
                         </li>
                         <li>
-	                        <c:if test="${!empty sessionUser}">
-	                            <a href="loggedInfo">내정보</a>
-	                            <!-- <a href="/callModify">MODIFY</a> -->
-	                            <!-- <a href="/deleteById">REMOVE</a> -->
-	                        </c:if>
+                            <a href="">마이페이지</a>
                         </li>
                     </ul>
                 </li>
@@ -410,9 +538,13 @@
             var $leftBtn = $("#leftBtn");
             var $rightBtn = $("#rightBtn");
             var $myInfoBtn = $("#myInfoBtn");
+            var $searchBtn = $(".searchBtn");
+            var $searchInput = $(".searchInput");
+
             //호버 드롭다운
             $menus.hover(function (e) {
                 $(this).find("ul").stop().slideToggle();
+                $(this).find("span").toggleClass("choice");
             });
             $infos.hover(function (e) {
                 $(this).find("ul").stop().slideToggle();
@@ -424,6 +556,15 @@
             // 슬라이드 오른쪽
             $rightBtn.click(function (e) {
 
+            });
+
+            // 토글을 위한 제이쿼리(검색바)
+            $searchBtn.on("click", function () {
+                $searchInput.toggleClass("inclicked");
+                $searchBtn.toggleClass("close");
+                if($searchBtn.attr("class") !== "searchBtn close"){
+                    $searchInput.val("");
+                }
             });
         });
     </script>
