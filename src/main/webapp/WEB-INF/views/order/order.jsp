@@ -11,11 +11,13 @@
 </head>
 <body>
 	<div>
+
 		<h2>ORDER</h2>
 		<br>
 
 		<!-- 구매 할 상품의 정보를 불러 온다. -->
 		상품명 : ${merchandise.name }<br> 상품 가격 :${merchandise.originPrice }
+
 	</div>
 	<br>
 	<div>

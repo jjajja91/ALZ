@@ -12,6 +12,7 @@
 	src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 </head>
 <body>
+
 	<div class="row">
 		<div class="col-lg-12">
 			<h1 class="page-header">상품 편집</h1>
@@ -140,6 +141,7 @@
 		<!-- end panel -->
 	</div>
 	<!-- /.row -->
+
 </body>
 
 <script type="text/javascript">
@@ -168,9 +170,11 @@
 										.clone();
 								var amountTag = $("input[name='amount']")
 										.clone();
+
 								var typeTag = $("input[name='type']").clone();
 								var keywordTag = $("input[name='keyword']")
 										.clone();
+
 
 								formObj.empty();
 

@@ -20,4 +20,9 @@ public interface BoardMapper {
 
 	int getTotalCount(BoardCriteria cri);
 
+	int replyInsert(BoardDTO board);
+
+	int rereplyInsert(BoardDTO board);
+	
+	int insertReply(BoardDTO board);
 }

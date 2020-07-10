@@ -131,6 +131,12 @@
 	
 </body>
 
+<form id='actionForm' action="/merchandise/list" method='get'>
+	<input type='hidden' name='pageNum' value='${pageMaker.cri.pageNum}'>
+	<input type='hidden' name='amount' value='${pageMaker.cri.amount}'>
+	<input type='hidden' name='type' value='<c:out value="${ pageMaker.cri.type }"/>'> 
+	<input type='hidden' name='keyword' value='<c:out value="${ pageMaker.cri.keyword }"/>'>
+</form>
 
 <script type="text/javascript">
 	$(document)

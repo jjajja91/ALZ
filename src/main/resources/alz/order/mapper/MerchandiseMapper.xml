@@ -33,6 +33,7 @@
 
 	<select id="selectAll"
 		resultType="alz.order.domain.MerchandiseDTO">
+
 		SELECT * FROM ALZ_MERCHANDISE_DETAIL order by id
 	</select>
 
@@ -175,7 +176,9 @@
 		AND c.userId = #{userId}
 	</select>
 
+
 	<delete id="deleteCart">
 		DELETE FROM alz_cart WHERE cartNum = #{cartNum}
 	</delete>
+
 </mapper>

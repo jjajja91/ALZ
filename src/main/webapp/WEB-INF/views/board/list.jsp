@@ -5,7 +5,7 @@
 <%@include file="../includes/header.jsp"%>
 
 <div class="container">
-	<h1 class="page-header">Board</h1>
+   <h1 class="page-header">Board</h1>
 </div>
 
 <div class="container">     
@@ -13,7 +13,6 @@
 	<!-- 검색 -->
 	<div>
 		<div>
-		
 			<select id='type' name='type'>
 				<option value="" <c:out value="${pageMaker.cri.type == null? 'selected':'' }"/>>--</option>
 				<option value="T" <c:out value="${pageMaker.cri.type == 'T'? 'selected':'' }"/>>제목</option>
