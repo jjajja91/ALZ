@@ -152,7 +152,7 @@ $(document).ready(function(e){
 			title: $title,
 			content: $content
 		};
-		var $writer = $("input[name=writerId]");
+		var $nickname = $("input[name=nickname]");
 		var $boardType = $("input[name=typeId]");
 		var $summernote = $('#summernote');
 	
@@ -169,10 +169,6 @@ $(document).ready(function(e){
 				
 				
 		});
-		$("div[class=note-editor note-frame card]").attr("disableDragAndDrop", "true");
-	
-		
-		$("div[class=note-editable card-block]").attr("disableDragAndDrop", "true");
 		
 		makeFileBtn();
 		
@@ -214,34 +210,7 @@ $(document).ready(function(e){
               }
            });
         });
-  
-  		$("input[type='file']").change(function(e){
-  			var formData = new FormData();
-  			var inputFile = $("input[name='uploadFile']");
-  			var files = inputFile[0].files;
-  			
-  			for(var i=0; i<files.length; i++){
-  				
-  				if(!checkExtension(files[i].name, files[i].size)){
-  					return false;
-  				}
-  				formData.append("uploadFile", files[i]);
-  			}
-  			
-  			$.ajax({
-  				url: '/file/uploadAjaxAction',
-  				processData: false,
-  				contentType: false,
-  				data: formData,
-  				type: 'POST',
-  				dataType: 'json',
-  				success: function(result){
-  					console.log(result);
-  					showUploadResult(result);
-  				}
-  			});
-  		});
-  
+    
 	var formObj = $("form[role='form']");
 	
 	$("button[type='submit']").on("click", function(e){
@@ -268,7 +237,7 @@ $(document).ready(function(e){
 		var data = {
 				title: $title.val(),
 				content: $content.val(),
-				writerId: $writer.val(),
+				nickname: $nickname.val(),
 				typeId: $boardType.val(),
 				fileList: fileList
 		};

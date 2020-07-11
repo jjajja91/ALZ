@@ -38,9 +38,8 @@ public class BoardDTO {
 	private Long likeCnt;
 	private Long commentCnt;
 	private Long viewCnt;
-	private String nickname;
 	@NotNull(message = "서버 오류입니다")
-	private Long writerId;
+	private String nickname;
 	private Long parentId;
 	@NotNull(message = "서버 오류입니다")
 	private Long typeId;
