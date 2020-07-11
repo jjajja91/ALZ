@@ -29,61 +29,48 @@
 	<select id="selectAll" resultType="alz.board.domain.BoardDTO">
 		<![CDATA[
 			select id, title, content, written_at writtenAt, updated_at updatedAt, like_cnt likeCnt, 
-					comment_cnt commentCnt, view_cnt viewCnt, depth, b_order bOrder, nickname, 
+					comment_cnt commentCnt, view_cnt viewCnt, b_order bOrder, nickname, 
 					parent_id parentId, type_id typeId
 			from alz_board 
 			where id > 0
+			
 		]]>
 	</select>
 	
 	<select id="selectWithPaging" resultType="alz.board.domain.BoardDTO">
-		<![CDATA[
-			
-			select id, title, content, writtenAt, updatedAt, likeCnt, commentCnt, viewCnt, depth, 
-				   bOrder, nickname, parentId, typeId  
-			from (select rownum, rn, id, title, content, writtenAt, updatedAt, likeCnt, commentCnt, 
-						 viewCnt, depth, bOrder, nickname, parentId, typeId 
-     			    from (select rownum rn, id, title, content, writtenAt, updatedAt, likeCnt, commentCnt, 
-     			    			 viewCnt, depth, bOrder, nickname, parentId, typeId
-           					from (select id, title, content, written_at writtenAt, updated_at updatedAt, 
-           								 like_cnt likeCnt, comment_cnt commentCnt, view_cnt viewCnt, depth, 
-           								 b_order bOrder, nickname, parent_id parentId, type_id typeId  
-                  					from alz_board order by id desc) 
-            				where 
-		]]>
-		<include refid="boardCriteria"></include>
-		<![CDATA[
-									rownum <= #{pageNum} * #{amount} )
-			      	order by rn desc) 
-			where rn > (#{pageNum} -1) * #{amount} order by id desc
-		]]>
+
+	<![CDATA[
+          select id, title, content, writtenAt, updatedAt, likeCnt, commentCnt, viewCnt,
+               bOrder, nickname, parentId, typeId  
+            from (select rownum, rn, id, title, content, writtenAt, updatedAt, likeCnt, commentCnt, 
+                         viewCnt, bOrder, nickname, parentId, typeId 
+                 from (select rownum rn, id, title, content, writtenAt, updatedAt, likeCnt, commentCnt, 
+                            viewCnt, bOrder, nickname, parentId, typeId
+                        from (select id, title, content, written_at writtenAt, updated_at updatedAt, 
+                                     like_cnt likeCnt, comment_cnt commentCnt, view_cnt viewCnt,
+                                     b_order bOrder, nickname, parent_id parentId, type_id typeId  
+                               from alz_board
+                         start with parent_id = 0
+                         connect by prior id = parent_id
+                              order siblings by b_order desc)
+                     where rownum <= #{pageNum} * #{amount} )
+			)
+		where 		
+		   	]]>
+				<include refid="boardCriteria"></include>
+       <![CDATA[ 
+                      rn > (#{pageNum} -1) * #{amount}
+		start with parentId = 0
+		connect by prior id = parentId
+		order siblings by bOrder desc
+	
+		]]>	
+
 	</select>
 
-	<!-- <select id="selectWithPaging" resultType="alz.board.domain.BoardDTO">
-		<![CDATA[
-			select id, title, content, writtenAt, updatedAt, likeCnt, commentCnt,
-					viewCnt, depth, bOrder, writerId, parentId, typeId
-			from (select /*+INDEX_DESC(alz_board pk_board) */
-						rownum rn, id, title, content, written_at writtenAt, updated_at updatedAt, like_cnt likeCnt, 
-						comment_cnt commentCnt, view_cnt viewCnt, depth, b_order bOrder, writer_id writerId, 
-						parent_id parentId, type_id typeId
-				  from alz_board
-				  where
-		]]>
-		
-		
-		<include refid="boardCriteria"></include>
-		
-		<![CDATA[
-					  rownum <= #{pageNum} * #{amount} 
-				  order by id desc)
-			where rn > (#{pageNum} -1) * #{amount}
-			order by id desc
-		]]>
-	</select> -->
 	<select id="selectById" resultType="alz.board.domain.BoardDTO">
-		select id, title, content, written_at writtenAt, updated_at updatedAt, like_cnt likeCnt, comment_cnt commentCnt,
-					view_cnt viewCnt, depth, b_order bOrder, nickname, parent_id parentId, type_id typeId
+		select id, title, content, written_at writtenAt, updated_at updatedAt, like_cnt likeCnt, 
+		comment_cnt commentCnt, view_cnt viewCnt, b_order bOrder, nickname, parent_id parentId, type_id typeId
 		from alz_board where id = #{id}
 	</select>
 	
@@ -96,14 +83,38 @@
 	</select>
 
 	<insert id="insert">
-		
 		<selectKey keyProperty="id" order="BEFORE" resultType="long">
 			select alz_board_seq.nextval from dual
 		</selectKey>
 		
-		insert into alz_board (id, title, content, nickname, type_id)
-		values (#{id}, #{title}, #{content}, #{nickname}, #{typeId})
+		insert into alz_board (id, title, content, nickname, type_id, parent_id, b_order)
+		values (#{id}, #{title}, #{content}, #{nickname}, #{typeId}, '0', #{id})
+		
 	</insert>
+	
+	<insert id="replyInsert">
+		<selectKey keyProperty="id" order="BEFORE" resultType="long">
+			select alz_board_seq.nextval from dual	
+		</selectKey>	
+		
+		insert into alz_board (id, title, content, nickname, type_id, parent_id, b_order)
+		values (#{id}, #{title}, #{content}, #{nickname}, #{typeId}, #{BOrder}, #{BOrder})
+		
+	</insert>
+	
+	<insert id="rereplyInsert">
+		<selectKey keyProperty="id" order="BEFORE" resultType="long">
+			select alz_board_seq.nextval from dual	
+		</selectKey>	
+		
+		insert into alz_board (id, title, content, nickname, type_id, parent_id, b_order)
+		values (#{id}, #{title}, #{content}, #{nickname}, #{typeId}, #{parentId}, #{BOrder})
+		
+	</insert>
+	
+	<update  id="insertReply" parameterType="alz.board.domain.BoardDTO">
+	    update alz_board set title ='re :'||title where id=#{id} 
+	</update>
 	
 	<delete id="deleteById">
 		delete from alz_board where id = #{id}

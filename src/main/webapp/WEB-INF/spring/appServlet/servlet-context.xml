@@ -1,40 +1,72 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans:beans xmlns="http://www.springframework.org/schema/mvc"
+<beans:beans
+	xmlns="http://www.springframework.org/schema/mvc"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:beans="http://www.springframework.org/schema/beans"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
 	xmlns:jdbc="http://www.springframework.org/schema/jdbc"
-	xsi:schemaLocation="http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-4.3.xsd
-		http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
-		http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
-		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
-		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+	xsi:schemaLocation="http://www.springframework.org/schema/jdbc 
+		http://www.springframework.org/schema/jdbc/spring-jdbc-4.3.xsd
+		http://www.springframework.org/schema/mvc 
+		https://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://mybatis.org/schema/mybatis-spring 
+		http://mybatis.org/schema/mybatis-spring-1.2.xsd
+		http://www.springframework.org/schema/beans 
+		https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context 
+		https://www.springframework.org/schema/context/spring-context.xsd">
 
-	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
-	
+	<!-- DispatcherServlet Context: defines this servlet's request-processing 
+		infrastructure -->
+
 	<!-- Enables the Spring MVC @Controller programming model -->
 	<annotation-driven />
 
-	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
+	<!-- Handles HTTP GET requests for /resources/** by efficiently serving 
+		up static resources in the ${webappRoot}/resources directory -->
 	<resources mapping="/resources/**" location="/resources/" />
 
-	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
-	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+	<!-- Resolves views selected for rendering by @Controllers to .jsp resources 
+		in the /WEB-INF/views directory -->
+	<beans:bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<beans:property name="prefix" value="/WEB-INF/views/" />
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
-	
+
+	<context:component-scan base-package="alz.main.controller" />
 	<context:component-scan base-package="alz.classes.controller" />
 	<context:component-scan base-package="alz.board.controller" />
 	<context:component-scan base-package="alz.order.controller" />
 	<context:component-scan base-package="alz.user.controller" />
 	<context:component-scan base-package="alz.file.controller" />
+
+<!-- ingyo -->
+	<interceptors>
+		<interceptor>
+		<!--특정 페이지만 선언해서 사용할 수 있습니다.--> 
+			<mapping path="/user/users/Modify"/>
+			<mapping path="/user/anonymous/join"/>
+			<mapping path="/user/users/login"/>
+		<!-- 
+			View 의 identity 폴더에 있는 페이지에 접근전 실행되며 예외페이지를 등록할 수 있습니다.
+			<mapping path="/identity/**"/>
+			<exclude-mapping path="/identity/anonymous/join"/>
+			<exclude-mapping path="/identity/anonymous/login"/>
+		-->
+			<beans:bean class="alz.user.interceptor.UserInterceptor"/>
+		</interceptor>
+	</interceptors>
+	
+	<!-- <security:global-method-security pre-post-annotations="enabled" secured-annotations="enabled"/> -->
+<!-- ingyo -->
+
 	
 	<beans:bean id="multipartResolver"
-	class="org.springframework.web.multipart.support.StandardServletMultipartResolver">
+		class="org.springframework.web.multipart.support.StandardServletMultipartResolver">
 	</beans:bean>
-	
-	
-	
+
+
+
 </beans:beans>

@@ -18,7 +18,7 @@ public class UserDTO {
 
 	private Long id;
 	private String email;
-	private String nickName;
+	private String nickname;
 	private String password;
 	private String role;
 	private Integer certificationState;
@@ -32,5 +32,5 @@ public class UserDTO {
 	private String state;
 	private Date startAt;
 	private Date endAt;
-	
+
 }
