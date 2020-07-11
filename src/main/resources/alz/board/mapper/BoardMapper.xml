@@ -18,7 +18,7 @@
 							content like '%'||#{keyword}||'%'
 						</when>
 						<when test="type == 'W'.toString()">
-							writer like '%'||#{keyword}||'%'
+							nickname like '%'||#{keyword}||'%'
 						</when>
 					</choose>
 				</trim>
@@ -29,7 +29,7 @@
 	<select id="selectAll" resultType="alz.board.domain.BoardDTO">
 		<![CDATA[
 			select id, title, content, written_at writtenAt, updated_at updatedAt, like_cnt likeCnt, 
-					comment_cnt commentCnt, view_cnt viewCnt, depth, b_order bOrder, writer_id writerId, 
+					comment_cnt commentCnt, view_cnt viewCnt, depth, b_order bOrder, nickname, 
 					parent_id parentId, type_id typeId
 			from alz_board 
 			where id > 0
@@ -40,14 +40,14 @@
 		<![CDATA[
 			
 			select id, title, content, writtenAt, updatedAt, likeCnt, commentCnt, viewCnt, depth, 
-				   bOrder, writerId, parentId, typeId  
+				   bOrder, nickname, parentId, typeId  
 			from (select rownum, rn, id, title, content, writtenAt, updatedAt, likeCnt, commentCnt, 
-						 viewCnt, depth, bOrder, writerId, parentId, typeId 
+						 viewCnt, depth, bOrder, nickname, parentId, typeId 
      			    from (select rownum rn, id, title, content, writtenAt, updatedAt, likeCnt, commentCnt, 
-     			    			 viewCnt, depth, bOrder, writerId, parentId, typeId
+     			    			 viewCnt, depth, bOrder, nickname, parentId, typeId
            					from (select id, title, content, written_at writtenAt, updated_at updatedAt, 
            								 like_cnt likeCnt, comment_cnt commentCnt, view_cnt viewCnt, depth, 
-           								 b_order bOrder, writer_id writerId, parent_id parentId, type_id typeId  
+           								 b_order bOrder, nickname, parent_id parentId, type_id typeId  
                   					from alz_board order by id desc) 
             				where 
 		]]>
@@ -83,7 +83,7 @@
 	</select> -->
 	<select id="selectById" resultType="alz.board.domain.BoardDTO">
 		select id, title, content, written_at writtenAt, updated_at updatedAt, like_cnt likeCnt, comment_cnt commentCnt,
-					view_cnt viewCnt, depth, b_order bOrder, writer_id writerId, parent_id parentId, type_id typeId
+					view_cnt viewCnt, depth, b_order bOrder, nickname, parent_id parentId, type_id typeId
 		from alz_board where id = #{id}
 	</select>
 	
@@ -101,8 +101,8 @@
 			select alz_board_seq.nextval from dual
 		</selectKey>
 		
-		insert into alz_board (id, title, content, writer_id, type_id)
-		values (#{id}, #{title}, #{content}, #{writerId}, #{typeId})
+		insert into alz_board (id, title, content, nickname, type_id)
+		values (#{id}, #{title}, #{content}, #{nickname}, #{typeId})
 	</insert>
 	
 	<delete id="deleteById">

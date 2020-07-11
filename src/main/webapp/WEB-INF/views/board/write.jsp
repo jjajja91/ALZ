@@ -105,7 +105,7 @@
 					rows="1" name="title"></input> <label for="content">content:</label>
 				<textarea id="summernote" name="content"></textarea>
 				<label>Writer:</label> <input class="form-control" rows="1"
-					name="writerId"></input> <label>boardType:</label> <input
+					name="nickname"></input> <label>boardType:</label> <input
 					class="form-control" rows="1" name="typeId"></input>
 					
 				<div class="row">
