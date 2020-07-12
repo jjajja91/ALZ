@@ -108,8 +108,6 @@
 
 	<div class="container">
 		<h2>Board Write</h2>
-
-		</div>
       <form role="form" action="/board/write" method="post">
          <div class="form-group">
             <label for="title">title:</label> 
@@ -119,28 +117,30 @@
             <label>Writer:</label>
              <input class="form-control" rows="1" name="nickname" value="${sessionUser.nickname}" readonly="readonly"></input> 
                <label>boardType:</label> 
-               <input class="form-control" rows="1" name="typeId"></input>
+               <input class="form-control" rows="1" name="typeId" value="${typeId}" readonly="readonly"></input>
       	<input type="hidden" name="parentId" value='<c:out value="${param.pid}"/>'>
       	  	<input  type="hidden" name="boardOrder" value='<c:out value="${param.boardOrder}"/>'>
       	  	  	<input  type="hidden" name="id" value='<c:out value="${param.id}"/>'>
-            <div class="row">
-               <div class="col-lg-12">
-                  <div class="panel panel-defualt">
-                     <div class="panel-heading">Files</div>
-                     <div class="panel-body">
-                        <div class='uploadResult'>
-                           <ul>
-				</ul>
+           <div class="row">
+					<div class="col-lg-12">
+						<div class="panel panel-defualt">
+							<div class="panel-heading">Files</div>
+							<div class="panel-body">
+								<div class='uploadResult'>
+									<ul>
+
+									</ul>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-
 				<button type="submit" class="btn btn-default">Submit</button>
 				<button type="reset" class="btn btn-default">Reset</button>
 			</div>
 		</form>
+	</div>
+
 
 
 	<script>
@@ -154,7 +154,7 @@
 			content: $content
 		};
 		var $nickname = $("input[name=nickname]");
-		var $boardType = $("input[name=typeId]");
+		var $typeId = $("input[name=typeId]");
 		var $parentId = $("input[name=parentId]");
 		var $boardOrder = $("input[name=boardOrder]");
 		var $id = $("input[name=id]");
@@ -251,7 +251,7 @@
 				title: $title.val(),
 				content: $content.val(),
 				nickname: $nickname.val(),
-				typeId: $boardType.val(),
+				typeId: $typeId.val(),
 				parentId : $parentId.val(),
 				boardOrder : $boardOrder.val(),
 				id : $id.val(),
@@ -262,7 +262,7 @@
 		boardWriteApi(data)
 		.then(function(response){
 			console.log(response);
-			self.location = "/board/list";
+			self.location = "/board/list?typeId="+$typeId.val();
 		})
 		.catch(function(error){
 			var errorMessage = error.responseJSON.defaultMessage;
