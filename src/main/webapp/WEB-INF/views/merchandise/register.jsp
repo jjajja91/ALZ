@@ -92,5 +92,73 @@
 		<!-- end panel -->
 	</div>
 	<!-- /.row -->
+
+
+	<script>
+
+
+$(document).ready(function(e){
+		var $name = $("input[name=name]");
+		var $codeType = $("input[name=codeType]");
+		var $description = $("textarea[name=description]");
+		var $closedAt = $("input[name=closedAt]");
+		var $originPrice = $("input[name=originPrice]");
+		var $displayState = $("input[name=displayState]");
+		var inputData = {
+			name: $name,
+			codeType: $codeType,
+			description: $description,
+			closedAt: $closedAt,
+			originPrice: $originPrice,
+			displayState: $displayState
+		};
+		var $refId = $("input[name=refId]");
+		var $merchandiseId = $("input[name=merchandiseId]");
+
+		var formObj = $("form[role='form']");
+	
+	$("button[type='submit']").on("click", function(e){
+		e.preventDefault();
+		console.log("submit clicked");
+		
+		var data = {
+				name: $name.val(),
+				codeType: $codeType.val(),
+				description: $description.val(),
+				closedAt: $closedAt.val(),
+				originPrice: $originPrice.val(),
+				displayState: $displayState.val(),
+				refId: $refId.val(),
+				merchandiseId: $merchandiseId.val()
+			
+		};
+		console.log(data);
+		merchandiseRegister(data)
+		.then(function(response){
+			console.log(response);
+			self.location = "/merchandise/list";
+		})
+		.catch (function(error){
+			var errorMessage = error.responseJSON.defaultMessage;
+			console.log(error.responseJSON);
+			alert(errorMessage);
+			var errorFocus = error.responseJSON.field;
+			inputData[errorFocus].focus();
+		});
+		
+		function merchandiseRegister(data) {
+			
+		
+			  return $.ajax({
+			    url: "/merchandises",
+			    type: "POST",
+			    data: JSON.stringify(data),
+			    contentType: "application/json",
+			  });
+			}
+	});
+});
+	</script>
+
 </body>
 </html>

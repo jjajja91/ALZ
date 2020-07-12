@@ -19,7 +19,7 @@
 			장바구니가 비어있습니다.
 		</c:when>
 		<c:otherwise>
-			<form name="cartForm" id="cartForm" action="/cart/update.do"
+			<form name="cartForm" id="cartForm" action="/cart/update"
 				method="post">
 				<table border="1">
 					<tr>
@@ -31,7 +31,7 @@
 						<tr>
 							<td>${row.name }</td>
 							<td>${row.originPrice }</td>
-							<td><a href="/merchandise/delete.do?cartNum=${row.cartId }">삭제</a></td>
+							<td><a href="/merchandise/delete?cartNum=${row.cartId }">삭제</a></td>
 							<td><input type="hidden" name="count" value="${row.merchandiseId}"></td>
 						</tr>
 					</c:forEach>

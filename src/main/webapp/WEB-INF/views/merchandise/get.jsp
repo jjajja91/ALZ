@@ -77,7 +77,7 @@
 
 			e.preventDefault();
 
-			formObj.attr("action", "/merchandise/cartInsert.do");
+			formObj.attr("action", "/merchandise/cartInsert");
 
 			formObj.submit();
 

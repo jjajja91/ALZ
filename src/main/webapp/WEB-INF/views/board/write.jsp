@@ -135,6 +135,7 @@
 						</div>
 					</div>
 				</div>
+
 				<button type="submit" class="btn btn-default">Submit</button>
 				<button type="reset" class="btn btn-default">Reset</button>
 			</div>
@@ -190,15 +191,12 @@
 			$("div[class*=toolbar]").append(str);
 		}
 		
-		
-		
         $("input[type='file']").change(function(e){
            	var inputFile = $("input[name='uploadFile']");
             var files = inputFile[0].files;
     		sendFile(files);
         });
         		
-
         function sendFile(files){
         		var formData = new FormData();
         		   for(var i=0; i<files.length; i++){
@@ -274,7 +272,7 @@
 			console.log(response);
 			self.location = "/board/list?typeId="+$typeId.val();
 		})
-		.catch(function(error){
+		.catch (function(error){
 			var errorMessage = error.responseJSON.defaultMessage;
 			console.log(error.responseJSON);
 			alert(errorMessage);

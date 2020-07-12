@@ -2,10 +2,14 @@ package alz.board.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,7 +20,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import alz.board.domain.BoardCriteria;
+import alz.board.domain.BoardDTO;
 import alz.board.domain.CommentDTO;
+import alz.board.exceptions.TemporaryServerException;
+import alz.board.exceptions.UnsatisfiedContentException;
 import alz.board.service.CommentService;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
@@ -33,22 +40,31 @@ public class CommentApiController {
 		this.commentService = commentService;
 	}
 	
-	@PostMapping
-	public ResponseEntity<?> create(@RequestBody CommentDTO comment){
-		int affectedRowCount = commentService.create(comment);
-		if(affectedRowCount!=1) 
-			return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("insert comment failed");
+	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<?> create(@RequestBody @Valid CommentDTO comment, BindingResult result){
+		if(result.hasErrors()) {
+			FieldError error = result.getFieldError();
+			if(result.getFieldError().getCode().indexOf("NotNull")!=-1)
+				throw new TemporaryServerException(error);
+			else throw new UnsatisfiedContentException(error);
+		} else {
+			commentService.create(comment);
+		}
 		
-		return ResponseEntity.status(HttpStatus.CREATED).body("add comment success");
+		return ResponseEntity.status(HttpStatus.CREATED).body(comment);
 	}
 	
-	@PostMapping("/reComment")
-	public ResponseEntity<?> create2(@RequestBody CommentDTO comment){
-		int affectedRowCount = commentService.create2(comment);
-		if(affectedRowCount!=1) 
-			return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("insert comment failed");
-		
-		return ResponseEntity.status(HttpStatus.CREATED).body("add comment success");
+	@PostMapping(value = "/reComment", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<?> create2(@RequestBody @Valid CommentDTO comment, BindingResult result){
+		if(result.hasErrors()) {
+			FieldError error = result.getFieldError();
+			if(result.getFieldError().getCode().indexOf("NotNull")!=-1)
+				throw new TemporaryServerException(error);
+			else throw new UnsatisfiedContentException(error);
+		} else {
+			commentService.create2(comment);
+		}
+		return ResponseEntity.status(HttpStatus.CREATED).body(comment);
 	}
 	
 	@GetMapping()
@@ -64,9 +80,18 @@ public class CommentApiController {
 		return ResponseEntity.status(HttpStatus.OK).body(comments);
 	}
 	
-	@PutMapping("/{id}")
-	public ResponseEntity<?> updateOne(@PathVariable Long id, @RequestBody CommentDTO comment){
-		CommentDTO updatedComment = commentService.updateById(id, comment);
+	@PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<?> updateOne(@PathVariable Long id, @RequestBody @Valid CommentDTO comment, BindingResult result){
+		CommentDTO updatedComment;
+		if(result.hasErrors()) {
+			FieldError error = result.getFieldError();
+			if(result.getFieldError().getCode().indexOf("NotNull")!=-1)
+				throw new TemporaryServerException(error);
+			else throw new UnsatisfiedContentException(error);
+		} else {
+			updatedComment = commentService.updateById(id, comment);
+		}
+
 		return ResponseEntity.status(HttpStatus.OK).body(updatedComment);
 	}
 	

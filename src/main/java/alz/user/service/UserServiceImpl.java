@@ -2,6 +2,9 @@ package alz.user.service;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,7 +13,7 @@ import alz.user.mapper.UserMapper;
 
 @Service
 public class UserServiceImpl implements UserService {
-
+	
 	// mapper 가져와서 사용
 	private UserMapper userMapper;
 
@@ -19,6 +22,18 @@ public class UserServiceImpl implements UserService {
 		this.userMapper = userMapper;
 	}
 
+	@Override
+	public Integer nicknameChk(String nickname) throws Exception {
+		Integer check = userMapper.nicknameChk(nickname);
+		return check;
+	}
+	
+	@Override
+	public Integer emailChk(String email) throws Exception {
+		Integer check = userMapper.emailChk(email);
+		return check;
+	}
+	
 	@Override
 	public UserDTO create(UserDTO user) {
 		int affectedRowCount = userMapper.insert(user);
@@ -73,9 +88,10 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public int deleteById(UserDTO user) {
+	public int deleteById(UserDTO user, HttpServletRequest request) {
 		UserDTO searchedUser = userMapper.selectById(user);
-		int affectedRowCount = userMapper.deleteById(user);
+		int affectedRowCount = userMapper.deleteById(user, request);
+
 		
 		if(affectedRowCount == 0 ) {
 			System.out.println("Delete Fail!!");
