@@ -51,7 +51,7 @@ public class BoardApiController {
 				throw new TemporaryServerException(error);
 			else throw new UnsatisfiedContentException(error);
 		}
-		boardService.create(board);
+			boardService.create(board);
 		return ResponseEntity.status(HttpStatus.CREATED).body(board);
 	}
 	 

@@ -94,6 +94,11 @@ public class BoardPageController {
 		
 	}
 	
+
+	
+	
+	
+	
 	private void deleteFiles(List<BoardFileDTO> fileList) {
 		
 		if(fileList == null || fileList.size()==0) {

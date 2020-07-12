@@ -33,9 +33,9 @@ public class BoardServiceImpl implements BoardService {
 	@Transactional
 	@Override
 	public void create(BoardDTO board) {
-		if (board.getParentId() == null) {
+	  if (board.getParentId() == null) {
 			boardMapper.insert(board);
-		} else if (board.getParentId() == 0) {
+	} else if (board.getParentId() == 0) {
 			boardMapper.replyInsert(board);
 			boardMapper.insertReply(board);
 			

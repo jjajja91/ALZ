@@ -116,9 +116,9 @@
              <input class="form-control" rows="1" name="nickname" value="${sessionUser.nickname}" readonly="readonly"></input> 
                <label>boardType:</label> 
                <input class="form-control" rows="1" name="typeId"></input>
-      	<input type='hidden' name='parentId' value='<c:out value="${param.pid}"/>'>
-      	  	<input type='hidden' name='bOrder' value='<c:out value="${param.border}"/>'>
-      	  	  	<input type='hidden' name='id' value='<c:out value="${param.id}"/>'>
+      	<input type="hidden" name="parentId" value='<c:out value="${param.pid}"/>'>
+      	  	<input  type="hidden" name="boardOrder" value='<c:out value="${param.boardOrder}"/>'>
+      	  	  	<input  type="hidden" name="id" value='<c:out value="${param.id}"/>'>
             <div class="row">
                <div class="col-lg-12">
                   <div class="panel panel-defualt">
@@ -154,7 +154,12 @@ $(document).ready(function(e){
 		};
 		var $nickname = $("input[name=nickname]");
 		var $boardType = $("input[name=typeId]");
+		var $parentId = $("input[name=parentId]");
+		var $boardOrder = $("input[name=boardOrder]");
+		var $id = $("input[name=id]");
+		
 		var $summernote = $('#summernote');
+		
 	
    /*  var $summernote = $('#summernote'); */
    
@@ -246,6 +251,10 @@ $(document).ready(function(e){
 				content: $content.val(),
 				nickname: $nickname.val(),
 				typeId: $boardType.val(),
+				parentId : $parentId.val(),
+				boardOrder : $boardOrder.val(),
+				id : $id.val(),
+				
 				fileList: fileList
 		};
 		console.log(data);
