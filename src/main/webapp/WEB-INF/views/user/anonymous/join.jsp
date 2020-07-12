@@ -20,12 +20,12 @@
             </tr> -->
 			<tr>
 				<td>EMAIL</td>
-				<td><input name="email" type="text" placeholder="EMail">
+				<td><input name="email" type="text" placeholder="email">
 				</td>
 			</tr>
 			<tr>
 				<td>NICKNAME</td>
-				<td><input name="nickname" placeholder="Nickname"
+				<td><input name="nickname" placeholder="nickname"
 					maxlength="10" autocomplete="off"></td>
 			</tr>
 			<tr>

@@ -4,10 +4,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,7 +23,6 @@ import alz.order.domain.MerchandiseCriteria;
 import alz.order.domain.MerchandiseDTO;
 import alz.order.domain.MerchandisePageDTO;
 import alz.order.service.MerchandiseService;
-import alz.user.domain.UserDTO;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
 
@@ -44,6 +45,23 @@ public class MerchandisePageController {
 //		model.addAttribute("list", merchandiseService.readAll());
 //
 //	}
+	
+	@PostMapping("/register")
+	public String register(@ModelAttribute @Valid MerchandiseDTO md, BindingResult result) {
+		// 에러가 있는지 검사
+		if( result.hasErrors() ) {
+
+			// 에러를 List로 저장
+			List<ObjectError> list = result.getAllErrors();
+			for( ObjectError error : list ) {
+				System.out.println(error);
+			}
+			return "/merchandise/register";
+		}
+		
+		merchandiseService.create(md);
+		return "redirect:/merchandise/list";
+	}
 
 	@GetMapping("/list")
 	public void list(MerchandiseCriteria cri, Model model) {
@@ -58,17 +76,17 @@ public class MerchandisePageController {
 		model.addAttribute("pageMaker", new MerchandisePageDTO(cri, total));
 	}
 
-	@PostMapping("/register")
-	public String register(MerchandiseDTO merchandise, RedirectAttributes rttr) {
-
-		log.info("register: " + merchandise);
-
-		merchandiseService.create(merchandise);
-
-		rttr.addFlashAttribute("result", merchandise.getId());
-
-		return "redirect:/merchandise/list";
-	}
+//	@PostMapping("/register")
+//	public String register(MerchandiseDTO merchandise, RedirectAttributes rttr) {
+//
+//		log.info("register: " + merchandise);
+//
+//		merchandiseService.create(merchandise);
+//
+//		rttr.addFlashAttribute("result", merchandise.getId());
+//
+//		return "redirect:/merchandise/list";
+//	}
 
 	@GetMapping({ "/get", "/modify" })
 	public void get(@RequestParam("id") Long id, @ModelAttribute("cri") MerchandiseCriteria cri, Model model) {
@@ -116,7 +134,7 @@ public class MerchandisePageController {
 	public void cartList() {
 	}
 
-	@PostMapping("/cartInsert.do")
+	@PostMapping("/cartInsert")
 	public String addCart(@ModelAttribute CartDTO cart, @RequestParam("id") Long id, Model model) {
 
 		long userId = 1L;
@@ -133,11 +151,11 @@ public class MerchandisePageController {
 //			 있으면 update
 //			merchandiseService.updateCart(cart);
 //		}
-		return "redirect:/merchandise/list.do";
+		return "redirect:/merchandise/cart";
 	}
 	
 	
-	@RequestMapping("/list.do")
+	@GetMapping("/cart")
 	public ModelAndView list(@ModelAttribute CartDTO cart, ModelAndView mav){
 		Map<String, Object> map = new HashMap<String, Object>();
 		long userId = 1;
@@ -159,9 +177,9 @@ public class MerchandisePageController {
 	}
 	
 	// 3. 장바구니 삭제
-		@RequestMapping("delete.do")
+		@GetMapping("delete")
 		public String delete(@RequestParam long cartNum){
 			merchandiseService.deleteCart(cartNum);
-			return "redirect:/merchandise/list.do";
+			return "redirect:/merchandise/cart";
 		}
 }

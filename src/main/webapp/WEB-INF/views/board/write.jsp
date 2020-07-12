@@ -263,7 +263,7 @@
 			console.log(response);
 			self.location = "/board/list?typeId="+$typeId.val();
 		})
-		.catch(function(error){
+		.catch (function(error){
 			var errorMessage = error.responseJSON.defaultMessage;
 			console.log(error.responseJSON);
 			alert(errorMessage);

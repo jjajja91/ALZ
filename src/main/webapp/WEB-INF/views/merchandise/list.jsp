@@ -147,7 +147,7 @@
 						});
 						
 						$('#cartBtn').click(function() {
-							location.href = "/merchandise/list.do";
+							location.href = "/merchandise/cart";
 						});
 
 						var actionForm = $("#actionForm");
