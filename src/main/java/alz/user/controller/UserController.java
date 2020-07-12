@@ -103,29 +103,18 @@ public class UserController {
 	/*----------------------------------------------------------------------------------------*/	
 	@RequestMapping(value = "/create", method = RequestMethod.POST)
 	public String Insert(@RequestBody @Valid @ModelAttribute UserDTO user, Model model, BindingResult result, HttpSession session, HttpServletRequest request) {
-//		if(result.hasErrors()) {
-//			return "user/anonymous/join";
-//		}
 		UserDTO dto = userService.readById(user);
-		session.setAttribute("sessionUser", dto);
 		
-		if(result.hasErrors()) {
-			FieldError error = result.getFieldError();
-			if(result.getFieldError().getCode().indexOf("NotNull")!=-1)
-				throw new TemporaryServerException(error);
-			else throw new UnsatisfiedContentException(error);
+		if (dto != null) {
+//			model.addAttribute("message", "같은 아이디가 있습니다.");
+			System.out.println("같은 회원 정보가 있습니다.");
+			return "user/anonymous/join";
 		}
-
+		
 		userService.create(user);
 		model.addAttribute("email", request.getParameter("email"));
 		model.addAttribute("nickname", request.getParameter("nickname"));
 		model.addAttribute("password", request.getParameter("password"));
-		model.addAttribute("introduce", request.getParameter("introduce"));
-		
-//		if(dto == null) {
-//			System.out.println("회원가입 중 입력값이 형식에 맞지 않습니다.");
-//			return "user/anonymous/join";
-//		}
 		
 		return "user/anonymous/joinInfo";
 	}
@@ -135,13 +124,6 @@ public class UserController {
 		ModelAndView mv = new ModelAndView();
 		HttpSession session = request.getSession();
 		UserDTO dto = userService.updateById(user);
-		
-		if(result.hasErrors()) {
-			FieldError error = result.getFieldError();
-			if(result.getFieldError().getCode().indexOf("NotNull")!=-1)
-				throw new TemporaryServerException(error);
-			else throw new UnsatisfiedContentException(error);
-		}
 		
 		if(dto == null) {
 			mv.setViewName("/user/users/Modify");

@@ -23,18 +23,6 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public Integer nicknameChk(String nickname) throws Exception {
-		Integer check = userMapper.nicknameChk(nickname);
-		return check;
-	}
-	
-	@Override
-	public Integer emailChk(String email) throws Exception {
-		Integer check = userMapper.emailChk(email);
-		return check;
-	}
-	
-	@Override
 	public UserDTO create(UserDTO user) {
 		int affectedRowCount = userMapper.insert(user);
 		UserDTO openUser = userMapper.selectById(user);

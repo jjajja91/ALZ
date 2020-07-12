@@ -22,7 +22,7 @@ public class UserDTO {
 
 	private Long id;
 	@NotBlank(message = "이메일을 입력해주세요")
-//	@Pattern(regexp="^\\w+@[a-zA-Z_]+?\\.[a-zA-Z]{2,3}$", message="이메일 형식에 맞게 작성해주세요.")
+	@Pattern(regexp="^[A-Za-z0-9_\\.\\-]+@[A-Za-z0-9\\-]+\\.[A-Za-z\\-]+{6,12}", message="이메일은 6~12자리 이내의 영어와 숫자를 섞어 작성해주세요.")
 	private String email;
 	@NotBlank(message = "닉네임을 입력해주세요")
 	@Pattern(regexp="^[가-힣ㄱ-ㅎㅏ-ㅣ]*${6,12}", message="닉네임은 6~12자리 이내의 한글로 작성해주세요.")

@@ -18,6 +18,4 @@ public interface UserMapper {
 
 	int deleteById(UserDTO user, HttpServletRequest request);
 
-	Integer nicknameChk(String nickname) throws Exception;
-	Integer emailChk(String email) throws Exception;
 }

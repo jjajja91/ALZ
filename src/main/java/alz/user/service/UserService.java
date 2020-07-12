@@ -16,9 +16,6 @@ public interface UserService {
 
 	UserDTO updateById(UserDTO user);
 
-	Integer nicknameChk(String nickname) throws Exception;
-	Integer emailChk(String email) throws Exception;
-
 	int deleteById(UserDTO user, HttpServletRequest request);
 
 }
