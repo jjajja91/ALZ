@@ -28,10 +28,10 @@ import alz.user.service.UserService;
 
 @Controller
 public class UserController {
-
+	
 	@Autowired
 	UserService userService;
-
+	
 //	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 //	
 //	@RequestMapping(value = "/", method = RequestMethod.GET)
@@ -52,13 +52,13 @@ public class UserController {
 //	public String index() {
 //		return "home";
 //	}
-
+	
 	@ModelAttribute("path")
 	public String getContextPath(HttpServletRequest request) {
 		return request.getContextPath();
 //		/login 을 출력합니다
 	}
-
+	
 	@ModelAttribute("serverTime")
 	public String getServerTime(Locale locale) {
 
@@ -72,26 +72,26 @@ public class UserController {
 	public String callJoin() {
 		return "user/anonymous/join";
 	}
-
+	
 	@RequestMapping(value = "/callLogin", method = RequestMethod.GET)
 	public String calllogin(HttpServletRequest request) {
 		return "user/users/login";
 	}
-
+	
 	@RequestMapping(value = "/callModify", method = RequestMethod.GET)
 	public ModelAndView callUpdate(HttpServletRequest request) {
-
+		
 		HttpSession session = request.getSession();
-		UserDTO user = (UserDTO) session.getAttribute("sessionUser");
-
+		UserDTO user = (UserDTO)session.getAttribute("sessionUser");
+		
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("sessionUser", userService.readById(user));
-
+		
 		mv.setViewName("/user/users/Modify");
-
+		
 		return mv;
 	}
-
+	
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)
 	public String callLogout(UserDTO user, HttpSession session) {
 
@@ -99,99 +99,86 @@ public class UserController {
 
 		return "user/users/logout";
 	}
-
-	/*----------------------------------------------------------------------------------------*/
+	
+	/*----------------------------------------------------------------------------------------*/	
 	@RequestMapping(value = "/create", method = RequestMethod.POST)
-	public String Insert(@RequestBody @Valid @ModelAttribute UserDTO user, Model model, HttpSession session,
-			HttpServletRequest request, BindingResult result) {
+	public String Insert(@RequestBody @Valid @ModelAttribute UserDTO user, Model model, BindingResult result, HttpSession session, HttpServletRequest request) {
 //		if(result.hasErrors()) {
 //			return "user/anonymous/join";
 //		}
 		UserDTO dto = userService.readById(user);
 		session.setAttribute("sessionUser", dto);
-
-		if (result.hasErrors()) {
+		
+		if(result.hasErrors()) {
 			FieldError error = result.getFieldError();
-			if (result.getFieldError().getCode().indexOf("NotNull") != -1)
+			if(result.getFieldError().getCode().indexOf("NotNull")!=-1)
 				throw new TemporaryServerException(error);
-			else
-				throw new UnsatisfiedContentException(error);
-		} else {
-			userService.create(user);
-			model.addAttribute("email", request.getParameter("email"));
-			model.addAttribute("nickname", request.getParameter("nickname"));
-			model.addAttribute("password", request.getParameter("password"));
-			model.addAttribute("introduce", request.getParameter("introduce"));
-
+			else throw new UnsatisfiedContentException(error);
 		}
 
+		userService.create(user);
+		model.addAttribute("email", request.getParameter("email"));
+		model.addAttribute("nickname", request.getParameter("nickname"));
+		model.addAttribute("password", request.getParameter("password"));
+		model.addAttribute("introduce", request.getParameter("introduce"));
+		
 //		if(dto == null) {
 //			System.out.println("회원가입 중 입력값이 형식에 맞지 않습니다.");
 //			return "user/anonymous/join";
 //		}
-
+		
 		return "user/anonymous/joinInfo";
 	}
-
+	
 	@RequestMapping(value = "/updateById", method = RequestMethod.POST)
-	public ModelAndView Modify(@RequestBody @Valid UserDTO user, HttpServletRequest request, BindingResult result) {
+	public ModelAndView Modify(@RequestBody @Valid UserDTO user, BindingResult result, HttpServletRequest request) {
 		ModelAndView mv = new ModelAndView();
 		HttpSession session = request.getSession();
 		UserDTO dto = userService.updateById(user);
-
-		if (result.hasErrors()) {
+		
+		if(result.hasErrors()) {
 			FieldError error = result.getFieldError();
-			if (result.getFieldError().getCode().indexOf("NotNull") != -1)
+			if(result.getFieldError().getCode().indexOf("NotNull")!=-1)
 				throw new TemporaryServerException(error);
-			else
-				throw new UnsatisfiedContentException(error);
-		} else {
-
-			if (dto == null) {
-				mv.setViewName("/user/users/Modify");
-			} else {
-				session.setAttribute("sessionUser", dto);
-				mv.setViewName("/user/users/ModifyInfo");
-			}
+			else throw new UnsatisfiedContentException(error);
 		}
+		
+		if(dto == null) {
+			mv.setViewName("/user/users/Modify");
+		} else { 
+			session.setAttribute("sessionUser", dto);
+			mv.setViewName("/user/users/ModifyInfo");
+		}
+		
 		return mv;
 	}
-
+	
 	@RequestMapping(value = "/deleteById", method = RequestMethod.GET)
 	public String Delete(HttpServletRequest request) {
-
+		
 		HttpSession session = request.getSession();
 		UserDTO user = (UserDTO) session.getAttribute("sessionUser");
-
+		
 		userService.deleteById(user, request);
 		session.invalidate();
-
+		
 		return "user/users/logout";
 	}
-
-	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public String login(@RequestBody @Valid @ModelAttribute UserDTO user, Model model, HttpServletRequest request,
-			HttpSession session, BindingResult result) {
-
+	
+	@RequestMapping(value="/login",method=RequestMethod.POST)
+	public String login(@RequestBody @ModelAttribute UserDTO user, Model model, HttpServletRequest request, HttpSession session) {
+		
 		UserDTO dto = userService.readById(user);
 		session.setAttribute("sessionUser", dto);
-
-		if (result.hasErrors()) {
-			FieldError error = result.getFieldError();
-			if (result.getFieldError().getCode().indexOf("NotNull") != -1)
-				throw new TemporaryServerException(error);
-			else
-				throw new UnsatisfiedContentException(error);
-		} else {
-			userService.readById(user);
-			model.addAttribute("email", request.getParameter("email"));
-		}
-
-		if (dto == null) {
+		
+		userService.readById(user);
+		model.addAttribute("email", request.getParameter("email"));
+		
+		if(dto == null) {
 			System.out.println("로그인 정보가 틀렸습니다.");
 			return "user/users/login";
 		}
-
+		
 		return "user/users/loggedInfo";
 	}
 }
