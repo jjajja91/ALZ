@@ -85,7 +85,7 @@ public class UserController {
 		UserDTO user = (UserDTO)session.getAttribute("sessionUser");
 		
 		ModelAndView mv = new ModelAndView();
-		mv.addObject("sessionUser", userService.readById(user));
+		mv.addObject("sessionUser", userService.readById(user.getId()));
 		
 		mv.setViewName("/user/users/Modify");
 		
@@ -103,7 +103,7 @@ public class UserController {
 	/*----------------------------------------------------------------------------------------*/	
 	@RequestMapping(value = "/create", method = RequestMethod.POST)
 	public String Insert(@RequestBody @Valid @ModelAttribute UserDTO user, Model model, BindingResult result, HttpSession session, HttpServletRequest request) {
-		UserDTO dto = userService.readById(user);
+		UserDTO dto = userService.readById(user.getId());
 		
 		if (dto != null) {
 //			model.addAttribute("message", "같은 아이디가 있습니다.");
@@ -151,10 +151,10 @@ public class UserController {
 	public String login(@RequestBody @ModelAttribute UserDTO user, Model model, HttpServletRequest request,
 			HttpSession session, BindingResult result) {
 
-		UserDTO dto = userService.readById(user);
+		UserDTO dto = userService.readById(user.getId());
 		session.setAttribute("sessionUser", dto);
 
-			userService.readById(user);
+			userService.readById(user.getId());
 			model.addAttribute("email", request.getParameter("email"));
 
 		if (dto == null) {

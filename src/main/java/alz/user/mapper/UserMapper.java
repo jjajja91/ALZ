@@ -11,11 +11,21 @@ public interface UserMapper {
 	int insert(UserDTO user);
 
 	UserDTO selectById(UserDTO user);
+	
+	UserDTO selectById(Long id);
+	
+	UserDTO selectByNickname(String nickname);
+
+	UserDTO selectByEmail(String email);
 
 	List<UserDTO> selectAll();
 
 	int updateById(UserDTO user);
 
 	int deleteById(UserDTO user, HttpServletRequest request);
+	
+	int emailChk(String email);
+
+	int nicknameChk(String nickname);
 
 }
