@@ -100,7 +100,7 @@
 		<button data-oper='update' class="btn btn-default"
 			onclick="location.href='/board/update?id=<c:out value="${board.id}"/>'">수정</button>
 		<button data-oper='list' class="btn btn-info"
-			onclick="location.href='/board/list'">목록</button>
+			onclick="location.href='/board/list?typeId='${board.typeId}">목록</button>
 
 		<form id='operForm' action="/board/modify" method="get">
 			<input type='hidden' id='id' name='id'
@@ -110,10 +110,12 @@
 			<input type='hidden' name='keyword'
 				value='<c:out value="${cri.keyword }"/>'> <input
 				type='hidden' name='type' value='<c:out value="${cri.type }"/>'>
+				<input type='hidden' name='typeId' value='<c:out value="${board.typeId }"/>'>
 		</form>
 	</div>
 
     <!-- 댓글  -->
+    <input type='hidden' name='replyNickname' id='replyNickname' value='${sessionUser.nickname}'>
 	<div class="container">
 		<div class="panel panel-default">
 			<div class="panel-heading">
@@ -303,13 +305,16 @@ console.log(list);
 			e.target.after(replyDiv);
 		});
 
+		var $replyNickname = $("#replyNickname");
+		var $commentContent = $('#commentContent');
+		
 		// 댓글 등록버튼 이벤트
 		$("#registerCommentBtn").on("click", function(e) {
 			
 			var commentValue = {
-					content : $('#commentContent').val(),
+					content : $commentContent.val(),
 					boardId : boardId,
-					nickname : ${sessionUser.nickname} 
+					nickname : $replyNickname.val()
 			};
 			
 			// 댓글추가
@@ -337,7 +342,7 @@ console.log(list);
 					content :  $('#replyTextarea').val(),
 					commentCnt : commentCnt,
 					boardId : boardId,
-					nickname : ${sessionUser.nickname},
+					nickname : $replyNickname.val(),
 					depth : commentDepth,
 			}
 

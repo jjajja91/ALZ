@@ -90,8 +90,8 @@ public class BoardPageController {
 	}
 	
 	@GetMapping("/write")
-	public void write() {
-		
+	public void write(@RequestParam("typeId") Long typeId, Model model) {
+		model.addAttribute("typeId", typeId);
 	}
 	
 

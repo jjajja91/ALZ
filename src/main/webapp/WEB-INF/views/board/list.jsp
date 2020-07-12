@@ -99,7 +99,7 @@
 		
 		// register button
 		$("#writeBtn").on("click", function() {
-			self.location = "/board/write";
+			self.location = "/board/write?typeId="+$typeId.val();
 		});
 		
 		var actionForm = $("#actionForm");
@@ -112,7 +112,8 @@
 					pageNum : $pageNum.val(),
 					amount : $amount.val(),
 					type : $type.val(),
-					keyword : $keyword.val()
+					keyword : $keyword.val(),
+					typeId : $typeId.val()
 				};
 			
 			var targetPageNum = $(this).attr("href");
