@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,7 +30,7 @@ public class MerchandiseApiController {
 		this.merchandiseService = merchandiseService;
 	}
 	
-	@PostMapping
+	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> create(@RequestBody MerchandiseDTO merchandise){
 		MerchandiseDTO displayedMerchandise = merchandiseService.create(merchandise);
 		return ResponseEntity.status(HttpStatus.CREATED).body(displayedMerchandise);

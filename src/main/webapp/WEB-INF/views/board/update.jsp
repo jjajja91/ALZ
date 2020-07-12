@@ -12,7 +12,7 @@
 <div class="container">
 	<div class="panel-body">
 
-		<form id='form' action="/board/update" method="post">
+		<form role="form" action="/board/update" method="post">
 
 			<input type='hidden' name='pageNum'
 				value='<c:out value="${cri.pageNum }"/>'> <input
@@ -20,15 +20,16 @@
 			<input type='hidden' name='keyword'
 				value='<c:out value="${cri.keyword }"/>'> <input
 				type='hidden' name='type' value='<c:out value="${cri.type }"/>'>
+			<input type='hidden' name='typeId' id='typeId' value='<c:out value="${board.typeId }"/>'>
 
-			<input type='hidden' name='id' value='<c:out value="${board.id }"/>'>
+			<input type='hidden' id='id' name='id' value='<c:out value="${board.id }"/>'>
 
 			<div class="form-group">
-				<label>제 목</label> <input class="form-control" name='title'
+				<label>제 목</label> <input class="form-control" id='title' name='title'
 					value='<c:out value="${board.title }"/>'>
 			</div>
 			<div class="form-group">
-				<textarea id="summernote" class="form-control" rows="10" name='content'><c:out value="${board.content }" />
+				<textarea id="summernote" class="form-control content" rows="10" name='content'><c:out value="${board.content }" />
 				</textarea>
 			</div>
 
@@ -52,6 +53,7 @@
 			<button type="submit" data-oper='list' class="btn btn-info">목록</button>
 
 		</form>
+		<input type="hidden" name="nickname" id="nickname" value="${sessionUser.nickname}"/>
 	</div>
 
 </div>
@@ -59,15 +61,51 @@
 <script type="text/javascript">
 	$(document).ready(function() {
 		var $summernote = $('#summernote');
+  		var $id = $("#id");
+  		var $title = $("#title");
+  		var $content = $(".content");
+  		var $nickname = $("#nickname");
+  		var $typeId = $("#typeId");
+		var inputData = {
+				title: $title,
+				content: $content
+			};
 		
 		$summernote.summernote({
 			placeholder : 'content',
 			minHeight : 370,
 			maxHeight : null,
 			focus : true,
-			disableDragAndDrop: true,
-			lang : 'ko-KR'
+			lang : 'ko-KR',
+			
+			callbacks : {
+				onImageUpload: function(files, editor, welEditable) {
+			            sendFile(files);
+			          }
+			}
 		});
+		
+		function sendFile(files){
+    		var formData = new FormData();
+    		   for(var i=0; i<files.length; i++){
+                   if(!checkExtension(files[i].name, files[i].size)){
+                      return false;
+                   }
+                   formData.append("uploadFile", files[i]);
+                }
+            $.ajax({
+               url: '/file/uploadAjaxAction',
+               processData: false,
+               contentType: false,
+               data: formData,
+               type: 'POST',
+               dataType: 'json',
+               success: function(result){
+                  console.log(result);
+                  showUploadResult(result);
+               }
+            });
+    	}
 		
 		makeFileBtn();
 		
@@ -84,7 +122,18 @@
 		}
     
 		
-		var formObj = $("#form");
+
+  		
+  		function boardUpdateApi(data) {
+  		  return $.ajax({
+  		    url: "/boards/"+$id.val(),
+  		    type: "PUT",
+  		    data: JSON.stringify(data),
+  		    contentType: "application/json",
+  		  });
+  		}
+		
+		var formObj = $("form[role='form']");
 
 		$('button[type=submit]').on("click", function(e) {
 			e.preventDefault();
@@ -92,6 +141,16 @@
 			var operation = $(this).data("oper");
 			
 			console.log(operation);
+			$('.summernote').each(function(){
+			      var summernote = $(this);
+			      $('form').on('submit',function(){
+			          if (summernote.summernote('isEmpty')) {
+			               summernote.val('');
+			          }else if(summernote.val()=='<p><br></p>'){
+			               summernote.val('');
+			          }
+			     });
+			 });
 			
 			if(operation === 'delete') {
 				formObj.attr("action", "/board/delete");
@@ -102,15 +161,21 @@
 				var amountTag = $("input[name='amount']").clone();
 				var keywordTag = $("input[name='keyword']").clone();
 				var typeTag = $("input[name='type']").clone();
+				var typeIdTag = $("input[name='typeId']").clone();
 				
 				formObj.empty();
 				formObj.append(pageNumTag);
 				formObj.append(amountTag);
 				formObj.append(keywordTag);
 				formObj.append(typeTag);
-			} else if(operation === 'update'){
-				console.log("submit clicked");
+				formObj.append(typeIdTag);
 				
+				formObj.submit();
+				
+			} else if(operation === 'update'){
+				
+				console.log("submit clicked");
+		
 				var str = "";
 				
 				var blockImgArr = $(".card-block").find("img");
@@ -132,18 +197,50 @@
 					}
 				}
 				
+				var fileList = [];
+				
 				$(targetUl).find("li").each(function(i, obj){
 					var jobj = $(obj);
 					console.dir(jobj);
 					
+					var file = {
+							fileName: jobj.data("filename"),
+							uuid: jobj.data("uuid"),
+							uploadPath: jobj.data("path"),
+							fileType: jobj.data("type")
+					};
+					
+					fileList[i] = file;
+/* 					
 					str += "<input type='hidden' name='fileList["+i+"].fileName' value='"+jobj.data("filename")+"'>";
 					str += "<input type='hidden' name='fileList["+i+"].uuid' value='"+jobj.data("uuid")+"'>";
 					str += "<input type='hidden' name='fileList["+i+"].uploadPath' value='"+jobj.data("path")+"'>";
-					str += "<input type='hidden' name='fileList["+i+"].fileType' value='"+jobj.data("type")+"'>";
+					str += "<input type='hidden' name='fileList["+i+"].fileType' value='"+jobj.data("type")+"'>"; */
 				});
-				formObj.append(str).submit();
+			
+				
+		  		var data = {
+						title: $title.val(),
+						content: $content.val(),
+						id : $id.val(),
+						typeId : $typeId.val(),
+						nickname : $nickname.val(),
+						fileList: fileList
+				};
+				console.log(data);
+				boardUpdateApi(data)
+				.then(function(response){
+					console.log(response);
+					self.location = "/board/list?typeId="+$typeId.val();
+				})
+				.catch (function(error){
+					var errorMessage = error.responseJSON.defaultMessage;
+					console.log(error.responseJSON);
+					alert(errorMessage);
+					var errorFocus = error.responseJSON.field;
+					inputData[errorFocus].focus();
+				});
 			}
-			formObj.submit();
 		});
 		
   		(function() {
@@ -276,6 +373,7 @@
   				$summernote.summernote("insertParagraph");
   			}
   		});
+  		
 	});
 </script>
 

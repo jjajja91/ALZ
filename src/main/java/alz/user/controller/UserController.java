@@ -146,21 +146,24 @@ public class UserController {
 		
 		return "user/users/logout";
 	}
-	
-	@RequestMapping(value="/login",method=RequestMethod.POST)
-	public String login(@RequestBody @ModelAttribute UserDTO user, Model model, HttpServletRequest request, HttpSession session) {
-		
+
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	public String login(@RequestBody @ModelAttribute UserDTO user, Model model, HttpServletRequest request,
+			HttpSession session, BindingResult result) {
+
 		UserDTO dto = userService.readById(user);
 		session.setAttribute("sessionUser", dto);
-		
-		userService.readById(user);
-		model.addAttribute("email", request.getParameter("email"));
-		
-		if(dto == null) {
+
+			userService.readById(user);
+			model.addAttribute("email", request.getParameter("email"));
+
+		if (dto == null) {
 			System.out.println("로그인 정보가 틀렸습니다.");
 			return "user/users/login";
 		}
+
+		String referer = (String)request.getHeader("REFERER");
 		
-		return "user/users/loggedInfo";
+		return referer;
 	}
 }
