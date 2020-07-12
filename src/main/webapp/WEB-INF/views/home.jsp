@@ -368,13 +368,13 @@
                     </a>
                     <ul class="sub">
                         <li>
-                            <a href="">공지사항</a>
+                            <a href="/board/list?typeId=1">공지사항</a>
                         </li>
                         <li>
                             <a href="">알랴쥼</a>
                         </li>
                         <li>
-                            <a href="">이벤트</a>
+                            <a href="/board/list?typeId=2">이벤트</a>
                         </li>
                     </ul>
                 </li>
@@ -444,13 +444,13 @@
                     </a>
                     <ul class="sub">
                         <li>
-                            <a href="/board/list">커뮤니티</a>
+                            <a href="/board/list?typeId=3">커뮤니티</a>
                         </li>
                         <li>
-                            <a href="">후기</a>
+                            <a href="/board/list?typeId=4">후기</a>
                         </li>
                         <li>
-                            <a href="">문의하기</a>
+                            <a href="/board/list?typeId=5">문의하기</a>
                         </li>
                     </ul>
                 </li>

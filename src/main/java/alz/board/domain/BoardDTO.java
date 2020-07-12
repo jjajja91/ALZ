@@ -30,7 +30,7 @@ public class BoardDTO {
 	@Size(min=1, max=100, message="제목은 100자 이내로 입력해주세요")
 	private String title;
 	@NotBlank(message = "글 내용을 입력해주세요")
-	@Size(min=1, max=1000, message="내용은 1000자 이내로 입력해주세요")
+	@Size(min=1, max=1000, message="글 내용이 초과했습니다 글내용을 줄여주세요")
 	private String content;
 	private Date writtenAt;
 	private Date updatedAt;
@@ -42,7 +42,7 @@ public class BoardDTO {
 	private String nickname;
 	private Long parentId;
 	@NotNull(message = "서버 오류입니다")
-	private Long typeId;
+	private Integer typeId;
 	
 	private List<BoardFileDTO> fileList;
 

@@ -50,8 +50,9 @@ public class BoardApiController {
 			if(result.getFieldError().getCode().indexOf("NotNull")!=-1)
 				throw new TemporaryServerException(error);
 			else throw new UnsatisfiedContentException(error);
-		}
+		} else {
 			boardService.create(board);
+		}
 		return ResponseEntity.status(HttpStatus.CREATED).body(board);
 	}
 	 
@@ -68,29 +69,31 @@ public class BoardApiController {
 	}
 	
 	// 검색 결과 글목록
-	@GetMapping(value = {"/{pageNum}/{amount}/{type}/{keyword}", "/{pageNum}/{amount}/{type}"},
+	@GetMapping(value = {"{typeId}/{pageNum}/{amount}/{type}/{keyword}", "{typeId}/{pageNum}/{amount}/{type}"},
 			produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
-	public ResponseEntity<?> readAll(@PathVariable String type, 
+	public ResponseEntity<?> readAll(@PathVariable Integer typeId,
+									@PathVariable String type, 
 									@PathVariable(name="keyword", required = false) String keyword,
 									@PathVariable Integer pageNum, @PathVariable Integer amount) {
 		
 		BoardCriteria cri = new BoardCriteria();
-		cri.setKeyword(keyword).setType(type).setPageNum(pageNum).setAmount(amount);
+		cri.setKeyword(keyword).setType(type).setPageNum(pageNum).setAmount(amount).setTypeId(typeId);
 		List<BoardDTO> boards = boardService.readAll(cri);
 		
 		return ResponseEntity.status(HttpStatus.OK).body(boards);
 	}
 	
 	// 글 수 카운트
-	@GetMapping(value = {"/type/{type}/keyword/{keyword}", "type/{type}"},
+	@GetMapping(value = {"typeId/{typeId}/type/{type}/keyword/{keyword}", "typeId/{typeId}/type/{type}"},
 			produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
 	public int readAll(@PathVariable String type, 
+					@PathVariable Integer typeId,
 					@PathVariable(name="keyword", required = false) String keyword) {
 
 		BoardCriteria cri = new BoardCriteria();
 		
 		if(keyword!=null) {
-			cri.setKeyword(keyword).setType(type);
+			cri.setKeyword(keyword).setType(type).setTypeId(typeId);
 		}
 		
 		int total = boardService.getTotal(cri);
