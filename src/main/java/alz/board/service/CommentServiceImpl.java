@@ -66,6 +66,8 @@ public class CommentServiceImpl implements CommentService {
 	@Override
 	public int deleteById(Long id) {
 		CommentDTO searchedComment = commentMapper.selectById(id);
+		if(searchedComment==null) return 0;
+		
 		int affectedRowCount = commentMapper.deleteById(id);
 		return affectedRowCount;
 	}

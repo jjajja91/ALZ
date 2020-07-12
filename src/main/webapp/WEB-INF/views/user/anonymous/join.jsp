@@ -22,15 +22,13 @@
             -->
 			<tr>
 				<td>EMAIL</td>
-				<td>
-					<input name="email" type="text" placeholder="EMail">
+				<td><input name="email" type="text" placeholder="email">
 				</td>
 			</tr>
 			<tr>
 				<td>NICKNAME</td>
-				<td>
-					<input name="nickname" type="text" placeholder="Nickname" maxlength="10" autocomplete="off">
-				</td>
+				<td><input name="nickname" placeholder="nickname"
+					maxlength="10" autocomplete="off"></td>
 			</tr>
 			<tr>
 				<td>PW</td>
