@@ -6,18 +6,24 @@ import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import alz.user.domain.UserDTO;
+import alz.user.exceptions.TemporaryServerException;
+import alz.user.exceptions.UnsatisfiedContentException;
 import alz.user.service.UserService;
 
 @Controller
@@ -96,22 +102,46 @@ public class UserController {
 	
 	/*----------------------------------------------------------------------------------------*/	
 	@RequestMapping(value = "/create", method = RequestMethod.POST)
-	public String Insert(HttpServletRequest request, UserDTO user, Model model) {
+	public String Insert(@RequestBody @Valid @ModelAttribute UserDTO user, Model model, HttpSession session, HttpServletRequest request, BindingResult result) {
+//		if(result.hasErrors()) {
+//			return "user/anonymous/join";
+//		}
+		UserDTO dto = userService.readById(user);
+		session.setAttribute("sessionUser", dto);
 		
+		if(result.hasErrors()) {
+			FieldError error = result.getFieldError();
+			if(result.getFieldError().getCode().indexOf("NotNull")!=-1)
+				throw new TemporaryServerException(error);
+			else throw new UnsatisfiedContentException(error);
+		}
+
 		userService.create(user);
 		model.addAttribute("email", request.getParameter("email"));
 		model.addAttribute("nickname", request.getParameter("nickname"));
+		model.addAttribute("password", request.getParameter("password"));
 		model.addAttribute("introduce", request.getParameter("introduce"));
+		
+//		if(dto == null) {
+//			System.out.println("회원가입 중 입력값이 형식에 맞지 않습니다.");
+//			return "user/anonymous/join";
+//		}
 		
 		return "user/anonymous/joinInfo";
 	}
 	
 	@RequestMapping(value = "/updateById", method = RequestMethod.POST)
-	public ModelAndView Modify(HttpServletRequest request, UserDTO user) {
-		
+	public ModelAndView Modify(@RequestBody @Valid UserDTO user, HttpServletRequest request, BindingResult result) {
 		ModelAndView mv = new ModelAndView();
 		HttpSession session = request.getSession();
 		UserDTO dto = userService.updateById(user);
+		
+		if(result.hasErrors()) {
+			FieldError error = result.getFieldError();
+			if(result.getFieldError().getCode().indexOf("NotNull")!=-1)
+				throw new TemporaryServerException(error);
+			else throw new UnsatisfiedContentException(error);
+		}
 		
 		if(dto == null) {
 			mv.setViewName("/user/users/Modify");
@@ -129,17 +159,27 @@ public class UserController {
 		HttpSession session = request.getSession();
 		UserDTO user = (UserDTO) session.getAttribute("sessionUser");
 		
-		userService.deleteById(user);
+		userService.deleteById(user, request);
 		session.invalidate();
 		
 		return "user/users/logout";
 	}
 	
 	@RequestMapping(value="/login",method=RequestMethod.POST)
-	public String login(UserDTO user, HttpSession session) {
+	public String login(@RequestBody @Valid @ModelAttribute UserDTO user, Model model, HttpServletRequest request, HttpSession session, BindingResult result) {
 		
 		UserDTO dto = userService.readById(user);
 		session.setAttribute("sessionUser", dto);
+		
+		if(result.hasErrors()) {
+			FieldError error = result.getFieldError();
+			if(result.getFieldError().getCode().indexOf("NotNull")!=-1)
+				throw new TemporaryServerException(error);
+			else throw new UnsatisfiedContentException(error);
+		}
+		userService.readById(user);
+		model.addAttribute("email", request.getParameter("email"));
+		
 		
 		if(dto == null) {
 			System.out.println("로그인 정보가 틀렸습니다.");

@@ -1,10 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%-- <%@ page session="false" %> --%>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -468,10 +470,20 @@
                             <a href="/callJoin">회원가입</a>
                         </li>
                         <li>
-                            <a href="/callLogin">로그인</a>
+	                        <c:if test="${empty sessionUser}">
+	                            <a href="/callLogin">로그인</a>
+	                        </c:if>
+	                        <c:if test="${!empty sessionUser}">
+								<a href="/logout">LOGOUT</a>
+							<%-- <br>이메일 : ${sessionUser.email}--%>							
+							</c:if>
                         </li>
                         <li>
-                            <a href="">마이페이지</a>
+                        	<c:if test="${!empty sessionUser}">
+                        	    <a href="">마이페이지</a>
+                        	    <!-- <a href="/callModify">MODIFY</a> -->
+	                            <!-- <a href="/deleteById">REMOVE</a> -->
+                        	</c:if>
                         </li>
                     </ul>
                 </li>
