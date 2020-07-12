@@ -107,8 +107,21 @@
 		// 첫 페이지 paging
 		$(".paginate_button a").on("click", function(e) {
 			e.preventDefault();
-			actionForm.find("input[name='pageNum']").val($(this).attr("href"));
-			actionForm.submit();
+			
+			data = {
+					pageNum : $pageNum.val(),
+					amount : $amount.val(),
+					type : $type.val(),
+					keyword : $keyword.val()
+				};
+			
+			var targetPageNum = $(this).attr("href");
+			data.pageNum = targetPageNum;
+			
+			// 글 목록 출력
+			getList(data, pageNum);
+			//actionForm.find("input[name='pageNum']").val($(this).attr("href"));
+			//actionForm.submit();
 		});
 		
 		// 읽기 이벤트 추가
@@ -209,12 +222,8 @@
 		// 페이지 번호 클릭 이벤트
 		pageFooter.on("click", "li a", function(e) {
 			e.preventDefault();
-			//console.log("page click");
 			
 			var targetPageNum = $(this).attr("href");
-			
-			//console.log("targetNum: " + targetPageNum);
-			
 			data.pageNum = targetPageNum;
 			
 			// 글 목록 출력

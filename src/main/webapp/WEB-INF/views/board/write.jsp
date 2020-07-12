@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-   pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <html>
@@ -8,104 +8,143 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <link rel="stylesheet"
-   href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 
 <style>
 .uploadResult {
-   width: 100%;
-   background-color: gray;
+	width: 100%;
+	background-color: gray;
 }
 
 .uploadResult ul {
-   display: flex;
-   flex-flow: row;
-   justify-content: center;
-   align-items: center;
+	display: flex;
+	flex-flow: row;
+	justify-content: center;
+	align-items: center;
 }
 
 .uploadResult ul li {
-   list-style: none;
-   padding: 10px;
-   align-content: center;
-   text-align: center;
+	list-style: none;
+	padding: 10px;
+	align-content: center;
+	text-align: center;
 }
 
 .uploadResult ul li img {
-   width: 100px;
+	width: 100px;
 }
 
 .uploadResult ul li span {
-   color: white;
+	color: white;
 }
 
 .bigPictureWrapper {
-   position: absolute;
-   display: none;
-   justify-content: center;
-   align-items: center;
-   top: 0%;
-   width: 100%;
-   height: 100%;
-   background-color: gray;
-   z-index: 100;
-   background: rgba(255, 255, 255, 0.5);
+	position: absolute;
+	display: none;
+	justify-content: center;
+	align-items: center;
+	top: 0%;
+	width: 100%;
+	height: 100%;
+	background-color: gray;
+	z-index: 100;
+	background: rgba(255, 255, 255, 0.5);
 }
 
 .bigPicture {
-   position: relative;
-   display: flex;
-   justify-content: center;
-   align-items: center;
+	position: relative;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
 .bigpicture img {
-   width: 600px
+	width: 600px
 }
-.note-dropzone {
-  opacity: 0 !important;
-}
-.note-editor note-frame card .note-dropzone { opacity: 0 !important; }
 
+.note-dropzone {
+	opacity: 0 !important;
+}
+
+.note-editor note-frame card .note-dropzone {
+	opacity: 0 !important;
+}
 </style>
 <script
-   src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script
-   src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <link rel="stylesheet"
-   href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 
 
 <!-- include summernote-ko-KR -->
 <script src="/resources/js/summernote-ko-KR.js"></script>
 
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"
-   crossorigin="anonymous"></script>
+	crossorigin="anonymous"></script>
 <script
-   src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-   integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-   crossorigin="anonymous"></script>
+	src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+	integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+	crossorigin="anonymous"></script>
 
 <link rel="stylesheet"
-   href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-   integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
-   crossorigin="anonymous">
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+	integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+	crossorigin="anonymous">
 <script
-   src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
-   integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
-   crossorigin="anonymous"></script>
+	src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+	integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+	crossorigin="anonymous"></script>
 
 <link
-   href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css"
-   rel="stylesheet">
+	href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css"
+	rel="stylesheet">
 <script
-   src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
+	src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
 </head>
+
 <body>
 
-   <div class="container">
-      <h2>Board Write</h2>
+	<div class="container">
+		<h2>Board Write</h2>
 
+		<form role="form" action="/board/write" method="post">
+			<div class="form-group">
+				<label for="title">title:</label>
+				<input class="form-control" rows="1" name="title"></input> 
+				
+				<label for="content">content:</label>
+				<textarea id="summernote" name="content"></textarea>
+				
+				<label>Writer:</label>
+				<input class="form-control" rows="1" name="nickname"></input> 
+				
+				<label>boardType:</label> 
+				<input class="form-control" rows="1" name="typeId"></input> 
+				<input type='hidden' name='parentId' value='<c:out value="${param.pid}"/>'>
+				<input type='hidden' name='bOrder' value='<c:out value="${param.border}"/>'>
+				<input type='hidden' name='id' value='<c:out value="${param.id}"/>'>
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="panel panel-defualt">
+							<div class="panel-heading">Files</div>
+							<div class="panel-body">
+								<div class='uploadResult'>
+									<ul>
 
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<button type="submit" class="btn btn-default">Submit</button>
+				<button type="reset" class="btn btn-default">Reset</button>
+			</div>
+		</form>
+	</div>
       <form role="form" action="/board/write" method="post">
          <div class="form-group">
             <label for="title">title:</label> 
@@ -127,25 +166,12 @@
                         <div class='uploadResult'>
                            <ul>
 
-                           </ul>
-                        </div>
-                     </div>
-                  </div>
-               </div>
-            </div>
-               
-            <button type="submit" class="btn btn-default">Submit</button>
-            <button type="reset" class="btn btn-default">Reset</button>
-         </div>
-      </form>
-   </div>
-
-      
-
-<script>
 
 
-$(document).ready(function(e){
+	<script>
+
+
+	$(document).ready(function(e){
 		var $title = $("input[name=title]");
 		var $content = $("textarea[name=content]");
 		var inputData = {
@@ -179,7 +205,7 @@ $(document).ready(function(e){
 		});
 		
 		makeFileBtn();
-		
+		"src/main/webapp/WEB-INF/views/board/write.jsp"
 		function makeFileBtn() {
 			$("button[data-original-title=Picture]").remove();
 			$("button[data-original-title=Video]").remove();
