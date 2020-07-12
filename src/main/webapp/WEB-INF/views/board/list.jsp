@@ -25,6 +25,7 @@
 			<input type='text' id='keyword' name='keyword' value='<c:out value="${pageMaker.cri.keyword }"/>' />
 			<input type='hidden' id='pageNum' name='pageNum' value='<c:out value="${pageMaker.cri.pageNum }"/>' />
 			<input type='hidden' id='amount' name='amount' value='<c:out value="${pageMaker.cri.amount }"/>' />
+			<input type='hidden' id='typeId' name='typeId' value='<c:out value="${pageMaker.cri.typeId }"/>' />
 			<button class='writeBtn' id='searchBtn' >Search</button>
 			<button class='writeBtn' id='writeBtn' type="button">글쓰기</button>
 		</div>
@@ -78,6 +79,7 @@
 			<input type='hidden' name='amount' value='${pageMaker.cri.amount}'>
 			<input type='hidden' name='type' value='<c:out value="${pageMaker.cri.type}"/>' />
 			<input type='hidden' name='keyword' value='<c:out value="${pageMaker.cri.keyword}"/>' />
+			<input type='hidden' name='typeId' value='<c:out value="${pageMaker.cri.typeId}"/>' />
 		</form>
 
 </div>
@@ -88,6 +90,7 @@
 		var $amount = $("#amount");
 		var $type = $("#type");
 		var $keyword = $("#keyword");
+		var $typeId = $("#typeId");
 		
 		var $table = $("#table");
 		
@@ -96,7 +99,7 @@
 		
 		// register button
 		$("#writeBtn").on("click", function() {
-			self.location = "/board/write";
+			self.location = "/board/write?typeId="+$typeId.val();
 		});
 		
 		var actionForm = $("#actionForm");
@@ -104,8 +107,22 @@
 		// 첫 페이지 paging
 		$(".paginate_button a").on("click", function(e) {
 			e.preventDefault();
-			actionForm.find("input[name='pageNum']").val($(this).attr("href"));
-			actionForm.submit();
+			
+			data = {
+					pageNum : $pageNum.val(),
+					amount : $amount.val(),
+					type : $type.val(),
+					keyword : $keyword.val(),
+					typeId : $typeId.val()
+				};
+			
+			var targetPageNum = $(this).attr("href");
+			data.pageNum = targetPageNum;
+			
+			// 글 목록 출력
+			getList(data, pageNum);
+			//actionForm.find("input[name='pageNum']").val($(this).attr("href"));
+			//actionForm.submit();
 		});
 		
 		// 읽기 이벤트 추가
@@ -124,7 +141,8 @@
 					pageNum : $pageNum.val(),
 					amount : $amount.val(),
 					type : $type.val(),
-					keyword : $keyword.val()
+					keyword : $keyword.val(),
+					typeId : $typeId.val()
 				};
 			
 			// 검색버튼 누르면 항상 첫 페이지
@@ -149,10 +167,10 @@
 			
 			// 검색어가 없을때 
 			if(data.keyword=="") {
-				url = "/boards/type/" + data.type;
+				url = "/boards/typeId/" + data.typeId + "/type/" + data.type;
 			// 있을때
 			} else {
-				url = "/boards/type/" + data.type + "/keyword/" + data.keyword;
+				url = "/boards/typeId/" + data.typeId + "/type/" + data.type + "/keyword/" + data.keyword;
 			} 
 			
 			return $.ajax({
@@ -205,12 +223,8 @@
 		// 페이지 번호 클릭 이벤트
 		pageFooter.on("click", "li a", function(e) {
 			e.preventDefault();
-			//console.log("page click");
 			
 			var targetPageNum = $(this).attr("href");
-			
-			//console.log("targetNum: " + targetPageNum);
-			
 			data.pageNum = targetPageNum;
 			
 			// 글 목록 출력
@@ -244,7 +258,7 @@
 		function boardSearch(data) {
 			return $.ajax({
 				type : "GET",
-				url : "/boards/" + data.pageNum + "/" + data.amount+ "/" + data.type + "/" + data.keyword + ".json",
+				url : "/boards/" +data.typeId + "/" + data.pageNum + "/" + data.amount+ "/" + data.type + "/" + data.keyword + ".json",
 				contentType : "application/json; charset=utf-8"
 			});
 		}

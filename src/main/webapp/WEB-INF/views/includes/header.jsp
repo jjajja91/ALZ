@@ -13,6 +13,12 @@
 
 
 <style>
+.preContent {
+    border: none;
+    background: none;
+    padding: 5px;
+    font-size : 100%;
+}
 .commentDiv {
 	width: inherit;
     position: relative;
@@ -25,15 +31,15 @@
     left: 95%;
 	top: 0;
 }
-.replyTextarea {
+#replyTextarea {
 	width : 80%;
 	resize: none;
 }
-.textAreaEdit {
+#textAreaEdit {
 	width : 80%;
 	resize: none;
 }
-.commentText {
+#commentContent {
 	width : 90%;
 	resize: none;
 }
@@ -127,5 +133,6 @@
 	src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
     
+        
 </head>
 <body>

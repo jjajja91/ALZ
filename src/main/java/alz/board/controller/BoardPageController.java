@@ -90,9 +90,14 @@ public class BoardPageController {
 	}
 	
 	@GetMapping("/write")
-	public void write() {
-		
+	public void write(@RequestParam("typeId") Integer typeId, Model model) {
+		model.addAttribute("typeId", typeId);
 	}
+	
+
+	
+	
+	
 	
 	private void deleteFiles(List<BoardFileDTO> fileList) {
 		

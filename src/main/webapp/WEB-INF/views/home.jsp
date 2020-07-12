@@ -1,10 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%-- <%@ page session="false" %> --%>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -366,13 +368,13 @@
                     </a>
                     <ul class="sub">
                         <li>
-                            <a href="">공지사항</a>
+                            <a href="/board/list?typeId=1">공지사항</a>
                         </li>
                         <li>
                             <a href="">알랴쥼</a>
                         </li>
                         <li>
-                            <a href="">이벤트</a>
+                            <a href="/board/list?typeId=2">이벤트</a>
                         </li>
                     </ul>
                 </li>
@@ -442,13 +444,13 @@
                     </a>
                     <ul class="sub">
                         <li>
-                            <a href="/board/list">커뮤니티</a>
+                            <a href="/board/list?typeId=3">커뮤니티</a>
                         </li>
                         <li>
-                            <a href="">후기</a>
+                            <a href="/board/list?typeId=4">후기</a>
                         </li>
                         <li>
-                            <a href="">문의하기</a>
+                            <a href="/board/list?typeId=5">문의하기</a>
                         </li>
                     </ul>
                 </li>
@@ -468,10 +470,20 @@
                             <a href="/callJoin">회원가입</a>
                         </li>
                         <li>
-                            <a href="/callLogin">로그인</a>
+                           <c:if test="${empty sessionUser}">
+                               <a href="/callLogin">로그인</a>
+                           </c:if>
+                           <c:if test="${!empty sessionUser}">
+                        <a href="/logout">LOGOUT</a>
+                     <%-- <br>이메일 : ${sessionUser.email}--%>                     
+                     </c:if>
                         </li>
                         <li>
-                            <a href="">마이페이지</a>
+                           <c:if test="${!empty sessionUser}">
+                               <a href="">마이페이지</a>
+                               <!-- <a href="/callModify">MODIFY</a> -->
+                               <!-- <a href="/deleteById">REMOVE</a> -->
+                           </c:if>
                         </li>
                     </ul>
                 </li>

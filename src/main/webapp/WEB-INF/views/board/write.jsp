@@ -103,25 +103,25 @@
 <script
 	src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
 </head>
+
 <body>
 
 	<div class="container">
 		<h2>Board Write</h2>
-
-
-		<form role="form" action="/board/write" method="post">
-			<div class="form-group">
-				<label for="title">title:</label> <input class="form-control"
-					rows="1" name="title"></input> <label for="content">content:</label>
-				<textarea id="summernote" name="content"></textarea>
-				<label>Writer:</label> <input class="form-control" rows="1"
-					name="nickname"></input> <label>boardType:</label> <input
-					class="form-control" rows="1" name="typeId"></input> <input
-					type='hidden' name='parentId' value='<c:out value="${param.pid}"/>'>
-				<input type='hidden' name='bOrder'
-					value='<c:out value="${param.border}"/>'> <input
-					type='hidden' name='id' value='<c:out value="${param.id}"/>'>
-				<div class="row">
+      <form role="form" action="/board/write" method="post">
+         <div class="form-group">
+            <label for="title">title:</label> 
+            <input class="form-control" rows="1" name="title"></input>
+                <label for="content">content:</label>
+                 <textarea id="summernote" name="content"></textarea>
+            <label>Writer:</label>
+             <input class="form-control" rows="1" name="nickname" value="${sessionUser.nickname}" readonly="readonly"></input> 
+               <label>boardType:</label> 
+               <input class="form-control" rows="1" name="typeId" value="${typeId}" readonly="readonly"></input>
+      	<input type="hidden" name="parentId" value='<c:out value="${param.pid}"/>'>
+      	  	<input  type="hidden" name="boardOrder" value='<c:out value="${param.boardOrder}"/>'>
+      	  	  	<input  type="hidden" name="id" value='<c:out value="${param.id}"/>'>
+           <div class="row">
 					<div class="col-lg-12">
 						<div class="panel panel-defualt">
 							<div class="panel-heading">Files</div>
@@ -135,7 +135,6 @@
 						</div>
 					</div>
 				</div>
-
 				<button type="submit" class="btn btn-default">Submit</button>
 				<button type="reset" class="btn btn-default">Reset</button>
 			</div>
@@ -143,20 +142,24 @@
 	</div>
 
 
-
 	<script>
 
 
-$(document).ready(function(e){
+	$(document).ready(function(e){
 		var $title = $("input[name=title]");
 		var $content = $("textarea[name=content]");
 		var inputData = {
 			title: $title,
 			content: $content
 		};
-		var $writer = $("input[name=writerId]");
-		var $boardType = $("input[name=typeId]");
+		var $nickname = $("input[name=nickname]");
+		var $typeId = $("input[name=typeId]");
+		var $parentId = $("input[name=parentId]");
+		var $boardOrder = $("input[name=boardOrder]");
+		var $id = $("input[name=id]");
+		
 		var $summernote = $('#summernote');
+		
 	
    /*  var $summernote = $('#summernote'); */
    
@@ -164,20 +167,19 @@ $(document).ready(function(e){
 				placeholder : 'content',
 				minHeight : 370,
 				maxHeight : null,
-				disableDragAndDrop: true,
 				shortcuts: false,
 				focus : true,
-				lang : 'ko-KR'
+				lang : 'ko-KR',
 				
-				
+				callbacks : {
+					onImageUpload: function(files, editor, welEditable) {
+				            sendFile(files);
+				          }
+				}
 		});
-		$("div[class=note-editor note-frame card]").attr("disableDragAndDrop", "true");
-	
-		
-		$("div[class=note-editable card-block]").attr("disableDragAndDrop", "true");
 		
 		makeFileBtn();
-		
+		"src/main/webapp/WEB-INF/views/board/write.jsp"
 		function makeFileBtn() {
 			$("button[data-original-title=Picture]").remove();
 			$("button[data-original-title=Video]").remove();
@@ -190,34 +192,37 @@ $(document).ready(function(e){
 			$("div[class*=toolbar]").append(str);
 		}
 		
+		
+		
         $("input[type='file']").change(function(e){
-           var formData = new FormData();
-           var inputFile = $("input[name='uploadFile']");
-           var files = inputFile[0].files;
-           
-           for(var i=0; i<files.length; i++){
-              
-              if(!checkExtension(files[i].name, files[i].size)){
-                 return false;
-              }
-              formData.append("uploadFile", files[i]);
-           }
-           
-           $.ajax({
-              url: '/file/uploadAjaxAction',
-              processData: false,
-              contentType: false,
-              data: formData,
-              type: 'POST',
-              dataType: 'json',
-              success: function(result){
-                 console.log(result);
-                 showUploadResult(result);
-              }
-           });
+           	var inputFile = $("input[name='uploadFile']");
+            var files = inputFile[0].files;
+    		sendFile(files);
         });
-  
-  
+        		
+
+        function sendFile(files){
+        		var formData = new FormData();
+        		   for(var i=0; i<files.length; i++){
+                       if(!checkExtension(files[i].name, files[i].size)){
+                          return false;
+                       }
+                       formData.append("uploadFile", files[i]);
+                    }
+                $.ajax({
+                   url: '/file/uploadAjaxAction',
+                   processData: false,
+                   contentType: false,
+                   data: formData,
+                   type: 'POST',
+                   dataType: 'json',
+                   success: function(result){
+                      console.log(result);
+                      showUploadResult(result);
+                   }
+                });
+        }
+    
 	var formObj = $("form[role='form']");
 	
 	$("button[type='submit']").on("click", function(e){
@@ -244,15 +249,19 @@ $(document).ready(function(e){
 		var data = {
 				title: $title.val(),
 				content: $content.val(),
-				writerId: $writer.val(),
-				typeId: $boardType.val(),
+				nickname: $nickname.val(),
+				typeId: $typeId.val(),
+				parentId : $parentId.val(),
+				boardOrder : $boardOrder.val(),
+				id : $id.val(),
+				
 				fileList: fileList
 		};
 		console.log(data);
 		boardWriteApi(data)
 		.then(function(response){
 			console.log(response);
-			self.location = "/board/list";
+			self.location = "/board/list?typeId="+$typeId.val();
 		})
 		.catch (function(error){
 			var errorMessage = error.responseJSON.defaultMessage;
