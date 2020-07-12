@@ -184,6 +184,8 @@ public class UserController {
 			return "user/users/login";
 		}
 
-		return "user/users/loggedInfo";
+		String referer = (String)request.getHeader("REFERER");
+		
+		return referer;
 	}
 }

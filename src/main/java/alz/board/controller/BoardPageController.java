@@ -5,6 +5,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import alz.board.domain.BoardCriteria;
 import alz.board.domain.BoardDTO;
 import alz.board.domain.BoardPageDTO;
+import alz.board.exceptions.NoUserException;
 import alz.board.service.BoardService;
 import alz.file.domain.BoardFileDTO;
 import lombok.extern.log4j.Log4j;
@@ -85,7 +87,10 @@ public class BoardPageController {
 	}
 	
 	@GetMapping("/write")
-	public void write(@RequestParam("typeId") Integer typeId, Model model) {
+	public void write(@RequestParam("typeId") Integer typeId, Model model, HttpSession session) {
+		if(session.getAttribute("sessionUser") == null) {
+			throw new NoUserException();
+		}
 		model.addAttribute("typeId", typeId);
 	}
 	
