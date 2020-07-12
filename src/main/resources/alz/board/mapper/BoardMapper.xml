@@ -29,7 +29,7 @@
 	<select id="selectAll" resultType="alz.board.domain.BoardDTO">
 		<![CDATA[
 			select id, title, content, written_at writtenAt, updated_at updatedAt, like_cnt likeCnt, 
-					comment_cnt commentCnt, view_cnt viewCnt, b_order bOrder, nickname, 
+					comment_cnt commentCnt, view_cnt viewCnt, board_order boardOrder, nickname, 
 					parent_id parentId, type_id typeId
 			from alz_board 
 			where id > 0
@@ -43,18 +43,18 @@
                                  
                                  
           select id, title, content, writtenAt, updatedAt, likeCnt, commentCnt, viewCnt,
-               bOrder, nickname, parentId, typeId  
+               boardOrder, nickname, parentId, typeId  
             from (select rownum, rn, id, title, content, writtenAt, updatedAt, likeCnt, commentCnt, 
-                         viewCnt, bOrder, nickname, parentId, typeId 
+                         viewCnt, boardOrder, nickname, parentId, typeId 
                  from (select rownum rn, id, title, content, writtenAt, updatedAt, likeCnt, commentCnt, 
-                            viewCnt, bOrder, nickname, parentId, typeId
+                            viewCnt, boardOrder, nickname, parentId, typeId
                         from (select id, title, content, written_at writtenAt, updated_at updatedAt, 
                                      like_cnt likeCnt, comment_cnt commentCnt, view_cnt viewCnt,
-                                     b_order bOrder, nickname, parent_id parentId, type_id typeId  
+                                     board_order boardOrder, nickname, parent_id parentId, type_id typeId  
                                from alz_board
                          start with parent_id = 0
                          connect by prior id = parent_id
-                              order siblings by b_order desc)
+                              order siblings by boardOrder desc)
                      where rownum <= #{pageNum} * #{amount} )
 			)
 		where 		
@@ -64,14 +64,14 @@
                       rn > (#{pageNum} -1) * #{amount}
 		start with parentId = 0
 		connect by prior id = parentId
-		order siblings by bOrder desc
+		order siblings by boardOrder desc
 	
 		]]>	
 	</select>
 
 	<select id="selectById" resultType="alz.board.domain.BoardDTO">
 		select id, title, content, written_at writtenAt, updated_at updatedAt, like_cnt likeCnt, comment_cnt commentCnt,
-					view_cnt viewCnt, b_order bOrder, nickname, parent_id parentId, type_id typeId
+					view_cnt viewCnt, board_order boardOrder, nickname, parent_id parentId, type_id typeId
 		from alz_board where id = #{id}
 	</select>
 	
@@ -89,7 +89,7 @@
 			select alz_board_seq.nextval from dual
 		</selectKey>
 		
-		insert into alz_board (id, title, content, nickname, type_id, parent_id, b_order)
+		insert into alz_board (id, title, content, nickname, type_id, parent_id, board_order)
 		values (#{id}, #{title}, #{content}, #{nickname}, #{typeId}, '0', #{id})
 		
 		
@@ -99,8 +99,8 @@
 			<selectKey keyProperty="id" order="BEFORE" resultType="long">
 			select alz_board_seq.nextval from dual	
 			</selectKey>	
-		insert into alz_board (id, title, content, nickname, type_id, parent_id, b_order)
-		values (#{id}, #{title}, #{content}, #{nickname}, #{typeId}, #{BOrder}, #{BOrder})
+		insert into alz_board (id, title, content, nickname, type_id, parent_id, board_order)
+		values (#{id}, #{title}, #{content}, #{nickname}, #{typeId}, #{boardOrder}, #{boardOrder})
 		
 	</insert>
 	
@@ -108,8 +108,8 @@
 			<selectKey keyProperty="id" order="BEFORE" resultType="long">
 			select alz_board_seq.nextval from dual	
 			</selectKey>	
-		insert into alz_board (id, title, content, nickname, type_id, parent_id, b_order)
-		values (#{id}, #{title}, #{content}, #{nickname}, #{typeId}, #{parentId}, #{BOrder})
+		insert into alz_board (id, title, content, nickname, type_id, parent_id, board_order)
+		values (#{id}, #{title}, #{content}, #{nickname}, #{typeId}, #{parentId}, #{boardOrder})
 		
 	</insert>
 	

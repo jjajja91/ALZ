@@ -34,7 +34,7 @@ public class BoardDTO {
 	private String content;
 	private Date writtenAt;
 	private Date updatedAt;
-	private Long bOrder;
+	private Long boardOrder;
 	private Long likeCnt;
 	private Long commentCnt;
 	private Long viewCnt;
