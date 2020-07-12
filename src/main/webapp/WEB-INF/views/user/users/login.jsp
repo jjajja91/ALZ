@@ -16,13 +16,21 @@
 			<tr>
 				<td>EMAIL</td>
 				<td>
-	        		<input type="text" name="email" autocomplete="off" placeholder="email">
+	        		<input type="text" name="email" autocomplete="off" placeholder="6~12자리 이내의 영어와 숫자">
 	        	</td>
 			</tr>
+
+			<!-- <tr>
+				<td>NICKNAME</td>
+				<td>
+					<input type="text" name="nickname" autocomplete="off" placeholder="6~12자리 이내의 한글">
+				</td>
+			</tr> -->
+
 			<tr>
 				<td>PW</td>
 				<td>
-		            <input type="password" name="password" autocomplete="off" placeholder="Password" onkeypress="if (event.keyCode==13) login()">
+		            <input type="password" name="password" autocomplete="off" placeholder="6~12자리 이내의 숫자" onkeypress="if (event.keyCode==13) login()">
 				</td>
 			</tr>
 			<tr>
