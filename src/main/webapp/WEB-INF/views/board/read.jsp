@@ -241,17 +241,19 @@
 					commentUL.html("");
 					return;
 				}
-console.log(list);
+
 				for(var i=0, len=list.length||0; i<len; i++) {
 					str += " <li class='reChat'> "; 
 					for(var j=0; j<list[i].depth; j++) {
 						str += "<ul><li> ";
 					}
 						str += "		<div class='commentDiv'>";
-					if(list[i].deleted=="Y") {
+					if(list[i].deleted=="Y" && list[i].depth>=1) {
 						str += " 			<p style='margin:auto'>삭제된 댓글입니다.</p>";
-					} else {
+						str += "<hr> ";
+					} else if(list[i].deleted=='N') {
 						str += "			<strong class='primary-font'> 작성자 : "+list[i].nickname+"</strong>";
+						if(list[i].nickname == $replyNickname.val() ) {
 						str += "			<div class='commentDropdown'>";
 						str += "				<button class='commentDropBtn' data-toggle='dropdown'>:</button>";
 						str += "				<ul class='dropdown-menu'>";
@@ -259,19 +261,20 @@ console.log(list);
 						str += "					<li><a class='commentDeleteBtn'>삭제</a></li>";
 						str += "				</ul>";
 						str += "			</div>";
+						}
 						str += "			<p style='margin:auto'>"+list[i].content+"</p>";
 						str += "			<small>" + moment(list[i].writtenAt).format('YYYY-MM-DD hh:mm')+"</small>";
 						str += "			<a role='button' class='coCommentBtn'>답글쓰기</a>";
 						str += "			<input type='hidden' class='commentId' id='commentId"+i+"' value='"+list[i].id+"'/>";
 						str += "			<input type='hidden' class='commentDepth' id='commentDepth"+i+"' value='"+list[i].depth+"'/>";
 						str += "			<input type='hidden' class='commentCnt' id='commentCnt"+i+"' value='"+list[i].commentCnt+"'/>";
+						str += "<hr> ";
 					}
 						str += "		</div>";
 					for(var j=0; j<list[i].depth; j++) {
 						str += "	</li></ul>";
 					}
 					str += " </li>";
-					str += "<hr> ";
 					
 
 				}
@@ -286,6 +289,12 @@ console.log(list);
 			
 			$(".replyDiv").remove();
 			$(".commentEditDiv").remove();
+			
+			var commentDepth = $(this).parent().find(".commentDepth").val();
+			if(commentDepth>9) {
+				alert("댓글 차수를 초과하여 더 이상 대댓글을 등록할 수 없습니다!");
+				return;
+			}
 			
 			var replyDiv = document.createElement("div");
 			replyDiv.setAttribute("class", "replyDiv");
@@ -322,10 +331,15 @@ console.log(list);
 				.then(function(response) {
 					// 댓글 리스트 새로고침
 					showComment();
+					// 입력창 빈칸으로 초기화
 					$('#commentContent').val("");
 				})
 				.catch(function(error) {
-					console.log("error="+error);
+					var errorMessage = error.responseJSON.defaultMessage;
+					console.log(error.responseJSON);
+					alert(errorMessage);
+					var errorFocus = error.responseJSON.field;
+					$('#commentContent').focus();
 				});
 			
 		})
@@ -353,7 +367,11 @@ console.log(list);
 					showComment();
 				})
 				.catch(function(error) {
-					console.log("error="+error);
+					var errorMessage = error.responseJSON.defaultMessage;
+					console.log(error.responseJSON);
+					alert(errorMessage);
+					var errorFocus = error.responseJSON.field;
+					$('#replyTextarea').focus();
 				});
 			 
 		})
@@ -412,6 +430,13 @@ console.log(list);
 			editComment(editVal)
 				.then(function(response) {
 					showComment();
+				})
+				.catch(function(error) {
+					var errorMessage = error.responseJSON.defaultMessage;
+					console.log(error.responseJSON);
+					alert(errorMessage);
+					var errorFocus = error.responseJSON.field;
+					 $('#textAreaEdit').focus();
 				});
 			
 		});
