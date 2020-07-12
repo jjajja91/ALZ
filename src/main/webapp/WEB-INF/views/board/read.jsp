@@ -216,7 +216,7 @@
 						str += "<ul><li> ";
 					}
 						str += "		<div class='commentDiv'>";
-					if(list[i].deleted=="Y" && list[i].depth>=1) {
+					if(list[i].deleted=="Y" && list[i].commentCnt>=1) {
 						str += " 			<p style='margin:auto'>삭제된 댓글입니다.</p>";
 						str += "<hr> ";
 					} else if(list[i].deleted=='N') {
