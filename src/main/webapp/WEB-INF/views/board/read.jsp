@@ -239,12 +239,8 @@
 					commentUL.html("");
 					return;
 				}
-
+console.log(list);
 				for(var i=0, len=list.length||0; i<len; i++) {
-					str += "<li class='left clearfix' data-boardId='" + list[i].boardId + "'>";
-					str += "	<div><div class='header'><strong class='primary-font'>["+list[i].id+"] "+list[i].nickname+"</strong>";
-					str += "		<small class='pull-right text-muted'>" + moment(list[i].writtenAt).format('YYYY-MM-DD')+"</small></div>";
-					str += "		<p>"+list[i].content+"</p></div></li>";
 					str += " <li class='reChat'> "; 
 					for(var j=0; j<list[i].depth; j++) {
 						str += "<ul><li> ";
@@ -282,6 +278,81 @@
 			});
 			
 		}
+		
+		// 답글쓰기 버튼 이벤트
+		$(document).on("click","a[class='coCommentBtn']", function(e){
+			
+			$(".replyDiv").remove();
+			$(".commentEditDiv").remove();
+			
+			var replyDiv = document.createElement("div");
+			replyDiv.setAttribute("class", "replyDiv");
+			 
+			var textArea = document.createElement("textarea");
+			textArea.setAttribute("class", "replyTextarea");
+			textArea.setAttribute("id", "replyTextarea");
+			textArea.setAttribute("placeholder", "댓글을 입력해주세요");
+			 
+			var reCommentRegBtn = document.createElement("button");
+			reCommentRegBtn.setAttribute("class", "reCommentRegBtn");
+			reCommentRegBtn.innerHTML="답변 등록";
+
+			replyDiv.appendChild(textArea);
+			replyDiv.appendChild(reCommentRegBtn);
+			 
+			e.target.after(replyDiv);
+		});
+
+		// 댓글 등록버튼 이벤트
+		$("#registerCommentBtn").on("click", function(e) {
+			
+			var commentValue = {
+					content : $('#commentContent').val(),
+					boardId : boardId,
+					nickname : ${sessionUser.nickname} 
+			};
+			
+			// 댓글추가
+			addComment(commentValue)
+				.then(function(response) {
+					// 댓글 리스트 새로고침
+					showComment();
+					$('#commentContent').val("");
+				})
+				.catch(function(error) {
+					console.log("error="+error);
+				});
+			
+		})
+		
+		// 대댓글 등록 버튼 이벤트
+		$(document).on("click","button[class='reCommentRegBtn']", function(e){
+			
+			var commentId = $(this).parent().parent().find(".commentId").val();
+			var commentDepth = $(this).parent().parent().find(".commentDepth").val();
+			var commentCnt = $(this).parent().parent().find(".commentCnt").val();
+			
+			var reCommentValue = { 
+					id : commentId,
+					content :  $('#replyTextarea').val(),
+					commentCnt : commentCnt,
+					boardId : boardId,
+					nickname : ${sessionUser.nickname},
+					depth : commentDepth,
+			}
+
+			// 대댓글추가
+			addReComment(reCommentValue)
+				.then(function(response) {
+					// 댓글 리스트 새로고침
+					showComment();
+				})
+				.catch(function(error) {
+					console.log("error="+error);
+				});
+			 
+		})
+		
 		
 		// 댓글  드랍다운 수정 클릭시 수정창 보여주기
 		$(document).on("click","a[class='commentEditBtn']", function(e){
@@ -339,127 +410,22 @@
 				});
 			
 		});
-
-		// 댓글 수정
-		function editComment(editVal) {
-
-			return $.ajax({
-				type : 'PUT',
-				url : '/comments/' + editVal.id,
-				data : JSON.stringify(editVal),
-				contentType : "application/json; charset=utf-8"
-			}); 
-			
-		}
 		
 		// 댓글 삭제 버튼 이벤트
 		$(document).on("click","a[class='commentDeleteBtn']", function(e){
 
 			var commentId = $(this).parent().parent().parent().parent().find(".commentId").val();
-
+			
 			deleteComment(commentId)
 			.then(function(response) {
-				showComment();
+				if(response=="ok") {
+					showComment();					
+				} else {
+					alert("삭제 실패!");
+				}
 			});
 			
 		});
-		
-		// 댓글 삭제(진짜 삭제 x 작성자 0으로 바꿔줌)
-		function deleteComment(commentId) {
-
-			return $.ajax({
-				type : 'DELETE',
-				url : '/comments/' + commentId,
-				data : JSON.stringify(commentId),
-				contentType : "application/json; charset=utf-8"
-			}); 
-			
-		}
-		
-		// 답글쓰기 버튼 이벤트
-		$(document).on("click","a[class='coCommentBtn']", function(e){
-			
-			$(".replyDiv").remove();
-			$(".commentEditDiv").remove();
-			
-			var replyDiv = document.createElement("div");
-			replyDiv.setAttribute("class", "replyDiv");
-			 
-			var textArea = document.createElement("textarea");
-			textArea.setAttribute("class", "replyTextarea");
-			textArea.setAttribute("id", "replyTextarea");
-			textArea.setAttribute("placeholder", "댓글을 입력해주세요");
-			 
-			var reCommentRegBtn = document.createElement("button");
-			reCommentRegBtn.setAttribute("class", "reCommentRegBtn");
-			reCommentRegBtn.innerHTML="답변 등록";
-
-			replyDiv.appendChild(textArea);
-			replyDiv.appendChild(reCommentRegBtn);
-			 
-			e.target.after(replyDiv);
-		});
-		
-		// 답변 등록 버튼 이벤트
-		$(document).on("click","button[class='reCommentRegBtn']", function(e){
-			
-			var commentId = $(this).parent().parent().find(".commentId").val();
-			var commentDepth = $(this).parent().parent().find(".commentDepth").val();
-			var commentCnt = $(this).parent().parent().find(".commentCnt").val();
-			
-			var reCommentValue = { 
-					id : commentId,
-					content :  $('#replyTextarea').val(),
-					commentCnt : commentCnt,
-					boardId : boardId,
-					nickname : "2", // 임시아이디
-					depth : commentDepth,
-			}
-
-			// 대댓글추가
-			addReComment(reCommentValue)
-				.then(function(response) {
-					// 댓글 리스트 새로고침
-					showComment();
-				})
-				.catch(function(error) {
-					console.log("error="+error);
-				});
-			 
-		})
-		
-		// 대댓글 추가
-		function addReComment(comment) {
-
-			return $.ajax({
-				type : 'POST',
-				url : '/comments/reComment',
-				data : JSON.stringify(comment),
-				contentType : "application/json; charset=utf-8"
-			}); 
-		}
-		
-		// 댓글 등록버튼 이벤트
-		$("#registerCommentBtn").on("click", function(e) {
-			
-			var commentValue = {
-					content : $('#commentContent').val(),
-					boardId : boardId,
-					nickname : "2" // 임시아이디
-			};
-			
-			// 댓글추가
-			addComment(commentValue)
-				.then(function(response) {
-					// 댓글 리스트 새로고침
-					showComment();
-					$('#commentContent').val("");
-				})
-				.catch(function(error) {
-					console.log("error="+error);
-				});
-			
-		})
 		
 		// 댓글 추가
 		function addComment(comment) {
@@ -472,6 +438,40 @@
 			});
 		}
 		
+		// 대댓글 추가
+		function addReComment(comment) {
+
+			return $.ajax({
+				type : 'POST',
+				url : '/comments/reComment',
+				data : JSON.stringify(comment),
+				contentType : "application/json; charset=utf-8"
+			}); 
+		}
+
+		// 댓글 수정
+		function editComment(editVal) {
+
+			return $.ajax({
+				type : 'PUT',
+				url : '/comments/' + editVal.id,
+				data : JSON.stringify(editVal),
+				contentType : "application/json; charset=utf-8"
+			}); 
+			
+		}
+
+		// 댓글 삭제(진짜 삭제 x 작성자 0으로 바꿔줌)
+		function deleteComment(commentId) {
+
+			return $.ajax({
+				type : 'DELETE',
+				url : '/comments/' + commentId,
+				data : JSON.stringify(commentId),
+				contentType : "application/json; charset=utf-8"
+			}); 
+			
+		}
 		
 		
 	});
