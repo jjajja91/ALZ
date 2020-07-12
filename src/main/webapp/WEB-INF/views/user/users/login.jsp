@@ -20,12 +20,6 @@
 	        	</td>
 			</tr>
 			<tr>
-				<td>NICKNAME</td>
-				<td>
-					<input type="text" name="nickname" value="${sessionUser.nickname}">
-				</td>
-			</tr>
-			<tr>
 				<td>PW</td>
 				<td>
 		            <input type="password" name="password" autocomplete="off" placeholder="Password" onkeypress="if (event.keyCode==13) login()">

@@ -170,22 +170,14 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public String login(@RequestBody @Valid @ModelAttribute UserDTO user, Model model, HttpServletRequest request,
+	public String login(@RequestBody @ModelAttribute UserDTO user, Model model, HttpServletRequest request,
 			HttpSession session, BindingResult result) {
 
 		UserDTO dto = userService.readById(user);
 		session.setAttribute("sessionUser", dto);
 
-		if (result.hasErrors()) {
-			FieldError error = result.getFieldError();
-			if (result.getFieldError().getCode().indexOf("NotNull") != -1)
-				throw new TemporaryServerException(error);
-			else
-				throw new UnsatisfiedContentException(error);
-		} else {
 			userService.readById(user);
 			model.addAttribute("email", request.getParameter("email"));
-		}
 
 		if (dto == null) {
 			System.out.println("로그인 정보가 틀렸습니다.");

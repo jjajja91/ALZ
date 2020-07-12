@@ -5,13 +5,12 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,8 +21,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import alz.board.domain.BoardCriteria;
 import alz.board.domain.BoardDTO;
 import alz.board.domain.BoardPageDTO;
-import alz.board.exceptions.TemporaryServerException;
-import alz.board.exceptions.UnsatisfiedContentException;
 import alz.board.service.BoardService;
 import alz.file.domain.BoardFileDTO;
 import lombok.extern.log4j.Log4j;
@@ -63,13 +60,6 @@ public class BoardPageController {
 	
 	@PostMapping("/update")
 	public String update(@Valid BoardDTO board, @ModelAttribute("cri") BoardCriteria cri, RedirectAttributes rttr,  BindingResult result) {
-	   System.out.println("들어오냐");
-//		if(result.hasErrors()) {
-//			FieldError error = result.getFieldError();
-//			if(result.getFieldError().getCode().indexOf("NotNull")!=-1)
-//				throw new TemporaryServerException(error);
-//			else throw new UnsatisfiedContentException(error);
-//		} else {
 		boardService.update(board.getId(), board);
 		
 		rttr.addAttribute("pageNum", cri.getPageNum());
