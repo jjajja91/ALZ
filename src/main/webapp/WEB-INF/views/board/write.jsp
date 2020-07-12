@@ -145,6 +145,26 @@
 			</div>
 		</form>
 	</div>
+      <form role="form" action="/board/write" method="post">
+         <div class="form-group">
+            <label for="title">title:</label> 
+            <input class="form-control" rows="1" name="title"></input>
+                <label for="content">content:</label>
+                 <textarea id="summernote" name="content"></textarea>
+            <label>Writer:</label>
+             <input class="form-control" rows="1" name="nickname" value="${sessionUser.nickname}" readonly="readonly"></input> 
+               <label>boardType:</label> 
+               <input class="form-control" rows="1" name="typeId"></input>
+      	<input type="hidden" name="parentId" value='<c:out value="${param.pid}"/>'>
+      	  	<input  type="hidden" name="boardOrder" value='<c:out value="${param.boardOrder}"/>'>
+      	  	  	<input  type="hidden" name="id" value='<c:out value="${param.id}"/>'>
+            <div class="row">
+               <div class="col-lg-12">
+                  <div class="panel panel-defualt">
+                     <div class="panel-heading">Files</div>
+                     <div class="panel-body">
+                        <div class='uploadResult'>
+                           <ul>
 
 
 
@@ -160,19 +180,28 @@
 		};
 		var $nickname = $("input[name=nickname]");
 		var $boardType = $("input[name=typeId]");
+		var $parentId = $("input[name=parentId]");
+		var $boardOrder = $("input[name=boardOrder]");
+		var $id = $("input[name=id]");
+		
 		var $summernote = $('#summernote');
+		
 	
    /*  var $summernote = $('#summernote'); */
    
 		$summernote.summernote({
-			placeholder : 'content',
-			minHeight : 370,
-			maxHeight : null,
-			disableDragAndDrop: true,
-			shortcuts: false,
-			focus : true,
-			lang : 'ko-KR'
+				placeholder : 'content',
+				minHeight : 370,
+				maxHeight : null,
+				shortcuts: false,
+				focus : true,
+				lang : 'ko-KR',
 				
+				callbacks : {
+					onImageUpload: function(files, editor, welEditable) {
+				            sendFile(files);
+				          }
+				}
 		});
 		
 		makeFileBtn();
@@ -189,32 +218,36 @@
 			$("div[class*=toolbar]").append(str);
 		}
 		
+		
+		
         $("input[type='file']").change(function(e){
-           var formData = new FormData();
-           var inputFile = $("input[name='uploadFile']");
-           var files = inputFile[0].files;
-           
-           for(var i=0; i<files.length; i++){
-              
-              if(!checkExtension(files[i].name, files[i].size)){
-                 return false;
-              }
-              formData.append("uploadFile", files[i]);
-           }
-           
-           $.ajax({
-              url: '/file/uploadAjaxAction',
-              processData: false,
-              contentType: false,
-              data: formData,
-              type: 'POST',
-              dataType: 'json',
-              success: function(result){
-                 console.log(result);
-                 showUploadResult(result);
-              }
-           });
+           	var inputFile = $("input[name='uploadFile']");
+            var files = inputFile[0].files;
+    		sendFile(files);
         });
+        		
+
+        function sendFile(files){
+        		var formData = new FormData();
+        		   for(var i=0; i<files.length; i++){
+                       if(!checkExtension(files[i].name, files[i].size)){
+                          return false;
+                       }
+                       formData.append("uploadFile", files[i]);
+                    }
+                $.ajax({
+                   url: '/file/uploadAjaxAction',
+                   processData: false,
+                   contentType: false,
+                   data: formData,
+                   type: 'POST',
+                   dataType: 'json',
+                   success: function(result){
+                      console.log(result);
+                      showUploadResult(result);
+                   }
+                });
+        }
     
 	var formObj = $("form[role='form']");
 	
@@ -244,6 +277,10 @@
 				content: $content.val(),
 				nickname: $nickname.val(),
 				typeId: $boardType.val(),
+				parentId : $parentId.val(),
+				boardOrder : $boardOrder.val(),
+				id : $id.val(),
+				
 				fileList: fileList
 		};
 		console.log(data);

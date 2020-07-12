@@ -15,6 +15,7 @@ public class BoardCriteria {
 
 	private int pageNum;
 	private int amount;
+	private int typeId;
 	
 	private String type;
 	private String keyword;
@@ -28,12 +29,19 @@ public class BoardCriteria {
 		this.amount = amount;
 	}
 	
+	public BoardCriteria(int pageNum, int amount, int typeId) {
+		this.pageNum = pageNum;
+		this.amount = amount;
+		this.typeId = typeId;
+	}
+	
 	public String[] getTypeArr() {
 		return type == null? new String[] {}: type.split("");
 	}
 	
 	public String getListLink() {
 		UriComponentsBuilder builder = UriComponentsBuilder.fromPath("")
+				.queryParam("typeId", this.getTypeId())
 				.queryParam("pageNum", this.pageNum)
 				.queryParam("amount", this.getAmount())
 				.queryParam("type", this.getType())
