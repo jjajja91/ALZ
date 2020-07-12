@@ -4,7 +4,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 
 <%@include file="../includes/header.jsp"%>
-
 <div class="container">
 	<h1 class="page-header">Board</h1>
 </div>
@@ -62,38 +61,6 @@
 			</div>
 		</div> --%>
 
-		<!-- 댓글  -->
-		<%-- div>
-			<table border="1" width="1200px" id="reply_area">
-			    <tr reply_type="all"  style="display:none"><!-- 뒤에 댓글 붙이기 쉽게 선언 -->
-				    <td colspan="4"></td>
-				</tr>
-				<!-- 댓글이 들어갈 공간 -->
-				<c:forEach var="replyList" items="${replyList}" varStatus="status">
-					<!-- 댓글의 depth 표시 -->
-					<tr reply_type="<c:if test="${replyList.depth == '0'}">main</c:if><c:if test="${replyList.depth == '1'}">sub</c:if>">
-						<td width="820px">
-						    <c:if test="${replyList.depth == '1'}"> → </c:if>${replyList.reply_content}
-						</td>
-						<td width="100px">
-						    ${replyList.reply_writer}
-						</td>
-						<td width="100px">
-						    <input type="password" id="reply_password_${replyList.reply_id}" style="width:100px;" maxlength="10" placeholder="패스워드"/>
-						</td>
-						<td align="center">
-						    <c:if test="${replyList.depth != '1'}">
-						    <!-- 첫 댓글에만 댓글이 추가 대댓글 불가 -->
-								<button name="reply_reply" parent_id = "${replyList.reply_id}" reply_id = "${replyList.reply_id}">댓글</button>
-							</c:if>
-							<button name="reply_modify" parent_id = "${replyList.parent_id}" r_type = "<c:if test="${replyList.depth == '0'}">main</c:if><c:if test="${replyList.depth == '1'}">sub</c:if>" reply_id = "${replyList.reply_id}">수정</button>
-							<button name="reply_del" r_type = "<c:if test="${replyList.depth == '0'}">main</c:if><c:if test="${replyList.depth == '1'}">sub</c:if>" reply_id = "${replyList.reply_id}">삭제</button>
-					    </td>
-					</tr>
-				</c:forEach>
-			</table>
-			
-		</div> --%>
 	<button data-oper='write' class="btn btn-info"
 			onclick="location.href='/board/write?typeId=<c:out value="${board.typeId}"/>&id=<c:out value="${board.id}"/>&pid=<c:out value="${board.parentId}"/>&boardOrder=<c:out value="${board.boardOrder}"/>'">답글쓰기</button> 
 		
@@ -127,13 +94,13 @@
 					<li>
 						<strong class="primary-font">user00</strong>
 						<small class="pull-right text-muted">2020-07-03</small>
-						<p>Good job!</p>
+						<pre>Good job!</pre>
 					</li>
 				</ul>
 				
 				<!-- 댓글입력 -->
 				<div>
-					<textarea class="commentText" id="commentContent" name='comment' placeholder='댓글을 남겨보세요'></textarea>
+					<textarea id="commentContent" name='comment' placeholder='댓글을 남겨보세요'></textarea>
 					<button id="registerCommentBtn">등록</button>
 				</div>
 			</div>
@@ -144,6 +111,7 @@
 </div>
 
 <script type="text/javascript" src="/resources/js/comment.js"></script>
+
 <script type="text/javascript">
 
 
@@ -262,7 +230,7 @@
 						str += "				</ul>";
 						str += "			</div>";
 						}
-						str += "			<p style='margin:auto'>"+list[i].content+"</p>";
+						str += "			<pre class='preContent' style='margin:auto;'>"+list[i].content+"</pre>";
 						str += "			<small>" + moment(list[i].writtenAt).format('YYYY-MM-DD hh:mm')+"</small>";
 						str += "			<a role='button' class='coCommentBtn'>답글쓰기</a>";
 						str += "			<input type='hidden' class='commentId' id='commentId"+i+"' value='"+list[i].id+"'/>";
@@ -276,12 +244,12 @@
 					}
 					str += " </li>";
 					
-
+					
 				}
 				
 				commentUL.html(str);
 			});
-			
+		
 		}
 		
 		// 답글쓰기 버튼 이벤트
@@ -300,7 +268,6 @@
 			replyDiv.setAttribute("class", "replyDiv");
 			 
 			var textArea = document.createElement("textarea");
-			textArea.setAttribute("class", "replyTextarea");
 			textArea.setAttribute("id", "replyTextarea");
 			textArea.setAttribute("placeholder", "댓글을 입력해주세요");
 			 
@@ -382,14 +349,14 @@
 
 			e.preventDefault();
 			// 숨겨둔 댓글 내용 보여줌
-			commentUL.find('p').css("display", "block");
+			commentUL.find('pre').css("display", "block");
 			
 			var commentId = $(this).parent().parent().parent().parent().find(".commentId").val();
-			var commentP = $(this).parent().parent().parent().parent().find("p");
+			var commentPre = $(this).parent().parent().parent().parent().find("pre");
 			var where= $(this).parent().parent().parent().parent().find("strong");
 			
 			// 수정할 댓글 내용 숨김
-			commentP.css("display", "none");
+			commentPre.css("display", "none");
 			
 			// 수정창, 답댓글 입력창 지우기
 			$(".commentEditDiv").remove();
@@ -399,9 +366,8 @@
 			commentEditDiv.setAttribute("class", "commentEditDiv");
 			 
 			var textAreaEdit = document.createElement("textarea");
-			textAreaEdit.setAttribute("class", "textAreaEdit");
 			textAreaEdit.setAttribute("id", "textAreaEdit");
-			textAreaEdit.innerText = commentP.html();
+			textAreaEdit.innerHTML = commentPre.html();
 			 
 			var reCommentEditBtn = document.createElement("button");
 			reCommentEditBtn.setAttribute("class", "reCommentEditBtn");
