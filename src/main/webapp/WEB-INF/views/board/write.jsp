@@ -113,7 +113,7 @@
                 <label for="content">content:</label>
                  <textarea id="summernote" name="content"></textarea>
             <label>Writer:</label>
-             <input class="form-control" rows="1" name="nickname"></input> 
+             <input class="form-control" rows="1" name="nickname" value="${sessionUser.nickname}" readonly="readonly"></input> 
                <label>boardType:</label> 
                <input class="form-control" rows="1" name="typeId"></input>
       	<input type='hidden' name='parentId' value='<c:out value="${param.pid}"/>'>
@@ -162,12 +162,15 @@ $(document).ready(function(e){
 				placeholder : 'content',
 				minHeight : 370,
 				maxHeight : null,
-				disableDragAndDrop: true,
 				shortcuts: false,
 				focus : true,
-				lang : 'ko-KR'
+				lang : 'ko-KR',
 				
-				
+				callbacks : {
+					onImageUpload: function(files, editor, welEditable) {
+				            sendFile(files);
+				          }
+				}
 		});
 		
 		makeFileBtn();
@@ -184,32 +187,36 @@ $(document).ready(function(e){
 			$("div[class*=toolbar]").append(str);
 		}
 		
+		
+		
         $("input[type='file']").change(function(e){
-           var formData = new FormData();
-           var inputFile = $("input[name='uploadFile']");
-           var files = inputFile[0].files;
-           
-           for(var i=0; i<files.length; i++){
-              
-              if(!checkExtension(files[i].name, files[i].size)){
-                 return false;
-              }
-              formData.append("uploadFile", files[i]);
-           }
-           
-           $.ajax({
-              url: '/file/uploadAjaxAction',
-              processData: false,
-              contentType: false,
-              data: formData,
-              type: 'POST',
-              dataType: 'json',
-              success: function(result){
-                 console.log(result);
-                 showUploadResult(result);
-              }
-           });
+           	var inputFile = $("input[name='uploadFile']");
+            var files = inputFile[0].files;
+    		sendFile(files);
         });
+        		
+
+        function sendFile(files){
+        		var formData = new FormData();
+        		   for(var i=0; i<files.length; i++){
+                       if(!checkExtension(files[i].name, files[i].size)){
+                          return false;
+                       }
+                       formData.append("uploadFile", files[i]);
+                    }
+                $.ajax({
+                   url: '/file/uploadAjaxAction',
+                   processData: false,
+                   contentType: false,
+                   data: formData,
+                   type: 'POST',
+                   dataType: 'json',
+                   success: function(result){
+                      console.log(result);
+                      showUploadResult(result);
+                   }
+                });
+        }
     
 	var formObj = $("form[role='form']");
 	
