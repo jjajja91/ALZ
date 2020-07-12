@@ -160,10 +160,7 @@
 		var $id = $("input[name=id]");
 		
 		var $summernote = $('#summernote');
-		
 	
-   /*  var $summernote = $('#summernote'); */
-   
 		$summernote.summernote({
 				placeholder : 'content',
 				minHeight : 370,
@@ -231,6 +228,19 @@
 		console.log("submit clicked");
 		
 		var fileList = [];
+		
+		$('.summernote').each(function(){
+		      var summernote = $(this);
+		      $('form').on('submit',function(){
+		          if (summernote.summernote('isEmpty')) {
+		               summernote.val('');
+		          }else if(summernote.val()=='<p><br></p>'){
+		               summernote.val('');
+		          }
+		     });
+		 });
+		
+		
 		
 		$(".uploadResult ul li").each(function(i, obj){
 			var jobj = $(obj);
