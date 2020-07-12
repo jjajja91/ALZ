@@ -108,43 +108,6 @@
 
 	<div class="container">
 		<h2>Board Write</h2>
-
-		<form role="form" action="/board/write" method="post">
-			<div class="form-group">
-				<label for="title">title:</label>
-				<input class="form-control" rows="1" name="title"></input> 
-				
-				<label for="content">content:</label>
-				<textarea id="summernote" name="content"></textarea>
-				
-				<label>Writer:</label>
-				<input class="form-control" rows="1" name="nickname"></input> 
-				
-				<label>boardType:</label> 
-				<input class="form-control" rows="1" name="typeId"></input> 
-				<input type='hidden' name='parentId' value='<c:out value="${param.pid}"/>'>
-				<input type='hidden' name='bOrder' value='<c:out value="${param.border}"/>'>
-				<input type='hidden' name='id' value='<c:out value="${param.id}"/>'>
-				<div class="row">
-					<div class="col-lg-12">
-						<div class="panel panel-defualt">
-							<div class="panel-heading">Files</div>
-							<div class="panel-body">
-								<div class='uploadResult'>
-									<ul>
-
-									</ul>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<button type="submit" class="btn btn-default">Submit</button>
-				<button type="reset" class="btn btn-default">Reset</button>
-			</div>
-		</form>
-	</div>
       <form role="form" action="/board/write" method="post">
          <div class="form-group">
             <label for="title">title:</label> 
@@ -158,14 +121,25 @@
       	<input type="hidden" name="parentId" value='<c:out value="${param.pid}"/>'>
       	  	<input  type="hidden" name="boardOrder" value='<c:out value="${param.boardOrder}"/>'>
       	  	  	<input  type="hidden" name="id" value='<c:out value="${param.id}"/>'>
-            <div class="row">
-               <div class="col-lg-12">
-                  <div class="panel panel-defualt">
-                     <div class="panel-heading">Files</div>
-                     <div class="panel-body">
-                        <div class='uploadResult'>
-                           <ul>
+           <div class="row">
+					<div class="col-lg-12">
+						<div class="panel panel-defualt">
+							<div class="panel-heading">Files</div>
+							<div class="panel-body">
+								<div class='uploadResult'>
+									<ul>
 
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<button type="submit" class="btn btn-default">Submit</button>
+				<button type="reset" class="btn btn-default">Reset</button>
+			</div>
+		</form>
+	</div>
 
 
 	<script>
