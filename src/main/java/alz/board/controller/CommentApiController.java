@@ -61,8 +61,6 @@ public class CommentApiController {
 			produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_UTF8_VALUE})
 	public ResponseEntity<?> readAll(@PathVariable("boardId") Long boardId) {
 		List<CommentDTO> comments = commentService.readAll(boardId);
-		
-		log.info(comments);
 		return ResponseEntity.status(HttpStatus.OK).body(comments);
 	}
 	
