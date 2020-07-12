@@ -12,7 +12,7 @@
 <div class="container">
 	<div class="panel-body">
 
-		<form id='form' action="/board/update" method="post">
+		<form role="form" action="/board/update" method="post">
 
 			<input type='hidden' name='pageNum'
 				value='<c:out value="${cri.pageNum }"/>'> <input
@@ -84,7 +84,7 @@
 		}
     
 		
-		var formObj = $("#form");
+		var formObj = $("form[role='form']");
 
 		$('button[type=submit]').on("click", function(e) {
 			e.preventDefault();
@@ -92,6 +92,16 @@
 			var operation = $(this).data("oper");
 			
 			console.log(operation);
+			$('.summernote').each(function(){
+			      var summernote = $(this);
+			      $('form').on('submit',function(){
+			          if (summernote.summernote('isEmpty')) {
+			               summernote.val('');
+			          }else if(summernote.val()=='<p><br></p>'){
+			               summernote.val('');
+			          }
+			     });
+			 });
 			
 			if(operation === 'delete') {
 				formObj.attr("action", "/board/delete");
@@ -108,9 +118,10 @@
 				formObj.append(amountTag);
 				formObj.append(keywordTag);
 				formObj.append(typeTag);
+				
 			} else if(operation === 'update'){
 				console.log("submit clicked");
-				
+		
 				var str = "";
 				
 				var blockImgArr = $(".card-block").find("img");
