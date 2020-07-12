@@ -95,7 +95,7 @@
 			
 		</div> --%>
 	<button data-oper='write' class="btn btn-info"
-			onclick="location.href='/board/write?id=<c:out value="${board.id}"/>&pid=<c:out value="${board.parentId}"/>&boardOrder=<c:out value="${board.boardOrder}"/>'">답글쓰기</button> 
+			onclick="location.href='/board/write?typeId=<c:out value="${board.typeId}"/>&id=<c:out value="${board.id}"/>&pid=<c:out value="${board.parentId}"/>&boardOrder=<c:out value="${board.boardOrder}"/>'">답글쓰기</button> 
 		
 		<button data-oper='update' class="btn btn-default"
 			onclick="location.href='/board/update?id=<c:out value="${board.id}"/>'">수정</button>
