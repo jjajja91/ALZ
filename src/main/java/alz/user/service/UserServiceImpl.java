@@ -37,8 +37,8 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public UserDTO readById(Long id) {
-		UserDTO searchedUser = userMapper.selectById(id);
+	public UserDTO readById(UserDTO user) {
+		UserDTO searchedUser = userMapper.selectById(user);
 		
 		if (searchedUser == null) {
 			System.out.println("Login Fail!!");
@@ -51,6 +51,7 @@ public class UserServiceImpl implements UserService {
 	
 	@Override
 	public UserDTO readByEmail(String email) {
+		System.out.println(email);
 		UserDTO searchedUser = userMapper.selectByEmail(email);
 		
 		if (searchedUser == null) {

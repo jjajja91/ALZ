@@ -10,7 +10,7 @@ public interface UserService {
 
 	UserDTO create(UserDTO user);
 
-	UserDTO readById(Long id);
+	UserDTO readById(UserDTO user);
 	
 	UserDTO readByEmail(String email);
 

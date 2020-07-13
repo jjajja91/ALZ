@@ -57,10 +57,10 @@ public class UserApiController {
 //		return ResponseEntity.status(HttpStatus.OK).body(selectById);
 //	}
 	
-	@GetMapping(value = "/emailChk/{email}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public ResponseEntity<?> emailChk(@PathVariable String email) {
-		UserDTO user = userService.readByEmail(email);
-		return ResponseEntity.status(HttpStatus.OK).body(user);
+	@PostMapping(value = "/emailChk", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public ResponseEntity<?> emailChk(@RequestBody UserDTO user) {
+		UserDTO foundUser = userService.readByEmail(user.getEmail());
+		return ResponseEntity.status(HttpStatus.OK).body(foundUser);
 	}
 	
 	@GetMapping(value = "/nicknameChk/{nickname}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)

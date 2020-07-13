@@ -85,7 +85,7 @@ public class UserController {
 		UserDTO user = (UserDTO)session.getAttribute("sessionUser");
 		
 		ModelAndView mv = new ModelAndView();
-		mv.addObject("sessionUser", userService.readById(user.getId()));
+		mv.addObject("sessionUser", userService.readById(user));
 		
 		mv.setViewName("/user/users/Modify");
 		
@@ -103,14 +103,7 @@ public class UserController {
 	/*----------------------------------------------------------------------------------------*/	
 	@RequestMapping(value = "/create", method = RequestMethod.POST)
 	public String Insert(@RequestBody @Valid @ModelAttribute UserDTO user, Model model, BindingResult result, HttpSession session, HttpServletRequest request) {
-		UserDTO dto = userService.readById(user.getId());
-		
-		if (dto != null) {
-//			model.addAttribute("message", "같은 아이디가 있습니다.");
-			System.out.println("같은 회원 정보가 있습니다.");
-			return "user/anonymous/join";
-		}
-		
+
 		userService.create(user);
 		model.addAttribute("email", request.getParameter("email"));
 		model.addAttribute("nickname", request.getParameter("nickname"));
@@ -151,10 +144,10 @@ public class UserController {
 	public String login(@RequestBody @ModelAttribute UserDTO user, Model model, HttpServletRequest request,
 			HttpSession session, BindingResult result) {
 
-		UserDTO dto = userService.readById(user.getId());
+		UserDTO dto = userService.readById(user);
 		session.setAttribute("sessionUser", dto);
 
-			userService.readById(user.getId());
+			userService.readById(user);
 			model.addAttribute("email", request.getParameter("email"));
 
 		if (dto == null) {
@@ -164,6 +157,6 @@ public class UserController {
 
 		String referer = (String)request.getHeader("REFERER");
 		
-		return referer;
+		return "user/users/loggedInfo";
 	}
 }

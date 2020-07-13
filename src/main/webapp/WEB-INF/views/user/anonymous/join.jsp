@@ -72,28 +72,61 @@
 		<a href="/">메인 페이지 이동</a>
 		
 		<script>
-			$emailChk = $("#emailChk");
-			$nicknameChk = $("#nicknameChk");
-			$email = $("#email");
-			$nickname = $("#nickname");
-			$emailChkResult = $("#emailChkResult");
-			$nicknameChkResult = $("#nicknameChkResult");
-			$joinSubmit = $("#joinSubmit");
-			$joinForm = $("#joinForm");
+			var $emailChk = $("#emailChk");
+			var $nicknameChk = $("#nicknameChk");
+			var $email = $("#email");
+			var $nickname = $("#nickname");
+			var $emailChkResult = $("#emailChkResult");
+			var $nicknameChkResult = $("#nicknameChkResult");
+			var $joinSubmit = $("#joinSubmit");
+			var $joinForm = $("#joinForm");
+			var emailReg = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+
+			
+			$email.change(function(){
+				$emailChkResult.val("false");
+			});
+			
+			$nickname.change(function(){
+				$nicknameChkResult.val("false");
+			});
 			
 			$emailChk.click(function(e){
 				e.preventDefault();
-				emailChk()
+				if($email.val()==null || $email.val().trim()==""){
+					alert("이메일이 비어있습니다");
+				} else if($email.val().length > 30) {
+					alert("이메일을 30자 이내로 적어주세요");
+				} else if(!(emailReg.test($email.val()))) {
+					alert("이메일의 형식을 지켜주세요");
+				} else {
+					var data = {
+						email : $email.val()
+					};
+				emailChk(data)
 				.then(function(response){
 					console.log(response);
+					if(response.email==$email.val()){
+						alert("중복된 이메일이 있습니다");
+					} else {
+						alert("사용 가능한 이메일입니다");
+						$emailChkResult.val("true");
+					}
 				})
 				.catch(function(error){
 					console.log(error);
 				});
+				}
 			});
 			
 			$nicknameChk.click(function(e){
 				e.preventDefault();
+				if($nickname.val()==null || $nickname.val().trim()==""){
+					alert("닉네임이 비어있습니다");
+				} else if($nickname.val().length > 16) {
+					alert("닉네임을 16자 이내로 적어주세요");
+				} else {
+					
 				nicknameChk()
 				.then(function(response){
 					console.log(response);
@@ -107,12 +140,14 @@
 				.catch(function(error){
 					console.log(error);
 				});
+				}
 			});
 			
-			function emailChk(){
+			function emailChk(data){
 				return $.ajax({
-					url: 'users/emailChk/'+$email.val(),
-					type: 'GET',
+					url: 'users/emailChk',
+					type: 'POST',
+				    data: JSON.stringify(data),
 					contentType : "application/json; charset=utf-8"
 				});
 			};
@@ -127,7 +162,17 @@
 			
 			$joinSubmit.click(function(e){
 				e.preventDefault();
-				if($emailChkResult.val()=="false"){
+				if($email.val()==null || $email.val().trim()==""){
+					alert("이메일이 비어있습니다");
+				} else if($nickname.val()==null || $nickname.val().trim()==""){
+					alert("닉네임이 비어있습니다");
+				} else if($email.val().length > 30) {
+					alert("이메일을 30자 이내로 적어주세요");
+				} else if($nickname.val().length > 16) {
+					alert("닉네임을 16자 이내로 적어주세요");
+				} else if(!(emailReg.test($email.val()))) {
+					alert("이메일의 형식을 지켜주세요");
+				} else if($emailChkResult.val()=="false"){
 					alert("이메일 중복체크를 해주세요");
 				} else if ($nicknameChkResult.val()=="false"){
 					alert("닉네임 중복체크를 해주세요");

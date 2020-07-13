@@ -64,8 +64,10 @@
 	<button data-oper='write' class="btn btn-info"
 			onclick="location.href='/board/write?typeId=<c:out value="${board.typeId}"/>&id=<c:out value="${board.id}"/>&pid=<c:out value="${board.parentId}"/>&boardOrder=<c:out value="${board.boardOrder}"/>'">답글쓰기</button> 
 		
+		<c:if test="${sessionUser.nickname eq board.nickname}">
 		<button data-oper='update' class="btn btn-default"
 			onclick="location.href='/board/update?id=<c:out value="${board.id}"/>'">수정</button>
+		</c:if>
 		<button data-oper='list' class="btn btn-info"
 			onclick="location.href='/board/list?typeId='${board.typeId}">목록</button>
 
@@ -104,7 +106,7 @@
 					<button id="registerCommentBtn">등록</button>
 				</div>
 			</div>
-		
+			<input type="hidden" id="targetUser" name="targetUser" value="${sessionUser.nickname}"/>
 		</div>
 	</div>
 	

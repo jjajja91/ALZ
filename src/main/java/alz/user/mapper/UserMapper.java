@@ -12,8 +12,6 @@ public interface UserMapper {
 
 	UserDTO selectById(UserDTO user);
 	
-	UserDTO selectById(Long id);
-	
 	UserDTO selectByNickname(String nickname);
 
 	UserDTO selectByEmail(String email);
