@@ -62,8 +62,9 @@ public class BoardPageController {
 	
 	@PostMapping("/update")
 	public String update(@Valid BoardDTO board, @ModelAttribute("cri") BoardCriteria cri, RedirectAttributes rttr,  BindingResult result) {
+	
 		boardService.update(board.getId(), board);
-		
+			
 		rttr.addAttribute("pageNum", cri.getPageNum());
 		rttr.addAttribute("amount", cri.getAmount());
 //		}

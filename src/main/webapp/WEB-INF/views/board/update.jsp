@@ -141,17 +141,7 @@
 			var operation = $(this).data("oper");
 			
 			console.log(operation);
-			$('.summernote').each(function(){
-			      var summernote = $(this);
-			      $('form').on('submit',function(){
-			          if (summernote.summernote('isEmpty')) {
-			               summernote.val('');
-			          }else if(summernote.val()=='<p><br></p>'){
-			               summernote.val('');
-			          }
-			     });
-			 });
-			
+	
 			if(operation === 'delete') {
 				formObj.attr("action", "/board/delete");
 			} else if(operation === 'list') {
@@ -173,6 +163,16 @@
 				formObj.submit();
 				
 			} else if(operation === 'update'){
+				$('.summernote').each(function(){
+				      var summernote = $(this);
+				      $('form').on('submit',function(){
+				          if (summernote.summernote('isEmpty')) {
+				               summernote.val('');
+				          }else if(summernote.val()=='<p><br></p>'){
+				               summernote.val('');
+				          }
+				     });
+				 });
 				
 				console.log("submit clicked");
 		
