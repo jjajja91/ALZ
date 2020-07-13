@@ -95,10 +95,6 @@ public class BoardPageController {
 		model.addAttribute("typeId", typeId);
 	}
 	
-
-	
-	
-	
 	
 	private void deleteFiles(List<BoardFileDTO> fileList) {
 		

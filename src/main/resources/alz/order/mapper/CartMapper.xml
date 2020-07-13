@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="alz.order.mapper.CartMapper">
+
+	<!-- 장바구니 추가 --> 
+	<insert id="insertCart" parameterType="alz.order.domain.CartDTO">
+		<selectKey keyProperty="cartId" order="BEFORE"
+			resultType="long">
+			SELECT alz_cart_seq.nextval FROM dual
+		</selectKey>
+		insert into alz_cart (cart_id, user_Id, merchandise_id,
+		amount)
+		values
+		(#{cartId}, #{userId}, #{merchandiseId}, #{amount})
+	</insert>
+
+	<!-- 기존 상품 추가 시 카운팅 -->
+	<select id="countCart" resultType="int">
+		SELECT COUNT(*) FROM alz_cart
+		WHERE user_Id= #{userId} AND merchandise_id = #{merchandiseId}
+	</select>
+
+	<!-- 장바구니 리스트 -->
+	<select id="listCart" resultType="alz.order.domain.CartDTO">
+		SELECT c.CART_id, c.USER_ID,
+		p.ID
+		, m.NICKNAME, p.NAME, p.ORIGIN_PRICE
+		FROM alz_user m,
+		alz_merchandise_detail p, alz_cart c
+		WHERE m.id = c.user_Id
+		AND p.id =
+		c.merchandise_id
+		AND c.user_Id = #{userId}
+		ORDER BY c.cart_id
+	</select>
+
+	<!-- 장바구니 상품 금액 합계 -->
+	<select id="sumMoney" resultType="int">
+		SELECT NVL
+		(sum(ORIGIN_PRICE),
+		0) money
+		FROM alz_cart c, alz_merchandise_detail p
+		WHERE c.merchandise_id = p.id
+		AND c.user_Id = #{userId}
+	</select>
+
+	<!-- 장바구니 상품 삭제 -->
+	<delete id="deleteCart">
+		DELETE FROM alz_cart WHERE cart_ID = #{cartId}
+	</delete>
+
+</mapper>

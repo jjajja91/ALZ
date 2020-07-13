@@ -4,6 +4,7 @@ import java.util.Date;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PositiveOrZero;
 import javax.validation.constraints.Size;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -25,7 +26,6 @@ import lombok.experimental.Accessors;
 @ToString
 public class MerchandiseDTO {
 
-//	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Long id;
 	@NotBlank(message = "상품명을 입력해주세요")
 	@Size(min=1, max=50, message="제목은 50자 이내로 입력해주세요")
@@ -37,18 +37,23 @@ public class MerchandiseDTO {
 	private String description;
 	private Date registerAt;
 	private Date updatedAt;
-	@NotBlank(message = "상품 마감일을 입력해주세요")
+	@NotNull(message = "상품 마감일을 입력해주세요")
 	private Date closedAt;
 	@NotNull(message = "상품 가격을 입력해주세요")
+	@PositiveOrZero(message = "양수만 입력 가능합니다")
 	private Long originPrice;
+	@NotNull(message = "할인 금액을 입력해주세요")
 	private Long salePrice;
+	@NotNull(message = "할인률을 입력해주세요")
 	private Double discountRate;
+	@NotNull(message = "상품 할인 마감일을 입력해주세요")
 	private Date discountDeadline;
+	@NotNull(message = "진열 여부를 입력해주세요")
 	private Integer displayState;
 	private Long userId;
-	@NotNull(message = "서버 오류입니다")
+	@NotNull(message = "FK 자동 입력 예정입니다.")
 	private Long refId;
-	@NotNull(message = "서버 오류입니다")
+	@NotNull(message = "FK 자동 입력 예정입니다.")
 	private Long merchandiseId;
 
 }
