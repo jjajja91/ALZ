@@ -38,12 +38,12 @@ public class UserApiController {
 	public UserApiController(UserService userService) {
 		this.userService = userService;
 	}
-
-	@PostMapping
-	public ResponseEntity<?> create(@RequestBody UserDTO user) {
-		UserDTO openedUser = userService.create(user);
-		return ResponseEntity.status(HttpStatus.CREATED).body(openedUser);
-	}
+//
+//	@PostMapping
+//	public ResponseEntity<?> create(@RequestBody UserDTO user) {
+//		UserDTO openedUser = userService.create(user);
+//		return ResponseEntity.status(HttpStatus.CREATED).body(openedUser);
+//	}
 	
 //	@GetMapping("/{id}")
 //	public ResponseEntity<?> readbyEmail(@PathVariable String email) {
