@@ -467,7 +467,9 @@
                 <li class="info2"><button id="myInfoBtn"></button>
                     <ul class="sub">
                         <li>
-                            <a href="/callJoin">회원가입</a>
+	                        <c:if test="${empty sessionUser}">
+	                            <a href="/callJoin">회원가입</a>
+	                        </c:if>
                         </li>
                         <li>
 	                        <c:if test="${empty sessionUser}">

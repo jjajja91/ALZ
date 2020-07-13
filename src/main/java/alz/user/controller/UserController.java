@@ -102,7 +102,7 @@ public class UserController {
    
    /*----------------------------------------------------------------------------------------*/   
    @RequestMapping(value = "/create", method = RequestMethod.POST)
-   public String Insert(@RequestBody @Valid @ModelAttribute UserDTO user, Model model, BindingResult result, HttpSession session, HttpServletRequest request) {
+   public String Insert(@RequestBody @ModelAttribute UserDTO user, Model model, BindingResult result, HttpSession session, HttpServletRequest request) {
       UserDTO dto = userService.readById(user);
       
       if (dto != null) {
@@ -120,7 +120,7 @@ public class UserController {
    }
    
    @RequestMapping(value = "/updateById", method = RequestMethod.POST)
-   public ModelAndView Modify(@RequestBody @Valid UserDTO user, BindingResult result, HttpServletRequest request) {
+   public ModelAndView Modify(@RequestBody UserDTO user, BindingResult result, HttpServletRequest request) {
       ModelAndView mv = new ModelAndView();
       HttpSession session = request.getSession();
       UserDTO dto = userService.updateById(user);
@@ -162,8 +162,8 @@ public class UserController {
          return "user/users/login";
       }
 
-      String referer = (String)request.getHeader("REFERER");
-      
+	      String referer = (String)request.getHeader("REFERER");
+	      
       return "user/users/loggedInfo";
    }
 }
