@@ -46,7 +46,6 @@ public class BoardPageController {
 	
 	@PostMapping("/delete")
 	public String delete(@RequestParam("id") Long id, @ModelAttribute("cri") BoardCriteria cri, RedirectAttributes rttr) {
-		
 		List<BoardFileDTO> fileList = boardService.getFileList(id);
 		BoardDTO board =boardService.readById(id);
 		if(boardService.deleteById(id)==1) {

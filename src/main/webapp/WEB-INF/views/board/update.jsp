@@ -77,6 +77,7 @@
 			maxHeight : null,
 			focus : true,
 			lang : 'ko-KR',
+			height : 320,
 			
 			callbacks : {
 				onImageUpload: function(files, editor, welEditable) {
@@ -142,8 +143,9 @@
 			
 			console.log(operation);
 	
-			if(operation === 'delete') {
+			if(operation === 'delete') {			
 				formObj.attr("action", "/board/delete");
+				formObj.submit();
 			} else if(operation === 'list') {
 				//move to list
 				formObj.attr("action", "/board/list").attr("method", "get");
