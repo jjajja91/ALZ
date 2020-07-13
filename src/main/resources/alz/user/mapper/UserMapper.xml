@@ -3,13 +3,23 @@
 <mapper namespace="alz.user.mapper.UserMapper">
 
 	<!-- 이메일 중복 체크 -->
-	<select id="emailChk" resultType="alz.user.domain.UserDTO">
+	<select id="emailChk" resultType="Integer">
 		SELECT COUNT(*) FROM alz_user
 		WHERE email = #{email}
 	</select>
 	<!-- 닉네임 중복 체크 -->
-	<select id="nicknameChk" resultType="alz.user.domain.UserDTO">
+	<select id="nicknameChk" resultType="Integer">
 		SELECT COUNT(*) FROM alz_user
+		WHERE nickname = #{nickname}
+	</select>
+	
+	<select id="selectByEmail" resultType="alz.user.domain.UserDTO">
+		SELECT email FROM alz_user
+		WHERE email = #{email}
+	</select>
+	
+	<select id="selectByNickname" resultType="alz.user.domain.UserDTO">
+		SELECT nickname FROM alz_user
 		WHERE nickname = #{nickname}
 	</select>
 

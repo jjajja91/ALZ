@@ -48,6 +48,44 @@ public class UserServiceImpl implements UserService {
 		
 		return searchedUser;
 	}
+	
+	@Override
+	public UserDTO readByEmail(String email) {
+		System.out.println(email);
+		UserDTO searchedUser = userMapper.selectByEmail(email);
+		
+		if (searchedUser == null) {
+			System.out.println("Login Fail!!");
+		} else {
+			System.out.println("Login Success!!");
+		}
+		
+		return searchedUser;
+	}
+	
+	@Override
+	public int emailChk(String email) {
+		return emailChk(email);
+	}
+	
+	@Override
+	public int nicknameChk(String nickname) {
+		return nicknameChk(nickname);
+	}
+	
+	
+	@Override
+	public UserDTO readByNickname(String nickname) {
+		UserDTO searchedUser = userMapper.selectByNickname(nickname);
+		
+		if (searchedUser == null) {
+			System.out.println("Login Fail!!");
+		} else {
+			System.out.println("Login Success!!");
+		}
+		
+		return searchedUser;
+	}
 
 	@Override
 	public List<UserDTO> readAll() {

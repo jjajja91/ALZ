@@ -10,7 +10,7 @@ public class BoardPageControllerAdvice {
 	
 	@ExceptionHandler(NoUserException.class)
 	public String noUser(NoUserException e) {
-		return "user/users/login";
+		return "redirect:/callLogin";
 	}
 
 }
