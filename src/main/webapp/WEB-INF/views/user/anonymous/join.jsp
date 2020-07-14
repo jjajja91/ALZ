@@ -24,19 +24,19 @@
             -->
          <tr>
             <td>EMAIL</td>
-            <td><input name="email" id="email" type="text" placeholder="6~12자리 이내의 영어와 숫자" autocomplete="off">
+            <td><input name="email" id="email" type="text" placeholder="example@example.com" autocomplete="off">
             </td>
             <td><button id="emailChk">이메일 중복 체크</button></td>
          </tr>
          <tr>
             <td>NICKNAME</td>
-            <td><input name="nickname" id="nickname" placeholder="6~12자리 이내의 한글"
+            <td><input name="nickname" id="nickname" placeholder="nickname"
                maxlength="10" autocomplete="off"></td>
                <td><button id="nicknameChk">닉네임 중복 체크</button></td>
          </tr>
          <tr>
             <td>PW</td>
-            <td><input name="password" type="password" placeholder="6~12자리 이내의 숫자" maxlength="10" autocomplete="off">
+            <td><input name="password" type="password" placeholder="password" maxlength="10" autocomplete="off">
             </td>
          </tr>
          <!--             
@@ -166,10 +166,14 @@
                alert("이메일이 비어있습니다");
             } else if($nickname.val()==null || $nickname.val().trim()==""){
                alert("닉네임이 비어있습니다");
+            /* } else if($password.val()==null || $password.val().trim()==""){
+               alert("비밀번호가 비어있습니다"); */
             } else if($email.val().length > 30) {
                alert("이메일을 30자 이내로 적어주세요");
             } else if($nickname.val().length > 16) {
                alert("닉네임을 16자 이내로 적어주세요");
+            /* } else if($password.val().length > 16) {
+               alert("비밀번호를 16자 이내로 적어주세요"); */
             } else if(!(emailReg.test($email.val()))) {
                alert("이메일의 형식을 지켜주세요");
             } else if($emailChkResult.val()=="false"){

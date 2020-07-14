@@ -470,6 +470,11 @@
 	                        <c:if test="${empty sessionUser}">
 	                            <a href="/callJoin">회원가입</a>
 	                        </c:if>
+                        	<c:if test="${!empty sessionUser}">
+                        	    <a href="">마이페이지</a>
+                        	    <!-- <a href="/callModify">MODIFY</a> -->
+	                            <!-- <a href="/deleteById">REMOVE</a> -->
+                        	</c:if>
                         </li>
                         <li>
 	                        <c:if test="${empty sessionUser}">
@@ -479,13 +484,6 @@
 								<a href="/logout">LOGOUT</a>
 							<%-- <br>이메일 : ${sessionUser.email}--%>							
 							</c:if>
-                        </li>
-                        <li>
-                        	<c:if test="${!empty sessionUser}">
-                        	    <a href="">마이페이지</a>
-                        	    <!-- <a href="/callModify">MODIFY</a> -->
-	                            <!-- <a href="/deleteById">REMOVE</a> -->
-                        	</c:if>
                         </li>
                     </ul>
                 </li>

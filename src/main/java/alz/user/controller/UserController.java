@@ -32,27 +32,6 @@ public class UserController {
    @Autowired
    UserService userService;
    
-//   private static final Logger logger = LoggerFactory.getLogger(UserController.class);
-//   
-//   @RequestMapping(value = "/", method = RequestMethod.GET)
-//   public String login(Locale locale, Model model) {
-//      logger.info("Welcome home! The client locale is {}.", locale);
-//      
-//      Date date = new Date();
-//      DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
-//      
-//      String formattedDate = dateFormat.format(date);
-//      
-//      model.addAttribute("serverTime", formattedDate );
-//      
-//      return "home";
-//   }
-
-//   @RequestMapping(value = "/", method = RequestMethod.GET)
-//   public String index() {
-//      return "home";
-//   }
-   
    @ModelAttribute("path")
    public String getContextPath(HttpServletRequest request) {
       return request.getContextPath();
@@ -86,7 +65,7 @@ public class UserController {
       
       ModelAndView mv = new ModelAndView();
       mv.addObject("sessionUser", userService.readById(user));
-      
+      	
       mv.setViewName("/user/users/Modify");
       
       return mv;
@@ -101,27 +80,31 @@ public class UserController {
    }
    
    /*----------------------------------------------------------------------------------------*/   
+   //회원가입 페이지에서 버튼을 누르면 @RequestMapping을 찾아 실행한다.
+   //Form의 값들은 HttpServletRequest에 담겨서 넘어온다 
+   //Controller에서 받은 Param 값들은 Model에 담아 다시 View 페이지로 전달할 수 있습니다. Model은 데이터만 담는다
    @RequestMapping(value = "/create", method = RequestMethod.POST)
-   public String Insert(@RequestBody @ModelAttribute UserDTO user, Model model, BindingResult result, HttpSession session, HttpServletRequest request) {
+   public String Insert(UserDTO user, HttpServletRequest request, Model model) {
       UserDTO dto = userService.readById(user);
       
       if (dto != null) {
-//         model.addAttribute("message", "같은 아이디가 있습니다.");
          System.out.println("같은 회원 정보가 있습니다.");
          return "user/anonymous/join";
       }
       
-      userService.create(user);
       model.addAttribute("email", request.getParameter("email"));
       model.addAttribute("nickname", request.getParameter("nickname"));
-      model.addAttribute("password", request.getParameter("password"));
+//      model.addAttribute("password", request.getParameter("password"));
+      userService.create(user);
       
       return "user/anonymous/joinInfo";
    }
    
+   //ModelAndView는 스프링에서 제공하는 자체 객체로서 데이터랑 view의 이름(?)을 같이 전달함.
    @RequestMapping(value = "/updateById", method = RequestMethod.POST)
-   public ModelAndView Modify(@RequestBody UserDTO user, BindingResult result, HttpServletRequest request) {
-      ModelAndView mv = new ModelAndView();
+   public ModelAndView Modify(HttpServletRequest request, UserDTO user) {
+      
+	  ModelAndView mv = new ModelAndView();
       HttpSession session = request.getSession();
       UserDTO dto = userService.updateById(user);
       
@@ -148,14 +131,10 @@ public class UserController {
    }
 
    @RequestMapping(value = "/login", method = RequestMethod.POST)
-   public String login(@RequestBody @ModelAttribute UserDTO user, Model model, HttpServletRequest request,
-         HttpSession session, BindingResult result) {
+   public String login(UserDTO user, HttpSession session, HttpServletRequest request) {
 
       UserDTO dto = userService.readById(user);
       session.setAttribute("sessionUser", dto);
-
-         userService.readById(user);
-         model.addAttribute("email", request.getParameter("email"));
 
       if (dto == null) {
          System.out.println("로그인 정보가 틀렸습니다.");
