@@ -18,12 +18,12 @@ import lombok.experimental.Accessors;
 @AllArgsConstructor
 @ToString
 public class CartDTO {
-	private long cartId;
+	private Long cartId;
 	private String cartNick;
-	private long merchandiseId;
-	private long amount;
+	private Long merchandiseId;
+	private Long amount;
 	private Date addDate;
 	private String name; // 상품 이름
-	private int originPrice; // 상품 단가
-	private int money; // 상품 가격
+	private Integer originPrice; // 상품 단가
+	private Integer money; // 상품 가격
 }

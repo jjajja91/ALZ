@@ -36,10 +36,14 @@ public class MerchandiseApiController {
 		this.merchandiseService = merchandiseService;
 	}
 	
+	
+	// 상품 등록
 	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> create(@RequestBody @Valid MerchandiseDTO merchandise, BindingResult result){
 		
 		System.out.println("merchandise " + merchandise);
+		
+		// 유효성 체크 에러메세지 분기
 		if (result.hasErrors()) {
 			FieldError error = result.getFieldError();
 			if (result.getFieldError().getCode().indexOf("NotNull") != -1)

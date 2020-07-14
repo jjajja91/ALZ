@@ -62,7 +62,9 @@ public class CartController {
 	// 장바구니 처리
 	@GetMapping("/cart")
 	public ModelAndView list(@ModelAttribute CartDTO cart, ModelAndView mav, HttpSession session) {
+		// 장바구니 정보를 담을 map 생성
 		Map<String, Object> map = new HashMap<String, Object>();
+		// 유저 세션 가져오기
 		UserDTO user = (UserDTO) session.getAttribute("sessionUser");
 		String cartNick = user.getNickname();
 		cart.setCartNick(cartNick);
