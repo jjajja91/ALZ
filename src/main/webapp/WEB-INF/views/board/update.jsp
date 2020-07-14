@@ -122,8 +122,14 @@
 			$("div[class*=toolbar]").append(str);
 		}
     
-		
-
+  		function boardDeleteApi(data) {
+    		  return $.ajax({
+    		    url: "/boards/"+$id.val(),
+    		    type: "Delete",
+    		    data: JSON.stringify(data),
+    		    contentType: "application/json",
+    		  });
+    		}
   		
   		function boardUpdateApi(data) {
   		  return $.ajax({
@@ -144,8 +150,10 @@
 			console.log(operation);
 	
 			if(operation === 'delete') {			
-				formObj.attr("action", "/board/delete");
-				formObj.submit();
+				boardDeleteApi(data) 
+				.then(function(response){
+				   self.location = "/board/list?typeId="+$typeId.val();
+				})					
 			} else if(operation === 'list') {
 				//move to list
 				formObj.attr("action", "/board/list").attr("method", "get");
