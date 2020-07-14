@@ -64,17 +64,6 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
-	public int emailChk(String email) {
-		return emailChk(email);
-	}
-	
-	@Override
-	public int nicknameChk(String nickname) {
-		return nicknameChk(nickname);
-	}
-	
-	
-	@Override
 	public UserDTO readByNickname(String nickname) {
 		UserDTO searchedUser = userMapper.selectByNickname(nickname);
 		
@@ -87,6 +76,16 @@ public class UserServiceImpl implements UserService {
 		return searchedUser;
 	}
 
+	@Override
+	public int emailChk(String email) {
+		return emailChk(email);
+	}
+	
+	@Override
+	public int nicknameChk(String nickname) {
+		return nicknameChk(nickname);
+	}
+	
 	@Override
 	public List<UserDTO> readAll() {
 		List<UserDTO> user = userMapper.selectAll();

@@ -14,19 +14,19 @@
 				<tr>
 					<td>EMAIL</td>
 					<td>
-						${user.email}
+						${email}
 					</td>
 				</tr>
 				<tr>
 					<td>NICKNAME</td>
 					<td>
-						${user.nickname}
+						${nickname}
 					</td>
 				</tr>
 				<%-- <tr>
 					<td>INTRODUCE</td>
 					<td>
-						${user.introduce}
+						${introduce}
 					 </td>
 				</tr> --%>
 			</table>

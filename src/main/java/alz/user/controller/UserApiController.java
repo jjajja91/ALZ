@@ -38,23 +38,11 @@ public class UserApiController {
 	public UserApiController(UserService userService) {
 		this.userService = userService;
 	}
-//
+
 //	@PostMapping
 //	public ResponseEntity<?> create(@RequestBody UserDTO user) {
 //		UserDTO openedUser = userService.create(user);
 //		return ResponseEntity.status(HttpStatus.CREATED).body(openedUser);
-//	}
-	
-//	@GetMapping("/{id}")
-//	public ResponseEntity<?> readbyEmail(@PathVariable String email) {
-//		UserDTO selectById = userService.readByEmail(email);
-//		return ResponseEntity.status(HttpStatus.OK).body(selectById);
-//	}
-//	
-//	@GetMapping("/{nickname}")
-//	public ResponseEntity<?> readbyNickname(@PathVariable String nickname) {
-//		UserDTO selectById = userService.readByNickname(nickname);
-//		return ResponseEntity.status(HttpStatus.OK).body(selectById);
 //	}
 	
 	@PostMapping(value = "/emailChk", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -69,22 +57,21 @@ public class UserApiController {
 		return ResponseEntity.status(HttpStatus.OK).body(user);
 	}
 	
-
-	@GetMapping
-	public ResponseEntity<?> readAll() {
-		List<UserDTO> user = userService.readAll();
-		return ResponseEntity.status(HttpStatus.OK).body(user);
-	}
-
-	@PutMapping("/{id}")
-	public ResponseEntity<?> updateOne(@PathVariable @RequestBody UserDTO user) {
-		UserDTO updatedUser = userService.updateById(user);
-		return ResponseEntity.status(HttpStatus.OK).body(updatedUser);
-	}
-
-	@DeleteMapping("/{id}")
-	public ResponseEntity<?> deleteOne(@PathVariable UserDTO user) {
-		int affectedRowCount = userService.deleteById(user, null);
-		return ResponseEntity.status(HttpStatus.OK).body("ok");
-	}
+//	@GetMapping
+//	public ResponseEntity<?> readAll() {
+//		List<UserDTO> user = userService.readAll();
+//		return ResponseEntity.status(HttpStatus.OK).body(user);
+//	}
+//
+//	@PutMapping("/{id}")
+//	public ResponseEntity<?> updateOne(@PathVariable @RequestBody UserDTO user) {
+//		UserDTO updatedUser = userService.updateById(user);
+//		return ResponseEntity.status(HttpStatus.OK).body(updatedUser);
+//	}
+//
+//	@DeleteMapping("/{id}")
+//	public ResponseEntity<?> deleteOne(@PathVariable UserDTO user) {
+//		int affectedRowCount = userService.deleteById(user, null);
+//		return ResponseEntity.status(HttpStatus.OK).body("ok");
+//	}
 }
