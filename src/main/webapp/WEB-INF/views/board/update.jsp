@@ -86,6 +86,9 @@
 			}
 		});
 		
+		makeFileBtn();
+		
+		// 서머노트 이미지 복사 붙여넣기를 파일업로드로 사용하기 위해 저장하는 메서드
 		function sendFile(files){
     		var formData = new FormData();
     		   for(var i=0; i<files.length; i++){
@@ -108,8 +111,9 @@
             });
     	}
 		
-		makeFileBtn();
+
 		
+		// 쓸데 없는 버튼을 제거하고 파일 업로드 버튼만 나오게하는 메서드
 		function makeFileBtn() {
 			$("button[data-original-title=Picture]").remove();
 			$("button[data-original-title=Video]").remove();
@@ -122,6 +126,7 @@
 			$("div[class*=toolbar]").append(str);
 		}
     
+		// 게시글 제거 함수
   		function boardDeleteApi(data) {
     		  return $.ajax({
     		    url: "/boards/"+$id.val(),
@@ -131,6 +136,7 @@
     		  });
     		}
   		
+		// 게시글 수정 함수
   		function boardUpdateApi(data) {
   		  return $.ajax({
   		    url: "/boards/"+$id.val(),
@@ -140,8 +146,10 @@
   		  });
   		}
 		
+		
 		var formObj = $("form[role='form']");
 
+		// 제출 버튼 이벤트
 		$('button[type=submit]').on("click", function(e) {
 			e.preventDefault();
 			
@@ -253,6 +261,7 @@
 			}
 		});
 		
+		// 파일 리스트 불러오는 함수
   		(function() {
 		var boardId = '<c:out value="${board.id}"/>';
 		$.getJSON("/boards/getFileList",{boardId : boardId}, function(arr){
