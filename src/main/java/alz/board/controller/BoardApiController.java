@@ -118,6 +118,7 @@ public class BoardApiController {
 
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> deleteOne(@PathVariable Long id) {
+		System.out.println("들어오나");
 		int affectedRowCount = boardService.deleteById(id);
 		return ResponseEntity.status(HttpStatus.OK).body("ok");
 	}
