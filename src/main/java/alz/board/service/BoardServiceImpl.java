@@ -108,8 +108,7 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public int deleteById(Long id) {
 		boardFileMapper.deleteAll(id);
-		BoardDTO searchedBoard = boardMapper.selectById(id);
-		int affectedRowCount = boardMapper.deleteById(searchedBoard.getId());
+		int affectedRowCount = boardMapper.deleteById(id);
 
 		return affectedRowCount;
 	}

@@ -210,7 +210,7 @@
 			str += "</div>";
 			$("div[class*=toolbar]").append(str);
 		}
-		
+		//글쓰는 ajax
 		function boardWriteApi(data) {
 			  return $.ajax({
 			    url: "/boards",
@@ -231,7 +231,7 @@
 		var fileList = [];
 		
 		var operation = $(this).data("oper");
-		
+		//글목록으로 돌아가기 버튼 눌렀을때
 		if(operation === 'list') {
 			console.log("submit clicked");
 			//move to list
@@ -250,8 +250,9 @@
 			formObj.append(typeIdTag);
 			
 			formObj.submit();
-			
+			//글쓰기 버튼 눌렀을때
 		} else if(operation === 'write'){
+			//서머노트 디폴트값이면 비우기
 				$('.summernote').each(function(){
 				      var summernote = $(this);
 		      $('form').on('submit',function(){

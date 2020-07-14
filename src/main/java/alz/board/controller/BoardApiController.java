@@ -88,8 +88,7 @@ public class BoardApiController {
 			MediaType.APPLICATION_JSON_UTF8_VALUE })
 	public int readAll(@PathVariable String type, @PathVariable Integer typeId,
 			@PathVariable(name = "keyword", required = false) String keyword) {
-
-		BoardCriteria cri = new BoardCriteria();
+			BoardCriteria cri = new BoardCriteria();
 
 		if (keyword != null) {
 			cri.setKeyword(keyword).setType(type).setTypeId(typeId);

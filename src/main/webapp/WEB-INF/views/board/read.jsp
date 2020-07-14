@@ -254,7 +254,7 @@
 		
 		}
 		
-		// 답글쓰기 버튼 이벤트
+		// 댓글쓰기 버튼 이벤트
 		$(document).on("click","a[class='coCommentBtn']", function(e){
 			
 			$(".replyDiv").remove();
