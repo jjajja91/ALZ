@@ -12,7 +12,7 @@ public interface CartService {
 	public void insertCart(CartDTO cart);
 
 	// 2. 장바구니 목록
-	List<CartDTO> listCart(long userId);
+	List<CartDTO> listCart(String cartNick);
 
 	// 3. 장바구니 삭제
 	public void deleteCart(long cartId);
@@ -21,10 +21,10 @@ public interface CartService {
 	public void modifyCart(CartDTO cart);
 
 	// 5. 장바구니 금액 합계
-	public int sumMoney(long userId);
+	public int sumMoney(String cartNick);
 
 	// 6. 장바구니 상품확인
-	public int countCart(long merchandiseId, long userId);
+	public int countCart(long merchandiseId, String cartNick);
 
 	// 7. 장바구니 상품수량 변경
 	public void updateCart(CartDTO cart);

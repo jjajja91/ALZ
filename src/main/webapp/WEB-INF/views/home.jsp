@@ -382,7 +382,7 @@
                     </a>
                     <ul class="sub">
                         <li>
-                            <a href="">미술</a>
+                            <a href="/merchandise/list">미술</a>
                         </li>
                         <li>
                             <a href="">공예</a>

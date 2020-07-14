@@ -4,26 +4,20 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.validation.Valid;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import alz.order.domain.CartDTO;
-import alz.order.domain.MerchandiseCriteria;
-import alz.order.domain.MerchandiseDTO;
-import alz.order.domain.MerchandisePageDTO;
 import alz.order.service.CartService;
-import alz.order.service.MerchandiseService;
+import alz.user.domain.UserDTO;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
 
@@ -42,18 +36,22 @@ public class CartController {
 
 	// 장바구니 추가
 	@PostMapping("/cartInsert")
-	public String addCart(@ModelAttribute CartDTO cart, @RequestParam("id") Long id, Model model) {
+	public String addCart(@ModelAttribute CartDTO cart, @RequestParam("id") Long id, Model model, HttpSession session) {
 
-		long userId = 1L;
-		cart.setUserId(userId);
+		// 저장된 세션에서 닉네임 가져오기
+		UserDTO user = (UserDTO) session.getAttribute("sessionUser");
+		String cartNick = user.getNickname();
+
+		// 카트에 닉네임, 상품 저장
+		cart.setCartNick(cartNick);
 		cart.setMerchandiseId(id);
 		// 장바구니에 기존 상품이 있는지 검사
-		int count = cartService.countCart(cart.getMerchandiseId(), userId);
+		int count = cartService.countCart(cart.getMerchandiseId(), cartNick);
 		if (count == 0) {
 			// 없으면 insert
 			cartService.insertCart(cart);
 		}
-		// ..수량 변경할 필요가 없으므로 생략.
+		// 수량 변경할 필요가 없으므로 생략.
 		// else {
 		// 있으면 update
 		// merchandiseService.updateCart(cart);
@@ -63,14 +61,15 @@ public class CartController {
 
 	// 장바구니 처리
 	@GetMapping("/cart")
-	public ModelAndView list(@ModelAttribute CartDTO cart, ModelAndView mav) {
+	public ModelAndView list(@ModelAttribute CartDTO cart, ModelAndView mav, HttpSession session) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		long userId = 1;
-		cart.setUserId(userId);
+		UserDTO user = (UserDTO) session.getAttribute("sessionUser");
+		String cartNick = user.getNickname();
+		cart.setCartNick(cartNick);
 
-		List<CartDTO> list = cartService.listCart(userId); // 장바구니 정보
-		int sumMoney = cartService.sumMoney(userId); // 장바구니 전체 금액 호출
-		// 장바구니 전체 긍액에 따라 배송비 구분
+		List<CartDTO> list = cartService.listCart(cartNick); // 장바구니 정보
+		int sumMoney = cartService.sumMoney(cartNick); // 장바구니 전체 금액 호출
+
 		map.put("list", list); // 장바구니 정보를 map에 저장
 		map.put("count", list.size()); // 장바구니 상품의 유무
 		map.put("sumMoney", sumMoney); // 장바구니 전체 금액
@@ -79,7 +78,6 @@ public class CartController {
 		mav.addObject("map", map); // map 변수 저장
 
 		return mav;
-
 	}
 
 	// 장바구니 삭제

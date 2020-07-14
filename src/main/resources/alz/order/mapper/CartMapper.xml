@@ -11,29 +11,29 @@
 			resultType="long">
 			SELECT alz_cart_seq.nextval FROM dual
 		</selectKey>
-		insert into alz_cart (cart_id, user_Id, merchandise_id,
+		insert into alz_cart (cart_id, cart_nick, merchandise_id,
 		amount)
 		values
-		(#{cartId}, #{userId}, #{merchandiseId}, #{amount})
+		(#{cartId}, #{cartNick}, #{merchandiseId}, #{amount})
 	</insert>
 
 	<!-- 기존 상품 추가 시 카운팅 -->
 	<select id="countCart" resultType="int">
 		SELECT COUNT(*) FROM alz_cart
-		WHERE user_Id= #{userId} AND merchandise_id = #{merchandiseId}
+		WHERE cart_nick= #{cartNick} AND merchandise_id = #{merchandiseId}
 	</select>
 
 	<!-- 장바구니 리스트 -->
 	<select id="listCart" resultType="alz.order.domain.CartDTO">
-		SELECT c.CART_id, c.USER_ID,
+		SELECT c.CART_id, c.CART_NICK,
 		p.ID
 		, m.NICKNAME, p.NAME, p.ORIGIN_PRICE
 		FROM alz_user m,
 		alz_merchandise_detail p, alz_cart c
-		WHERE m.id = c.user_Id
+		WHERE m.nickname = c.cart_nick
 		AND p.id =
 		c.merchandise_id
-		AND c.user_Id = #{userId}
+		AND c.cart_nick = #{cartNick}
 		ORDER BY c.cart_id
 	</select>
 
@@ -44,7 +44,7 @@
 		0) money
 		FROM alz_cart c, alz_merchandise_detail p
 		WHERE c.merchandise_id = p.id
-		AND c.user_Id = #{userId}
+		AND c.cart_nick = #{cartNick}
 	</select>
 
 	<!-- 장바구니 상품 삭제 -->

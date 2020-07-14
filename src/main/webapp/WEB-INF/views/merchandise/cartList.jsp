@@ -19,6 +19,7 @@
 			장바구니가 비어있습니다.
 		</c:when>
 		<c:otherwise>
+		${sessionUser.nickname}님의 장바구니
 			<form name="cartForm" id="cartForm" action="/cart/update"
 				method="post">
 				<table border="1">

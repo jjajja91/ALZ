@@ -14,7 +14,7 @@ public interface CartMapper {
 	public void insertCart(CartDTO cart);
 
 	// 2. 장바구니 리스트
-	public List<CartDTO> listCart(long id);
+	public List<CartDTO> listCart(String cartNick);
 
 	// 3. 장바구니 삭제
 	public void deleteCart(long cartNum);
@@ -23,10 +23,10 @@ public interface CartMapper {
 	public void modifyCart(CartDTO cart);
 
 	// 5. 장바구니 금액 합계
-	public int sumMoney(long id);
+	public int sumMoney(String cartNick);
 
 	// 6. 장바구니 상품확인
-	public int countCart(@Param("merchandiseId") long merchandiseId, @Param("userId") long userId);
+	public int countCart(@Param("merchandiseId") long merchandiseId, @Param("cartNick") String cartNick);
 
 	// 7. 장바구니 상품수량 변경
 	public void updateCart(CartDTO cart);
