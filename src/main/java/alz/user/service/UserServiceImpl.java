@@ -101,9 +101,9 @@ public class UserServiceImpl implements UserService {
 					.setLikeCnt(user.getLikeCnt()).setBoardCnt(user.getBoardCnt())
 					.setReservCnt(user.getReservCnt()).setCommentCnt(user.getCommentCnt())
 					.setState(user.getState()).setEndAt(user.getEndAt());
-		int affectedRowCount = userMapper.updateById(searchedUser);
+		UserDTO affectedRowCount = userMapper.updateById(searchedUser);
 		
-		if(affectedRowCount == 0 ) {
+		if(affectedRowCount == null ) {
 			System.out.println("Modify Fail!!");
 		} else {
 			System.out.println("Modify Success!!");
@@ -114,7 +114,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public int deleteById(UserDTO user, HttpServletRequest request) {
-		UserDTO searchedUser = userMapper.selectById(user);
+//		UserDTO searchedUser = userMapper.selectById(user);
 		int affectedRowCount = userMapper.deleteById(user, request);
 
 		
