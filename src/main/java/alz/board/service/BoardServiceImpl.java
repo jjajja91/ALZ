@@ -2,17 +2,15 @@ package alz.board.service;
 
 import java.util.List;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 
 import alz.board.domain.BoardCriteria;
 import alz.board.domain.BoardDTO;
+import alz.board.domain.LikeDTO;
 import alz.board.mapper.BoardMapper;
+import alz.board.mapper.LikeMapper;
 import alz.file.domain.BoardFileDTO;
 import alz.file.mapper.BoardFileMapper;
 import lombok.extern.log4j.Log4j;
@@ -23,11 +21,13 @@ public class BoardServiceImpl implements BoardService {
 
 	private BoardMapper boardMapper;
 	private BoardFileMapper boardFileMapper;
+	private LikeMapper likeMapper;
 
 	@Autowired
-	public BoardServiceImpl(BoardMapper boardMapper, BoardFileMapper boardFileMapper) {
+	public BoardServiceImpl(BoardMapper boardMapper, BoardFileMapper boardFileMapper, LikeMapper likeMapper) {
 		this.boardMapper = boardMapper;
 		this.boardFileMapper = boardFileMapper;
+		this.likeMapper = likeMapper;
 	}
 
 	@Transactional
@@ -123,6 +123,21 @@ public class BoardServiceImpl implements BoardService {
 	public List<BoardFileDTO> getFileList(Long boardId) {
 		log.info("get File list by board_id" + boardId);
 		return boardFileMapper.findByBoardId(boardId);
+	}
+
+	@Override
+	public Long getCommentsCnt(Long id) {
+		return boardMapper.getCommentsCnt(id);
+	}
+
+	@Override
+	public Long getLikeCnt(Long id) {
+		return boardMapper.getLikeCnt(id);
+	}
+
+	@Override
+	public void addLike(LikeDTO like) {
+		likeMapper.addLike(like);
 	}
 
 }

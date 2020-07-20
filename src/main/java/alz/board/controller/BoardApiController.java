@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import alz.board.domain.BoardCriteria;
 import alz.board.domain.BoardDTO;
+import alz.board.domain.LikeDTO;
 import alz.board.exceptions.TemporaryServerException;
 import alz.board.exceptions.UnsatisfiedContentException;
 import alz.board.service.BoardService;
@@ -35,6 +36,24 @@ public class BoardApiController {
 	@Autowired
 	public BoardApiController(BoardService boardService) {
 		this.boardService = boardService;
+	}
+	
+	@GetMapping(value = "/comments/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<?> countComments(@PathVariable Long id){
+		Long commentsCnt = boardService.getCommentsCnt(id);
+		return ResponseEntity.status(HttpStatus.OK).body(commentsCnt);
+	}
+	
+	@GetMapping(value = "/like/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<?> countLike(@PathVariable Long id){
+		Long likeCnt = boardService.getLikeCnt(id);
+		return ResponseEntity.status(HttpStatus.OK).body(likeCnt);
+	}
+	
+	@PostMapping("/like")
+	public ResponseEntity<?> addLike(@RequestBody LikeDTO like) {
+		boardService.addLike(like);
+		return ResponseEntity.status(HttpStatus.OK).body("좋아요");
 	}
 
 	@GetMapping(value = "/getFileList", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
