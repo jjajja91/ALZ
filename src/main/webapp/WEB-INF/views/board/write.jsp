@@ -108,20 +108,20 @@
 
 	<div class="container">
 		<h2>Board Write</h2>
-      <form role="form" action="/board/write" method="post">
-         <div class="form-group">
-            <label for="title">title:</label> 
-            <input class="form-control" rows="1" name="title"></input>
-                <label for="content">content:</label>
-                 <textarea id="summernote" name="content"></textarea>
-            <label>Writer:</label>
-             <input class="form-control" rows="1" name="nickname" value="${sessionUser.nickname}" readonly="readonly"></input> 
-               <label>boardType:</label> 
-               <input class="form-control" rows="1" name="typeId" value="${typeId}" readonly="readonly"></input>
-      	<input type="hidden" name="parentId" value='<c:out value="${param.pid}"/>'>
-      	  	<input  type="hidden" name="boardOrder" value='<c:out value="${param.boardOrder}"/>'>
-      	  	  	<input  type="hidden" name="id" value='<c:out value="${param.id}"/>'>
-           <div class="row">
+		<form role="form" id="form" action="/board/write" method="post">
+			<div class="form-group">
+				<label for="title">title:</label> <input class="form-control"
+					rows="1" name="title"></input> <label for="content">content:</label>
+				<textarea id="summernote" name="content"></textarea>
+				<label>Writer:</label> <input class="form-control" rows="1"
+					name="nickname" value="${sessionUser.nickname}" readonly="readonly"></input>
+				<label>boardType:</label> <input class="form-control" rows="1"
+					name="typeId" value="${typeId}" readonly="readonly"></input> <input
+					type="hidden" name="parentId" value='<c:out value="${param.pid}"/>'>
+				<input type="hidden" name="boardOrder"
+					value='<c:out value="${param.boardOrder}"/>'> <input
+					type="hidden" name="id" value='<c:out value="${param.id}"/>'>
+				<div class="row">
 					<div class="col-lg-12">
 						<div class="panel panel-defualt">
 							<div class="panel-heading">Files</div>
@@ -136,17 +136,15 @@
 					</div>
 				</div>
 
-				<button type="submit" class="btn btn-default">Submit</button>
-				<button type="reset" class="btn btn-default">Reset</button>
+				<button type="submit"  data-oper='write' class="btn btn-default">Submit</button>
+				<button type="submit"  data-oper='list' class="btn btn-default">List</button>
 			</div>
 		</form>
 	</div>
 
 
 
-	<script>
-
-
+	<script type="text/javascript">
 	$(document).ready(function(e){
 		var $title = $("input[name=title]");
 		var $content = $("textarea[name=content]");
@@ -169,7 +167,7 @@
 				shortcuts: false,
 				focus : true,
 				lang : 'ko-KR',
-				
+				height : 320,
 				callbacks : {
 					onImageUpload: function(files, editor, welEditable) {
 				            sendFile(files);
@@ -177,26 +175,7 @@
 				}
 		});
 		
-		makeFileBtn();
-		"src/main/webapp/WEB-INF/views/board/write.jsp"
-		function makeFileBtn() {
-			$("button[data-original-title=Picture]").remove();
-			$("button[data-original-title=Video]").remove();
-			$("button[data-original-title^=Link]").remove();
-			$("div[class$=note-insert]").remove();
-			var str = ""
-			str += "<div class='note-btn-group btn-group note-file form-group uploadDiv'>";
-			str += "<input type='file' name='uploadFile' multiple='multiple'>";
-			str += "</div>";
-			$("div[class*=toolbar]").append(str);
-		}
-		
-        $("input[type='file']").change(function(e){
-           	var inputFile = $("input[name='uploadFile']");
-            var files = inputFile[0].files;
-    		sendFile(files);
-        });
-        		
+       		
         function sendFile(files){
         		var formData = new FormData();
         		   for(var i=0; i<files.length; i++){
@@ -218,17 +197,64 @@
                    }
                 });
         }
-    
+		makeFileBtn();
+		
+		function makeFileBtn() {
+			$("button[data-original-title=Picture]").remove();
+			$("button[data-original-title=Video]").remove();
+			$("button[data-original-title^=Link]").remove();
+			$("div[class$=note-insert]").remove();
+			var str = ""
+			str += "<div class='note-btn-group btn-group note-file form-group uploadDiv'>";
+			str += "<input type='file' name='uploadFile' multiple='multiple'>";
+			str += "</div>";
+			$("div[class*=toolbar]").append(str);
+		}
+		//글쓰는 ajax
+		function boardWriteApi(data) {
+			  return $.ajax({
+			    url: "/boards",
+			    type: "POST",
+			    data: JSON.stringify(data),
+			    contentType: "application/json",
+			  });
+			}
+		
+	
+        
 	var formObj = $("form[role='form']");
 	
-	$("button[type='submit']").on("click", function(e){
+		$("button[type='submit']").on("click", function(e){
 		e.preventDefault();
 		console.log("submit clicked");
 		
 		var fileList = [];
 		
-		$('.summernote').each(function(){
-		      var summernote = $(this);
+		var operation = $(this).data("oper");
+		//글목록으로 돌아가기 버튼 눌렀을때
+		if(operation === 'list') {
+			console.log("submit clicked");
+			//move to list
+			formObj.attr("action", "/board/list").attr("method", "get");
+			var pageNumTag = $("input[name='pageNum']").clone();
+			var amountTag = $("input[name='amount']").clone();
+			var keywordTag = $("input[name='keyword']").clone();
+			var typeTag = $("input[name='type']").clone();
+			var typeIdTag = $("input[name='typeId']").clone();
+			
+			formObj.empty();
+			formObj.append(pageNumTag);
+			formObj.append(amountTag);
+			formObj.append(keywordTag);
+			formObj.append(typeTag);
+			formObj.append(typeIdTag);
+			
+			formObj.submit();
+			//글쓰기 버튼 눌렀을때
+		} else if(operation === 'write'){
+			//서머노트 디폴트값이면 비우기
+				$('.summernote').each(function(){
+				      var summernote = $(this);
 		      $('form').on('submit',function(){
 		          if (summernote.summernote('isEmpty')) {
 		               summernote.val('');
@@ -237,7 +263,6 @@
 		          }
 		     });
 		 });
-		
 		
 		
 		$(".uploadResult ul li").each(function(i, obj){
@@ -279,16 +304,8 @@
 			var errorFocus = error.responseJSON.field;
 			inputData[errorFocus].focus();
 		});
-	});
-	
-	function boardWriteApi(data) {
-		  return $.ajax({
-		    url: "/boards",
-		    type: "POST",
-		    data: JSON.stringify(data),
-		    contentType: "application/json",
-		  });
 		}
+		});
 	
 	var regex = new RegExp("(.*?)\.(exe|sh|zip|alz)$");
 	var maxSize = 5242880;
@@ -340,7 +357,13 @@
 		$(".card-block").append(imgstr);
 		$summernote.summernote("insertParagraph");
 	}
-	
+
+	   $("input[type='file']").change(function(e){
+          	var inputFile = $("input[name='uploadFile']");
+           var files = inputFile[0].files;
+   		sendFile(files);
+       });
+       
 	$(".uploadResult").on("click", "button", function(e){
 		console.log("delete file");
 		
@@ -359,8 +382,8 @@
 			}
 		});
 	});
-});
 
+	});
 </script>
 
 </body>

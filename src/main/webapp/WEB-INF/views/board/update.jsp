@@ -77,6 +77,7 @@
 			maxHeight : null,
 			focus : true,
 			lang : 'ko-KR',
+			height : 320,
 			
 			callbacks : {
 				onImageUpload: function(files, editor, welEditable) {
@@ -85,6 +86,9 @@
 			}
 		});
 		
+		makeFileBtn();
+		
+		// 서머노트 이미지 복사 붙여넣기를 파일업로드로 사용하기 위해 저장하는 메서드
 		function sendFile(files){
     		var formData = new FormData();
     		   for(var i=0; i<files.length; i++){
@@ -107,8 +111,9 @@
             });
     	}
 		
-		makeFileBtn();
+
 		
+		// 쓸데 없는 버튼을 제거하고 파일 업로드 버튼만 나오게하는 메서드
 		function makeFileBtn() {
 			$("button[data-original-title=Picture]").remove();
 			$("button[data-original-title=Video]").remove();
@@ -121,9 +126,17 @@
 			$("div[class*=toolbar]").append(str);
 		}
     
-		
-
+		// 게시글 제거 함수
+  		function boardDeleteApi(data) {
+    		  return $.ajax({
+    		    url: "/boards/"+$id.val(),
+    		    type: "Delete",
+    		    data: JSON.stringify(data),
+    		    contentType: "application/json",
+    		  });
+    		}
   		
+		// 게시글 수정 함수
   		function boardUpdateApi(data) {
   		  return $.ajax({
   		    url: "/boards/"+$id.val(),
@@ -133,8 +146,10 @@
   		  });
   		}
 		
+		
 		var formObj = $("form[role='form']");
 
+		// 제출 버튼 이벤트
 		$('button[type=submit]').on("click", function(e) {
 			e.preventDefault();
 			
@@ -142,8 +157,11 @@
 			
 			console.log(operation);
 	
-			if(operation === 'delete') {
-				formObj.attr("action", "/board/delete");
+			if(operation === 'delete') {			
+				boardDeleteApi(data) 
+				.then(function(response){
+				   self.location = "/board/list?typeId="+$typeId.val();
+				})					
 			} else if(operation === 'list') {
 				//move to list
 				formObj.attr("action", "/board/list").attr("method", "get");
@@ -243,6 +261,7 @@
 			}
 		});
 		
+		// 파일 리스트 불러오는 함수
   		(function() {
 		var boardId = '<c:out value="${board.id}"/>';
 		$.getJSON("/boards/getFileList",{boardId : boardId}, function(arr){

@@ -120,6 +120,8 @@
 	$(document).ready(function() {
 	
 
+		
+		// 파일 리스트 가져와서 보여주기
 		var boardId = '<c:out value="${board.id}"/>';
 		(function() {
 
@@ -158,6 +160,7 @@
 		$("div[class*=toolbar]").css("display", "none");
 		$("div[class*=note-editable]").attr("contenteditable", "false");
 
+		// 업로드 결과 보여주기
 		$(".uploadResult").on("click", "li", function(e){
 			console.log("view image");
 			
@@ -172,6 +175,7 @@
 			}
 		});
 		
+		//이미지 확대
 		function showImage(fileCallPath){
 			alert(fileCallPath);
 			$(".bigPictureWrapper").css("display","flex").show();
@@ -254,7 +258,7 @@
 		
 		}
 		
-		// 답글쓰기 버튼 이벤트
+		// 댓글쓰기 버튼 이벤트
 		$(document).on("click","a[class='coCommentBtn']", function(e){
 			
 			$(".replyDiv").remove();

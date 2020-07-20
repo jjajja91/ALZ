@@ -46,7 +46,6 @@ public class BoardPageController {
 	
 	@PostMapping("/delete")
 	public String delete(@RequestParam("id") Long id, @ModelAttribute("cri") BoardCriteria cri, RedirectAttributes rttr) {
-		
 		List<BoardFileDTO> fileList = boardService.getFileList(id);
 		BoardDTO board =boardService.readById(id);
 		if(boardService.deleteById(id)==1) {
@@ -74,12 +73,13 @@ public class BoardPageController {
 	@GetMapping( {"/read", "/update" })
 	public void read(@RequestParam("id") Long id, @ModelAttribute("cri") BoardCriteria cri, Model model) {
 		log.info("/read or update");
+		
 		model.addAttribute("board", boardService.readById(id));
 		}
 	
 	@GetMapping("/list")
 	public void list(BoardCriteria cri, Model model) {
-		
+	System.out.println("여긴가");
 		model.addAttribute("list", boardService.readAll(cri));
 
 		int total = boardService.getTotal(cri);

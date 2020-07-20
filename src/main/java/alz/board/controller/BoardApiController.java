@@ -72,7 +72,7 @@ public class BoardApiController {
 	// 검색 결과 글목록
 	@GetMapping(value = { "{typeId}/{pageNum}/{amount}/{type}/{keyword}",
 			"{typeId}/{pageNum}/{amount}/{type}" }, produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
-	public ResponseEntity<?> readAll(@PathVariable Integer typeId, @PathVariable String type,
+	public ResponseEntity<?> searchList(@PathVariable Integer typeId, @PathVariable String type,
 			@PathVariable(name = "keyword", required = false) String keyword, @PathVariable Integer pageNum,
 			@PathVariable Integer amount) {
 
@@ -86,10 +86,9 @@ public class BoardApiController {
 	// 글 수 카운트
 	@GetMapping(value = { "typeId/{typeId}/type/{type}/keyword/{keyword}", "typeId/{typeId}/type/{type}" }, produces = {
 			MediaType.APPLICATION_JSON_UTF8_VALUE })
-	public int readAll(@PathVariable String type, @PathVariable Integer typeId,
+	public int totalNumber(@PathVariable String type, @PathVariable Integer typeId,
 			@PathVariable(name = "keyword", required = false) String keyword) {
-
-		BoardCriteria cri = new BoardCriteria();
+			BoardCriteria cri = new BoardCriteria();
 
 		if (keyword != null) {
 			cri.setKeyword(keyword).setType(type).setTypeId(typeId);
