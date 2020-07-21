@@ -18,7 +18,7 @@ public interface UserMapper {
 
 	List<UserDTO> selectAll();
 
-	int updateById(UserDTO user);
+	UserDTO updateById(UserDTO user);
 
 	int deleteById(UserDTO user, HttpServletRequest request);
 	

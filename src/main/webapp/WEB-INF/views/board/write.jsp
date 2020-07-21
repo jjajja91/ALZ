@@ -69,6 +69,26 @@
 .note-editor note-frame card .note-dropzone {
 	opacity: 0 !important;
 }
+
+#lesson_star_rate a {
+	text-decoration: none;
+	color: gray;
+	font-size: 30px;
+}
+
+#lesson_star_rate a.lessonOn {
+	color: red;
+}
+
+#teacher_star_rate a {
+	text-decoration: none;
+	color: gray;
+	font-size: 30px;
+}
+
+#teacher_star_rate a.teacherOn {
+	color: red;
+}
 </style>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -107,8 +127,37 @@
 <body>
 
 	<div class="container">
-		<h2>Board Write</h2>
+		<h2 id="head">Board Write</h2>
 		<form role="form" id="form" action="/board/write" method="post">
+			<c:if test="${typeId == 4}">
+				<div>
+					<select>
+						<option value="" disabled selected hidden>수강 완료한 클래스를 선택해
+							주세요</option>
+
+						<option>옵션1</option>
+						<option>옵션2</option>
+						<option>욥션3</option>
+					</select>
+					<div>
+						<lable>강의 만족도</lable>
+						<p id="lesson_star_rate">
+							<a href="#" id="star1">★</a> <a href="#" id="star2">★</a> <a
+								href="#" id="star3">★</a> <a href="#" id="star4">★</a> <a
+								href="#" id="star5">★</a>
+						</p>
+						<input type='hidden' name='lessonRate'>
+						<lable>강사 만족도</lable>
+						<p id="teacher_star_rate">
+							<a href="#" id="star1">★</a> <a href="#" id="star2">★</a> <a
+								href="#" id="star3">★</a> <a href="#" id="star4">★</a> <a
+								href="#" id="star5">★</a>
+						</p>
+						<input type='hidden' name='teacherRate'>
+					</div>
+				</div>
+			</c:if>
+
 			<div class="form-group">
 				<label for="title">title:</label> <input class="form-control"
 					rows="1" name="title"></input> <label for="content">content:</label>
@@ -136,8 +185,8 @@
 					</div>
 				</div>
 
-				<button type="submit"  data-oper='write' class="btn btn-default">Submit</button>
-				<button type="submit"  data-oper='list' class="btn btn-default">List</button>
+				<button type="submit" data-oper='write' class="btn btn-default">Submit</button>
+				<button type="submit" data-oper='list' class="btn btn-default">List</button>
 			</div>
 		</form>
 	</div>
@@ -175,7 +224,19 @@
 				}
 		});
 		
-       		
+		 $('#lesson_star_rate a').click(function(){
+	            $(this).parent().children("a").removeClass("lessonOn");  /* 별점의 on 클래스 전부 제거 */ 
+	            $(this).addClass("lessonOn").prevAll("a").addClass("lessonOn"); /* 클릭한 별과, 그 앞 까지 별점에 on 클래스 추가 */
+	            var lesson_star_rate = $(".lessonOn").length;
+	            return $("input[type=hidden][name=lessonRate]").val(lesson_star_rate);
+	        });
+		 $('#teacher_star_rate a').click(function(){
+	            $(this).parent().children("a").removeClass("teacherOn");  /* 별점의 on 클래스 전부 제거 */ 
+	            $(this).addClass("teacherOn").prevAll("a").addClass("teacherOn"); /* 클릭한 별과, 그 앞 까지 별점에 on 클래스 추가 */
+	            var teacher_star_rate = $(".teacherOn").length;
+	            return $("input[type=hidden][name=teacherRate]").val(teacher_star_rate);
+	        });
+        
         function sendFile(files){
         		var formData = new FormData();
         		   for(var i=0; i<files.length; i++){
