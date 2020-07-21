@@ -409,6 +409,13 @@
 					// 댓글 리스트 새로고침
 					showComment();
 				})
+				.then(function(response){
+					return countComments($boardId.val());
+				})
+				.then(function(response){
+					console.log(response);
+					drawCommentCnt(response);
+				})
 				.catch(function(error) {
 					var errorMessage = error.responseJSON.defaultMessage;
 					console.log(error.responseJSON);
@@ -571,7 +578,7 @@
 		}
 		
 		function drawCommentCnt(commentCnt){
-			$commentCnt.html("댓글"+commentCnt);
+			$commentCnt.html("댓글 "+commentCnt);
 		}
 		
 		function drawLikeCnt(likeCnt) {

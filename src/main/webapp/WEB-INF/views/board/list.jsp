@@ -47,7 +47,7 @@
 				<tr>
 					<td><c:out value="${board.id }" /></td>
 					<td>
-						<a class='read' href='<c:out value="${board.id }"/>'><c:out value="${board.title }" /></a>
+						<a class='read' href='<c:out value="${board.id }"/>'><c:out value="${board.title }"/> (<c:out value="${board.commentCnt}"/>)</a>
 					</td>
 					<td><c:out value="${board.nickname }" /></td>
 					<td><fmt:formatDate pattern="yyyy-MM-dd" value="${board.writtenAt }"/></td>
