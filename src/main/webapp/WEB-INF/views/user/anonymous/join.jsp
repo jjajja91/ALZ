@@ -39,22 +39,11 @@
             <td><input name="password" type="password" placeholder="password" maxlength="10" autocomplete="off">
             </td>
          </tr>
-         <!--             
          <tr>
-               <td>PW확인</td>
-               <td>
-                  <input name="memberPwChk" type="password" placeholder="Pw확인" maxlength="10" autocomplete="off">
-               </td>
-            </tr> 
-            -->
-         <!-- 
-         <tr>
-               <td>INTRODUCE</td>
-               <td>
-                  <input name="introduce" type="text" placeholder="Introduce" maxlength="10" autocomplete="off">
-               </td>
-            </tr> 
-            -->
+            <td>PHONE_NUMBER('-' 없이 번호만 입력해주세요)</td>
+            <td><input name="phoneNumber" id="phoneNumber" type="text" placeholder="Phone Number" maxlength="11" autocomplete="off">
+            </td>
+         </tr>
 
          <tr>
             <td align="center">

@@ -3,7 +3,6 @@ package alz.user.service;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,7 +24,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public UserDTO create(UserDTO user) {
 		int affectedRowCount = userMapper.insert(user);
-		UserDTO openUser = userMapper.selectById(user);
+		UserDTO openUser = userMapper.selectById(user); 
 		
 		if (openUser == null) {
 			System.out.println("Create Fail!!");

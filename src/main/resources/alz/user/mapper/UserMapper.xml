@@ -26,7 +26,7 @@
 	<select id="selectAll" resultType="alz.user.domain.UserDTO">
       <![CDATA[
          SELECT
-         users.id, email, nickname, password, role, certification_State certificationState, recentlog_At recentlogAt, modified_At modifiedAt, introduce, like_Cnt likeCnt, board_Cnt boardCnt, reserv_Cnt reservCnt, comment_Cnt commentCnt, state, start_At startAt, end_At endAt 
+         users.id, email, nickname, password, role, certification_State certificationState, recentlog_At recentlogAt, modified_At modifiedAt, introduce, like_Cnt likeCnt, board_Cnt boardCnt, reserv_Cnt reservCnt, comment_Cnt commentCnt, phone_Number phoneNumber, state, start_At startAt, end_At endAt 
          FROM
          alz_user users LEFT OUTER JOIN alz_user_state state on
          users.id = state.id
@@ -38,30 +38,34 @@
 		<selectKey keyProperty="id" order="BEFORE" resultType="long">
 			SELECT alz_user_seq.nextval FROM dual
 		</selectKey>
-		INSERT INTO ALZ_USER (ID, EMAIL, NICKNAME, PASSWORD, ROLE)
-		VALUES(#{id}, #{email}, #{nickname}, #{password}, '1')
+		INSERT INTO ALZ_USER (ID, EMAIL, NICKNAME, PASSWORD, ROLE, PHONE_NUMBER)
+		VALUES(#{id}, #{email}, #{nickname}, #{password}, '1', #{phoneNumber})
 
 		<!-- INSERT INTO ALZ_USER_STATE(STATE, END_AT, END_AT) VALUES(#{state}, 
 			sysdate, #{endAt}) -->
 
 		<!-- INSERT INTO ALZ_USER (ID, EMAIL, NICKNAME, PASSWORD, ROLE, CERTIFICATION_STATE, 
-			RECENTLOG_AT, MODIFIED_AT,MODIFIED_AT, INTRODUCE) VALUES(#{id}, #{email}, 
+			RECENTLOG_AT, MODIFIED_AT, MODIFIED_AT, INTRODUCE) VALUES(#{id}, #{email}, 
 			#{nickname}, #{password}, #{role}, #{certificationState}, sysdate, #{modifiedAt},sysdate, 
-			#{introduce}) INSERT INTO ALZ_USER_STATE(STATE, END_AT, END_AT) VALUES(#{state}, 
+			#{introduce}) 
+			
+			INSERT INTO ALZ_USER_STATE(STATE, END_AT, END_AT) VALUES(#{state}, 
 			sysdate, #{endAt}) -->
 	</insert>
 
 
 	<!-- 값을 다 넣을 때 -->
-	<!-- <insert id="insert" parameterType="alz.user.domain.UserDTO"> <selectKey 
-		keyProperty="id" order="BEFORE" resultType="long"> SELECT alz_user_seq.nextval 
-		FROM dual </selectKey> INSERT INTO ALZ_USER (ID, EMAIL, NICKNAME, PASSWORD, 
-		ROLE, CERTIFICATION_STATE CERTIFICATIONSTATE, RECENTLOG_AT RECENTLOGAT, MODIFIED_AT 
-		MODIFIEDAT, MODIFIED_AT MODIFIEDAT, INTRODUCE, STATE, START_AT STARTAT, END_AT 
-		ENDAT, END_AT ENDAT) VALUES(#{id}, #{email}, #{nickname}, #{password}, #{role}, 
-		#{certificationState}, sysdate, #{modifiedAt}, sysdate, #{introduce}, #{likeCnt}, 
-		#{boardCnt}, #{reservCnt}, #{commentCnt}, #{state},#{startAt}, sysdate, #{endAt}) 
-		</insert> -->
+	<!-- 
+	<insert id="insert" parameterType="alz.user.domain.UserDTO"> 
+	<selectKey keyProperty="id" order="BEFORE" resultType="long"> 
+	SELECT alz_user_seq.nextval FROM dual 
+	</selectKey> 
+	INSERT INTO ALZ_USER (ID, EMAIL, NICKNAME, PASSWORD, ROLE, CERTIFICATION_STATE CERTIFICATIONSTATE, RECENTLOG_AT RECENTLOGAT, 
+							MODIFIED_AT MODIFIEDAT, MODIFIED_AT MODIFIEDAT, INTRODUCE, STATE, START_AT STARTAT, END_AT ENDAT, END_AT ENDAT) 
+	VALUES(#{id}, #{email}, #{nickname}, #{password}, #{role}, #{certificationState}, sysdate, #{modifiedAt}, sysdate, #{introduce}, #{likeCnt}, 
+			#{boardCnt}, #{reservCnt}, #{commentCnt}, #{state},#{startAt}, sysdate, #{endAt}) 
+	</insert> 
+	-->
 
 
 	<select id="selectById" resultType="alz.user.domain.UserDTO">
@@ -69,19 +73,23 @@
 	</select>
 
 	<!-- 값을 다 넣을 때 -->
-	<!-- <select id="selectById" resultType="alz.user.domain.UserDTO"> SELECT 
-		* FROM alz_user WHERE id = #{id} </select> -->
+	<!-- <select id="selectById" resultType="alz.user.domain.UserDTO"> 
+	SELECT * FROM alz_user WHERE id = #{id} </select> -->
 
 	<update id="updateById">
 		UPDATE alz_user
-		SET NICKNAME = #{nickname},
+		SET nickname = #{nickname},
 		password = #{password},
-		introduce = #{introduce}
+		role = #{role},
+		certification_State = {certification_State},
+		modified_At = '20/06/23',
+		introduce = #{introduce},
+		phone_Number = #{phone_number}
 		WHERE email = #{email}
 	</update>
 
 	<!-- 값을 다 넣을 때 -->
-	<!-- <update id="updatedById"> UPDATE alz_user SET NICKNAME = #{nickname}, 
+	<!-- <update id="updatedById"> UPDATE alz_user SET nickname = #{nickname}, 
 		password = #{password}, role = #{role}, certification_State = #{certificationState}, 
 		recentlog_At = sysdate, 디폴트값이 시스데이트 이므로 필요없음 modified_At = sysdate, modified_At 
 		= #{modifiedAt}, 직접 값을 넣고 싶으면 활성화 introduce = #{introduce}, like_Cnt = #{likeCnt}, 

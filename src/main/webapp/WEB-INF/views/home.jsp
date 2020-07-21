@@ -35,7 +35,7 @@
         }
 
         .head {
-            height: 80px;
+            height: 120px;
             position: relative;
         }
 
@@ -44,8 +44,8 @@
             top: 10px;
             left: 20px;
             padding: 0px;
-            width: 140px;
-            height: 60px;
+            width: 220px;
+            height: 100px;
         }
 
         .logo a img {
@@ -471,7 +471,7 @@
 	                            <a href="/callJoin">회원가입</a>
 	                        </c:if>
                         	<c:if test="${!empty sessionUser}">
-                        	    <a href="">마이페이지</a>
+                        	    <a href="/callModify">마이페이지</a>
                         	    <!-- <a href="/callModify">MODIFY</a> -->
 	                            <!-- <a href="/deleteById">REMOVE</a> -->
                         	</c:if>

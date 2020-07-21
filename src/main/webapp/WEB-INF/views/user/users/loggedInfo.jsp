@@ -22,12 +22,12 @@
 						${sessionUser.nickname}
 					</td>
 				</tr>
-				<%-- <tr>
-					<td>INTRODUCE</td>
+				<tr>
+					<td>PHONENUMBER</td>
 					<td>
-						${sessionUser.introduce}
+						${sessionUser.phoneNumber}
 					</td>
-				</tr> --%>
+				</tr>
 			</table>
 		
 		<hr>

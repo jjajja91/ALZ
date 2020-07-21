@@ -119,6 +119,14 @@
 		delete from alz_board where id = #{id}
 	</delete>
 	
+	<select id="getCommentsCnt" resultType="long">
+		select comment_cnt from alz_board where id = #{id}
+	</select>
+	
+	<select id="getLikeCnt" resultType="long">
+		select like_cnt from alz_board where id = #{id}
+	</select>
+	
 	<update id="updateById" parameterType="alz.board.domain.BoardDTO">
 		update alz_board
 		set title = #{title},
