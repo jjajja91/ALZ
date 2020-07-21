@@ -18,8 +18,8 @@ import lombok.experimental.Accessors;
 @AllArgsConstructor
 @ToString
 public class CartDTO {
-	private Long cartId;
-	private String cartNick;
+	private Long id;
+	private Long userId;
 	private Long merchandiseId;
 	private Long amount;
 	private Date addDate;

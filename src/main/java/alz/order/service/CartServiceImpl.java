@@ -32,13 +32,13 @@ public class CartServiceImpl implements CartService {
 	}
 
 	@Override
-	public List<CartDTO> listCart(String cartNick) {
-		return cartMapper.listCart(cartNick);
+	public List<CartDTO> listCart(long userId) {
+		return cartMapper.listCart(userId);
 	}
 
 	@Override
-	public void deleteCart(long cartId) {
-		cartMapper.deleteCart(cartId);
+	public void deleteCart(long id) {
+		cartMapper.deleteCart(id);
 	}
 
 	@Override
@@ -47,18 +47,23 @@ public class CartServiceImpl implements CartService {
 	}
 
 	@Override
-	public int sumMoney(String cartNick) {
-		return cartMapper.sumMoney(cartNick);
+	public int sumMoney(long userId) {
+		return cartMapper.sumMoney(userId);
 	}
 
 	@Override
-	public int countCart(long merchandiseId, String cartNick) {
-		return cartMapper.countCart(merchandiseId, cartNick);
+	public int countCart(long merchandiseId, long userId) {
+		return cartMapper.countCart(merchandiseId, userId);
 	}
 
 	@Override
 	public void updateCart(CartDTO cart) {
 		cartMapper.updateCart(cart);
+	}
+
+	@Override
+	public void delete(CartDTO cart) {
+		cartMapper.delete(cart);
 	}
 
 }
