@@ -3,29 +3,44 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="alz.classes.mapper.ClassMapper">
+<mapper namespace="alz.lesson.mapper.LessonMapper">
 
-	<insert id="insert" parameterType="alz.classes.domain.ClassDTO">
+	<insert id="insert" parameterType="alz.lesson.domain.LessonDTO">
 		<selectKey keyProperty="id" order="BEFORE" resultType="long">
-			SELECT alz_class_seq.nextval FROM dual
+			SELECT alz_LESSON_seq.nextval FROM dual
 		</selectKey>
 		INSERT INTO
-		ALZ_CLASS(ID,NAME,DISCRIPTION,OPEN_AT,CLOSE_AT,START_AT,END_AT,
+		ALZ_LESSON(ID,NAME,DISCRIPTION,OPEN_AT,CLOSE_AT,START_AT,END_AT,
 		STATE,CATEGORY_ID, TEACHER_ID)
 		VALUES (#{id}, #{name}, #{discription},
 		#{openAt}, #{closeAt}, #{startAt},
 		#{endAt}, #{state}, #{categoryId},
 		#{teacherId})
 	</insert>
-	<select id="findById" resultType="alz.classes.domain.ClassDTO">
-	<![CDATA[SELECT * FROM ALZ_CLASS WHERE id = #{id}]]>
+	
+	<select id="findById" resultType="alz.lesson.domain.LessonDTO">
+	<![CDATA[SELECT * FROM ALZ_LESSON WHERE id = #{id}]]>
 	</select>
-	<select id="findAll" resultType="alz.classes.domain.ClassDTO">
-	<![CDATA[SELECT * FROM ALZ_CLASS]]>
+	
+	<select id="findAll" resultType="alz.lesson.domain.LessonDTO">
+		select lesson.id id, lesson.teacher_id teacherId, lesson.category_id categoryId, category.total categoryName,
+			lesson.title, lessonType.type lessonType, lessonLevel.lesson_level lessonLevel, 
+			lesson.min_student minStudent, lesson.max_student maxStudent, lesson.current_student currentStudent, 
+			lessonState.state state
+		from alz_lesson lesson, 
+		     alz_lesson_type lessonType, 
+		     alz_lesson_level lessonLevel,
+		     alz_lesson_state lessonState,
+             alz_category category
+		where lesson.lesson_type = lessonType.id 
+		  and lesson.lesson_level = lessonLevel.id
+		  and lesson.state = lessonState.id
+          and lesson.category_id = category.id
 	</select>
+	
 	<update id="updateById"
-		parameterType="alz.classes.domain.ClassDTO">
-		UPDATE ALZ_CLASS
+		parameterType="alz.lesson.domain.LessonDTO">
+		UPDATE ALZ_LESSON
 		SET name = #{name},
 		discription =
 		#{discription},
@@ -40,7 +55,7 @@
 		WHERE id = #{id}
 	</update>
 	<delete id="deleteById">
-		DELETE FROM ALZ_CLASS WHERE id = #{id}
+		DELETE FROM ALZ_LESSON WHERE id = #{id}
 	</delete>
 
 </mapper>

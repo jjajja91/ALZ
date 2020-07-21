@@ -1,4 +1,4 @@
-package alz.classes.domain;
+package alz.lesson.domain;
 
 import java.util.Date;
 
@@ -16,7 +16,7 @@ import lombok.experimental.Accessors;
 @Accessors(chain=true)
 @NoArgsConstructor
 @AllArgsConstructor
-public class ClassRequestDTO {
+public class LessonRequestDTO {
 	
 		private String name;
 		private String description;

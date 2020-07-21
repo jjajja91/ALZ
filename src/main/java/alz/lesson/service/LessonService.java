@@ -1,73 +1,61 @@
-package alz.classes.service;
+package alz.lesson.service;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import alz.classes.domain.ClassDTO;
-import alz.classes.domain.ClassRequestDTO;
-import alz.classes.mapper.ClassMapper;
+import alz.lesson.domain.LessonDTO;
+import alz.lesson.domain.LessonRequestDTO;
+import alz.lesson.mapper.LessonMapper;
 
 @Service
-public class ClassService {
+public class LessonService {
 
-	private ClassMapper classMapper;
+	private LessonMapper lessonMapper;
 	
 	@Autowired
-	public ClassService(ClassMapper classMapper) {
-		this.classMapper = classMapper;
+	public LessonService(LessonMapper lessonMapper) {
+		this.lessonMapper = lessonMapper;
 	}
 	
-
-	public ClassDTO create(ClassRequestDTO classes) 	{
-		ClassDTO classDTO = toEntity(classes);
-		int affectedRowCount = classMapper.insert(classDTO);
-		ClassDTO openedClass = classMapper.findById(classDTO.getId());
+	public LessonDTO create(LessonRequestDTO lessons) 	{
+		LessonDTO lessonDTO = toEntity(lessons);
+		int affectedRowCount = lessonMapper.insert(lessonDTO);
+		LessonDTO openedClass = lessonMapper.findById(lessonDTO.getId());
 		return openedClass;
 	}
 
-	public ClassDTO readById(Long id) {
-		ClassDTO searchedClass = classMapper.findById(id);
-		return searchedClass;
+	public LessonDTO readById(Long id) {
+		LessonDTO searchedLessons = lessonMapper.findById(id);
+		return searchedLessons;
 	}
 
-	public List<ClassDTO> readAll() {
-		List<ClassDTO> classes = classMapper.findAll();
-		return classes;
+	public List<LessonDTO> readAll() {
+		List<LessonDTO> lessons = lessonMapper.findAll();
+		return lessons;
 	}
 
 	//chain
-	public ClassDTO updateById(Long id, ClassDTO classes) {
-		ClassDTO searchedClass = classMapper.findById(id);
+	public LessonDTO updateById(Long id, LessonDTO lessons) {
+		LessonDTO searchedLessons = lessonMapper.findById(id);
 		
-		searchedClass.setName(classes.getName()).setDescription(classes.getDescription())
-		.setOpenAt(classes.getOpenAt()).setCloseAt(classes.getCloseAt())
-		.setStartAt(classes.getStartAt()).setEndAt(classes.getEndAt())
-		.setState(classes.getState()).setCategoryId(classes.getCategoryId());
-		int affectedRowCount = classMapper.updateById(searchedClass);
-		return searchedClass;
+		searchedLessons.setState(lessons.getState()).setCategoryId(lessons.getCategoryId());
+		int affectedRowCount = lessonMapper.updateById(searchedLessons);
+		return searchedLessons;
 	}
 
 	public int deleteById(Long id) {
-		ClassDTO searchedClass = classMapper.findById(id);
-		int affectedRowCount = classMapper.deleteById(id);
+		LessonDTO searchedLesson = lessonMapper.findById(id);
+		int affectedRowCount = lessonMapper.deleteById(id);
 		return affectedRowCount;
 	}
 	
-	private ClassDTO toEntity(ClassRequestDTO request) {
-		return ClassDTO.builder()
-				    .name(request.getName())
-				    .description(request.getDescription())
-				    .openAt(request.getOpenAt())
-				    .closeAt(request.getCloseAt())
-				    .startAt(request.getStartAt())
-				    .endAt(request.getEndAt())
+	private LessonDTO toEntity(LessonRequestDTO request) {
+		return LessonDTO.builder()
 				    .categoryId(request.getCategoryId())
 				    .teacherId(request.getTeacherId())
 					.build();
-		
-		
 	}
 
 	

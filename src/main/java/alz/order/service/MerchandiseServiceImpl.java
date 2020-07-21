@@ -8,12 +8,12 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import alz.lesson.domain.LessonDTO;
 import alz.order.domain.CartDTO;
 import alz.order.domain.MerchandiseCriteria;
 import alz.order.domain.MerchandiseDTO;
 import alz.order.mapper.MerchandiseMapper;
 import lombok.extern.log4j.Log4j;
-import alz.classes.domain.ClassDTO;
 
 @Service
 @Log4j

@@ -1,5 +1,5 @@
-package alz.classes.controller;
+package alz.lesson.controller;
 
-public class ClassApiControllerAdvice {
+public class LessonApiControllerAdvice {
 
 }

@@ -1,6 +1,4 @@
-package alz.classes.domain;
-
-import java.util.Date;
+package alz.lesson.domain;
 
 import javax.validation.constraints.NotEmpty;
 
@@ -17,22 +15,19 @@ import lombok.experimental.Accessors;
 @Accessors(chain=true)
 @NoArgsConstructor
 @AllArgsConstructor
-public class ClassDTO {
+public class LessonDTO {
 
 	private Long id;
 	@NotEmpty
-	private String name;
-	private String description;
-	private Date openAt;
-	private Date closeAt;
-	private String startAt;
-	private String endAt;
-	private String state;
-	private Long studentCnt;
-	private Long likeCnt;
-	private Long reservCnt;
-	private Double rate;
-	private Long categoryId;
 	private Long teacherId;
+	private Long categoryId;
+	private String categoryName;
+	private String title;
+	private String lessonType;
+	private String lessonLevel;
+	private Long minStudent;
+	private Long maxStudent;
+	private Long currentStudent;
+	private String state;
 	
 }
