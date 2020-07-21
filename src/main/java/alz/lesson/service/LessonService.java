@@ -2,61 +2,18 @@ package alz.lesson.service;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import alz.lesson.domain.LessonDTO;
 import alz.lesson.domain.LessonRequestDTO;
-import alz.lesson.mapper.LessonMapper;
 
-@Service
-public class LessonService {
+public interface LessonService {
 
-	private LessonMapper lessonMapper;
+	LessonDTO create(LessonRequestDTO lessons);
 	
-	@Autowired
-	public LessonService(LessonMapper lessonMapper) {
-		this.lessonMapper = lessonMapper;
-	}
+	LessonDTO readById(Long id);
+	List<LessonDTO> readAll();
 	
-	public LessonDTO create(LessonRequestDTO lessons) 	{
-		LessonDTO lessonDTO = toEntity(lessons);
-		int affectedRowCount = lessonMapper.insert(lessonDTO);
-		LessonDTO openedClass = lessonMapper.findById(lessonDTO.getId());
-		return openedClass;
-	}
-
-	public LessonDTO readById(Long id) {
-		LessonDTO searchedLessons = lessonMapper.findById(id);
-		return searchedLessons;
-	}
-
-	public List<LessonDTO> readAll() {
-		List<LessonDTO> lessons = lessonMapper.findAll();
-		return lessons;
-	}
-
-	//chain
-	public LessonDTO updateById(Long id, LessonDTO lessons) {
-		LessonDTO searchedLessons = lessonMapper.findById(id);
-		
-		searchedLessons.setState(lessons.getState()).setCategoryId(lessons.getCategoryId());
-		int affectedRowCount = lessonMapper.updateById(searchedLessons);
-		return searchedLessons;
-	}
-
-	public int deleteById(Long id) {
-		LessonDTO searchedLesson = lessonMapper.findById(id);
-		int affectedRowCount = lessonMapper.deleteById(id);
-		return affectedRowCount;
-	}
+	LessonDTO updateById(Long id, LessonDTO lessons);
 	
-	private LessonDTO toEntity(LessonRequestDTO request) {
-		return LessonDTO.builder()
-				    .categoryId(request.getCategoryId())
-				    .teacherId(request.getTeacherId())
-					.build();
-	}
-
+	int deleteById(Long id);
 	
 }

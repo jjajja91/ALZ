@@ -30,6 +30,9 @@
 		</c:forEach>
 	</div>
 	
+	<form id='actionForm' action="/lesson/list" method='get'>
+	</form>
+	
 	<%-- <table class="classTable">
 		<tr>
 			<th>클래스이름</th>
@@ -57,10 +60,23 @@
 				</tr>
 			</c:forEach>
 	</table> --%>
-	<select name="type"></select>
-	<input type="text" name="keyword">
-	<button id="searchBtn">검색</button>
 	
 </div>
+<script type="text/javascript">
+	
+	$(document).ready(function() {
+		
+		var actionForm = $("#actionForm");
+		
+		$(".read").on("click", function(e) {
+			e.preventDefault();
+			actionForm.append("<input type='hidden' name='id' value='"+$(this).attr("href")+"'>");
+			actionForm.attr("action", "/lesson/read");
+			actionForm.submit();
+		})
+		
+	});
+	
+</script>
 </body>
 </html>

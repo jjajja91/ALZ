@@ -16,16 +16,16 @@ import org.springframework.web.bind.annotation.RestController;
 
 import alz.lesson.domain.LessonDTO;
 import alz.lesson.domain.LessonRequestDTO;
-import alz.lesson.service.LessonService;
+import alz.lesson.service.LessonServiceImpl;
 
 @RestController
 @RequestMapping("/api/lessons")
 public class LessonApiController {
 
-	private LessonService lessonService;
+	private LessonServiceImpl lessonService;
 	
 	@Autowired
-	public LessonApiController(LessonService lessonService) {
+	public LessonApiController(LessonServiceImpl lessonService) {
 		this.lessonService = lessonService;
 	}
 	

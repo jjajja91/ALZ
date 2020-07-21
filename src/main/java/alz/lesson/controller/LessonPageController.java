@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import alz.lesson.domain.LessonRequestDTO;
-import alz.lesson.service.LessonService;
+import alz.lesson.service.LessonServiceImpl;
 import lombok.extern.log4j.Log4j;
 
 @Controller
@@ -17,10 +17,10 @@ import lombok.extern.log4j.Log4j;
 @Log4j
 public class LessonPageController {
 	
-	private LessonService lessonService;
+	private LessonServiceImpl lessonService;
 	
 	@Autowired
-	public LessonPageController(LessonService lessonService) {
+	public LessonPageController(LessonServiceImpl lessonService) {
 		this.lessonService = lessonService;
 	}
 	
@@ -29,7 +29,7 @@ public class LessonPageController {
 		model.addAttribute("list", lessonService.readAll());
 	}
 	
-	@GetMapping("/get")
+	@GetMapping("/read")
 	public void get(@RequestParam Long id, Model model) {
 		model.addAttribute("lessons", lessonService.readById(id));
 	}
