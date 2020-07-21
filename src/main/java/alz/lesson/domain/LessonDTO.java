@@ -1,6 +1,6 @@
-package alz.classes.domain;
+package alz.lesson.domain;
 
-import java.util.Date;
+import java.sql.Date;
 
 import javax.validation.constraints.NotEmpty;
 
@@ -9,6 +9,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 import lombok.experimental.Accessors;
 
 @Getter
@@ -17,22 +18,24 @@ import lombok.experimental.Accessors;
 @Accessors(chain=true)
 @NoArgsConstructor
 @AllArgsConstructor
-public class ClassDTO {
+@ToString
+public class LessonDTO {
 
 	private Long id;
 	@NotEmpty
-	private String name;
-	private String description;
+	private Long teacherId;
+	private Long categoryId;
+	private String categoryName;
+	private String title;
+	private String lessonType;
+	private String lessonLevel;
+	private Long minStudent;
+	private Long maxStudent;
+	private Long currentStudent;
+	private String state;
 	private Date openAt;
 	private Date closeAt;
 	private String startAt;
 	private String endAt;
-	private String state;
-	private Long studentCnt;
-	private Long likeCnt;
-	private Long reservCnt;
-	private Double rate;
-	private Long categoryId;
-	private Long teacherId;
 	
 }

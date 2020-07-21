@@ -1,4 +1,4 @@
-package alz.classes.controller;
+package alz.lesson.controller;
 
 import java.util.List;
 
@@ -14,48 +14,48 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import alz.classes.domain.ClassDTO;
-import alz.classes.domain.ClassRequestDTO;
-import alz.classes.service.ClassService;
+import alz.lesson.domain.LessonDTO;
+import alz.lesson.domain.LessonRequestDTO;
+import alz.lesson.service.LessonServiceImpl;
 
 @RestController
-@RequestMapping("/api/classes")
-public class ClassApiController {
+@RequestMapping("/api/lessons")
+public class LessonApiController {
 
-	private ClassService classService;
+	private LessonServiceImpl lessonService;
 	
 	@Autowired
-	public ClassApiController(ClassService classService) {
-		this.classService = classService;
+	public LessonApiController(LessonServiceImpl lessonService) {
+		this.lessonService = lessonService;
 	}
 	
 	@PostMapping
-	public ResponseEntity<?> create(@RequestBody ClassRequestDTO classes){
-		ClassDTO openedClass = classService.create(classes);
+	public ResponseEntity<?> create(@RequestBody LessonRequestDTO classes){
+		LessonDTO openedClass = lessonService.create(classes);
 		return ResponseEntity.status(HttpStatus.CREATED).body(openedClass);
 	}
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<?> readOne(@PathVariable Long id){
-		ClassDTO searchedClass = classService.readById(id);
+		LessonDTO searchedClass = lessonService.readById(id);
 		return ResponseEntity.status(HttpStatus.OK).body(searchedClass);
 	}
 	
 	@GetMapping
 	public ResponseEntity<?> readAll() {
-		List<ClassDTO> classes = classService.readAll();
+		List<LessonDTO> classes = lessonService.readAll();
 		return ResponseEntity.status(HttpStatus.OK).body(classes);
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<?> updateOne(@PathVariable Long id, @RequestBody ClassDTO classes) {
-		ClassDTO updatedClass = classService.updateById(id, classes);
+	public ResponseEntity<?> updateOne(@PathVariable Long id, @RequestBody LessonDTO classes) {
+		LessonDTO updatedClass = lessonService.updateById(id, classes);
 		return ResponseEntity.status(HttpStatus.OK).body(updatedClass);
 	}
 	
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> deleteOne(@PathVariable Long id) {
-		int affectedRowCount = classService.deleteById(id);
+		int affectedRowCount = lessonService.deleteById(id);
 		return ResponseEntity.status(HttpStatus.OK).body("ok");
 	}
 }

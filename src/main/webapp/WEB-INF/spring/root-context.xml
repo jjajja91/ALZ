@@ -49,7 +49,7 @@
 			<property name="dataSource" ref="dataSource"></property>
 		</bean>
 		
-		<mybatis-spring:scan base-package="alz.classes.mapper"/>
+		<mybatis-spring:scan base-package="alz.lesson.mapper"/>
 		<mybatis-spring:scan base-package="alz.user.mapper"/>
     	<mybatis-spring:scan base-package="alz.order.mapper"/>
 		<mybatis-spring:scan base-package="alz.board.mapper"/>
@@ -58,7 +58,7 @@
 		
 		<context:component-scan base-package="alz.user.service">
 		</context:component-scan>
-		<context:component-scan base-package="alz.classes.service">
+		<context:component-scan base-package="alz.lesson.service">
 		</context:component-scan>
 		<context:component-scan base-package="alz.order.service">
 		</context:component-scan>
