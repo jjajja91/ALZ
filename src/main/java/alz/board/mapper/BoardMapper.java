@@ -25,4 +25,11 @@ public interface BoardMapper {
 	int rereplyInsert(BoardDTO board);
 	
 	int insertReply(BoardDTO board);
+
+	Long getCommentsCnt(Long boardId);
+
+	Long getLikeCnt(Long boardId);
+
+	void addLike();
+
 }

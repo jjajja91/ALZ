@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import alz.board.domain.BoardCriteria;
 import alz.board.domain.BoardDTO;
+import alz.board.domain.LikeDTO;
 import alz.board.exceptions.TemporaryServerException;
 import alz.board.exceptions.UnsatisfiedContentException;
 import alz.board.service.BoardService;
@@ -35,6 +36,13 @@ public class BoardApiController {
 	@Autowired
 	public BoardApiController(BoardService boardService) {
 		this.boardService = boardService;
+	}
+	
+	// 댓글 수
+	@GetMapping(value = "/comments/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<?> countComments(@PathVariable Long id){
+		Long commentsCnt = boardService.getCommentsCnt(id);
+		return ResponseEntity.status(HttpStatus.OK).body(commentsCnt);
 	}
 
 	@GetMapping(value = "/getFileList", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -119,6 +127,40 @@ public class BoardApiController {
 	public ResponseEntity<?> deleteOne(@PathVariable Long id) {
 		int affectedRowCount = boardService.deleteById(id);
 		return ResponseEntity.status(HttpStatus.OK).body("ok");
+	}
+	
+	// 좋아요 관련
+	
+	// 좋아요 수
+	@GetMapping(value = "/like/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<?> countLike(@PathVariable Long id){
+		Long likeCnt = boardService.getLikeCnt(id);
+		return ResponseEntity.status(HttpStatus.OK).body(likeCnt);
+	}
+	
+	// 좋아요 생성
+	@PostMapping("/like")
+	public ResponseEntity<?> addLike(@RequestBody LikeDTO like) {
+		boardService.addLike(like);
+		return ResponseEntity.status(HttpStatus.OK).body("좋아요");
+	}
+	
+	// 좋아요 해제
+	@DeleteMapping(value = "/like/{userId}/{boardId}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<?> removeLike(@PathVariable Long userId, @PathVariable Long boardId){
+		LikeDTO likeDTO = new LikeDTO();
+		likeDTO.setUserId(userId).setBoardId(boardId);
+		boolean isRemoved = boardService.removeLike(likeDTO);
+		return ResponseEntity.status(HttpStatus.OK).body(isRemoved);
+	}
+	
+	// 좋아요 여부 확인
+	@GetMapping(value = "/like/{userId}/{boardId}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<?> isLike(@PathVariable Long userId, @PathVariable Long boardId){
+		LikeDTO likeDTO = new LikeDTO();
+		likeDTO.setUserId(userId).setBoardId(boardId);
+		boolean isLike = boardService.isLike(likeDTO);
+		return ResponseEntity.status(HttpStatus.OK).body(isLike);
 	}
 
 }

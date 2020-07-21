@@ -12,6 +12,8 @@
 	<div class="panel-body">
 
 		<div class="form-group">
+			<input type = 'hidden' id = 'boardId' value='${board.id }'>
+			<input type = 'hidden' id = 'userId' value='${sessionUser.id }'>
 			<input class="form-control" name='title'
 				value='<c:out value="${board.title }"/>' readonly="readonly">
 		</div>
@@ -33,9 +35,12 @@
 		</div>
 
 		<div class="form-group">
-			<a class='likeCnt' href='<c:out value="${board.likeCnt }"/>'>♡
-				좋아요 <c:out value="${board.likeCnt }" />
-			</a> <a class='commentCnt' href='<c:out value="${board.commentCnt }"/>'>댓글
+			<input type="hidden" id="isLike" value="false">
+			<input type="hidden" id="likeCnt" value="${board.likeCnt }"/>
+			<a class='likeCnt' href='<c:out value="${board.likeCnt }"/>'>
+			♡ 좋아요 <c:out value="${board.likeCnt }" />
+			</a> 
+			<a class='commentCnt' href='<c:out value="${board.commentCnt }"/>'>댓글
 				<c:out value="${board.commentCnt }" />
 			</a>
 		</div>
@@ -118,8 +123,32 @@
 
 
 	$(document).ready(function() {
+		
+		
 	
-
+		var $boardId = $("#boardId");
+		var $userId = $("#userId");
+		var $isLike = $("#isLike");
+		var likeData = {
+				userId : $userId.val(),
+				boardId : $boardId.val()
+			};
+		
+		
+		isLike(likeData)
+		.then(function(response){
+			$isLike.val(response);
+		})
+		.then(function(response){
+			return countLike($boardId.val());
+		})
+		.then(function(response){
+			drawLikeCnt(response);
+		})
+		.catch(function(error){
+			console.log(error);
+		});
+		
 		
 		// 파일 리스트 가져와서 보여주기
 		var boardId = '<c:out value="${board.id}"/>';
@@ -307,6 +336,13 @@
 					// 입력창 빈칸으로 초기화
 					$('#commentContent').val("");
 				})
+				.then(function(response){
+					return countComments($boardId.val());
+				})
+				.then(function(response){
+					console.log(response);
+					drawCommentCnt(response);
+				})
 				.catch(function(error) {
 					var errorMessage = error.responseJSON.defaultMessage;
 					console.log(error.responseJSON);
@@ -316,6 +352,40 @@
 				});
 			
 		})
+		
+		var $likeCnt = $(".likeCnt");
+		var $commentCnt = $(".commentCnt");
+		
+		$likeCnt.click(function(e){
+			e.preventDefault();
+			
+			if($isLike.val()=="true"){
+				removeLike(likeData)
+				.then(function(response){
+					return countLike($boardId.val());
+				})
+				.then(function(response){
+					$isLike.val('false');
+					drawLikeCnt(response);
+				})
+				.catch(function(error){
+					console.log(error);
+				});
+			} else {
+				addLike(likeData)
+				.then(function(response){
+					return countLike($boardId.val());
+				})
+				.then(function(response){
+					$isLike.val('true');
+					drawLikeCnt(response);
+				})
+				.catch(function(error){
+					console.log(error);
+				});
+			}	
+		})
+		
 		
 		// 대댓글 등록 버튼 이벤트
 		$(document).on("click","button[class='reCommentRegBtn']", function(e){
@@ -338,6 +408,13 @@
 				.then(function(response) {
 					// 댓글 리스트 새로고침
 					showComment();
+				})
+				.then(function(response){
+					return countComments($boardId.val());
+				})
+				.then(function(response){
+					console.log(response);
+					drawCommentCnt(response);
 				})
 				.catch(function(error) {
 					var errorMessage = error.responseJSON.defaultMessage;
@@ -473,6 +550,59 @@
 				contentType : "application/json; charset=utf-8"
 			}); 
 			
+		}
+		
+		function addLike(likeData) {
+			return $.ajax({
+				type : "POST",
+				url : '/boards/like/',
+				data : JSON.stringify(likeData),
+				contentType : "application/json; charset=utf-8"
+			});
+		}
+		
+		function removeLike(likeData) {
+			return $.ajax({
+				type : 'DELETE',
+				url : '/boards/like/' +likeData.userId+'/'+likeData.boardId,
+				contentType : "application/json; charset=utf-8"
+			});
+		}
+		
+		function countLike(id) {
+			return $.ajax({
+				type : "GET",
+				url : '/boards/like/' + id,
+				contentType : "application/json; charset=utf-8;"
+			});
+		}
+		
+		function drawCommentCnt(commentCnt){
+			$commentCnt.html("댓글 "+commentCnt);
+		}
+		
+		function drawLikeCnt(likeCnt) {
+			if($isLike.val()=="true") {
+			$likeCnt.html("♥ 좋아요 "+likeCnt);
+			} else {
+			$likeCnt.html("♡ 좋아요 "+likeCnt);
+			}
+		}
+		
+		function countComments(id) {
+			return $.ajax({				
+				type: 'GET',
+				url: '/boards/comments/' + id,
+				contentType : "application/json; charset=utf-8;"
+			});
+		}
+		
+		function isLike(likeData){
+			return $.ajax({
+				type : "GET",
+				url : '/boards/like/'+likeData.userId+'/'+likeData.boardId,
+				contentType : "application/json; charset=utf-8"
+			});
 		}
 		
 		

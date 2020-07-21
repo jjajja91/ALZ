@@ -6,6 +6,7 @@ import org.springframework.validation.BindingResult;
 
 import alz.board.domain.BoardCriteria;
 import alz.board.domain.BoardDTO;
+import alz.board.domain.LikeDTO;
 import alz.file.domain.BoardFileDTO;
 
 public interface BoardService {
@@ -25,5 +26,15 @@ public interface BoardService {
 	int getTotal(BoardCriteria cri);
 	
 	public List<BoardFileDTO> getFileList(Long boardId);
+
+	Long getCommentsCnt(Long id);
+
+	Long getLikeCnt(Long id);
+
+	void addLike(LikeDTO like);
+
+	boolean isLike(LikeDTO likeDTO);
+
+	boolean removeLike(LikeDTO likeDTO);
 
 }
