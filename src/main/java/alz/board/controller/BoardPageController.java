@@ -79,7 +79,7 @@ public class BoardPageController {
 	
 	@GetMapping("/list")
 	public void list(BoardCriteria cri, Model model) {
-	System.out.println("여긴가");
+  
 		model.addAttribute("list", boardService.readAll(cri));
 
 		int total = boardService.getTotal(cri);
