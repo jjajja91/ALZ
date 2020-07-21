@@ -140,4 +140,14 @@ public class BoardServiceImpl implements BoardService {
 		likeMapper.addLike(like);
 	}
 
+	@Override
+	public boolean isLike(LikeDTO likeDTO) {
+		return likeMapper.getLike(likeDTO)==null ? false : true; 
+	}
+
+	@Override
+	public boolean removeLike(LikeDTO likeDTO) {
+		return likeMapper.removeLike(likeDTO)==0 ? false : true;
+	}
+
 }

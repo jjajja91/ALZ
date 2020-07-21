@@ -35,9 +35,12 @@
 		</div>
 
 		<div class="form-group">
-			<a class='likeCnt' href='<c:out value="${board.likeCnt }"/>'>♡
-				좋아요 <c:out value="${board.likeCnt }" />
-			</a> <a class='commentCnt' href='<c:out value="${board.commentCnt }"/>'>댓글
+			<input type="hidden" id="isLike" value="false">
+			<input type="hidden" id="likeCnt" value="${board.likeCnt }"/>
+			<a class='likeCnt' href='<c:out value="${board.likeCnt }"/>'>
+			♡ 좋아요 <c:out value="${board.likeCnt }" />
+			</a> 
+			<a class='commentCnt' href='<c:out value="${board.commentCnt }"/>'>댓글
 				<c:out value="${board.commentCnt }" />
 			</a>
 		</div>
@@ -120,9 +123,32 @@
 
 
 	$(document).ready(function() {
+		
+		
 	
 		var $boardId = $("#boardId");
 		var $userId = $("#userId");
+		var $isLike = $("#isLike");
+		var likeData = {
+				userId : $userId.val(),
+				boardId : $boardId.val()
+			};
+		
+		
+		isLike(likeData)
+		.then(function(response){
+			$isLike.val(response);
+		})
+		.then(function(response){
+			return countLike($boardId.val());
+		})
+		.then(function(response){
+			drawLikeCnt(response);
+		})
+		.catch(function(error){
+			console.log(error);
+		});
+		
 		
 		// 파일 리스트 가져와서 보여주기
 		var boardId = '<c:out value="${board.id}"/>';
@@ -332,21 +358,32 @@
 		
 		$likeCnt.click(function(e){
 			e.preventDefault();
-			likeData = {
-				userId : $userId.val(),
-				boardId : $boardId.val()
-			};
-			addLike(likeData)
-			.then(function(response){
-				return countLike($boardId.val());
-			})
-			.then(function(response){
-				drawLikeCnt(response);
-			})
-			.catch(function(error){
-				console.log(error);
-			});
 			
+			if($isLike.val()=="true"){
+				removeLike(likeData)
+				.then(function(response){
+					return countLike($boardId.val());
+				})
+				.then(function(response){
+					$isLike.val('false');
+					drawLikeCnt(response);
+				})
+				.catch(function(error){
+					console.log(error);
+				});
+			} else {
+				addLike(likeData)
+				.then(function(response){
+					return countLike($boardId.val());
+				})
+				.then(function(response){
+					$isLike.val('true');
+					drawLikeCnt(response);
+				})
+				.catch(function(error){
+					console.log(error);
+				});
+			}	
 		})
 		
 		
@@ -517,6 +554,14 @@
 			});
 		}
 		
+		function removeLike(likeData) {
+			return $.ajax({
+				type : 'DELETE',
+				url : '/boards/like/' +likeData.userId+'/'+likeData.boardId,
+				contentType : "application/json; charset=utf-8"
+			});
+		}
+		
 		function countLike(id) {
 			return $.ajax({
 				type : "GET",
@@ -530,7 +575,11 @@
 		}
 		
 		function drawLikeCnt(likeCnt) {
+			if($isLike.val()=="true") {
+			$likeCnt.html("♥ 좋아요 "+likeCnt);
+			} else {
 			$likeCnt.html("♡ 좋아요 "+likeCnt);
+			}
 		}
 		
 		function countComments(id) {
@@ -538,6 +587,14 @@
 				type: 'GET',
 				url: '/boards/comments/' + id,
 				contentType : "application/json; charset=utf-8;"
+			});
+		}
+		
+		function isLike(likeData){
+			return $.ajax({
+				type : "GET",
+				url : '/boards/like/'+likeData.userId+'/'+likeData.boardId,
+				contentType : "application/json; charset=utf-8"
 			});
 		}
 		

@@ -33,4 +33,8 @@ public interface BoardService {
 
 	void addLike(LikeDTO like);
 
+	boolean isLike(LikeDTO likeDTO);
+
+	boolean removeLike(LikeDTO likeDTO);
+
 }

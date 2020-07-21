@@ -13,5 +13,13 @@
 		insert into ALZ_LINK_LIKE_BOARD (id, user_id, board_id)
 		values(#{id}, #{userId}, #{boardId})
 	</insert>
+	
+	<select id="getLike" parameterType="alz.board.domain.LikeDTO" resultType="alz.board.domain.LikeDTO">
+		select * from ALZ_LINK_LIKE_BOARD WHERE user_id = #{userId} and board_id = #{boardId}
+	</select>
+	
+	<delete id="removeLike" parameterType="alz.board.domain.LikeDTO">
+		delete from ALZ_LINK_LIKE_BOARD WHERE user_id = #{userId} and board_id = #{boardId}
+	</delete>
 
 </mapper>
