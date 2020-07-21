@@ -40,6 +40,11 @@ public class UserController {
 
       return dateFormat.format(date);
    }
+   
+   @RequestMapping(value = "/callFindInfo", method = RequestMethod.GET)
+   public String callFindInfo() {
+	   return "user/users/findInfo";
+   }
 
    @RequestMapping(value = "/callJoin", method = RequestMethod.GET)
    public String callJoin() {
@@ -83,6 +88,9 @@ public class UserController {
       
       model.addAttribute("email", request.getParameter("email"));
       model.addAttribute("nickname", request.getParameter("nickname"));
+      model.addAttribute("phoneNumber", request.getParameter("phoneNumber"));
+      
+      // 회원가입 메서드
       userService.create(user);
       
       return "user/anonymous/joinInfo";

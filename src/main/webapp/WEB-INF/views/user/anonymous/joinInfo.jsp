@@ -23,12 +23,12 @@
 						${nickname}
 					</td>
 				</tr>
-				<%-- <tr>
-					<td>INTRODUCE</td>
+				<tr>
+					<td>PHONE NUMBER</td>
 					<td>
-						${introduce}
+						${phoneNumber}
 					 </td>
-				</tr> --%>
+				</tr>
 			</table>
 		
 		<hr>

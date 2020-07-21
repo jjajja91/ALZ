@@ -33,8 +33,8 @@ public class UserDTO {
 	private Long boardCnt;
 	private Long reservCnt;
 	private Long commentCnt;
+	private String phoneNumber;
 	private String state;
 	private Date startAt;
 	private Date endAt;
-
 }
