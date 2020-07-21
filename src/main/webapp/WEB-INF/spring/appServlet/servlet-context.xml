@@ -36,6 +36,7 @@
 	</beans:bean>
 
 	<context:component-scan base-package="alz.main.controller" />
+	<context:component-scan base-package="alz.lesson.controller" />
 	<context:component-scan base-package="alz.board.controller" />
 	<context:component-scan base-package="alz.order.controller" />
 	<context:component-scan base-package="alz.user.controller" />
