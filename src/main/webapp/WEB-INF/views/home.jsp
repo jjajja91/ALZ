@@ -35,7 +35,7 @@
         }
 
         .head {
-            height: 80px;
+            height: 120px;
             position: relative;
         }
 
@@ -44,8 +44,8 @@
             top: 10px;
             left: 20px;
             padding: 0px;
-            width: 140px;
-            height: 60px;
+            width: 220px;
+            height: 100px;
         }
 
         .logo a img {
