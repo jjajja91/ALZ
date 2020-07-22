@@ -8,35 +8,20 @@
 <link rel="stylesheet" type="text/css" href="resources/css/common.css" />
 </head>
 <body>
-	<h3>수정 정보 출력</h3>
-	
+			<h3>비밀번호 찾기</h3>
+
 			<table>
 				<tr>
-					<td>EMAIL</td>
+					<td>PASSWORD</td>
 					<td>
-						${sessionUser.email}
-					 </td>
-				</tr>
-				<tr>
-					<td>NICKNAME</td>
-					<td>
-						${sessionUser.nickname}
-					</td>
-				</tr>
-				<tr>
-					<td>PHONENUMBER</td>
-					<td>
-						${sessionUser.phoneNumber}
+						${password}
 					</td>
 				</tr>
 			</table>
 		
-		<P>  The time on the server is ${serverTime}. </P>
-		
 		<hr>
-		
+		<a href="/callLogin">로그인 페이지 이동</a>		
 		<a href="/">메인 페이지 이동</a>	<br>
-		
 		
 </body>
 </html>

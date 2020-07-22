@@ -22,6 +22,28 @@
 	<context:annotation-config></context:annotation-config>
 
 
+	
+<!-- ingyo -->
+	<!-- Gmail api -->
+	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host" value="smtp.gmail.com" />
+		<property name="port" value="587" />
+		<property name="username" value="alz10041004@gmail.com" />
+		<property name="password" value="!alz1004" />
+		<property name="defaultEncoding" value="utf-8" />
+		<property name="javaMailProperties">
+			<props>
+				<prop key="mail.transport.protocol">smtp</prop>
+				<prop key="mail.smtp.auth">true</prop>
+				<prop key="mail.smtp.starttls.enable">true</prop>
+				<prop key="mail.debug">true</prop>
+			</props>
+		</property>
+	</bean>
+<!-- ingyo -->
+
+
+
 	<bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
 		<!-- <property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"></property> 
 			<property name="jdbcUrl" value="jdbc:oracle:thin:@localhost:1521:XE"></property> -->
