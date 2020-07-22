@@ -36,7 +36,9 @@
 			<tr>
 				<td colspan="2">
 		            <button type="submit">Log In</button>
-					<a href="/callFindInfo">아이디/비번 찾기</a>
+					<!-- <a href="/callFindInfo">아이디/비번 찾기</a> -->
+					<a href="/callFindId">아이디 찾기</a>
+					<a href="/callFindpw">비번 찾기</a>
 				</td>
 			</tr>
 		</table>

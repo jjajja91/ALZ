@@ -31,6 +31,39 @@
 
 	<dependencies>
 <!-- ingyo -->
+		<!-- mail library -->
+		<dependency>
+			<groupId>javax.mail</groupId>
+			<artifactId>mail</artifactId>
+			<version>1.4.7</version>
+		</dependency>
+		<!-- mail 서포트 -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+			<version>${org.springframework-version}</version>
+		</dependency>
+		<!-- SMS인증 -->
+		<dependency>
+		    <groupId>net.nurigo</groupId>
+		    <artifactId>javaSDK</artifactId>
+		    <version>2.2</version>
+		</dependency>
+		<!-- email인증 -->
+		<!-- https://mvnrepository.com/artifact/javax.mail/mail -->
+		<dependency>
+			<groupId>javax.mail</groupId>
+			<artifactId>mail</artifactId>
+			<version>1.4.7</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+			<version>${org.springframework-version}</version>
+		</dependency>
+		
+		
 		<!-- Security -->
 		<!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-web -->
 		<!-- <dependency>
@@ -57,6 +90,8 @@
 		    <version>5.0.6.RELEASE</version>
 		</dependency> -->
 <!-- ingyo -->		
+
+
 		<!-- Spring -->
 		<dependency>
 			<groupId>org.springframework</groupId>

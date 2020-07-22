@@ -2,11 +2,24 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="alz.user.mapper.UserMapper">
 
+
+	<!-- 아이디찾기 -->
+	<select id="findId" resultType="alz.user.domain.UserDTO">
+		<!-- SELECT email FROM alz_user WHERE nickname = #{nickname} -->
+ 		SELECT * FROM alz_user WHERE nickname = #{nickname} AND PHONE_NUMBER = #{phoneNumber}
+	</select>
+	
+	<!-- 비번찾기 -->
+	<select id="findpw" resultType="alz.user.domain.UserDTO">
+		SELECT * FROM alz_user WHERE email = #{email} AND nickname = #{nickname} AND PHONE_NUMBER = #{phoneNumber}
+	</select>
+	
 	<!-- 이메일 중복 체크 -->
 	<select id="emailChk" resultType="Integer">
 		SELECT COUNT(*) FROM alz_user
 		WHERE email = #{email}
 	</select>
+	
 	<!-- 닉네임 중복 체크 -->
 	<select id="nicknameChk" resultType="Integer">
 		SELECT COUNT(*) FROM alz_user
@@ -80,11 +93,11 @@
 		UPDATE alz_user
 		SET nickname = #{nickname},
 		password = #{password},
-		role = #{role},
-		certification_State = {certification_State},
-		modified_At = '20/06/23',
-		introduce = #{introduce},
-		phone_Number = #{phone_number}
+		role = '1',
+<!-- 		role = #{role}, -->
+		certification_State = '1',
+<!-- 		certification_State = #{certificationState}, -->
+		PHONE_NUMBER = #{phoneNumber}
 		WHERE email = #{email}
 	</update>
 

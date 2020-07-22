@@ -25,5 +25,9 @@ public interface UserMapper {
 	int emailChk(String email);
 
 	int nicknameChk(String nickname);
+	
+	UserDTO findId(UserDTO user);
+	UserDTO findpw(UserDTO user);
+
 
 }
