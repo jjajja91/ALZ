@@ -18,22 +18,25 @@
 		#{teacherId})
 	</insert>
 	
-	<select id="findById" resultType="alz.lesson.domain.LessonDTO">
-		select lesson.id id, lesson.teacher_id teacherId, category.name categoryName, lesson.title,
+	<select id="findById" resultType="alz.lesson.domain.LessonResponseDTO">
+		select lesson.id id, lesson.teacher_id teacherId, category.name total, lesson.title,
 		    lessonType.type lessonType, lessonLevel.lesson_level lessonLevel, lesson.min_student minStudent,
 		    lesson.max_student maxStudent, lesson.current_student currentStudent, lessonState.state state,
-            schedule.open_at openAt, schedule.close_at closeAt, schedule.start_at startAt, schedule.end_at endAt
+            schedule.open_at openAt, schedule.close_at closeAt, schedule.start_at startAt, schedule.end_at endAt,
+            detail.detail detail
 		from alz_lesson lesson, 
 		     alz_lesson_type lessonType, 
 		     alz_lesson_level lessonLevel,
 		     alz_lesson_state lessonState,
              alz_category category,
-             alz_lesson_schedule schedule
+             alz_lesson_schedule schedule,
+             alz_lesson_detail detail
 		where lesson.lesson_type = lessonType.id 
 		  and lesson.lesson_level = lessonLevel.id
 		  and lesson.state = lessonState.id
           and lesson.category_id = category.id
           and lesson.id = schedule.lesson_id
+          and lesson.id = detail.lesson_id
           and lesson.id = #{id}
 	</select>
 	

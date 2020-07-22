@@ -5,12 +5,13 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import alz.lesson.domain.LessonDTO;
+import alz.lesson.domain.LessonResponseDTO;
 
 public interface LessonMapper {
 
 	int insert(LessonDTO classes);
 
-	LessonDTO findById(Long id);
+	LessonResponseDTO findById(Long id);
 
 	List<LessonDTO> findAll();
 
