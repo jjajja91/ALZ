@@ -51,10 +51,11 @@
 													type="hidden" id="originPrice" name="originPrice"
 													value='<c:out value="${merchandise.originPrice }"/>'>
 
-												<button type="submit" class="cart">장바구니 담기</button>
 												<button type="submit" class="buy">구매하기</button>
 
 											</form>
+											<button class="cart" onClick="add_cart('${merchandise.id}')">장바구니
+												담기</button>
 										</td>
 									</tr>
 
@@ -70,19 +71,33 @@
 
 </body>
 <script type="text/javascript">
-	$(document).ready(function() {
-		var formObj = $("form");
+	function add_cart(id) {
 
-		$('.cart').on("click", function(e) {
+		$.ajax({
+			type : "post",
+			async : false, //false인 경우 동기식으로 처리한다.
+			url : "/merchandise/cartInsert",
+			data : {
+				id : id
+			},
+			success : function(result) {
+				if (result == "true") {
+					if (confirm("장바구니에 추가하였습니다. 장바구니로 이동하시겠습니까?"))
+						location.href = "/merchandise/cart";
+					else
+						return false;
+				} else {
+					alert("이미 카트에 등록된 상품입니다.");
+				}
 
-			e.preventDefault();
-
-			formObj.attr("action", "/merchandise/cartInsert");
-
-			formObj.submit();
-
-		});
-
-	})
+			},
+			error : function(data, textStatus) {
+				alert("에러가 발생했습니다." + data);
+			},
+			complete : function(data, textStatus) {
+				//alert("작업을완료 했습니다");
+			}
+		}); //end ajax	
+	};
 </script>
 </html>

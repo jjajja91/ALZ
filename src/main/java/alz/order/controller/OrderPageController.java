@@ -1,5 +1,7 @@
 package alz.order.controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import alz.board.exceptions.NoUserException;
 import alz.order.domain.MerchandiseDTO;
 import alz.order.domain.OrderDTO;
 import alz.order.service.MerchandiseService;
@@ -64,9 +67,11 @@ public class OrderPageController {
 	}
 
 	@PostMapping("/order")
-	public void order(@RequestParam("id") Long id, Model model) {
+	public void order(@RequestParam("id") Long id, Model model, HttpSession session) {
+		if(session.getAttribute("sessionUser") == null) {
+			throw new NoUserException();
+		}
 		
-		log.info(1234);
 		model.addAttribute("merchandise", merchandiseService.readById(id));
 	}
 

@@ -93,44 +93,4 @@ public class MerchandiseServiceImpl implements MerchandiseService {
 		return merchandiseMapper.getTotalCount(cri);
 	}
 
-
-	@Override
-	public void insertCart(CartDTO cart) {
-		merchandiseMapper.insertCart(cart);
-		
-	}
-
-	@Override
-	public List<CartDTO> listCart(long userId) {
-		return merchandiseMapper.listCart(userId);
-	}
-
-	@Override
-	public void deleteCart(long cartId) {
-		merchandiseMapper.deleteCart(cartId);
-		
-	}
-
-	@Override
-	public void modifyCart(CartDTO cart) {
-		merchandiseMapper.modifyCart(cart);
-		
-	}
-
-	@Override
-	public int sumMoney(long userId) {
-		return merchandiseMapper.sumMoney(userId);
-	}
-
-	@Override
-	public int countCart(long merchandiseId, long userId) {
-		return merchandiseMapper.countCart(merchandiseId, userId);
-	}
-
-	@Override
-	public void updateCart(CartDTO cart) {
-		merchandiseMapper.updateCart(cart);
-	}
-
-
 }

@@ -8,6 +8,11 @@
 <head>
 <meta charset="UTF-8">
 <title>Merchandise Register</title>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"
+	crossorigin="anonymous"></script>
 </head>
 <body>
 	<div class="row">
@@ -33,7 +38,7 @@
 
 						<div class="form-group">
 							<label>상품 유형</label> <label><input type="radio"
-								name="codeType" value="클래스"> 클래스</label> <label><input
+								name="codeType" value="클래스" checked="checked"> 클래스</label> <label><input
 								type="radio" name="codeType" value="준비물"> 준비물</label>
 						</div>
 
@@ -43,7 +48,7 @@
 						</div>
 
 						<div class="form-group">
-							<label>마감일</label> <input name='closedAt' />
+							<label>마감일</label> <input type="datetime-local" name='closedAt' />
 						</div>
 
 						<div class="form-group">
@@ -61,12 +66,12 @@
 						</div>
 
 						<div class="form-group">
-							<label>할인 마감일</label> <input name='discountDeadline' />
+							<label>할인 마감일</label> <input type="datetime-local" name='discountDeadline' />
 						</div>
 
 						<div class="form-group">
 							<label>진열 상태</label> <label><input type="radio"
-								name="displayState" value="1"> 진열</label> <label><input
+								name="displayState" value="1" checked="checked"> 진열</label> <label><input
 								type="radio" name="displayState" value="0"> 미진열</label>
 						</div>
 
@@ -94,6 +99,7 @@
 	<!-- /.row -->
 
 
+
 	<script>
 
 
@@ -104,13 +110,19 @@ $(document).ready(function(e){
 		var $closedAt = $("input[name=closedAt]");
 		var $originPrice = $("input[name=originPrice]");
 		var $displayState = $("input[name=displayState]");
+		var $discountRate = $("input[name=discountRate]");
+		var $discountDeadline = $("input[name=discountDeadline]");
+		var $salePrice = $("input[name=salePrice]");
 		var inputData = {
 			name: $name,
 			codeType: $codeType,
 			description: $description,
 			closedAt: $closedAt,
 			originPrice: $originPrice,
-			displayState: $displayState
+			displayState: $displayState,
+			discountRate: $discountRate,
+			salePrice: $salePrice,
+			discountDeadline: $discountDeadline
 		};
 		var $refId = $("input[name=refId]");
 		var $merchandiseId = $("input[name=merchandiseId]");
@@ -127,10 +139,12 @@ $(document).ready(function(e){
 				description: $description.val(),
 				closedAt: $closedAt.val(),
 				originPrice: $originPrice.val(),
+				salePrice: $salePrice.val(),
 				displayState: $displayState.val(),
 				refId: $refId.val(),
-				merchandiseId: $merchandiseId.val()
-			
+				merchandiseId: $merchandiseId.val(),	
+				discountRate: $discountRate.val(),
+				discountDeadline: $discountDeadline.val()
 		};
 		console.log(data);
 		merchandiseRegister(data)
@@ -147,18 +161,18 @@ $(document).ready(function(e){
 		});
 		
 		function merchandiseRegister(data) {
-			
 		
 			  return $.ajax({
 			    url: "/merchandises",
 			    type: "POST",
 			    data: JSON.stringify(data),
-			    contentType: "application/json",
+			    contentType: "application/json; charset=utf-8"
 			  });
 			}
 	});
 });
-	</script>
 
+	</script>
+ 
 </body>
 </html>

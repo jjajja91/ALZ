@@ -137,7 +137,7 @@
 		id > 0
 
 	</select>
-
+<!-- 
 	<insert id="insertCart" parameterType="alz.order.domain.CartDTO">
 		<selectKey keyProperty="cartId" order="BEFORE"
 			resultType="long">
@@ -180,5 +180,5 @@
 	<delete id="deleteCart">
 		DELETE FROM alz_cart WHERE cart_ID = #{cartId}
 	</delete>
-
+-->
 </mapper>
