@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import alz.lesson.domain.LessonDTO;
 import alz.lesson.domain.LessonRequestDTO;
+import alz.lesson.domain.LessonResponseDTO;
 import alz.lesson.service.LessonServiceImpl;
 
 @RestController
@@ -31,14 +32,14 @@ public class LessonApiController {
 	
 	@PostMapping
 	public ResponseEntity<?> create(@RequestBody LessonRequestDTO classes){
-		LessonDTO openedClass = lessonService.create(classes);
-		return ResponseEntity.status(HttpStatus.CREATED).body(openedClass);
+//		LessonDTO openedClass = lessonService.create(classes);
+		return ResponseEntity.status(HttpStatus.CREATED).body("");
 	}
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<?> readOne(@PathVariable Long id){
-		LessonDTO searchedClass = lessonService.readById(id);
-		return ResponseEntity.status(HttpStatus.OK).body(searchedClass);
+		LessonResponseDTO searchedClass = lessonService.readById(id);
+		return ResponseEntity.status(HttpStatus.OK).body("");
 	}
 	
 	@GetMapping
@@ -49,13 +50,13 @@ public class LessonApiController {
 	
 	@PutMapping("/{id}")
 	public ResponseEntity<?> updateOne(@PathVariable Long id, @RequestBody LessonDTO classes) {
-		LessonDTO updatedClass = lessonService.updateById(id, classes);
-		return ResponseEntity.status(HttpStatus.OK).body(updatedClass);
+//		LessonDTO updatedClass = lessonService.updateById(id, classes);
+		return ResponseEntity.status(HttpStatus.OK).body("");
 	}
 	
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> deleteOne(@PathVariable Long id) {
-		int affectedRowCount = lessonService.deleteById(id);
+//		int affectedRowCount = lessonService.deleteById(id);
 		return ResponseEntity.status(HttpStatus.OK).body("ok");
 	}
 }

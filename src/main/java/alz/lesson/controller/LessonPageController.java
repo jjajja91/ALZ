@@ -37,7 +37,7 @@ public class LessonPageController {
 	@PostMapping("/register")
 	public String register(LessonRequestDTO request) {
 		log.info("register: " + request);
-		lessonService.create(request);
+//		lessonService.create(request);
 		return "redirect:/class/list";
 	}
 	
