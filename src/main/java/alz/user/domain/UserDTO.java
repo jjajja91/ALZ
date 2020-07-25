@@ -5,6 +5,8 @@ import java.util.Date;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -37,4 +39,9 @@ public class UserDTO {
 	private String state;
 	private Date startAt;
 	private Date endAt;
+	
+	public void encodePassword(PasswordEncoder passwordEncoder) {
+		this.password = passwordEncoder.encode(this.password);
+	}
+	
 }

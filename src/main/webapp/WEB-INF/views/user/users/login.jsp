@@ -16,7 +16,7 @@
 			<tr>
 				<td>EMAIL</td>
 				<td>
-	        		<input type="text" name="email" autocomplete="off" placeholder="example@example.com">
+	        		<input type="text" name="username" autocomplete="off" placeholder="example@example.com">
 	        	</td>
 			</tr>
 

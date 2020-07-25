@@ -15,22 +15,22 @@
 		<org.slf4j-version>1.7.25</org.slf4j-version>
 	</properties>
 
-<!-- ingyo -->
+	<!-- ingyo -->
 	<repositories>
-        <repository>
-            <id>oracle</id>
-            <name>ORACLE JDBC Repository</name>
-            <url>http://maven.jahia.org/maven2</url>
-        </repository>
+		<repository>
+			<id>oracle</id>
+			<name>ORACLE JDBC Repository</name>
+			<url>http://maven.jahia.org/maven2</url>
+		</repository>
 		<repository>
 			<id>codelds</id>
 			<url>https://code.lds.org/nexus/content/groups/main-repo</url>
 		</repository>
 	</repositories>
-<!-- ingyo -->
+	<!-- ingyo -->
 
 	<dependencies>
-<!-- ingyo -->
+		<!-- ingyo -->
 		<!-- mail library -->
 		<dependency>
 			<groupId>javax.mail</groupId>
@@ -45,9 +45,9 @@
 		</dependency>
 		<!-- SMS인증 -->
 		<dependency>
-		    <groupId>net.nurigo</groupId>
-		    <artifactId>javaSDK</artifactId>
-		    <version>2.2</version>
+			<groupId>net.nurigo</groupId>
+			<artifactId>javaSDK</artifactId>
+			<version>2.2</version>
 		</dependency>
 		<!-- email인증 -->
 		<!-- https://mvnrepository.com/artifact/javax.mail/mail -->
@@ -62,34 +62,34 @@
 			<artifactId>spring-context-support</artifactId>
 			<version>${org.springframework-version}</version>
 		</dependency>
-		
-		
+
+
 		<!-- Security -->
 		<!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-web -->
-		<!-- <dependency>
-		    <groupId>org.springframework.security</groupId>
-		    <artifactId>spring-security-web</artifactId>
-		    <version>5.0.6.RELEASE</version>
-		</dependency> -->
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-web</artifactId>
+			<version>5.0.6.RELEASE</version>
+		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-config -->
-		<!-- <dependency>
-		    <groupId>org.springframework.security</groupId>
-		    <artifactId>spring-security-config</artifactId>
-		    <version>5.0.6.RELEASE</version>
-		</dependency> -->
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-config</artifactId>
+			<version>5.0.6.RELEASE</version>
+		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-core -->
-		<!-- <dependency>
-		    <groupId>org.springframework.security</groupId>
-		    <artifactId>spring-security-core</artifactId>
-		    <version>5.0.6.RELEASE</version>
-		</dependency> -->
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-core</artifactId>
+			<version>5.0.6.RELEASE</version>
+		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-taglibs -->
-		<!-- <dependency>
-		    <groupId>org.springframework.security</groupId>
-		    <artifactId>spring-security-taglibs</artifactId>
-		    <version>5.0.6.RELEASE</version>
-		</dependency> -->
-<!-- ingyo -->		
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-taglibs</artifactId>
+			<version>5.0.6.RELEASE</version>
+		</dependency>
+		<!-- ingyo -->
 
 
 		<!-- Spring -->
@@ -116,26 +116,26 @@
 			<artifactId>spring-webmvc</artifactId>
 			<version>${org.springframework-version}</version>
 		</dependency>
-		
-<!-- ingyo -->			
+
+		<!-- ingyo -->
 		<!-- DB -->
 		<dependency>
-            <groupId>com.oracle</groupId>
-            <artifactId>ojdbc6</artifactId>
-            <version>12.1.0.2</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-jdbc</artifactId>
-            <version>${org.springframework-version}</version>
-        </dependency>	
-        <!-- DB ConnectionPool -->
-        <dependency>
+			<groupId>com.oracle</groupId>
+			<artifactId>ojdbc6</artifactId>
+			<version>12.1.0.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+			<version>${org.springframework-version}</version>
+		</dependency>
+		<!-- DB ConnectionPool -->
+		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-dbcp2</artifactId>
 			<version>2.5.0</version>
 		</dependency>
-<!-- ingyo -->
+		<!-- ingyo -->
 
 		<!-- AspectJ -->
 		<dependency>
@@ -143,8 +143,8 @@
 			<artifactId>aspectjrt</artifactId>
 			<version>${org.aspectj-version}</version>
 		</dependency>
-		
-<!-- ingyo -->	
+
+		<!-- ingyo -->
 		<!-- https://mvnrepository.com/artifact/org.aspectj/aspectjweaver -->
 		<dependency>
 			<groupId>org.aspectj</groupId>
@@ -159,6 +159,16 @@
 			<version>5.0.6.RELEASE</version>
 		</dependency>
 
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-data</artifactId>
+			<version>5.0.6.RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>org.thymeleaf.extras</groupId>
+			<artifactId>thymeleaf-extras-springsecurity5</artifactId>
+			<version>3.0.4.RELEASE</version>
+		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-web -->
 		<dependency>
 			<groupId>org.springframework.security</groupId>
@@ -186,13 +196,13 @@
 			<artifactId>validation-api</artifactId>
 			<version>2.0.1.Final</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.hibernate.validator</groupId>
 			<artifactId>hibernate-validator</artifactId>
 			<version>6.0.7.Final</version>
 		</dependency>
-<!-- ingyo -->	
+		<!-- ingyo -->
 
 		<!-- Lombok -->
 		<dependency>
@@ -239,19 +249,19 @@
 			<version>1.16</version>
 		</dependency>
 
-<!-- ingyo -->	        		
+		<!-- ingyo -->
 		<dependency>
-		    <groupId>org.apache.logging.log4j</groupId>
-		    <artifactId>log4j-api</artifactId>
-		    <version>2.0.1</version>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-api</artifactId>
+			<version>2.0.1</version>
 		</dependency>
 
 		<dependency>
-		    <groupId>org.apache.logging.log4j</groupId>
-		    <artifactId>log4j-core</artifactId>
-		    <version>2.0.1</version>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-core</artifactId>
+			<version>2.0.1</version>
 		</dependency>
-<!-- ingyo -->
+		<!-- ingyo -->
 
 		<!-- @Inject -->
 		<dependency>
