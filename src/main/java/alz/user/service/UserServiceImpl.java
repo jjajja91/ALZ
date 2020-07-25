@@ -18,8 +18,11 @@ import org.springframework.stereotype.Service;
 
 import alz.user.domain.UserDTO;
 import alz.user.mapper.UserMapper;
+import lombok.extern.java.Log;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
+@Slf4j
 public class UserServiceImpl implements UserService, UserDetailsService {
 	
 	// mapper 가져와서 사용
@@ -185,11 +188,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 		if(user == null) {
 			throw new UsernameNotFoundException(email);
 		}
-		return User.builder()
-				.username(user.getEmail())
-				.password(user.getPassword())
-				.roles(user.getRole())
-				.build();	
+		System.out.println("loadUserbyUsername");
+		System.out.println(user);
+		return user;
 	}
 
 //	@Async

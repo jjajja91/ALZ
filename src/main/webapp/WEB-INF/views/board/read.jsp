@@ -2,8 +2,10 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 
 <%@include file="../includes/header.jsp"%>
+<sec:authentication var="principal" property="principal" />
 <div class="container">
 	<h1 class="page-header">Board</h1>
 </div>
@@ -13,7 +15,7 @@
 
 		<div class="form-group">
 			<input type = 'hidden' id = 'boardId' value='${board.id }'>
-			<input type = 'hidden' id = 'userId' value='${sessionUser.id }'>
+			<input type = 'hidden' id = 'userId' value='${principal.id}'>
 			<input class="form-control" name='title'
 				value='<c:out value="${board.title }"/>' readonly="readonly">
 		</div>
@@ -69,7 +71,7 @@
 	<button data-oper='write' class="btn btn-info"
 			onclick="location.href='/board/write?typeId=<c:out value="${board.typeId}"/>&id=<c:out value="${board.id}"/>&pid=<c:out value="${board.parentId}"/>&boardOrder=<c:out value="${board.boardOrder}"/>'">답글쓰기</button> 
 		
-		<c:if test="${sessionUser.nickname eq board.nickname}">
+		<c:if test="${principal.nickname eq board.nickname}">
 		<button data-oper='update' class="btn btn-default"
 			onclick="location.href='/board/update?id=<c:out value="${board.id}"/>'">수정</button>
 		</c:if>
@@ -89,7 +91,7 @@
 	</div>
 
     <!-- 댓글  -->
-    <input type='hidden' name='replyNickname' id='replyNickname' value='${sessionUser.nickname}'>
+    <input type='hidden' name='replyNickname' id='replyNickname' value='${principal.nickname}'>
 	<div class="container">
 		<div class="panel panel-default">
 			<div class="panel-heading">
@@ -111,7 +113,7 @@
 					<button id="registerCommentBtn">등록</button>
 				</div>
 			</div>
-			<input type="hidden" id="targetUser" name="targetUser" value="${sessionUser.nickname}"/>
+			<input type="hidden" id="targetUser" name="targetUser" value="<sec:authentication property="principal.nickname"/>"/>
 		</div>
 	</div>
 	

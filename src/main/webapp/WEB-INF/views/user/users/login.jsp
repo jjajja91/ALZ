@@ -5,13 +5,13 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" type="text/css" href="resources/css/common.css" />
+<%-- <link rel="stylesheet" href="${pagecontext.request.contextPath}/resources/css/common.css" /> --%>
 </head>
 <body>
 
 	<h3>로그인</h3>
 
-	<form action="login" method="post">
+	<form action="/login" method="post">
 		<table>
 			<tr>
 				<td>EMAIL</td>
