@@ -101,7 +101,7 @@ public class UserController {
    public String callFindpw() {
 	   return "user/users/findpw";
    }
-   @RequestMapping(value = "//callMypage", method = RequestMethod.GET)
+   @RequestMapping(value = "/callMypage", method = RequestMethod.GET)
    public String callMypage() {
 	   return "temporaryMypage";
    }

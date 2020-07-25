@@ -13,7 +13,7 @@ import alz.order.domain.MerchandiseDTO;
 import alz.order.mapper.CartMapper;
 import alz.order.mapper.MerchandiseMapper;
 import lombok.extern.log4j.Log4j;
-import alz.classes.domain.ClassDTO;
+import alz.lesson.domain.LessonDTO;
 
 @Service
 @Log4j

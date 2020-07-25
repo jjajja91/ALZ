@@ -49,20 +49,6 @@
 		    <artifactId>javaSDK</artifactId>
 		    <version>2.2</version>
 		</dependency>
-		<!-- email인증 -->
-		<!-- https://mvnrepository.com/artifact/javax.mail/mail -->
-		<dependency>
-			<groupId>javax.mail</groupId>
-			<artifactId>mail</artifactId>
-			<version>1.4.7</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-context-support</artifactId>
-			<version>${org.springframework-version}</version>
-		</dependency>
-		
 		
 		<!-- Security -->
 		<!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-web -->
@@ -124,11 +110,6 @@
             <artifactId>ojdbc6</artifactId>
             <version>12.1.0.2</version>
         </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-jdbc</artifactId>
-            <version>${org.springframework-version}</version>
-        </dependency>	
         <!-- DB ConnectionPool -->
         <dependency>
 			<groupId>org.apache.commons</groupId>
@@ -357,6 +338,27 @@
 			<artifactId>gson</artifactId>
 			<version>2.8.2</version>
 		</dependency>
+		
+<!-- ingyo -->
+		<!-- oauth2 login -->
+	    <dependency>
+              <groupId>com.github.scribejava</groupId>
+              <artifactId>scribejava-apis</artifactId>
+              <version>5.6.0</version>
+        </dependency>
+
+        <dependency>
+              <groupId>com.github.scribejava</groupId>
+              <artifactId>scribejava-core</artifactId>
+              <version>5.6.0</version>
+        </dependency>
+
+        <dependency>
+              <groupId>org.springframework.social</groupId>
+              <artifactId>spring-social-google</artifactId>
+              <version>1.0.0.RELEASE</version>
+        </dependency>
+<!-- ingyo -->
 	</dependencies>
 
 

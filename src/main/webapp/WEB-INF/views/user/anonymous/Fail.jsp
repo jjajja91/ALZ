@@ -8,5 +8,6 @@
 </head>
 <body>
 <il>실패</il>
+<a href="/">메인페이지로</a><br>
 </body>
 </html>
