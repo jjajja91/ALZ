@@ -85,6 +85,9 @@
 		SELECT * FROM alz_user WHERE email = #{email} AND password = #{password}
 	</select>
 
+    <select id="selectedByUser" resultType="alz.user.domain.UserDTO">
+		SELECT * FROM alz_user WHERE email = #{email}
+	</select>
 	<!-- 값을 다 넣을 때 -->
 	<!-- <select id="selectById" resultType="alz.user.domain.UserDTO"> 
 	SELECT * FROM alz_user WHERE id = #{id} </select> -->

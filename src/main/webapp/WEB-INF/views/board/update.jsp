@@ -23,6 +23,7 @@
 			<input type='hidden' name='typeId' id='typeId' value='<c:out value="${board.typeId }"/>'>
 
 			<input type='hidden' id='id' name='id' value='<c:out value="${board.id }"/>'>
+			<input type='hidden' id='writerId' name='writerId' value="${sessionUser.id}">
 
 			<div class="form-group">
 				<label>제 목</label> <input class="form-control" id='title' name='title'
@@ -66,6 +67,7 @@
   		var $content = $(".content");
   		var $nickname = $("#nickname");
   		var $typeId = $("#typeId");
+  		var $writerId = $("#writerId");
 		var inputData = {
 				title: $title,
 				content: $content
@@ -243,6 +245,7 @@
 						id : $id.val(),
 						typeId : $typeId.val(),
 						nickname : $nickname.val(),
+						writerId : $writerId.val(),
 						fileList: fileList
 				};
 				console.log(data);

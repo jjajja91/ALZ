@@ -43,6 +43,7 @@ public class BoardDTO {
 	private Long parentId;
 	@NotNull(message = "서버 오류입니다")
 	private Integer typeId;
+	private Long writerId;
 	
 	private List<BoardFileDTO> fileList;
 

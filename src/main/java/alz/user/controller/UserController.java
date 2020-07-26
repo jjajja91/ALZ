@@ -101,9 +101,9 @@ public class UserController {
    public String callFindpw() {
 	   return "user/users/findpw";
    }
-   @RequestMapping(value = "//callMypage", method = RequestMethod.GET)
+   @RequestMapping(value = "/callMypage", method = RequestMethod.GET)
    public String callMypage() {
-	   return "temporaryMypage";
+	   return "myPage";
    }
    
    
@@ -125,8 +125,7 @@ public class UserController {
       
       HttpSession session = request.getSession();
       UserDTO user = (UserDTO)session.getAttribute("sessionUser");
-      
-      ModelAndView mv = new ModelAndView();
+      ModelAndView mv = new ModelAndView();     
       mv.addObject("sessionUser", userService.readById(user));
       	
       mv.setViewName("/user/users/Modify");
@@ -209,22 +208,22 @@ public class UserController {
    
    //ModelAndView는 스프링에서 제공하는 자체 객체로서 데이터랑 view의 이름을 같이 전달함.
    //login시 session.setAttribute 했던 값을 getAttribute( "저장했던 값" )을 통해 호출 할 수 있음
-   @RequestMapping(value = "/updateById", method = RequestMethod.POST)
-   public ModelAndView Modify(HttpServletRequest request, UserDTO user) {
-      
-	  ModelAndView mv = new ModelAndView();
-      HttpSession session = request.getSession();
-      UserDTO dto = userService.updateById(user);
-      
-      if(dto == null) {
-         mv.setViewName("/user/users/Modify");
-      } else { 
-         session.setAttribute("sessionUser", dto);
-         mv.setViewName("/user/users/ModifyInfo");
-      }
-      
-      return mv;
-   }
+//   @RequestMapping(value = "/updateById", method = RequestMethod.POST)
+//   public ModelAndView Modify(HttpServletRequest request, UserDTO user) {
+//      
+//	  ModelAndView mv = new ModelAndView();
+//      HttpSession session = request.getSession();
+//      UserDTO dto = userService.updateById(user);
+//      
+//      if(dto == null) {
+//         mv.setViewName("/user/users/Modify");
+//      } else { 
+//         session.setAttribute("sessionUser", dto);
+//         mv.setViewName("/user/users/ModifyInfo");
+//      }
+//      
+//      return mv;
+//   }
    
    @RequestMapping(value = "/deleteById", method = RequestMethod.GET)
    public String Delete(HttpServletRequest request) {
