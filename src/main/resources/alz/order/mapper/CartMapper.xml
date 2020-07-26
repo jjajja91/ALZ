@@ -58,7 +58,24 @@
 	<delete id="delete">
 		delete alz_cart
 		where id = #{id}
-		and user_Id = #{userId}
+		and user_Id =
+		#{userId}
 	</delete>
+
+	<!-- 장바구니 선택 리스트 -->
+	<select id="buyList" resultType="alz.order.domain.CartDTO">
+		select 
+		
+		cartId, sjb_cart.productId, memberId, cartStock, addDate , title,
+		authorID, publisher, cateCode,  as cateName,
+		bookCover, publeYear, likeStar, bookReply, bookPrice, discountRate, bookInfo,
+		contents,
+		introImage,regdate,boardRegdate,modDate,bookStock, bookPoint, discountPrice
+		from sjb_cart
+		join sjb_book
+		on sjb_cart.productId = sjb_book.productID
+		where cartId = #{cartId};
+	</select>
+
 
 </mapper>

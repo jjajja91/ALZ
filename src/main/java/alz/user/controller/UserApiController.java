@@ -63,11 +63,11 @@ public class UserApiController {
 //		return ResponseEntity.status(HttpStatus.OK).body(user);
 //	}
 //
-//	@PutMapping("/{id}")
-//	public ResponseEntity<?> updateOne(@PathVariable @RequestBody UserDTO user) {
-//		UserDTO updatedUser = userService.updateById(user);
-//		return ResponseEntity.status(HttpStatus.OK).body(updatedUser);
-//	}
+	@PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<?> updateOne(@RequestBody UserDTO user) {
+		UserDTO updatedUser = userService.updateById(user);
+		return ResponseEntity.status(HttpStatus.OK).body(updatedUser);
+	}
 //
 //	@DeleteMapping("/{id}")
 //	public ResponseEntity<?> deleteOne(@PathVariable UserDTO user) {

@@ -104,44 +104,24 @@ public class UserController {
    }
    @RequestMapping(value = "/callMypage", method = RequestMethod.GET)
    public String callMypage() {
-	   return "temporaryMypage";
+	   return "/myPage";
    }
    
    
    
-   
-   
-   @RequestMapping(value = "/callJoin", method = RequestMethod.GET)
-   public String callJoin() {
-      return "user/anonymous/join";
-   }
-   
-   @RequestMapping(value = "/callLogin", method = RequestMethod.GET)
-   public String calllogin(HttpServletRequest request) {
-      return "user/users/login";
-   }
+ 
    
    @RequestMapping(value = "/callModify", method = RequestMethod.GET)
    public ModelAndView callUpdate(HttpServletRequest request) {
       
       HttpSession session = request.getSession();
       UserDTO user = (UserDTO)session.getAttribute("sessionUser");
-      
       ModelAndView mv = new ModelAndView();
       mv.addObject("sessionUser", userService.readById(user));
       	
       mv.setViewName("/user/users/Modify");
       
       return mv;
-   }
-   
-   //세션은 생성후 invalidate 메서드를 만나면 삭제됨
-   @RequestMapping(value = "/logout", method = RequestMethod.GET)
-   public String callLogout(UserDTO user, HttpSession session) {
-
-      session.invalidate();
-
-      return "user/users/logout";
    }
    
    /*----------------------------------------------------------------------------------------*/   
@@ -160,6 +140,42 @@ public class UserController {
 	   return "user/users/findIdAfter";
    }
   
+		HashMap<String, String> set = new HashMap<String, String>();
+		set.put("to", ""); // 수신번호
+
+		set.put("from", (String) request.getParameter("from")); // 발신번호, jsp에서 전송한 발신번호를 받아 map에 저장한다.
+		set.put("text", (String) request.getParameter("text")); // 문자내용, jsp에서 전송한 문자내용을 받아 map에 저장한다.
+		set.put("type", "sms"); // 문자 타입
+
+		System.out.println(set);
+
+		JSONObject result = coolsms.send(set); // 보내기&전송결과받기
+
+		if ((boolean) result.get("status") == true) {
+
+			// 메시지 보내기 성공 및 전송결과 출력
+			System.out.println("성공");
+			System.out.println(result.get("group_id")); // 그룹아이디
+			System.out.println(result.get("result_code")); // 결과코드
+			System.out.println(result.get("result_message")); // 결과 메시지
+			System.out.println(result.get("success_count")); // 메시지아이디
+			System.out.println(result.get("error_count")); // 여러개 보낼시 오류난 메시지 수
+		} else {
+
+			// 메시지 보내기 실패
+			System.out.println("실패");
+			System.out.println(result.get("code")); // REST API 에러코드
+			System.out.println(result.get("message")); // 에러메시지
+		}
+
+		return "/user/anonymous/Success"; // 문자 메시지 발송 성공했을때 number페이지로 이동함
+	}
+
+	@RequestMapping(value = "/join", method = RequestMethod.GET)
+	public String join() {
+		return "user/anonymous/join";
+	}
+
 //   @RequestMapping(value = "/findId", method = RequestMethod.POST)
 //	public String findIdAction(HttpServletResponse response, UserDTO user, HttpServletRequest request, Model model) throws Exception{
 //	   UserDTO nickname = userService.findId(user);
@@ -192,67 +208,93 @@ public class UserController {
    		return mv;
 	}
 
-   //회원가입 페이지에서 버튼을 누르면 @RequestMapping을 찾아 실행한다.
-   //Form의 값들은 HttpServletRequest에 담겨서 넘어온다.
-   //Controller에서 받은 Param 값들은 Model에 담아 다시 View 페이지로 전달할 수 있습니다. Model은 데이터만 담는다
-   @RequestMapping(value = "/create", method = RequestMethod.POST)
-   public String Insert(UserDTO user, HttpServletRequest request, Model model) {
-      
-      model.addAttribute("email", request.getParameter("email"));
-      model.addAttribute("nickname", request.getParameter("nickname"));
-      model.addAttribute("phoneNumber", request.getParameter("phoneNumber"));
-      
-      // 회원가입 메서드
-      userService.create(user);
-      
-      return "user/anonymous/joinInfo";
-   }
-   
-   //ModelAndView는 스프링에서 제공하는 자체 객체로서 데이터랑 view의 이름을 같이 전달함.
-   //login시 session.setAttribute 했던 값을 getAttribute( "저장했던 값" )을 통해 호출 할 수 있음
-   @RequestMapping(value = "/updateById", method = RequestMethod.POST)
-   public ModelAndView Modify(HttpServletRequest request, UserDTO user) {
-      
-	  ModelAndView mv = new ModelAndView();
-      HttpSession session = request.getSession();
-      UserDTO dto = userService.updateById(user);
-      
-      if(dto == null) {
-         mv.setViewName("/user/users/Modify");
-      } else { 
-         session.setAttribute("sessionUser", dto);
-         mv.setViewName("/user/users/ModifyInfo");
-      }
-      
-      return mv;
-   }
-   
-   @RequestMapping(value = "/deleteById", method = RequestMethod.GET)
-   public String Delete(HttpServletRequest request) {
-      
-      HttpSession session = request.getSession();
-      UserDTO user = (UserDTO) session.getAttribute("sessionUser");
-      
-      userService.deleteById(user, request);
-      session.invalidate();
-      
-      return "user/users/logout";
-   }
+	// 회원가입 페이지에서 버튼을 누르면 @RequestMapping을 찾아 실행한다.
+	// Form의 값들은 HttpServletRequest에 담겨서 넘어온다.
+	// Controller에서 받은 Param 값들은 Model에 담아 다시 View 페이지로 전달할 수 있습니다. Model은 데이터만 담는다
+	@RequestMapping(value = "/create", method = RequestMethod.POST)
+	public String Insert(UserDTO user, HttpServletRequest request, Model model) {
 
-   //로그인 시 session.setAttribute( "세션 호출 명", 세션에 담을 값 ); 
-   @RequestMapping(value = "/login", method = RequestMethod.GET)
-   public String login(UserDTO user, HttpSession session, HttpServletRequest request) {
+		model.addAttribute("email", request.getParameter("email"));
+		model.addAttribute("nickname", request.getParameter("nickname"));
+		model.addAttribute("phoneNumber", request.getParameter("phoneNumber"));
 
-      UserDTO dto = userService.readById(user);
-      session.setAttribute("sessionUser", dto);
+		// 회원가입 메서드
+		user.setRole("USER");
+		userService.create(user);
 
-      if (dto == null) {
-         System.out.println("로그인 정보가 틀렸습니다.");
-         return "user/users/login";
-      }
+		return "user/anonymous/joinInfo";
+	}
 
-	      String referer = (String)request.getHeader("REFERER");
-	      
-      return "user/users/loggedInfo";
-   }
+	// ModelAndView는 스프링에서 제공하는 자체 객체로서 데이터랑 view의 이름을 같이 전달함.
+	// login시 session.setAttribute 했던 값을 getAttribute( "저장했던 값" )을 통해 호출 할 수 있음
+	@RequestMapping(value = "/updateById", method = RequestMethod.POST)
+	public ModelAndView Modify(HttpServletRequest request, UserDTO user) {
+
+		ModelAndView mv = new ModelAndView();
+		HttpSession session = request.getSession();
+		UserDTO dto = userService.updateById(user);
+
+		if (dto == null) {
+			mv.setViewName("/user/users/Modify");
+		} else {
+			session.setAttribute("sessionUser", dto);
+			mv.setViewName("/user/users/ModifyInfo");
+		}
+
+		return mv;
+	}
+
+	@RequestMapping(value = "/deleteById", method = RequestMethod.GET)
+	public String Delete(HttpServletRequest request) {
+
+		HttpSession session = request.getSession();
+		UserDTO user = (UserDTO) session.getAttribute("sessionUser");
+
+		userService.deleteById(user, request);
+		session.invalidate();
+
+		return "user/users/logout";
+	}
+
+	@GetMapping("/login")
+	public String login() {
+		return "user/users/login";
+	}
+	
+//	@GetMapping("/async-handler")
+//	@ResponseBody
+//	public Callable<String> asyncHandler() {
+//		SecurityLogger.log("MVC");
+//		return () -> {
+//				SecurityLogger.log("Callable");
+//				return "Async Handler";
+//		};
+//	}
+//
+//	@GetMapping("/async-service")
+//	@ResponseBody
+//	public String asyncService() {
+//		SecurityLogger.log("MVC, before async service");
+//		userService.asyncService();
+//		SecurityLogger.log("MVC, after async service");
+//		return "Async Service";
+//	}
+
+//   //로그인 시 session.setAttribute( "세션 호출 명", 세션에 담을 값 ); 
+//   @RequestMapping(value = "/login", method = RequestMethod.POST)
+//   public String login(UserDTO user, HttpSession session, HttpServletRequest request) {
+//
+//      UserDTO dto = userService.readById(user);
+//      session.setAttribute("sessionUser", dto);
+//
+//      if (dto == null) {
+//         System.out.println("로그인 정보가 틀렸습니다.");
+//         return "user/users/login";
+//      }
+//
+//	      String referer = (String)request.getHeader("REFERER");
+//	      
+//      return "user/users/loggedInfo";
+//   }
+
 }

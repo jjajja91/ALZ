@@ -1,6 +1,4 @@
-package alz.order.domain;
-
-import java.util.Date;
+package alz.lesson.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,21 +8,22 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
-@Setter
 @Getter
+@Setter
 @Builder
-@Accessors(chain = true)
+@Accessors(chain=true)
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class OrderDTO {
-
+public class TeacherDTO {
+	
 	private Long id;
 	private Long userId;
-	private String name;
-	private String phone;
-	private String method;
-	private String state;
-	private Date orderAt;
+	private String nickname;
+	private String contact;
+	private String profile;
+	private String snsType;
+	private String snsId;
+	private String snsUrl;
 	
 }

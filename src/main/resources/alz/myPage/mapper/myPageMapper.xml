@@ -57,9 +57,7 @@
                      where rownum <= #{pageNum} * #{amount} )
 			)
 		where 		
-		   	]]>
-				<include refid="boardCriteria"></include>
-       <![CDATA[ 
+		
                       rn > (#{pageNum} -1) * #{amount}
 		start with parentId = 0
 		connect by prior id = parentId

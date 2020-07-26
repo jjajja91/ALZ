@@ -17,14 +17,12 @@ import lombok.experimental.Accessors;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class OrderDTO {
+public class OrderDetailDTO {
 
 	private Long id;
-	private Long userId;
-	private String name;
-	private String phone;
-	private String method;
-	private String state;
-	private Date orderAt;
+	private Long orderId;
+	private Long MerchandiseName;
+	private Long MerchandiseId;
+	private String orderState;
 	
 }

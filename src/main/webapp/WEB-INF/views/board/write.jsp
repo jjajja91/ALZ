@@ -172,6 +172,7 @@
 				<input type="hidden" name="boardOrder"
 					value='<c:out value="${param.boardOrder}"/>'> <input
 					type="hidden" name="id" value='<c:out value="${param.id}"/>'>
+					<input type="hidden" name="writerId" value="${sessionUser.id}">
 				<div class="row">
 					<div class="col-lg-12">
 						<div class="panel panel-defualt">
@@ -208,6 +209,7 @@
 		var $parentId = $("input[name=parentId]");
 		var $boardOrder = $("input[name=boardOrder]");
 		var $id = $("input[name=id]");
+		var $writerId = $("input[name=writerId]")
 		
 		var $summernote = $('#summernote');
 	
@@ -351,6 +353,7 @@
 				parentId : $parentId.val(),
 				boardOrder : $boardOrder.val(),
 				id : $id.val(),
+				writerId : $writerId.val(),
 				
 				fileList: fileList
 		};

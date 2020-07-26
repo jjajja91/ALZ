@@ -258,7 +258,7 @@
 						str += "<hr> ";
 					} else if(list[i].deleted=='N') {
 						str += "			<strong class='primary-font'> 작성자 : "+list[i].nickname+"</strong>";
-						if(list[i].nickname == $replyNickname.val() ) {
+						if(list[i].nickname == $userId.val() ) {
 						str += "			<div class='commentDropdown'>";
 						str += "				<button class='commentDropBtn' data-toggle='dropdown'>:</button>";
 						str += "				<ul class='dropdown-menu'>";
@@ -327,7 +327,8 @@
 			var commentValue = {
 					content : $commentContent.val(),
 					boardId : boardId,
-					nickname : $replyNickname.val()
+					nickname : $replyNickname.val(),
+					userId : $userId.val()
 			};
 			
 			// 댓글추가
@@ -403,6 +404,7 @@
 					boardId : boardId,
 					nickname : $replyNickname.val(),
 					depth : commentDepth,
+					userId : $userId.val()
 			}
 
 			// 대댓글추가
