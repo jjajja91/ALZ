@@ -1,5 +1,6 @@
 package alz.order.controller;
 
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,12 +43,9 @@ public class CartController {
 	// 장바구니 추가
 	@PostMapping("/cartInsert")
 	@ResponseBody
-	public  String addCart(@ModelAttribute CartDTO cart, @RequestParam("id") Long id, Model model, HttpSession session) {
-		if (session.getAttribute("sessionUser") == null) {
-			throw new NoUserException();
-		}
+	public  String addCart(@ModelAttribute CartDTO cart, @RequestParam("id") Long id, Model model, Principal principal) {
 		// 저장된 세션에서 닉네임 가져오기
-		UserDTO user = (UserDTO) session.getAttribute("sessionUser");
+		UserDTO user = (UserDTO) principal;
 		Long userId = user.getId();
 
 		String result = "false";
