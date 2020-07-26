@@ -98,7 +98,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 	@Override
 	public UserDTO readById(UserDTO user) {
 		UserDTO searchedUser = userMapper.selectById(user);
-		
 		if (searchedUser == null) {
 			System.out.println("Login Fail!!");
 		} else {
@@ -153,14 +152,15 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
 	@Override
 	public UserDTO updateById(UserDTO user) {
-		UserDTO searchedUser = userMapper.selectById(user);
+		UserDTO searchedUser = userMapper.selectedByUser(user);
 		searchedUser.setNickname(user.getNickname()).setPassword(user.getPassword())
 					.setRole(user.getRole()).setCertificationState(user.getCertificationState())
 					.setPhoneNumber(user.getPhoneNumber())
 					.setState(user.getState()).setEndAt(user.getEndAt());
-		UserDTO affectedRowCount = userMapper.updateById(searchedUser);
+		System.out.println(searchedUser);
+		int affectedRowCount = userMapper.updateById(searchedUser);
 		
-		if(affectedRowCount == null ) {
+		if(affectedRowCount == 0 ) {
 			System.out.println("Modify Fail!!");
 		} else {
 			System.out.println("Modify Success!!");

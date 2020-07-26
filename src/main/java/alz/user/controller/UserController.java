@@ -64,6 +64,70 @@ public class UserController {
 		// 이 부분은 홈페이지에서 받은 자바파일을 추가한다음 그 클래스를 import해야 쓸 수 있는 클래스이다.
 
 //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@번호 넣기
+	   HashMap<String, String> set = new HashMap<String, String>();
+	   set.put("to", ""); // 수신번호
+	
+	   set.put("from", (String)request.getParameter("from")); // 발신번호, jsp에서 전송한 발신번호를 받아 map에 저장한다.
+	   set.put("text", (String)request.getParameter("text")); // 문자내용, jsp에서 전송한 문자내용을 받아 map에 저장한다.
+	   set.put("type", "sms"); // 문자 타입
+	
+	   System.out.println(set);
+	
+	   JSONObject result = coolsms.send(set); // 보내기&전송결과받기
+	
+	   if ((boolean)result.get("status") == true) {
+	
+	 // 메시지 보내기 성공 및 전송결과 출력
+	 System.out.println("성공");
+	 System.out.println(result.get("group_id")); // 그룹아이디
+	 System.out.println(result.get("result_code")); // 결과코드
+	 System.out.println(result.get("result_message")); // 결과 메시지
+	 System.out.println(result.get("success_count")); // 메시지아이디
+	 System.out.println(result.get("error_count")); // 여러개 보낼시 오류난 메시지 수
+	   } else {
+	
+	     // 메시지 보내기 실패
+	 System.out.println("실패");
+	 System.out.println(result.get("code")); // REST API 에러코드
+	 System.out.println(result.get("message")); // 에러메시지
+	   }
+	
+	   return "/user/anonymous/Success"; //문자 메시지 발송 성공했을때 number페이지로 이동함
+	 }
+
+   @RequestMapping(value = "/callFindId", method = RequestMethod.GET)
+   public String callFindId() {
+	   return "user/users/findId";
+   }
+   
+   @RequestMapping(value = "/callFindpw", method = RequestMethod.GET)
+   public String callFindpw() {
+	   return "user/users/findpw";
+   }
+   @RequestMapping(value = "/callMypage", method = RequestMethod.GET)
+   public String callMypage() {
+	   return "myPage";
+   }
+   
+   @RequestMapping(value = "/callModify", method = RequestMethod.GET)
+   public ModelAndView callUpdate(HttpServletRequest request) {
+      
+      HttpSession session = request.getSession();
+      UserDTO user = (UserDTO)session.getAttribute("sessionUser");
+      ModelAndView mv = new ModelAndView();     
+      mv.addObject("sessionUser", userService.readById(user));
+      	
+      mv.setViewName("/user/users/Modify");
+      
+      return mv;
+   }
+   
+   /*----------------------------------------------------------------------------------------*/   
+   //아이디 찾기 로직
+   @RequestMapping(value = "/findId", method = RequestMethod.POST)
+   public String findIdAction(UserDTO user, HttpSession session, HttpServletRequest request, HttpServletResponse response, Model model) throws Exception {
+	   
+	   UserDTO dto = userService.findId(user, response);
 		HashMap<String, String> set = new HashMap<String, String>();
 		set.put("to", ""); // 수신번호
 
@@ -95,64 +159,11 @@ public class UserController {
 		return "/user/anonymous/Success"; // 문자 메시지 발송 성공했을때 number페이지로 이동함
 	}
 
-	@RequestMapping(value = "/callFindId", method = RequestMethod.GET)
-	public String callFindId() {
-		return "user/users/findId";
-	}
-
-	@RequestMapping(value = "/callFindpw", method = RequestMethod.GET)
-	public String callFindpw() {
-		return "user/users/findpw";
-	}
-
-	@RequestMapping(value = "//callMypage", method = RequestMethod.GET)
-	public String callMypage() {
-		return "temporaryMypage";
-	}
-
 	@RequestMapping(value = "/join", method = RequestMethod.GET)
 	public String join() {
 		return "user/anonymous/join";
 	}
 
-	@RequestMapping(value = "/callModify", method = RequestMethod.GET)
-	public ModelAndView callUpdate(HttpServletRequest request) {
-
-		HttpSession session = request.getSession();
-		UserDTO user = (UserDTO) session.getAttribute("sessionUser");
-
-		ModelAndView mv = new ModelAndView();
-		mv.addObject("sessionUser", userService.readById(user));
-
-		mv.setViewName("/user/users/Modify");
-
-		return mv;
-	}
-
-//	@RequestMapping(value = "/logout", method = RequestMethod.GET)
-//	public String callLogout(UserDTO user, HttpSession session) {
-//
-//		session.invalidate();
-//
-//		return "user/users/logout";
-//	}
-
-	/*----------------------------------------------------------------------------------------*/
-	// 아이디 찾기 로직
-	@RequestMapping(value = "/findId", method = RequestMethod.POST)
-	public String findIdAction(UserDTO user, HttpSession session, HttpServletRequest request,
-			HttpServletResponse response, Model model) throws Exception {
-
-		UserDTO dto = userService.findId(user, response);
-//	   session.setAttribute("sessionUser", dto);
-
-		if (dto == null) {
-			System.out.println("일치하는 회원 정보가 없습니다.");
-			return "user/users/findId";
-		}
-		model.addAttribute("email", request.getParameter("email"));
-		return "user/users/findIdAfter";
-	}
 
 //   @RequestMapping(value = "/findId", method = RequestMethod.POST)
 //	public String findIdAction(HttpServletResponse response, UserDTO user, HttpServletRequest request, Model model) throws Exception{
@@ -186,6 +197,7 @@ public class UserController {
 //	   String referer = (String)request.getHeader("REFERER");
 		return mv;
 	}
+
 
 	// 회원가입 페이지에서 버튼을 누르면 @RequestMapping을 찾아 실행한다.
 	// Form의 값들은 HttpServletRequest에 담겨서 넘어온다.
