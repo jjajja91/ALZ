@@ -6,6 +6,7 @@ import java.nio.file.Paths;
 import java.security.Principal;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -88,7 +89,10 @@ public class BoardPageController {
 	}
 	
 	@GetMapping("/write")
-	public void write(@RequestParam("typeId") Integer typeId, Model model) {
+	public void write(@RequestParam("typeId") Integer typeId, Model model, HttpSession session) {
+		if(session.getAttribute("sessionUser") == null) {
+			throw new NoUserException();
+		}
 		model.addAttribute("typeId", typeId);
 	}
 	

@@ -4,7 +4,6 @@ import java.text.DateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
-import java.util.concurrent.Callable;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -12,57 +11,56 @@ import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import alz.user.domain.UserDTO;
-import alz.user.security.SecurityLogger;
 import alz.user.service.UserService;
+import alz.user.sms.Coolsms;
 
 @Controller
 public class UserController {
-
-	@Autowired
-	UserService userService;
-
-	@ModelAttribute("path")
-	public String getContextPath(HttpServletRequest request) {
-		return request.getContextPath();
+   
+   @Autowired
+   UserService userService;
+   
+   @ModelAttribute("path")
+   public String getContextPath(HttpServletRequest request) {
+      return request.getContextPath();
 //      /login 을 출력합니다
-	}
+   }
+   
+   @ModelAttribute("serverTime")
+   public String getServerTime(Locale locale) {
 
-	@ModelAttribute("serverTime")
-	public String getServerTime(Locale locale) {
+      Date date = new Date();
+      DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
 
-		Date date = new Date();
-		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
+      return dateFormat.format(date);
+   }
+   
+   
+   
+   @RequestMapping(value = "/callSMS", method = RequestMethod.GET)
+   public String callSMS() {
+	   return "user/anonymous/SMS";
+   }
 
-		return dateFormat.format(date);
-	}
-
-	@RequestMapping(value = "/callSMS", method = RequestMethod.GET)
-	public String callSMS() {
-		return "user/anonymous/SMS";
-	}
-
-	// 문자를 보낼때 맵핑되는 메소드
-	@RequestMapping(value = "/sendSms.do")
-	public String sendSms(HttpServletRequest request) throws Exception {
-
+   //문자를 보낼때 맵핑되는 메소드
+   @RequestMapping(value = "/sendSms.do")
+	 public String sendSms(HttpServletRequest request) throws Exception {
+	
 //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ api키 넣기
-		String api_key = ""; // 위에서 받은 api key를 추가
-		String api_secret = ""; // 위에서 받은 api secret를 추가
-
-		alz.user.sms.Coolsms coolsms = new alz.user.sms.Coolsms(api_key, api_secret);
-		// 이 부분은 홈페이지에서 받은 자바파일을 추가한다음 그 클래스를 import해야 쓸 수 있는 클래스이다.
-
+	   String api_key = ""; //위에서 받은 api key를 추가
+	   String api_secret = "";  //위에서 받은 api secret를 추가
+	
+	   Coolsms coolsms = new Coolsms(api_key, api_secret);
+	   //이 부분은 홈페이지에서 받은 자바파일을 추가한다음 그 클래스를 import해야 쓸 수 있는 클래스이다.
+	   
 //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@번호 넣기
 	   HashMap<String, String> set = new HashMap<String, String>();
 	   set.put("to", ""); // 수신번호
@@ -106,15 +104,19 @@ public class UserController {
    }
    @RequestMapping(value = "/callMypage", method = RequestMethod.GET)
    public String callMypage() {
-	   return "myPage";
+	   return "/myPage";
    }
+   
+   
+   
+ 
    
    @RequestMapping(value = "/callModify", method = RequestMethod.GET)
    public ModelAndView callUpdate(HttpServletRequest request) {
       
       HttpSession session = request.getSession();
       UserDTO user = (UserDTO)session.getAttribute("sessionUser");
-      ModelAndView mv = new ModelAndView();     
+      ModelAndView mv = new ModelAndView();
       mv.addObject("sessionUser", userService.readById(user));
       	
       mv.setViewName("/user/users/Modify");
@@ -128,6 +130,16 @@ public class UserController {
    public String findIdAction(UserDTO user, HttpSession session, HttpServletRequest request, HttpServletResponse response, Model model) throws Exception {
 	   
 	   UserDTO dto = userService.findId(user, response);
+//	   session.setAttribute("sessionUser", dto);
+
+	   if (dto == null) {
+		   System.out.println("일치하는 회원 정보가 없습니다.");
+		   return "user/users/findId";
+	   }
+	   model.addAttribute("email", request.getParameter("email"));
+	   return "user/users/findIdAfter";
+   }
+  
 		HashMap<String, String> set = new HashMap<String, String>();
 		set.put("to", ""); // 수신번호
 
@@ -164,7 +176,6 @@ public class UserController {
 		return "user/anonymous/join";
 	}
 
-
 //   @RequestMapping(value = "/findId", method = RequestMethod.POST)
 //	public String findIdAction(HttpServletResponse response, UserDTO user, HttpServletRequest request, Model model) throws Exception{
 //	   UserDTO nickname = userService.findId(user);
@@ -178,26 +189,24 @@ public class UserController {
 //	   userService.findId(user);
 //	   return "user/users/findIdAfter";
 //	}
+   
+   	//비밀번호 찾기 로직
+   	@RequestMapping(value = "/findpw", method = RequestMethod.POST)
+   	public ModelAndView findPasswordAction(HttpServletRequest request, HttpServletResponse response, UserDTO user) throws Exception {
+	
+   		ModelAndView mv = new ModelAndView();
+   		HttpSession session = request.getSession();
+   		UserDTO dto = userService.findpw(user);
 
-	// 비밀번호 찾기 로직
-	@RequestMapping(value = "/findpw", method = RequestMethod.POST)
-	public ModelAndView findPasswordAction(HttpServletRequest request, HttpServletResponse response, UserDTO user)
-			throws Exception {
-
-		ModelAndView mv = new ModelAndView();
-		HttpSession session = request.getSession();
-		UserDTO dto = userService.findpw(user);
-
-		if (dto == null) {
-			mv.setViewName("/user/users/findpw");
-		} else {
-			mv.setViewName("/user/users/findpwAfter");
-		}
-		mv.addObject("password", request.getParameter("password"));
+   		if (dto == null) {
+   			mv.setViewName("/user/users/findpw");
+   		} else { 
+   			mv.setViewName("/user/users/findpwAfter");
+   		}
+   		mv.addObject("password", request.getParameter("password"));
 //	   String referer = (String)request.getHeader("REFERER");
-		return mv;
+   		return mv;
 	}
-
 
 	// 회원가입 페이지에서 버튼을 누르면 @RequestMapping을 찾아 실행한다.
 	// Form의 값들은 HttpServletRequest에 담겨서 넘어온다.
@@ -287,4 +296,5 @@ public class UserController {
 //	      
 //      return "user/users/loggedInfo";
 //   }
+
 }
