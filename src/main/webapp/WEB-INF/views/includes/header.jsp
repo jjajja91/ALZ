@@ -96,6 +96,97 @@
 .bigpicture img {
 	width: 600px
 }
+
+
+.lessonSortDiv {
+    text-align: right;
+    padding-bottom: 20px;
+}
+
+.lessonImg {
+	width: 150px;
+}
+
+.lessonInfoDiv {
+	padding: 10px;
+    width: 170px;
+    display: inline-grid;
+    margin-right: 0px;
+}
+
+.lessonInfoDiv p {
+	margin-bottom: 3px;
+}
+
+.lesson-container {
+	display: flex;
+    width: 90%;
+    margin: auto;
+}
+
+.lesson-main {
+	width: 66.6%;
+    margin: 5px;
+}
+.lessonDetailImgDiv {
+	padding: 10px;
+}
+.lessonDetailImg {
+	width: 100%;
+}
+.lesson-info {
+	width: 33.3%;
+    margin: 5px;
+}
+
+.lesson-detail {
+	padding-top: 10px;
+}
+.lesson-detail-nav {
+	padding: 10px;
+}
+.lesson-detail-nav a  {
+	padding: 10px;
+}
+
+.detailDiv {
+    padding-top: 30px;
+}
+.detailDiv ul {
+	padding: 5px;
+}
+.detailDiv li {
+    display: inline-block;
+}
+pre {
+    white-space: pre-wrap;
+}
+.pre {
+    background-color: transparent;
+    border: none;
+}
+.shortReview {
+	padding-top: 10px;
+}
+.shortReview p{
+	margin: 2px;
+}
+.shortReview #lesson_star_rate a {
+	text-decoration: none;
+	color: gray;
+	font-size: 13px;
+}
+
+#lesson_star_rate a.lessonOn {
+	color: red;
+}
+
+.lessonSideDiv {
+	padding: 15px;
+    border: 1px solid #eee;
+    position: sticky;
+    top: 20px;
+}
 </style>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>

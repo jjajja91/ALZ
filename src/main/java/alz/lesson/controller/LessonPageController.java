@@ -31,7 +31,10 @@ public class LessonPageController {
 	
 	@GetMapping("/read")
 	public void get(@RequestParam Long id, Model model) {
-		model.addAttribute("lessons", lessonService.readById(id));
+		model.addAttribute("lesson", lessonService.readById(id));
+		model.addAttribute("curriculum", lessonService.curriculumById(id));
+		model.addAttribute("teacher", lessonService.teacherById(id));
+		model.addAttribute("quickReview", lessonService.quickReviewById(id));
 	}
 	
 	@PostMapping("/register")
