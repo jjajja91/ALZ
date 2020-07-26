@@ -3,17 +3,11 @@ package alz.order.service;
 import java.util.List;
 
 import alz.order.domain.OrderDTO;
+import alz.order.domain.OrderDetailDTO;
 
 public interface OrderService {
 
-	OrderDTO create(OrderDTO order);
-
-	OrderDTO readById(Long id);
-
-	List<OrderDTO> readAll();
-
-	OrderDTO updateById(Long id, OrderDTO order);
-
-	int deleteById(Long id);
-
+	public List<OrderDTO> listMyOrderGoods(OrderDTO OrderDTO) throws Exception;
+	public void addNewOrder(List<OrderDTO> myOrderList) throws Exception;
+	public OrderDTO findMyOrder(long id) throws Exception;
 }

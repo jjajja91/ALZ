@@ -183,6 +183,10 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 	}
 
 	@Override
+	public UserDTO userInfo(long id) {
+		return userMapper.userInfo(id);
+	}
+
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 		UserDTO user = userMapper.selectByEmail(email);
 		if(user == null) {
@@ -199,3 +203,4 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 //		System.out.println("Async service is called");
 //	}
 }
+
