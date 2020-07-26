@@ -13,6 +13,7 @@ import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -108,9 +109,6 @@ public class UserController {
    }
    
    
-   
- 
-   
    @RequestMapping(value = "/callModify", method = RequestMethod.GET)
    public ModelAndView callUpdate(HttpServletRequest request) {
       
@@ -124,53 +122,20 @@ public class UserController {
       return mv;
    }
    
-   /*----------------------------------------------------------------------------------------*/   
-   //아이디 찾기 로직
+ //아이디 찾기 로직
    @RequestMapping(value = "/findId", method = RequestMethod.POST)
    public String findIdAction(UserDTO user, HttpSession session, HttpServletRequest request, HttpServletResponse response, Model model) throws Exception {
-	   
-	   UserDTO dto = userService.findId(user, response);
-//	   session.setAttribute("sessionUser", dto);
+      
+      UserDTO dto = userService.findId(user, response);
+//      session.setAttribute("sessionUser", dto);
 
-	   if (dto == null) {
-		   System.out.println("일치하는 회원 정보가 없습니다.");
-		   return "user/users/findId";
-	   }
-	   model.addAttribute("email", request.getParameter("email"));
-	   return "user/users/findIdAfter";
+      if (dto == null) {
+         System.out.println("일치하는 회원 정보가 없습니다.");
+         return "user/users/findId";
+      }
+      model.addAttribute("email", request.getParameter("email"));
+      return "user/users/findIdAfter";
    }
-  
-		HashMap<String, String> set = new HashMap<String, String>();
-		set.put("to", ""); // 수신번호
-
-		set.put("from", (String) request.getParameter("from")); // 발신번호, jsp에서 전송한 발신번호를 받아 map에 저장한다.
-		set.put("text", (String) request.getParameter("text")); // 문자내용, jsp에서 전송한 문자내용을 받아 map에 저장한다.
-		set.put("type", "sms"); // 문자 타입
-
-		System.out.println(set);
-
-		JSONObject result = coolsms.send(set); // 보내기&전송결과받기
-
-		if ((boolean) result.get("status") == true) {
-
-			// 메시지 보내기 성공 및 전송결과 출력
-			System.out.println("성공");
-			System.out.println(result.get("group_id")); // 그룹아이디
-			System.out.println(result.get("result_code")); // 결과코드
-			System.out.println(result.get("result_message")); // 결과 메시지
-			System.out.println(result.get("success_count")); // 메시지아이디
-			System.out.println(result.get("error_count")); // 여러개 보낼시 오류난 메시지 수
-		} else {
-
-			// 메시지 보내기 실패
-			System.out.println("실패");
-			System.out.println(result.get("code")); // REST API 에러코드
-			System.out.println(result.get("message")); // 에러메시지
-		}
-
-		return "/user/anonymous/Success"; // 문자 메시지 발송 성공했을때 number페이지로 이동함
-	}
-
 	@RequestMapping(value = "/join", method = RequestMethod.GET)
 	public String join() {
 		return "user/anonymous/join";
