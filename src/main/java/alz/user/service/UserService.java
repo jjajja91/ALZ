@@ -28,7 +28,10 @@ public interface UserService {
 	
 	int nicknameChk(String nickname);
 	
+	UserDTO userInfo(long id);
 	UserDTO findId(UserDTO user, HttpServletResponse response) throws IOException;
 	UserDTO findpw(UserDTO user);
+
+//	void asyncService();
 
 }

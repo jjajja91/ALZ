@@ -16,7 +16,7 @@ public interface CartService {
 
 	// 3. 장바구니 삭제
 	public void deleteCart(long Id);
-	
+
 	public void delete(CartDTO cart);
 
 	// 4. 장바구니 수정
@@ -30,5 +30,6 @@ public interface CartService {
 
 	// 7. 장바구니 상품수량 변경
 	public void updateCart(CartDTO cart);
+
 
 }

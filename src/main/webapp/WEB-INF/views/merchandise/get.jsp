@@ -42,7 +42,7 @@
 									</tr>
 									<tr align="center">
 										<td colspan="2">
-											<form name="orderform" method="post" action="/order/order">
+											<form name="orderform" method="post" action="/order/orderForm">
 
 												<input type="hidden" id="id" name="id"
 													value='<c:out value="${merchandise.id }"/>'> <input

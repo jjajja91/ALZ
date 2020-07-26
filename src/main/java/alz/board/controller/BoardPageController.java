@@ -3,9 +3,9 @@ package alz.board.controller;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.security.Principal;
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -88,10 +88,7 @@ public class BoardPageController {
 	}
 	
 	@GetMapping("/write")
-	public void write(@RequestParam("typeId") Integer typeId, Model model, HttpSession session) {
-		if(session.getAttribute("sessionUser") == null) {
-			throw new NoUserException();
-		}
+	public void write(@RequestParam("typeId") Integer typeId, Model model) {
 		model.addAttribute("typeId", typeId);
 	}
 	

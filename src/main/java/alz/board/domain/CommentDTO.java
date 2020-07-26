@@ -34,5 +34,6 @@ public class CommentDTO {
 	private String nickname;
 	private Long depth;
 	private String deleted;
+	private Long userId;
 
 }

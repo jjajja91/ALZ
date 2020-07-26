@@ -27,7 +27,7 @@
 	</select>
 	
 	<select id="selectByEmail" resultType="alz.user.domain.UserDTO">
-		SELECT email FROM alz_user
+		SELECT * FROM alz_user
 		WHERE email = #{email}
 	</select>
 	
@@ -52,7 +52,7 @@
 			SELECT alz_user_seq.nextval FROM dual
 		</selectKey>
 		INSERT INTO ALZ_USER (ID, EMAIL, NICKNAME, PASSWORD, ROLE, PHONE_NUMBER)
-		VALUES(#{id}, #{email}, #{nickname}, #{password}, '1', #{phoneNumber})
+		VALUES(#{id}, #{email}, #{nickname}, #{password}, #{role}, #{phoneNumber})
 
 		<!-- INSERT INTO ALZ_USER_STATE(STATE, END_AT, END_AT) VALUES(#{state}, 
 			sysdate, #{endAt}) -->
@@ -85,9 +85,16 @@
 		SELECT * FROM alz_user WHERE email = #{email} AND password = #{password}
 	</select>
 
+
     <select id="selectedByUser" resultType="alz.user.domain.UserDTO">
 		SELECT * FROM alz_user WHERE email = #{email}
 	</select>
+
+  
+	<select id="userInfo" resultType="alz.user.domain.UserDTO">
+		SELECT * FROM alz_user WHERE id = #{id}
+	</select>
+	
 	<!-- 값을 다 넣을 때 -->
 	<!-- <select id="selectById" resultType="alz.user.domain.UserDTO"> 
 	SELECT * FROM alz_user WHERE id = #{id} </select> -->

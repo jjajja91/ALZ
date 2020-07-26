@@ -26,9 +26,9 @@ public interface UserMapper {
 
 	int nicknameChk(String nickname);
 	
+	UserDTO userInfo(Long id);
 	UserDTO findId(UserDTO user);
 	UserDTO findpw(UserDTO user);
-
-
 	UserDTO selectedByUser(UserDTO user);
+
 }

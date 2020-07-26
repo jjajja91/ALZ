@@ -69,7 +69,8 @@
 	<button class="deleteBtn">선택 삭제</button>
 	<button class="listBtn">상품 목록</button>
 
-	<form id="buy_form" method="post">
+	<form id="order_form" method="post">
+		<div id="result_info_hidden"></div>
 		<table width=80% class="list_view" style="background: #cacaff">
 			<thead>
 				<tr align=center class="fixed">
@@ -83,26 +84,18 @@
 			</thead>
 			<tbody>
 				<tr cellpadding=40 align=center>
-					<td>
+					<td id="result_info_price">
 						<h1>
-							<span id="totalPrice"></span>
+							<span id="totalPrice"></span> 원
 						</h1>
-						<h3>원</h3>
 					</td>
 					<td><img width="25" alt="" src="/resources/img/minus.jpg"></td>
-					<td>
-						<p id="p_totalSalesPrice">${totalDiscountedPrice}원</p> <input
-						id="h_totalSalesPrice" type="hidden" value="${totalSalesPrice}" />
-					</td>
+					<td></td>
 					<td><img width="25" alt="" src="/resources/img/equal.jpg"></td>
-					<td>
-						<p id="p_final_totalPrice">
-							<fmt:formatNumber
-								value="${totalGoodsPrice+totalDeliveryPrice-totalDiscountedPrice}"
-								type="number" var="total_price" />
-							${total_price}원
-						</p> <input id="h_final_totalPrice" type="hidden"
-						value="${totalGoodsPrice+totalDeliveryPrice-totalDiscountedPrice}" />
+					<td id="result_info_total">
+						<h1>
+							<span id="final_total"></span>원
+						</h1>
 					</td>
 				</tr>
 			</tbody>
@@ -110,10 +103,53 @@
 	</form>
 
 	<div id="nav_main_1_result_btn">
-		<a href="javascript:buy_btn();"><strong>주문하기</strong></a>
+		<button class="orderBtn"><strong>주문하기</strong></button>
 	</div>
 </body>
 <script type="text/javascript">
+	var link = document.location.href; //현재 페이지 url 
+	if (link.match('cart')) { // url이 cart이면
+		$("input[type=checkbox]").each(function() { //모든 체크박스 체크
+			$(this).attr('checked', true);
+		});
+
+		// 체크된 항목만 가져오기
+		// 첫 화면에 적용이 안됨 어떻게 해야하지?ㅠ
+		$("input[type=checkbox]")
+				.change(
+						function() {
+							//체크박수 갯수
+							var totalCount = $('.chkBox').length;
+							//가격총합
+							var totalPrice = 0;
+							//상품 갯수
+							var merchandiseAmount = 0;
+							//총가격(제품)
+							var total = 0;
+							//cartlist번호 값을 가진 input생성
+							var str = "";
+							for (var i = 0; i < totalCount; i++) {
+								if ($("#chkBox" + i).is(":checked")) {
+									var id = $('#id' + i).val();
+									totalPrice = parseInt(totalPrice)
+											+ parseInt($("#totalPrice" + i)
+													.val());
+									merchandiseAmount = parseInt(merchandiseAmount)
+											+ parseInt($(
+													"#merchandiseAmount" + i)
+													.val());
+									str += "<input type='hidden' id='hidden_id' name='id' value='"+id+"'>";
+								}
+							}
+
+							$("#totalPrice").html(totalPrice.toLocaleString());
+							$("#merchandiseAmount").html(merchandiseAmount);
+							total = totalPrice;
+							$("#final_total").html(total.toLocaleString());
+							$("#result_info_hidden").html(str);
+						});
+	}
+
 	$(document).ready(function() {
 		$(".listBtn").click(function() {
 			location.href = "/merchandise/list";
@@ -171,6 +207,17 @@
 
 			}//종료 if
 		});//종료 click
+		
+		$(".orderBtn").click(function() {
+			//alert("클릭");
+			if($('#hidden_id').val() != null){
+				$("#order_form").attr("action","/order/orderForm");
+				$("#order_form").submit();
+			} else{
+				alert("주문하실 상품을 선택해주세요.")
+			}
+			
+		});
 
 	});
 </script>
