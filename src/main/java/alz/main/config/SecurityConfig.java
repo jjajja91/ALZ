@@ -77,8 +77,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         .expressionHandler(expressionHandler());
 
 		http.formLogin()
-			.loginPage("/login").permitAll()
-			.successHandler(loginSuccessHandler());
+			.loginPage("/login").permitAll();
+		
 		http.httpBasic();
 		
         http.rememberMe()

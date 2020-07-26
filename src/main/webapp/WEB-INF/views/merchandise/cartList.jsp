@@ -3,6 +3,7 @@
 <%@include file="../includes/header.jsp"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 
 <!DOCTYPE html>
 <html>
@@ -13,13 +14,14 @@
 	src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 </head>
 <body>
+<sec:authentication var="principal" property="principal" />
 	<h2>장바구니</h2>
 	<c:choose>
 		<c:when test="${map.count == 0}">
 			<div>장바구니가 비어있습니다.</div>
 		</c:when>
 		<c:otherwise>
-		${sessionUser.nickname}님의 장바구니
+		${principal.nickname}님의 장바구니
 				<table border="1">
 				<tr>
 					<th><input type="checkbox" name="allCheck" id="allCheck">
