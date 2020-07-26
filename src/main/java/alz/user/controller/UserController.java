@@ -114,7 +114,9 @@ public class UserController {
       
       HttpSession session = request.getSession();
       UserDTO user = (UserDTO)session.getAttribute("sessionUser");
+      System.out.println("유저?" + user);
       ModelAndView mv = new ModelAndView();
+      System.out.println("여기는?");
       mv.addObject("sessionUser", userService.readById(user));
       	
       mv.setViewName("/user/users/Modify");
