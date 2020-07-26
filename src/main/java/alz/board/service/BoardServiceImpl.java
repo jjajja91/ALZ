@@ -137,6 +137,7 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public void addLike(LikeDTO like) {
+		BoardDTO board = new BoardDTO();
 		likeMapper.addLike(like);
 	}
 

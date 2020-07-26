@@ -1,8 +1,10 @@
 package alz.user.service;
 
+import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import alz.user.domain.UserDTO;
 
@@ -27,5 +29,9 @@ public interface UserService {
 	int nicknameChk(String nickname);
 	
 	UserDTO userInfo(long id);
+	UserDTO findId(UserDTO user, HttpServletResponse response) throws IOException;
+	UserDTO findpw(UserDTO user);
+
+//	void asyncService();
 
 }

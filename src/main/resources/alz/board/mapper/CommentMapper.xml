@@ -7,7 +7,7 @@
 
 	<select id="selectAll" resultType="alz.board.domain.CommentDTO">
 		select id, content, written_at writtenAt, updated_at updatedAt, like_cnt likeCnt,
-				comment_cnt commentCnt, comment_code commentCode, board_id boardId, nickname, depth, deleted
+				comment_cnt commentCnt, comment_code commentCode, board_id boardId, nickname, depth, deleted, user_id userId
 		from alz_comment
 		where board_id = #{id}
 		order by comment_code
@@ -15,7 +15,7 @@
 	
 	<select id="selectById" resultType="alz.board.domain.CommentDTO">
 		select id, content, written_at writtenAt, updated_at updatedAt, like_cnt likeCnt,
-				comment_cnt commentCnt, comment_code commentCode, board_id boardId, nickname, depth, deleted
+				comment_cnt commentCnt, comment_code commentCode, board_id boardId, nickname, depth, deleted, user_id userId
 		from alz_comment
 		where id = #{id}
 	</select>
@@ -29,8 +29,8 @@
 			       where board_id = #{boardId} and depth = 0)
 		</selectKey>
 		
-		insert into alz_comment (id, content, comment_code, board_id, nickname)
-		values (alz_comment_seq.nextval, #{content}, #{commentCode}, #{boardId}, #{nickname})
+		insert into alz_comment (id, content, comment_code, board_id, nickname, user_id)
+		values (alz_comment_seq.nextval, #{content}, #{commentCode}, #{boardId}, #{nickname}, #{userId)
 	</insert>
 	
 	<insert id="insert2">
@@ -43,8 +43,8 @@
 			where id=#{id}
 		</selectKey>
 		
-		insert into alz_comment (id, content, comment_code, board_id, nickname, depth)
-		values (alz_comment_seq.nextval, #{content}, #{commentCode}, #{boardId}, #{nickname}, #{depth})
+		insert into alz_comment (id, content, comment_code, board_id, nickname, depth, user_id)
+		values (alz_comment_seq.nextval, #{content}, #{commentCode}, #{boardId}, #{nickname}, #{depth}, #{userId)
 	</insert>
 	
 	<update id="updateCnt">
