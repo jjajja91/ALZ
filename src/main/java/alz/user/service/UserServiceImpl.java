@@ -158,6 +158,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 					.setPhoneNumber(user.getPhoneNumber())
 					.setState(user.getState()).setEndAt(user.getEndAt());
 		System.out.println(searchedUser);
+		
+		searchedUser.encodePassword(passwordEncoder); //security 수정에 적용
+		
 		int affectedRowCount = userMapper.updateById(searchedUser);
 		
 		if(affectedRowCount == 0 ) {
