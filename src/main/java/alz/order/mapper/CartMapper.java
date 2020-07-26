@@ -32,5 +32,7 @@ public interface CartMapper {
 	// 7. 장바구니 상품수량 변경
 	public void updateCart(CartDTO cart);
 
+	public CartDTO buyList(long id);
+
 
 }

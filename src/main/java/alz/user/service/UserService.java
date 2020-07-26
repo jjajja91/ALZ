@@ -25,5 +25,7 @@ public interface UserService {
 	int emailChk(String email);
 	
 	int nicknameChk(String nickname);
+	
+	UserDTO userInfo(long id);
 
 }

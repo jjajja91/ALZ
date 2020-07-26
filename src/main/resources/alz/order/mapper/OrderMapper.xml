@@ -5,35 +5,27 @@
 
 <mapper namespace="alz.order.mapper.OrderMapper">
 
-	<insert id="insert" parameterType="alz.order.domain.OrderDTO">
+	<insert id="order" parameterType="alz.order.domain.OrderDTO">
 		<selectKey keyProperty="id" order="BEFORE" resultType="long">
 			SELECT alz_order_seq.nextval FROM dual
 		</selectKey>
 		INSERT INTO	ALZ_ORDER
-		(ID,ORDER_AT,PRICE,STATE,USER_ID)
+		(ID,USER_ID,NAME,PHONE,METHOD,STATE,ORDER_AT)
 		VALUES 
-		(#{id}, #{orderAt}, #{price},
-		#{state}, #{userID})
+		(#{id}, #{userId}, #{name}, #{phone}, #{method},#{state}, sysdate)
 	</insert>
 	
-	<select id="findById" resultType="alz.order.domain.OrderDTO">
-		SELECT * FROM ALZ_ORDER WHERE id = #{id}
-	</select>
-	
-	<select id="findAll" resultType="alz.order.domain.OrderDTO">
-		SELECT * FROM ALZ_ORDER
-	</select>
-	
-	<update id="updateById"
-		parameterType="alz.order.domain.OrderDTO">
-		UPDATE ALZ_ORDER
-		SET state = #{state},
-		WHERE id = #{id}
-	</update>
-	
-	<delete id="deleteById">
-		DELETE FROM ALZ_ORDER WHERE id = #{id}
-	</delete>
+	<insert id="orderDetail" parameterType="alz.order.domain.OrderDTO">
+ 		insert into alz_order_details
+ 		(id, order_Id, merchandise_name, merchandise_price, merchandise_id,order_state)
+     	select alz_order_details_seq.nextval, #{orderId}, gdsNum, cartStock
+        from alz_cart   
+</insert> 
+
+<delete id="cartDelete">
+ delete alz_cart
+     where user_Id = #{userId}
+</delete>
 
 
 </mapper>

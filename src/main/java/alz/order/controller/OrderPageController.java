@@ -1,5 +1,8 @@
 package alz.order.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
@@ -10,69 +13,107 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import alz.board.exceptions.NoUserException;
-import alz.order.domain.MerchandiseDTO;
+import alz.order.domain.CartDTO;
 import alz.order.domain.OrderDTO;
+import alz.order.service.CartService;
 import alz.order.service.MerchandiseService;
 import alz.order.service.OrderService;
+import alz.user.domain.UserDTO;
+import alz.user.service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
 
 @Controller
-@Log4j
 @AllArgsConstructor
+@Log4j
 @RequestMapping("/order/*")
 public class OrderPageController {
 
 	private OrderService orderService;
 	private MerchandiseService merchandiseService;
+	private UserService userService;
+	private CartService cartService;
 
-	@GetMapping("/register")
-	public void register() {
-	}
+	@PostMapping("/orderEach")
+	public String orderEach(@RequestParam("id") Long id, Model model, HttpSession session, RedirectAttributes rttr) {
+		// 로그인이 아니면 로그인 화면으로 보낸다.
+		if (session.getAttribute("sessionUser") == null) {
+			rttr.addFlashAttribute("buyFail", "1");
 
-	@GetMapping("/list")
-	public void list(Model model) {
+			return "redirect:/merchandise/get?num=" + id;
 
-		log.info("list");
-		model.addAttribute("list", orderService.readAll());
-
-	}
-
-	@PostMapping("/register")
-	public String register(OrderDTO order, RedirectAttributes rttr) {
-
-		log.info("register: " + order);
-
-		orderService.create(order);
-
-		rttr.addFlashAttribute("result", order.getId());
-
-		return "redirect:/order/list";
-	}
-
-	@GetMapping("/get")
-	public void get(@RequestParam("id") Long id, Model model) {
-
-		log.info("/get");
-		model.addAttribute("orders", orderService.readById(id));
-	}
-
-	@PostMapping("/modify")
-	public String modify(OrderDTO order, RedirectAttributes rttr, Long Long) {
-
-		log.info("modify:" + order);
-
-		return "redirect:/order/list";
-	}
-
-	@PostMapping("/order")
-	public void order(@RequestParam("id") Long id, Model model, HttpSession session) {
-		if(session.getAttribute("sessionUser") == null) {
-			throw new NoUserException();
 		}
-		
+
+		// 유저 정보 가져오기
+		UserDTO user = (UserDTO) session.getAttribute("sessionUser");
+		Long userId = user.getId();
+
+		user = userService.userInfo(userId);
+		model.addAttribute("userInfo", user);
+
+		List orderList = new ArrayList<OrderDTO>();
+		orderList.add(id);
+
+		model.addAttribute("orderList", orderList);
 		model.addAttribute("merchandise", merchandiseService.readById(id));
+
+		return "/order/orderForm";
+
 	}
+
+	@PostMapping("/orderForm")
+	public void order(long[] cartId, @RequestParam("id") Long id, Model model, HttpSession session,
+			RedirectAttributes rttr) {
+		if (session.getAttribute("sessionUser") == null) {
+			rttr.addFlashAttribute("buyFail", "1");
+
+			return;
+
+		}
+
+		UserDTO user = (UserDTO) session.getAttribute("sessionUser");
+		Long userId = user.getId();
+		user = userService.userInfo(userId);
+		model.addAttribute("userInfo", user);
+		model.addAttribute("merchandise", merchandiseService.readById(id));
+
+		List<CartDTO> list = new ArrayList<CartDTO>();
+
+		// 장바구니 목록중 선택한것 가져오기
+//		for (int i = 0; i < cartId.length; i++) {
+//			long no = 0;
+//			CartDTO cartlist = new CartDTO();
+//			id = cartId[i];
+//			cartlist = cartService.buyList(id);
+//
+//			list.add(cartlist);
+//
+//		}
+
+		if (!list.isEmpty()) {
+			model.addAttribute("buylist", list);
+			System.out.println("list성공?>?" + list);
+
+		}
+
+	}
+
+//	@PostMapping("/orderChecked")
+//	public String orderChecked(long[] cartId, Model model, HttpSession session) {
+//
+//		// 유저 정보 가져오기
+//		UserDTO user = (UserDTO) session.getAttribute("sessionUser");
+//		Long userId = user.getId();
+//
+//		user = userService.userInfo(userId);
+//		model.addAttribute("userInfo", user);
+//
+//		List<CartDTO> list = new ArrayList<CartDTO>(); 
+//
+//		
+//
+//		return "/order/orderForm";
+//
+//	}
 
 }

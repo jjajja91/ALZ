@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import alz.order.domain.MerchandiseDTO;
 import alz.order.domain.OrderDTO;
+import alz.order.domain.OrderDetailDTO;
 import alz.order.mapper.OrderMapper;
 
 @Service
@@ -20,39 +21,23 @@ public class OrderServiceImpl implements OrderService {
 		this.orderMapper = orderMapper;
 	}
 
-	@Override
-	public OrderDTO create(OrderDTO order) {
-		int affectedRowCount = orderMapper.insert(order);
-		OrderDTO openMerchandise = orderMapper.selectById(order.getId());
-		return openMerchandise;
+	public List<OrderDTO> listMyOrderGoods(OrderDTO OrderDTO) throws Exception{
+		List<OrderDTO> orderGoodsList;
+		orderGoodsList=orderMapper.listMyOrderGoods(OrderDTO);
+		return orderGoodsList;
+	}
+	
+	public void addNewOrder(List<OrderDTO> myOrderList) throws Exception{
+		orderMapper.insertNewOrder(myOrderList);
+		//카트에서 주문 상품 제거한다.
+		orderMapper.removeGoodsFromCart(myOrderList);
+	}	
+	
+	public OrderDTO findMyOrder(long id) throws Exception{
+		return orderMapper.findMyOrder(id);
 	}
 
-	@Override
-	public OrderDTO readById(Long id) {
-		OrderDTO searchedOrder = orderMapper.selectById(id);
-		return searchedOrder;
-	}
 
-	@Override
-	public List<OrderDTO> readAll() {
-		List<OrderDTO> orders = orderMapper.selectAll();
-		return orders;
-	}
 
-	@Override
-	public OrderDTO updateById(Long id, OrderDTO order) {
-		OrderDTO searchedOrder = orderMapper.selectById(id);
-		searchedOrder.setOrderAt(order.getOrderAt()).setPrice(order.getPrice())
-		.setState(order.getState());
-		int affectedRowCount = orderMapper.updateById(searchedOrder);
-		return searchedOrder;
-	}
-
-	@Override
-	public int deleteById(Long id) {
-		OrderDTO searchedOrder = orderMapper.selectById(id);
-		int affectedRowCount = orderMapper.deleteById(id);
-		return affectedRowCount;
-	}
 
 }

@@ -125,4 +125,9 @@ public class UserServiceImpl implements UserService {
 		
 		return affectedRowCount;
 	}
+
+	@Override
+	public UserDTO userInfo(long id) {
+		return userMapper.userInfo(id);
+	}
 }
