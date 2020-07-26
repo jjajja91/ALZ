@@ -160,7 +160,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 		System.out.println(searchedUser);
 		
 		searchedUser.encodePassword(passwordEncoder); //security 수정에 적용
-		
+
 		int affectedRowCount = userMapper.updateById(searchedUser);
 		
 		if(affectedRowCount == 0 ) {

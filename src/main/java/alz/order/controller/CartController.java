@@ -1,10 +1,9 @@
 package alz.order.controller;
 
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import alz.board.exceptions.NoUserException;
 import alz.order.domain.CartDTO;
 import alz.order.service.CartService;
 import alz.user.domain.UserDTO;
@@ -33,21 +31,15 @@ public class CartController {
 
 	// 장바구니 페이지 연결
 	@GetMapping("/cartList")
-	public void cartList(HttpSession session) {
-		if (session.getAttribute("sessionUser") == null) {
-			throw new NoUserException();
-		}
+	public void cartList() {
 	}
 
 	// 장바구니 추가
 	@PostMapping("/cartInsert")
 	@ResponseBody
-	public  String addCart(@ModelAttribute CartDTO cart, @RequestParam("id") Long id, Model model, HttpSession session) {
-		if (session.getAttribute("sessionUser") == null) {
-			throw new NoUserException();
-		}
+	public  String addCart(@ModelAttribute CartDTO cart, @RequestParam("id") Long id, Model model, Principal principal) {
 		// 저장된 세션에서 닉네임 가져오기
-		UserDTO user = (UserDTO) session.getAttribute("sessionUser");
+		UserDTO user = (UserDTO) principal;
 		Long userId = user.getId();
 
 		String result = "false";
@@ -67,14 +59,12 @@ public class CartController {
 
 	// 장바구니 처리
 	@GetMapping("/cart")
-	public ModelAndView list(@ModelAttribute CartDTO cart, ModelAndView mav, HttpSession session) {
-		if (session.getAttribute("sessionUser") == null) {
-			throw new NoUserException();
-		}
+	public ModelAndView list(@ModelAttribute CartDTO cart, ModelAndView mav, Principal principal) {
+
 		// 장바구니 정보를 담을 map 생성
 		Map<String, Object> map = new HashMap<String, Object>();
 		// 유저 세션 가져오기
-		UserDTO user = (UserDTO) session.getAttribute("sessionUser");
+		UserDTO user = (UserDTO) principal;
 		Long userId = user.getId();
 		cart.setUserId(userId);
 
@@ -101,11 +91,11 @@ public class CartController {
 	// 카트 삭제
 	@PostMapping("delete")
 	@ResponseBody
-	public String deleteCart(HttpSession session, @RequestParam(value = "chkbox[]") List<String> chArr, CartDTO cart)
+	public String deleteCart(@RequestParam(value = "chkbox[]") List<String> chArr, CartDTO cart, Principal principal)
 			throws Exception {
 		log.info("delete cart");
 
-		UserDTO user = (UserDTO) session.getAttribute("sessionUser");
+		UserDTO user = (UserDTO) principal;
 		Long userId = user.getId();
 
 		String result = "0";
