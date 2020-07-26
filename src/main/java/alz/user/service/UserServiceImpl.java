@@ -158,6 +158,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 					.setPhoneNumber(user.getPhoneNumber())
 					.setState(user.getState()).setEndAt(user.getEndAt());
 		System.out.println(searchedUser);
+		
 		int affectedRowCount = userMapper.updateById(searchedUser);
 		
 		if(affectedRowCount == 0 ) {
