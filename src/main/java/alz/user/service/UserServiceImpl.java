@@ -4,25 +4,36 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 
-import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import alz.user.domain.UserDTO;
 import alz.user.mapper.UserMapper;
+import lombok.extern.java.Log;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
-public class UserServiceImpl implements UserService {
+@Slf4j
+public class UserServiceImpl implements UserService, UserDetailsService {
 	
 	// mapper 가져와서 사용
 	private UserMapper userMapper;
+	
+	private PasswordEncoder passwordEncoder;
 
 	@Autowired
-	public UserServiceImpl(UserMapper userMapper) {
+	public UserServiceImpl(UserMapper userMapper, PasswordEncoder passwordEncoder) {
 		this.userMapper = userMapper;
+		this.passwordEncoder = passwordEncoder;
 	}
 	
 //	@Override
@@ -71,6 +82,7 @@ public class UserServiceImpl implements UserService {
 	
 	@Override
 	public UserDTO create(UserDTO user) {
+		user.encodePassword(passwordEncoder);
 		int affectedRowCount = userMapper.insert(user);
 		UserDTO openUser = userMapper.selectById(user); 
 		
@@ -169,4 +181,21 @@ public class UserServiceImpl implements UserService {
 		
 		return affectedRowCount;
 	}
+
+	@Override
+	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+		UserDTO user = userMapper.selectByEmail(email);
+		if(user == null) {
+			throw new UsernameNotFoundException(email);
+		}
+		System.out.println("loadUserbyUsername");
+		System.out.println(user);
+		return user;
+	}
+
+//	@Async
+//	@Override
+//	public void asyncService() {
+//		System.out.println("Async service is called");
+//	}
 }

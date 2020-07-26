@@ -20,6 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import alz.user.domain.UserDTO;
 import alz.user.service.UserService;
+import alz.user.sms.Coolsms;
 
 @Controller
 public class UserController {
@@ -57,7 +58,7 @@ public class UserController {
 	   String api_key = ""; //위에서 받은 api key를 추가
 	   String api_secret = "";  //위에서 받은 api secret를 추가
 	
-	   alz.user.sms.Coolsms coolsms = new alz.user.sms.Coolsms(api_key, api_secret);
+	   Coolsms coolsms = new Coolsms(api_key, api_secret);
 	   //이 부분은 홈페이지에서 받은 자바파일을 추가한다음 그 클래스를 import해야 쓸 수 있는 클래스이다.
 	   
 //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@번호 넣기
@@ -239,7 +240,7 @@ public class UserController {
    }
 
    //로그인 시 session.setAttribute( "세션 호출 명", 세션에 담을 값 ); 
-   @RequestMapping(value = "/login", method = RequestMethod.POST)
+   @RequestMapping(value = "/login", method = RequestMethod.GET)
    public String login(UserDTO user, HttpSession session, HttpServletRequest request) {
 
       UserDTO dto = userService.readById(user);
