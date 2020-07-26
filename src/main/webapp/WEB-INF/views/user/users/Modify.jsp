@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -77,19 +77,20 @@ body {
  
 </div>
 <div class="main">
+		<sec:authentication var="principal" property="principal" />
 		<h3>수정 정보 출력</h3>
 		<form role='form' action="/users/Modify" method="post">
 			<table>
 				<tr>
 					<td>EMAIL</td>
 					<td>
- 						<input type="text" id="email" name="email" value="${sessionUser.email}" readonly="readonly">
+ 						<input type="text" id="email" name="email" value="${principal.username}" readonly="readonly">
 					 </td>
 				</tr>
 				<tr>
 					<td>NICKNAME</td>
 					<td>
-						<input type="text"  id="nickname" name="nickname" value="${sessionUser.nickname}">
+						<input type="text"  id="nickname" name="nickname" value="${principal.nickname}">
 							<button id="nicknameChk">닉네임 중복확인</button>
 					</td>
 				
@@ -97,13 +98,13 @@ body {
 				<tr>
 					<td>PW</td>
 					<td>
-						<input type="password" id="password" name="password" value="${sessionUser.password}">
+						<input type="password" id="password" name="password" value="${principal.password}">
 					</td>
 				</tr>
 				<tr>
 					<td>PHONENUMBER</td>
 					<td>
-						<input type="text" id="phoneNumber" name="phoneNumber" value="${sessionUser.phoneNumber}">
+						<input type="text" id="phoneNumber" name="phoneNumber" value="${principal.phoneNumber}">
 						<button>실명인증</button>
 					</td>
 				</tr>

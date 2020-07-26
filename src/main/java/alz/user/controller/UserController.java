@@ -109,19 +109,10 @@ public class UserController {
    }
    
    
-   @RequestMapping(value = "/callModify", method = RequestMethod.GET)
-   public ModelAndView callUpdate(HttpServletRequest request) {
-      
-      HttpSession session = request.getSession();
-      UserDTO user = (UserDTO)session.getAttribute("sessionUser");
-      System.out.println("유저?" + user);
-      ModelAndView mv = new ModelAndView();
-      System.out.println("여기는?");
-      mv.addObject("sessionUser", userService.readById(user));
-      	
-      mv.setViewName("/user/users/Modify");
-      
-      return mv;
+   @GetMapping("/modify")
+   public String callUpdate() {
+
+      return "/user/users/Modify";
    }
    
  //아이디 찾기 로직
