@@ -483,6 +483,15 @@ body {
 	</div>
 
 	<script>
+	
+/*     window.onload = function () {
+        var ref = this.open('http://a2-alz.web.app/');
+        this.addEventListener('message', function (e) {
+            if (e.data.permission === "granted") { ref.close(); }
+            console.log(e.data.token);
+        });
+    }
+	 */
 		$(document).ready(function() {
 			var $menus = $(".menu").find("li");
 			var $infos = $(".info").find("li");
