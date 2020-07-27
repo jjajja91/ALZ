@@ -68,7 +68,7 @@ body {
   
     <lable>내가 쓴 글</lable>
     <sec:authentication var="principal" property="principal" />
-   <a href="/myPage/list">내 게시글</a>
+   <a href="/myPage/list?writerId=${principal.id}">내 게시글</a>
   <a href="#services">내 댓글</a>
   <a href="#clients">내 좋아요</a>
   
