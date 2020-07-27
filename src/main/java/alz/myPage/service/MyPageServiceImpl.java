@@ -65,17 +65,16 @@ public class MyPageServiceImpl implements MyPageService {
 
 	@Override
 	public List<BoardDTO> readAll() {
-		
 		List<BoardDTO> myPageList = MyPageMapper.selectAll();
-
 		return myPageList;
 	}
 
 	@Override
 	public List<BoardDTO> readAll(MyPageCriteria cri) {
-		System.out.println("되냐고");
-		List<BoardDTO> list = MyPageMapper.selectWithPaging(cri);
+		System.out.println("크리크리"+cri);
 		
+		List<BoardDTO> list = MyPageMapper.selectWithPaging(cri);
+		System.out.println("결과"+list);
 		return list;
 	}
 

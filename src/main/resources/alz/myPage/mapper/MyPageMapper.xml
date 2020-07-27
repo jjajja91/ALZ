@@ -30,7 +30,7 @@
 					comment_cnt commentCnt, view_cnt viewCnt, board_order boardOrder, nickname, 
 					parent_id parentId, type_id typeId, writer_id writerId  
 			from alz_board 
-			where id > 0
+			where  writer_id >  #{writerId}
 			
 		]]>
 	</select>
