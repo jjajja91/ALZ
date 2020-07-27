@@ -26,7 +26,7 @@ public class MyPageCriteria {
 		this.amount = amount;
 	}
 	
-	public MyPageCriteria(int pageNum, int amount, int typeId) {
+	public MyPageCriteria(int pageNum, int amount, int writerId) {
 		this.pageNum = pageNum;
 		this.amount = amount;
 		this.writerId = writerId;

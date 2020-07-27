@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+ <mapper namespace="alz.myPage.mapper.MyPageMapper">
+
+<!--  <sql id="myPageCriteria">
+		<trim prefix="(" suffix=") AND " prefixOverrides="OR">
+			<foreach collection="typeArr" item='type'>
+				<trim prefix="OR">
+					<choose>
+						<when test="type == 'T'.toString()">
+							title like '%'||#{keyword}||'%'
+						</when>
+						<when test="type == 'C'.toString()">
+							content like '%'||#{keyword}||'%'
+						</when>
+						<when test="type == 'W'.toString()">
+							nickname like '%'||#{keyword}||'%'
+						</when>
+					</choose>
+				</trim>
+			</foreach>
+		</trim>
+	</sql> - -->
+	<select id="selectAll" resultType="alz.board.domain.BoardDTO">
+		<![CDATA[
+			select id, title, content, written_at writtenAt, updated_at updatedAt, like_cnt likeCnt, 
+					comment_cnt commentCnt, view_cnt viewCnt, board_order boardOrder, nickname, 
+					parent_id parentId, type_id typeId, writer_id writerId  
+			from alz_board 
+			where  writer_id >  #{writerId}
+			
+		]]>
+	</select>
+	
+	<select id="selectWithPaging" resultType="alz.board.domain.BoardDTO">
+	<![CDATA[
+          select id, title, content, writtenAt, updatedAt, likeCnt, commentCnt, viewCnt,
+               boardOrder, nickname, parentId, typeId, writerId  
+            from (select rownum, rn, id, title, content, writtenAt, updatedAt, likeCnt, commentCnt, 
+                         viewCnt, boardOrder, nickname, parentId, typeId, writerId 
+                 from (select rownum rn, id, title, content, writtenAt, updatedAt, likeCnt, commentCnt, 
+                            viewCnt, boardOrder, nickname, parentId, typeId, writerId
+                        from (select id, title, content, written_at writtenAt, updated_at updatedAt, 
+                                     like_cnt likeCnt, comment_cnt commentCnt, view_cnt viewCnt,
+                                     board_order boardOrder, nickname, parent_id parentId, type_id typeId, writer_id writerId 
+                               from alz_board
+                         where writer_id = #{writerId}
+                           order by id desc)
+                     where rownum <= #{pageNum} * #{amount} )
+			)
+		where 		
+       	rn > (#{pageNum} -1) * #{amount}
+		order by id desc	
+		]]>	
+	</select>
+
+	<select id="selectById" resultType="alz.board.domain.BoardDTO">
+		select id, title, content, written_at writtenAt, updated_at updatedAt, like_cnt likeCnt, comment_cnt commentCnt,
+					view_cnt viewCnt, board_order boardOrder, nickname, parent_id parentId, type_id typeId, writer_id writerId
+		from alz_board where id = #{id}
+	</select>
+	
+	<select id="getTotalCount" resultType="int">
+		select count(*)
+		from alz_board
+		where 
+		
+			id > 0
+	</select>
+
+	<insert id="insert">
+		<selectKey keyProperty="id" order="BEFORE" resultType="long">
+			select alz_board_seq.nextval from dual
+		</selectKey>
+		
+		insert into alz_board (id, title, content, nickname, type_id, parent_id, board_order, writer_id)
+		values (#{id}, #{title}, #{content}, #{nickname}, #{typeId}, '0', #{id}, #{writerId})
+		
+	</insert>
+	
+	<insert id="replyInsert">
+		<selectKey keyProperty="id" order="BEFORE" resultType="long">
+			select alz_board_seq.nextval from dual	
+			</selectKey>	
+		insert into alz_board (id, title, content, nickname, type_id, parent_id, board_order, writer_id)
+		values (#{id}, #{title}, #{content}, #{nickname}, #{typeId}, #{boardOrder}, #{boardOrder}, #{writerId})
+		
+	</insert>
+	
+	<insert id="rereplyInsert">
+		<selectKey keyProperty="id" order="BEFORE" resultType="long">
+			select alz_board_seq.nextval from dual	
+			</selectKey>	
+		insert into alz_board (id, title, content, nickname, type_id, parent_id, board_order, writer_id)
+		values (#{id}, #{title}, #{content}, #{nickname}, #{typeId}, #{parentId}, #{boardOrder}, #{writerId})
+		
+	</insert>
+	
+	<update  id="insertReply" parameterType="alz.board.domain.BoardDTO">
+	    update alz_board set title ='re :'||title where id=#{id} 
+	</update>
+	
+	<delete id="deleteById">
+		delete from alz_board where id = #{id}
+	</delete>
+	
+	<select id="getCommentsCnt" resultType="long">
+		select comment_cnt from alz_board where id = #{id}
+	</select>
+	
+	<select id="getLikeCnt" resultType="long">
+		select like_cnt from alz_board where id = #{id}
+	</select>
+	
+	<update id="updateById" parameterType="alz.board.domain.BoardDTO">
+		update alz_board
+		set title = #{title},
+			content = #{content},
+			updated_at = sysdate
+		where id = #{id}
+	</update>
+
+</mapper>
