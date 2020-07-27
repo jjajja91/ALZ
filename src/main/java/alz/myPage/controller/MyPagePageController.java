@@ -81,13 +81,10 @@ public class MyPagePageController {
 	}
 
 	@GetMapping("/list")
-	public void list(MyPageCriteria cri, Model model) {
-		List<BoardDTO> list = MyPageService.readAll(cri);
-		System.out.println("넘어오나"+list);
-		model.addAttribute("list", list);
-        
-		int total = MyPageService.getTotal(cri);
-		System.out.println("들어옴22?");
+	public void list(@RequestParam("writerId") Long writerId, MyPageCriteria cri, Model model) {
+		cri.setWriterId(writerId);
+		model.addAttribute("list", MyPageService.readAll(cri));
+        int total = MyPageService.getTotal(cri);
 		model.addAttribute("pageMaker", new MyPagePageDTO(cri, total));
 	}
 
