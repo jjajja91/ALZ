@@ -35,10 +35,7 @@ public class UserDTO implements UserDetails {
 	private Integer certificationState;
 	private Date recentlogAt;
 	private Date modifiedAt;
-	private String introduce;
-	private Long likeCnt;
 	private Long boardCnt;
-	private Long reservCnt;
 	private Long commentCnt;
 	private String phoneNumber;
 	private String state;

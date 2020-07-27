@@ -172,7 +172,8 @@
 				<input type="hidden" name="boardOrder"
 					value='<c:out value="${param.boardOrder}"/>'> <input
 					type="hidden" name="id" value='<c:out value="${param.id}"/>'>
-					<input type="hidden" name="writerId" value="${sessionUser.id}">
+					
+					<input type="hidden" name="writerId" value='<sec:authentication property="principal.id"/>'>
 				<div class="row">
 					<div class="col-lg-12">
 						<div class="panel panel-defualt">
@@ -209,7 +210,7 @@
 		var $parentId = $("input[name=parentId]");
 		var $boardOrder = $("input[name=boardOrder]");
 		var $id = $("input[name=id]");
-		var $writerId = $("input[name=writerId]")
+		var $writerId = $("input[name=writerId]");
 		
 		var $summernote = $('#summernote');
 	

@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -67,12 +67,13 @@ body {
 
   
     <lable>내가 쓴 글</lable>
-   <a href="/myPage/list?nickname=${sessionUser.nickname}">내 게시글</a>
+    <sec:authentication var="principal" property="principal" />
+   <a href="/myPage/list?wrtierId=${principal.id}">내 게시글</a>
   <a href="#services">내 댓글</a>
   <a href="#clients">내 좋아요</a>
   
     <lable>내 정보 수정</lable>
-  <a href="/callModify">개인 정보 수정</a>
+  <a href="/modify">개인 정보 수정</a>
   <a href="#services">회원 탈퇴</a>
  
 </div>
