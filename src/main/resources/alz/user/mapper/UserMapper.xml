@@ -123,4 +123,8 @@
 	<delete id="deleteById">
 		DELETE FROM alz_user WHERE email = #{email}
 	</delete>
+	
+	<select id="searchId" resultType="String">
+		SELECT ID FROM alz_user WHERE email = #{email}
+	</select>
 </mapper>

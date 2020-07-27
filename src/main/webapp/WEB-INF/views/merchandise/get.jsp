@@ -3,6 +3,9 @@
 <%@include file="../includes/header.jsp"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://www.springframework.org/security/tags"
+	prefix="sec"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,6 +13,7 @@
 <title>상품 상세</title>
 </head>
 <body>
+	<sec:authentication var="principal" property="principal" />
 	<div class="row">
 		<div class="col-lg-12">
 			<h1 class="page-header">상품 페이지</h1>
@@ -42,7 +46,8 @@
 									</tr>
 									<tr align="center">
 										<td colspan="2">
-											<form name="orderform" method="post" action="/order/orderForm">
+											<form name="orderform" method="post"
+												action="/order/orderEach">
 
 												<input type="hidden" id="id" name="id"
 													value='<c:out value="${merchandise.id }"/>'> <input
@@ -50,12 +55,13 @@
 													value='<c:out value="${merchandise.name }"/>'> <input
 													type="hidden" id="originPrice" name="originPrice"
 													value='<c:out value="${merchandise.originPrice }"/>'>
+												<input type="hidden" id="userId" name="userId"
+													value="${principal.id }">
 
-												<button type="submit" class="buy">구매하기</button>
-
+											<button type="submit" class="buy">구매하기</button>
 											</form>
-											<button class="cart" onClick="add_cart('${merchandise.id}')">장바구니
-												담기</button>
+
+											<button class="addCart">장바구니 담기</button>
 										</td>
 									</tr>
 
@@ -71,15 +77,22 @@
 
 </body>
 <script type="text/javascript">
-	function add_cart(id) {
+
+	$(".addCart").click(function(){
+	  var userId = $("#userId").val();
+	  var id = $("#id").val();
+	           console.log(userId);
+	           console.log(id);
+	  var data = {
+			  userId : userId,
+			  id : id
+	    };
 
 		$.ajax({
 			type : "post",
-			async : false, //false인 경우 동기식으로 처리한다.
+			async : true, //false인 경우 동기식으로 처리한다. 문제 발생.
 			url : "/merchandise/cartInsert",
-			data : {
-				id : id
-			},
+			data : data,
 			success : function(result) {
 				if (result == "true") {
 					if (confirm("장바구니에 추가하였습니다. 장바구니로 이동하시겠습니까?"))
@@ -87,7 +100,11 @@
 					else
 						return false;
 				} else {
-					alert("이미 카트에 등록된 상품입니다.");
+					/* alert("이미 카트에 등록된 상품입니다."); */
+					if (confirm("이미 카트에 등록된 상품입니다. 장바구니로 이동하시겠습니까?"))
+						location.href = "/merchandise/cart";
+					else
+						return false;
 				}
 
 			},
@@ -98,6 +115,6 @@
 				//alert("작업을완료 했습니다");
 			}
 		}); //end ajax	
-	};
+	 });
 </script>
 </html>

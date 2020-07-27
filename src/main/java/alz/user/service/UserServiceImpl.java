@@ -198,6 +198,12 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 		return user;
 	}
 
+	@Override
+	public String searchId(String email) {
+		return userMapper.searchId(email);
+	}
+
+
 //	@Async
 //	@Override
 //	public void asyncService() {
