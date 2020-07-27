@@ -13,20 +13,20 @@ import lombok.experimental.Accessors;
 @Accessors(chain=true)
 public class MyPageCriteria {
 
-	private int pageNum;
-	private int amount;
-	private int writerId;
+	private long pageNum;
+	private long amount;
+	private long writerId;
 	
 	public MyPageCriteria() {
 		this(1,10);
 	}
 	
-	public MyPageCriteria(int pageNum, int amount) {
+	public MyPageCriteria(long pageNum, long amount) {
 		this.pageNum = pageNum;
 		this.amount = amount;
 	}
 	
-	public MyPageCriteria(int pageNum, int amount, int writerId) {
+	public MyPageCriteria(long pageNum, long amount, long writerId) {
 		this.pageNum = pageNum;
 		this.amount = amount;
 		this.writerId = writerId;
