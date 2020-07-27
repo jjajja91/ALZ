@@ -35,7 +35,7 @@
 	<context:component-scan base-package="alz.order.controller" />
 	<context:component-scan base-package="alz.user.controller" />
 	<context:component-scan base-package="alz.file.controller" />
-
+<context:component-scan base-package="alz.myPage.controller" />
 
 <!-- ingyo -->
 <!-- 	<interceptors>

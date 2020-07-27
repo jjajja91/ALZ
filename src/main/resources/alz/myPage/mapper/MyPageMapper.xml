@@ -3,10 +3,9 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
-  
-<mapper namespace="alz.board.mapper.BoardMapper">
+ <mapper namespace="alz.myPage.mapper.MyPageMapper">
 
-	<sql id="boardCriteria">
+<!--  <sql id="myPageCriteria">
 		<trim prefix="(" suffix=") AND " prefixOverrides="OR">
 			<foreach collection="typeArr" item='type'>
 				<trim prefix="OR">
@@ -24,8 +23,7 @@
 				</trim>
 			</foreach>
 		</trim>
-	</sql>
-
+	</sql> - -->
 	<select id="selectAll" resultType="alz.board.domain.BoardDTO">
 		<![CDATA[
 			select id, title, content, written_at writtenAt, updated_at updatedAt, like_cnt likeCnt, 
@@ -38,7 +36,6 @@
 	</select>
 	
 	<select id="selectWithPaging" resultType="alz.board.domain.BoardDTO">
-
 	<![CDATA[
           select id, title, content, writtenAt, updatedAt, likeCnt, commentCnt, viewCnt,
                boardOrder, nickname, parentId, typeId, writerId  
@@ -50,21 +47,14 @@
                                      like_cnt likeCnt, comment_cnt commentCnt, view_cnt viewCnt,
                                      board_order boardOrder, nickname, parent_id parentId, type_id typeId, writer_id writerId 
                                from alz_board
-                         where type_id = #{typeId}
-                         start with parent_id = 0
-                         connect by prior id = parent_id
-                              order siblings by boardOrder desc)
+                         where writer_id = #{writerId}
+                           order by id desc)
                      where rownum <= #{pageNum} * #{amount} )
 			)
 		where 		
-		
-                      rn > (#{pageNum} -1) * #{amount}
-		start with parentId = 0
-		connect by prior id = parentId
-		order siblings by boardOrder desc
-	
+       	rn > (#{pageNum} -1) * #{amount}
+		order by id desc	
 		]]>	
-
 	</select>
 
 	<select id="selectById" resultType="alz.board.domain.BoardDTO">
@@ -77,7 +67,7 @@
 		select count(*)
 		from alz_board
 		where 
-		<include refid="boardCriteria"></include>
+		
 			id > 0
 	</select>
 

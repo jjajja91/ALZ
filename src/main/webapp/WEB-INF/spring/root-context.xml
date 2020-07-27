@@ -77,6 +77,7 @@
     	<mybatis-spring:scan base-package="alz.order.mapper"/>
 		<mybatis-spring:scan base-package="alz.board.mapper"/>
 		<mybatis-spring:scan base-package="alz.file.mapper"/>
+		<mybatis-spring:scan base-package="alz.myPage.mapper"/>
 
 
 		
@@ -90,7 +91,8 @@
 		</context:component-scan>
 		<context:component-scan base-package="alz.file.task">
 		</context:component-scan>
-	
+     	<context:component-scan base-package="alz.myPage.service">
+		</context:component-scan>
 		
 		<tx:annotation-driven/>
 		<task:annotation-driven/>
