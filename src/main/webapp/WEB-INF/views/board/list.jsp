@@ -121,8 +121,8 @@
 			
 			// 글 목록 출력
 			getList(data, pageNum);
-			//actionForm.find("input[name='pageNum']").val($(this).attr("href"));
-			//actionForm.submit();
+			actionForm.find("input[name='pageNum']").val($(this).attr("href"));
+		    actionForm.submit();
 		});
 		
 		// 읽기 이벤트 추가
@@ -258,7 +258,7 @@
 		function boardSearch(data) {
 			return $.ajax({
 				type : "GET",
-				url : "/boards/" +data.typeId + "/" + data.pageNum + "/" + data.amount+ "/" + data.type + "/" + data.keyword + ".json",
+				url : "/boards/" +data.typeId + "/" + data.pageNum + "/" + data.amount+ ".json",
 				contentType : "application/json; charset=utf-8"
 			});
 		}

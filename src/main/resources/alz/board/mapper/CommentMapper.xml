@@ -30,7 +30,7 @@
 		</selectKey>
 		
 		insert into alz_comment (id, content, comment_code, board_id, nickname, user_id)
-		values (alz_comment_seq.nextval, #{content}, #{commentCode}, #{boardId}, #{nickname}, #{userId)
+		values (alz_comment_seq.nextval, #{content}, #{commentCode}, #{boardId}, #{nickname}, #{userId})
 	</insert>
 	
 	<insert id="insert2">
@@ -44,7 +44,7 @@
 		</selectKey>
 		
 		insert into alz_comment (id, content, comment_code, board_id, nickname, depth, user_id)
-		values (alz_comment_seq.nextval, #{content}, #{commentCode}, #{boardId}, #{nickname}, #{depth}, #{userId)
+		values (alz_comment_seq.nextval, #{content}, #{commentCode}, #{boardId}, #{nickname}, #{depth}, #{userId})
 	</insert>
 	
 	<update id="updateCnt">

@@ -98,6 +98,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 	@Override
 	public UserDTO readById(UserDTO user) {
 		UserDTO searchedUser = userMapper.selectById(user);
+		System.out.println("나옴?"+searchedUser);
 		if (searchedUser == null) {
 			System.out.println("Login Fail!!");
 		} else {
@@ -159,6 +160,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 					.setState(user.getState()).setEndAt(user.getEndAt());
 		System.out.println(searchedUser);
 		
+		searchedUser.encodePassword(passwordEncoder); //security 수정에 적용
+
 		int affectedRowCount = userMapper.updateById(searchedUser);
 		
 		if(affectedRowCount == 0 ) {

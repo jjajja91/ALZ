@@ -67,7 +67,7 @@ body {
 
   
     <lable>내가 쓴 글</lable>
-  <a href="/board/list">내 게시글</a>
+  <a href="/myPage/list">내 게시글</a>
   <a href="#services">내 댓글</a>
   <a href="#clients">내 좋아요</a>
   
@@ -166,7 +166,9 @@ body {
 					UserUpdateApi(data) 
 					.then(function(response){
 						console.log(data);
+						
 					   self.location = "/callMypage";
+					   alert("수정 완료!");
 					})			
 				} 
 				 else if(operation === 'cancle'){

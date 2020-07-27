@@ -1,8 +1,10 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@include file="../includes/header.jsp"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://www.springframework.org/security/tags"
+	prefix="sec"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,44 +17,50 @@
 
 <style>
 .preContent {
-    border: none;
-    background: none;
-    padding: 5px;
-    font-size : 100%;
+	border: none;
+	background: none;
+	padding: 5px;
+	font-size: 100%;
 }
+
 .commentDiv {
 	width: inherit;
-    position: relative;
+	position: relative;
 }
+
 .commentDropBtn {
-    font-weight: bold;
-    border: none;
-    background-color: transparent;
+	font-weight: bold;
+	border: none;
+	background-color: transparent;
 	position: absolute;
-    left: 95%;
+	left: 95%;
 	top: 0;
 }
+
 #replyTextarea {
-	width : 80%;
+	width: 80%;
 	resize: none;
 }
+
 #textAreaEdit {
-	width : 80%;
+	width: 80%;
 	resize: none;
 }
+
 #commentContent {
-	width : 90%;
+	width: 90%;
 	resize: none;
 }
-.chat, .chat li{
+
+.chat, .chat li {
 	padding-left: 0px;
-	list-style :none;
+	list-style: none;
 }
+
 .uploadResult {
 	width: 100%;
 	background-color: gray;
 }
-
 
 .uploadResult ul {
 	display: flex;
@@ -102,39 +110,43 @@
 /* body {
   font-family: "Lato", sans-serif;
 } */
-
 .sidenav {
-  width: 150px;
-  position: fixed;
-  z-index: 1;
-  top: 20px;
-  left: 10px;
-  background: #eee;
-  overflow-x: hidden;
-  padding: 8px 0;
+	width: 150px;
+	position: fixed;
+	z-index: 1;
+	top: 20px;
+	left: 10px;
+	background: #eee;
+	overflow-x: hidden;
+	padding: 8px 0;
 }
 
 .sidenav a {
-  padding: 6px 8px 6px 16px;
-  text-decoration: none;
-  font-size: 15px;
-  color: #2196F3;
-  display: block;
+	padding: 6px 8px 6px 16px;
+	text-decoration: none;
+	font-size: 15px;
+	color: #2196F3;
+	display: block;
 }
 
 .sidenav a:hover {
-  color: #064579;
+	color: #064579;
 }
 
 .main {
-  margin-left: 140px; /* Same width as the sidebar + left position in px */
-  font-size: 28px; /* Increased text to enable scrolling */
-  padding: 0px 10px;
+	margin-left: 140px;
+	/* Same width as the sidebar + left position in px */
+	font-size: 28px; /* Increased text to enable scrolling */
+	padding: 0px 10px;
 }
 
 @media screen and (max-height: 450px) {
-  .sidenav {padding-top: 15px;}
-  .sidenav a {font-size: 13px;}
+	.sidenav {
+		padding-top: 15px;
+	}
+	.sidenav a {
+		font-size: 13px;
+	}
 }
 </style>
 <script
@@ -169,43 +181,41 @@
 	rel="stylesheet">
 <script
 	src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
-    
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+
 
 </head>
 <body>
 
-<div class="sidenav">
-  <lable>결제 내역</lable>
-  <a href="#about">진행 중인 클래스</a>
-  <a href="#services">완료된 클래스</a>
-  <a href="#clients">취소/환불</a>
-  
-    <lable>관심 클래스</lable>
-  <a href="#about">찜 클래스</a>
-  <a href="#services">좋아요 클래스</a>
+	<div class="sidenav">
+		<lable>결제 내역</lable>
+		<a href="#about">진행 중인 클래스</a> <a href="#services">완료된 클래스</a> <a
+			href="#clients">취소/환불</a>
 
-  
-    <lable>내가 쓴 글</lable>
-   <a href="/board/list?writerId=${sessionUser.id}">내 게시글</a>
-  <a href="#services">내 댓글</a>
-  <a href="#clients">내 좋아요</a>
-  
-    <lable>내 정보 수정</lable>
-  <a href="/modify">개인 정보 수정</a>
-  <a href="#services">회원 탈퇴</a>
- 
-</div>
-<div class="container">
-   <h1 class="page-header">Board</h1>
-</div>
+		<lable>관심 클래스</lable>
+		<a href="#about">찜 클래스</a> <a href="#services">좋아요 클래스</a>
 
-<div class="container">     
 
-	<!-- 검색 -->
-	<div>
+		<lable>내가 쓴 글</lable>
+		<sec:authentication var="principal" property="principal" />
+		<a href="/myPage/list?writerId=${principal.id}">내 게시글</a> <a
+			href="#services">내 댓글</a> <a href="#clients">내 좋아요</a>
+
+		<lable>내 정보 수정</lable>
+		<a href="/modify">개인 정보 수정</a> <a href="#services">회원 탈퇴</a>
+
+	</div>
+	<div class="container">
+		<h1 class="page-header">Board</h1>
+	</div>
+
+	<div class="container">
+
+		<!-- 검색 -->
+		<%-- 	<div>
 		<div>
-	<%-- 		<select id='type' name='type'>
+		<select id='type' name='type'>
 				<option value="" <c:out value="${pageMaker.cri.type == null? 'selected':'' }"/>>--</option>
 				<option value="T" <c:out value="${pageMaker.cri.type == 'T'? 'selected':'' }"/>>제목</option>
 				<option value="C" <c:out value="${pageMaker.cri.type == 'C'? 'selected':'' }"/>>내용</option>
@@ -218,71 +228,76 @@
 			<input type='hidden' id='pageNum' name='pageNum' value='<c:out value="${pageMaker.cri.pageNum }"/>' />
 			<input type='hidden' id='amount' name='amount' value='<c:out value="${pageMaker.cri.amount }"/>' />
 			<input type='hidden' id='typeId' name='typeId' value='<c:out value="${pageMaker.cri.typeId }"/>' />
-			<button class='writeBtn' id='searchBtn' >Search</button> --%>
-			<button class='writeBtn' id='writeBtn' type="button">글쓰기</button>
+			<button class='writeBtn' id='searchBtn' >Search</button>
+			<button class='writeBtn' id='writeBtn' type="button">글쓰기</button> 
 		</div>
-	</div>
-	
-	<!-- 글목록 -->
-	<table class="table table-striped" id="table" >
-		<thead id="table-header">
-			<tr>
-				<th>번호</th>
-				<th>제목</th>
-				<th>작성자</th>
-				<th>작성일</th>
-				<th>조회수</th>
-			</tr>
-		</thead>
-		<tbody>
-			<c:forEach items="${list }" var="board">
+	</div> --%>
+
+		<!-- 글목록 -->
+		<table class="table table-striped" id="table">
+			<thead id="table-header">
 				<tr>
-					<td><c:out value="${board.id }" /></td>
-					<td>
-						<a class='read' href='<c:out value="${board.id }"/>'><c:out value="${board.title }"/> (<c:out value="${board.commentCnt}"/>)</a>
-					</td>
-					<td><c:out value="${board.nickname }" /></td>
-					<td><fmt:formatDate pattern="yyyy-MM-dd" value="${board.writtenAt }"/></td>
-					<td><c:out value="${board.viewCnt }"/></td>
+					<th>번호</th>
+					<th>제목</th>
+					<th>작성자</th>
+					<th>작성일</th>
+					<th>조회수</th>
 				</tr>
-			</c:forEach>
-		</tbody>
-	</table>
-	 
-	<!-- paging -->
-	<div class="page-footer">
-		<ul class="pagination pull-right">
-			<c:if test="${pageMaker.prev }">
-				<li class="paginate_button previous"><a href="${pageMaker.startPage -1 }">Previous</a></li>
-			</c:if>
-			
-			<c:forEach var="num" begin="${pageMaker.startPage }" end="${pageMaker.endPage }">
-				<li class="paginate_button ${pageMaker.cri.pageNum == num? 'active':'' }"><a href="${num }">${num }</a></li>
-			</c:forEach>
-			
-			<c:if test="${pageMaker.next }">
-				<li class="paginate_button next"><a href="${pageMaker.endPage +1 }">Next</a></li>
-			</c:if>
-		</ul>
-	</div>
-	
+			</thead>
+			<tbody>
+				<c:forEach items="${list }" var="board">
+					<tr>
+						<td><c:out value="${board.id }" /></td>
+						<td><a class='read' href='<c:out value="${board.id }"/>'><c:out
+									value="${board.title }" /> (<c:out value="${board.commentCnt}" />)</a>
+						</td>
+						<td><c:out value="${board.nickname }" /></td>
+						<td><fmt:formatDate pattern="yyyy-MM-dd"
+								value="${board.writtenAt }" /></td>
+						<td><c:out value="${board.viewCnt }" /></td>
+					</tr>
+				</c:forEach>
+			</tbody>
+		</table>
+
+		<!-- paging -->
+		<div class="page-footer">
+			<ul class="pagination pull-right">
+				<c:if test="${pageMaker.prev }">
+					<li class="paginate_button previous"><a
+						href="${pageMaker.startPage -1 }">Previous</a></li>
+				</c:if>
+
+				<c:forEach var="num" begin="${pageMaker.startPage }"
+					end="${pageMaker.endPage }">
+					<li
+						class="paginate_button ${pageMaker.cri.pageNum == num? 'active':'' }"><a
+						href="${num }">${num }</a></li>
+				</c:forEach>
+
+				<c:if test="${pageMaker.next }">
+					<li class="paginate_button next"><a
+						href="${pageMaker.endPage +1 }">Next</a></li>
+				</c:if>
+			</ul>
+		</div>
+
+
 		<form id='actionForm' action="/myPage/list" method='get'>
-			<input type='hidden' name='pageNum' value='${pageMaker.cri.pageNum}'>
-			<input type='hidden' name='amount' value='${pageMaker.cri.amount}'>
-			<%-- <input type='hidden' name='type' value='<c:out value="${pageMaker.cri.type}"/>' />
-			<input type='hidden' name='keyword' value='<c:out value="${pageMaker.cri.keyword}"/>' /> --%>
-			<input type='hidden' name='typeId' value='<c:out value="${pageMaker.cri.typeId}"/>' />
+			<input type='hidden' id='pageNum' name='pageNum' value='<c:out value="${pageMaker.cri.pageNum }"/>' />
+			<input type='hidden' id='amount' name='amount' value='<c:out value="${pageMaker.cri.amount }"/>' />
+			<input type='hidden' id='writerId' name='writerId' value='<sec:authentication property="principal.id"/>' />
 		</form>
 
-</div>
+	</div>
 
-<script type="text/javascript">
+	<script type="text/javascript">
 	$(document).ready(function() {
 		var $pageNum = $("#pageNum");
 		var $amount = $("#amount");
 		/* var $type = $("#type");
 		var $keyword = $("#keyword"); */
-		var $typeId = $("#typeId");
+		var $writerId = $("#writerId");
 		
 		var $table = $("#table");
 		
@@ -290,9 +305,9 @@
 		var data;
 		
 		// register button
-		$("#writeBtn").on("click", function() {
+	/* 	$("#writeBtn").on("click", function() {
 			self.location = "/board/write?typeId="+$typeId.val();
-		});
+		}); */
 		
 		var actionForm = $("#actionForm");
 		
@@ -303,9 +318,7 @@
 			data = {
 					pageNum : $pageNum.val(),
 					amount : $amount.val(),
-					/* type : $type.val(),
-					keyword : $keyword.val(), */
-					typeId : $typeId.val()
+					writerId : $writerId.val()
 				};
 			
 			var targetPageNum = $(this).attr("href");
@@ -313,8 +326,8 @@
 			
 			// 글 목록 출력
 			getList(data, pageNum);
-			//actionForm.find("input[name='pageNum']").val($(this).attr("href"));
-			//actionForm.submit();
+			actionForm.find("input[name='pageNum']").val($(this).attr("href"));
+			actionForm.submit();
 		});
 		
 		// 읽기 이벤트 추가
@@ -326,7 +339,7 @@
 		});
 		
 		// 검색버튼 이벤트
-		/* $("#searchBtn").on("click", function(e) {
+/* 		$("#searchBtn").on("click", function(e) {
 			e.preventDefault();
 			
 			 data = {
@@ -335,41 +348,36 @@
 					type : $type.val(),
 					keyword : $keyword.val(),
 					typeId : $typeId.val()
-				};
+				}; */
 			
 			// 검색버튼 누르면 항상 첫 페이지
-			if(data.pageNum > '1') data.pageNum='1';
+		/* 	if(data.pageNum > '1') data.pageNum='1';
 			
-			// 총 글 갯수
+			//총 글 갯수
 			getTotal(data)
 				.then(function(response){
 					totalCnt = response;
 					
-					// 페이지 번호 출력
+					//페이지 번호 출력
 					showPage(totalCnt);
 				});
 			// 글목록
 			getList(data);
-		}); */
+		});  */
 		
 		// 총 글 갯수
-		/* function getTotal(data) {
+/* 		 function getTotal(data) {
 			
 			var url;
-			
-			
 				url = "/myPage/typeId/" + data.typeId + "/type/" + data.type;
-			// 있을때
-			} else {
-				url = "/boards/typeId/" + data.typeId + "/type/" + data.type + "/keyword/" + data.keyword;
-			} 
+		
 			
 			return $.ajax({
 				type : "GET",
 				url : url
-			});
-		}
-		 */
+			}); */
+		
+		 
 		var pageFooter = $(".page-footer");
 		
 		// 페이지 번호 출력
@@ -446,20 +454,20 @@
 		}
 		
 		// 글 검색 결과
-		function boardSearch(data) {
+	function boardSearch(data) {
 			return $.ajax({
 				type : "GET",
 				url : "/myPage/" + data.pageNum + "/" + data.amount+ "/" + ".json",
 				contentType : "application/json; charset=utf-8"
 			});
-		}
+		} 
 		
 		
 		// 글목록 출력
-		function printBoardList(myPage, page) {
+		function printBoardList(boards, page) {
 			if(page == -1) {
 				pageNum = Math.ceil(totalCnt/10.0);
-				printBoardList(myPage, pageNum);
+				printBoardList(boards, pageNum);
 				return;
 			}
 			
