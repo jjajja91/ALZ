@@ -155,7 +155,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 	public UserDTO updateById(UserDTO user) {
 		UserDTO searchedUser = userMapper.selectedByUser(user);
 		searchedUser.setNickname(user.getNickname()).setPassword(user.getPassword())
-					.setRole(user.getRole()).setCertificationState(user.getCertificationState())
+					.setCertificationState(user.getCertificationState())
 					.setPhoneNumber(user.getPhoneNumber())
 					.setState(user.getState()).setEndAt(user.getEndAt());
 		System.out.println(searchedUser);

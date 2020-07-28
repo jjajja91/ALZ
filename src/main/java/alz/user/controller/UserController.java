@@ -178,7 +178,7 @@ public class UserController {
       model.addAttribute("phoneNumber", request.getParameter("phoneNumber"));
 
       // 회원가입 메서드
-      user.setRole("USER");
+      user.setRole("ROLE_USER");
       userService.create(user);
 
       return "user/anonymous/joinInfo";
