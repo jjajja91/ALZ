@@ -5,8 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import alz.order.domain.CartDTO;
-import alz.order.domain.MerchandiseCriteria;
-import alz.order.domain.MerchandiseDTO;
+import alz.order.domain.CartListDTO;
 
 public interface CartMapper {
 
@@ -33,7 +32,7 @@ public interface CartMapper {
 	public void updateCart(CartDTO cart);
 
 	// 8. 장바구니 체크 리스트
-	public CartDTO buyList(long cartId);
+	public CartListDTO buyList(long cartId);
 
 
 }

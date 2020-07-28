@@ -4,22 +4,18 @@ import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import alz.order.domain.CartDTO;
+import alz.order.domain.CartListDTO;
 import alz.order.domain.OrderDTO;
 import alz.order.service.CartService;
 import alz.order.service.MerchandiseService;
 import alz.order.service.OrderService;
-import alz.user.domain.UserDTO;
 import alz.user.service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
@@ -62,14 +58,17 @@ public class OrderPageController {
 		
 		model.addAttribute("userInfo", userService.userInfo(userId));
 		
-		List<CartDTO> list = new ArrayList<CartDTO>();
+		List<CartListDTO> list = new ArrayList<CartListDTO>();
 
+		System.out.println(cartId.length);
 		// 장바구니 목록중 선택한것 가져오기
 		for (int i = 0; i < cartId.length; i++) {
 			long no = 0;
-			CartDTO cartList = new CartDTO();
+			CartListDTO cartList = new CartListDTO();
 			no = cartId[i];
+			System.out.println("no = " + no);
 			cartList = cartService.buyList(no);
+			System.out.println("cartList = "+cartList);
 
 			list.add(cartList);
 
