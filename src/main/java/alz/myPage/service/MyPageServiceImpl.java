@@ -44,18 +44,28 @@ public class MyPageServiceImpl implements MyPageService {
 		return myPageList;
 	}
 
+	//내가 쓴 글 불러오기
+	@Override
+	public List<BoardDTO> readAll(MyPageCriteria cri) {
+		List<BoardDTO> list = MyPageMapper.selectWithPaging(cri);
+		return list;
+	}
+	
+	//내 댓글 불러오기
 	@Override
 	public List<CommentDTO> commentReadAll(MyPageCriteria cri) {
 		List<CommentDTO> list = MyPageMapper.commentSelectWithPaging(cri);
 		return list;
 	}
 	
+	//like 불러오기
 	@Override
-	public List<BoardDTO> readAll(MyPageCriteria cri) {
-		List<BoardDTO> list = MyPageMapper.selectWithPaging(cri);
-		
+	public List<BoardDTO> likeReadAll(MyPageCriteria cri) {
+		List<BoardDTO> list = MyPageMapper.likeSelectAll(cri);
 		return list;
 	}
+
+
 
 	
 	@Transactional

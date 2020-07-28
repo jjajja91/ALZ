@@ -45,23 +45,43 @@
 		]]>
 	</select>
 
-	<select id="commentSelectWithPaging" resultType="alz.board.domain.CommentDTO">
+	<select id="commentSelectWithPaging"
+		resultType="alz.board.domain.CommentDTO">
 		select id, content, written_at
-		writtenAt, updated_at updatedAt, like_cnt likeCnt,
-		comment_cnt commentCnt, comment_code commentCode, board_id boardId, nickname,
+		writtenAt, updated_at
+		updatedAt, like_cnt likeCnt,
+		comment_cnt commentCnt, comment_code
+		commentCode, board_id boardId, nickname,
 		depth, deleted, user_id userId
 		from alz_comment
 		where user_id = #{writerId}
 		order by comment_code
 	</select>
 
+	<select id="likeSelectAll"
+		resultType="alz.board.domain.BoardDTO">
+		select *
+		from alz_board b
+		join
+		(select *
+		from
+		alz_link_like_board
+		where user_id = #{writerId}
+		order by id desc )l
+		on b.id=l.board_id
+		</select>
+
+
+
 	<select id="selectById" resultType="alz.board.domain.BoardDTO">
 		select id, title, content,
 		written_at writtenAt, updated_at updatedAt, like_cnt likeCnt,
 		comment_cnt commentCnt,
-		view_cnt viewCnt, board_order boardOrder, nickname, parent_id parentId,
+		view_cnt viewCnt, board_order boardOrder,
+		nickname, parent_id parentId,
 		type_id typeId, writer_id writerId
-		from alz_board where id = #{id}
+		from
+		alz_board where id = #{id}
 	</select>
 
 	<select id="getTotalCount" resultType="int">
@@ -130,7 +150,8 @@
 		parameterType="alz.board.domain.BoardDTO">
 		update alz_board
 		set title = #{title},
-		content = #{content},
+		content =
+		#{content},
 		updated_at = sysdate
 		where id = #{id}
 	</update>

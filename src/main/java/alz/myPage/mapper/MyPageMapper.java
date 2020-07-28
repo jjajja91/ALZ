@@ -18,6 +18,8 @@ public interface MyPageMapper {
 	
 	List<CommentDTO> commentSelectWithPaging(MyPageCriteria cri);
 	
+	List<BoardDTO> likeSelectAll(MyPageCriteria cri);
+	
 	int updateById(BoardDTO board);
 	
 	int deleteById(Long id);
