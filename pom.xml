@@ -15,7 +15,7 @@
 		<org.slf4j-version>1.7.25</org.slf4j-version>
 	</properties>
 
-	<!-- ingyo -->
+<!-- ingyo -->
 	<repositories>
 		<repository>
 			<id>oracle</id>
@@ -27,11 +27,12 @@
 			<url>https://code.lds.org/nexus/content/groups/main-repo</url>
 		</repository>
 	</repositories>
-	<!-- ingyo -->
+<!-- ingyo -->
 
 	<dependencies>
-		<!-- ingyo -->
-		<!-- mail library -->
+<!-- ingyo -->
+		<!-- email인증 library -->
+		<!-- https://mvnrepository.com/artifact/javax.mail/mail -->
 		<dependency>
 			<groupId>javax.mail</groupId>
 			<artifactId>mail</artifactId>
@@ -48,19 +49,6 @@
 			<groupId>net.nurigo</groupId>
 			<artifactId>javaSDK</artifactId>
 			<version>2.2</version>
-		</dependency>
-		<!-- email인증 -->
-		<!-- https://mvnrepository.com/artifact/javax.mail/mail -->
-		<dependency>
-			<groupId>javax.mail</groupId>
-			<artifactId>mail</artifactId>
-			<version>1.4.7</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-context-support</artifactId>
-			<version>${org.springframework-version}</version>
 		</dependency>
 
 		<!-- Security -->
@@ -88,7 +76,7 @@
 			<artifactId>spring-security-taglibs</artifactId>
 			<version>5.0.6.RELEASE</version>
 		</dependency>
-		<!-- ingyo -->
+<!-- ingyo -->
 
 		<!-- firebase -->
 		<dependency>
@@ -123,7 +111,7 @@
 			<version>${org.springframework-version}</version>
 		</dependency>
 
-		<!-- ingyo -->
+<!-- ingyo -->
 		<!-- DB -->
 		<dependency>
 			<groupId>com.oracle</groupId>
@@ -141,7 +129,7 @@
 			<artifactId>commons-dbcp2</artifactId>
 			<version>2.5.0</version>
 		</dependency>
-		<!-- ingyo -->
+<!-- ingyo -->
 
 		<!-- AspectJ -->
 		<dependency>
@@ -150,7 +138,7 @@
 			<version>${org.aspectj-version}</version>
 		</dependency>
 
-		<!-- ingyo -->
+<!-- ingyo -->
 		<!-- https://mvnrepository.com/artifact/org.aspectj/aspectjweaver -->
 		<dependency>
 			<groupId>org.aspectj</groupId>
@@ -208,7 +196,7 @@
 			<artifactId>hibernate-validator</artifactId>
 			<version>6.0.7.Final</version>
 		</dependency>
-		<!-- ingyo -->
+<!-- ingyo -->
 
 		<!-- Lombok -->
 		<dependency>
@@ -255,7 +243,7 @@
 			<version>1.16</version>
 		</dependency>
 
-		<!-- ingyo -->
+<!-- ingyo -->
 		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
 			<artifactId>log4j-api</artifactId>
@@ -267,7 +255,7 @@
 			<artifactId>log4j-core</artifactId>
 			<version>2.0.1</version>
 		</dependency>
-		<!-- ingyo -->
+<!-- ingyo -->
 
 		<!-- @Inject -->
 		<dependency>
