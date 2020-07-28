@@ -17,7 +17,9 @@ public interface MyPageService {
 	List<BoardDTO> readAll();
 	List<BoardDTO> readAll(MyPageCriteria cri);
 	
-	public List<CommentDTO> commentReadAll(MyPageCriteria cri);
+	List<CommentDTO> commentReadAll(MyPageCriteria cri);
+
+	List<BoardDTO> likeReadAll(MyPageCriteria cri);
 
 	int deleteById(Long id);
 

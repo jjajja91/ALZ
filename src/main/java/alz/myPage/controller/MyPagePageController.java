@@ -75,6 +75,7 @@ public class MyPagePageController {
 
 		model.addAttribute("board", MyPageService.readById(id));
 	}
+	
 	@GetMapping("/boardList")
 	public void boardList(@RequestParam("writerId") Long writerId, MyPageCriteria cri, Model model) {
 		cri.setWriterId(writerId);
@@ -87,6 +88,14 @@ public class MyPagePageController {
 	public void commentList(@RequestParam("writerId") Long writerId, MyPageCriteria cri, Model model) {
 		cri.setWriterId(writerId);
 		model.addAttribute("list", MyPageService.commentReadAll(cri));
+        int total = MyPageService.getTotal(cri);
+		model.addAttribute("pageMaker", new MyPagePageDTO(cri, total));
+	}
+	
+	@GetMapping("/likeList")
+	public void likeList(@RequestParam("writerId") Long writerId, MyPageCriteria cri, Model model) {
+		cri.setWriterId(writerId);
+		model.addAttribute("list", MyPageService.likeReadAll(cri));
         int total = MyPageService.getTotal(cri);
 		model.addAttribute("pageMaker", new MyPagePageDTO(cri, total));
 	}
