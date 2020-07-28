@@ -64,17 +64,19 @@
 
 	<!-- 장바구니 선택 리스트 -->
 	<select id="buyList" resultType="alz.order.domain.CartDTO">
-		select 
-		
-		cartId, sjb_cart.productId, memberId, cartStock, addDate , title,
-		authorID, publisher, cateCode,  as cateName,
-		bookCover, publeYear, likeStar, bookReply, bookPrice, discountRate, bookInfo,
-		contents,
-		introImage,regdate,boardRegdate,modDate,bookStock, bookPoint, discountPrice
-		from sjb_cart
-		join sjb_book
-		on sjb_cart.productId = sjb_book.productID
-		where cartId = #{cartId};
+			SELECT c.id, c.user_id,
+		p.ID
+		,
+		m.id, p.NAME, p.ORIGIN_PRICE
+		FROM alz_user m,
+		alz_merchandise_detail p,
+		alz_cart c
+		WHERE m.id = c.user_id
+		AND p.id =
+		c.merchandise_id
+		AND
+		c.id = #{id}
+		ORDER BY c.id
 	</select>
 
 

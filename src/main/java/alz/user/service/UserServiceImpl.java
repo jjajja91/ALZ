@@ -98,6 +98,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 	@Override
 	public UserDTO readById(UserDTO user) {
 		UserDTO searchedUser = userMapper.selectById(user);
+		System.out.println("나옴?"+searchedUser);
 		if (searchedUser == null) {
 			System.out.println("Login Fail!!");
 		} else {
@@ -199,6 +200,12 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 		System.out.println(user);
 		return user;
 	}
+
+	@Override
+	public String searchId(String email) {
+		return userMapper.searchId(email);
+	}
+
 
 //	@Async
 //	@Override

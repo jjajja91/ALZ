@@ -31,5 +31,8 @@ public interface CartService {
 	// 7. 장바구니 상품수량 변경
 	public void updateCart(CartDTO cart);
 
+	// 8. 체크된 장바구니 목록
+	public CartDTO buyList(Long cartId);
+
 
 }

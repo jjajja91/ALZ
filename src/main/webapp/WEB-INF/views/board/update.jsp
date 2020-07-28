@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <%@include file="../includes/header.jsp"%>
 
 <div class="container">
@@ -23,7 +23,7 @@
 			<input type='hidden' name='typeId' id='typeId' value='<c:out value="${board.typeId }"/>'>
 
 			<input type='hidden' id='id' name='id' value='<c:out value="${board.id }"/>'>
-			<input type='hidden' id='writerId' name='writerId' value="${sessionUser.id}">
+			<input type='hidden' id='writerId' name='writerId' value='<sec:authentication property="principal.id"/>'>
 
 			<div class="form-group">
 				<label>제 목</label> <input class="form-control" id='title' name='title'
@@ -54,7 +54,7 @@
 			<button type="submit" data-oper='list' class="btn btn-info">목록</button>
 
 		</form>
-		<input type="hidden" name="nickname" id="nickname" value="${sessionUser.nickname}"/>
+		<input type="hidden" name="nickname" id="nickname" value='<sec:authentication property="principal.nickname"/>'/>
 	</div>
 
 </div>

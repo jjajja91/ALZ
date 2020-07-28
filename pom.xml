@@ -78,6 +78,13 @@
 		</dependency>
 <!-- ingyo -->
 
+		<!-- firebase -->
+		<dependency>
+			<groupId>com.google.firebase</groupId>
+			<artifactId>firebase-admin</artifactId>
+			<version>6.8.1</version>
+		</dependency>
+
 
 		<!-- Spring -->
 		<dependency>
@@ -107,10 +114,15 @@
 <!-- ingyo -->
 		<!-- DB -->
 		<dependency>
-            <groupId>com.oracle</groupId>
-            <artifactId>ojdbc6</artifactId>
-            <version>12.1.0.2</version>
-        </dependency>
+			<groupId>com.oracle</groupId>
+			<artifactId>ojdbc6</artifactId>
+			<version>12.1.0.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+			<version>${org.springframework-version}</version>
+		</dependency>
 		<!-- DB ConnectionPool -->
 		<dependency>
 			<groupId>org.apache.commons</groupId>
