@@ -67,4 +67,9 @@ public class CartServiceImpl implements CartService {
 		cartMapper.delete(cart);
 	}
 
+	@Override
+	public CartDTO buyList(Long cartId) {
+		return cartMapper.buyList(cartId);
+	}
+
 }

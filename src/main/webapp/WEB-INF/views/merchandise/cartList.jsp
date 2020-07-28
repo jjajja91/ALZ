@@ -110,47 +110,50 @@
 </body>
 <script type="text/javascript">
 	var link = document.location.href; //현재 페이지 url 
+	
+	// 체크 항목 출력 함수
+	function checked() {
+		//체크박수 갯수
+		var totalCount = $('.chkBox').length;
+		//가격총합
+		var totalPrice = 0;
+		//상품 갯수
+		var merchandiseAmount = 0;
+		//총가격(제품)
+		var total = 0;
+		//cartlist번호 값을 가진 input생성
+		var str = "";
+		for (var i = 0; i < totalCount; i++) {
+			if ($("#chkBox" + i).is(":checked")) {
+				var id = $('#id' + i).val();
+				totalPrice = parseInt(totalPrice)
+						+ parseInt($("#totalPrice" + i)
+								.val());
+				merchandiseAmount = parseInt(merchandiseAmount)
+						+ parseInt($(
+								"#merchandiseAmount" + i)
+								.val());
+				str += "<input type='hidden' id='cartId' name='cartId' value='"+id+"'>";
+			}
+		}
+
+		$("#totalPrice").html(totalPrice.toLocaleString());
+		$("#merchandiseAmount").html(merchandiseAmount);
+		total = totalPrice;
+		$("#final_total").html(total.toLocaleString());
+		$("#result_info_hidden").html(str);
+	}
+	
 	if (link.match('cart')) { // url이 cart이면
 		$("input[type=checkbox]").each(function() { //모든 체크박스 체크
 			$(this).attr('checked', true);
 		});
 
-		// 체크된 항목만 가져오기
-		// 첫 화면에 적용이 안됨 어떻게 해야하지?ㅠ
-		$("input[type=checkbox]")
-				.change(
-						function() {
-							//체크박수 갯수
-							var totalCount = $('.chkBox').length;
-							//가격총합
-							var totalPrice = 0;
-							//상품 갯수
-							var merchandiseAmount = 0;
-							//총가격(제품)
-							var total = 0;
-							//cartlist번호 값을 가진 input생성
-							var str = "";
-							for (var i = 0; i < totalCount; i++) {
-								if ($("#chkBox" + i).is(":checked")) {
-									var id = $('#id' + i).val();
-									totalPrice = parseInt(totalPrice)
-											+ parseInt($("#totalPrice" + i)
-													.val());
-									merchandiseAmount = parseInt(merchandiseAmount)
-											+ parseInt($(
-													"#merchandiseAmount" + i)
-													.val());
-									str += "<input type='hidden' id='hidden_id' name='id' value='"+id+"'>";
-								}
-							}
-
-							$("#totalPrice").html(totalPrice.toLocaleString());
-							$("#merchandiseAmount").html(merchandiseAmount);
-							total = totalPrice;
-							$("#final_total").html(total.toLocaleString());
-							$("#result_info_hidden").html(str);
-						});
+		// 체크된 항목 출력
+		$("input[type=checkbox]").change(checked());
 	}
+	
+	
 
 	$(document).ready(function() {
 		$(".listBtn").click(function() {
@@ -165,7 +168,38 @@
 				e.preventDefault();
 			}
 		});
+	
+		$("input[type=checkbox]").change(function() {
+			var totalCount = $('.chkBox').length;
+			//가격총합
+			var totalPrice = 0;
+			//상품 갯수
+			var merchandiseAmount = 0;
+			//총가격(제품)
+			var total = 0;
+			//cartlist번호 값을 가진 input생성
+			var str = "";
+			for (var i = 0; i < totalCount; i++) {
+				if ($("#chkBox" + i).is(":checked")) {
+					var id = $('#id' + i).val();
+					totalPrice = parseInt(totalPrice)
+							+ parseInt($("#totalPrice" + i)
+									.val());
+					merchandiseAmount = parseInt(merchandiseAmount)
+							+ parseInt($(
+									"#merchandiseAmount" + i)
+									.val());
+					str += "<input type='hidden' id='cartId' name='cartId' value='"+id+"'>";
+				}
+			}
 
+			$("#totalPrice").html(totalPrice.toLocaleString());
+			$("#merchandiseAmount").html(merchandiseAmount);
+			total = totalPrice;
+			$("#final_total").html(total.toLocaleString());
+			$("#result_info_hidden").html(str);
+		});
+		
 		// 체크박스 전체 체크 하기
 		$("#allCheck").click(function() {
 			var check = $('#allCheck').prop("checked");
@@ -212,7 +246,7 @@
 		
 		$(".orderBtn").click(function() {
 			//alert("클릭");
-			if($('#hidden_id').val() != null){
+			if($('#cartId').val() != null){
 				$("#order_form").attr("action","/order/orderForm");
 				$("#order_form").submit();
 			} else{
@@ -220,6 +254,8 @@
 			}
 			
 		});
+		
+		
 
 	});
 </script>

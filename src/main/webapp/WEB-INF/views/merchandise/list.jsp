@@ -3,6 +3,9 @@
 <%@include file="../includes/header.jsp"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://www.springframework.org/security/tags"
+	prefix="sec"%>
+
 
 <!DOCTYPE html>
 <html>
@@ -13,13 +16,16 @@
 	src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 </head>
 <body>
-
+<sec:authentication var="principal" property="principal" />
 	<div class="row">
 		<div class="col-lg-12">
 			<div class="panel panel-default">
 				<div class="panel-heading">
 					Board List Page
-					<button id='cartBtn' type="button" class="btn btn-xs pull-right">장바구니</button>
+					<form id='cartForm' action="/merchandise/cart" method='get'>
+						<input type="hidden" id="userId" name="userId" value="${principal.id }">
+						<button id='cartBtn' class="btn btn-xs pull-right">장바구니</button>
+					</form>
 					<button id='regBtn' type="button" class="btn btn-xs pull-right">상품
 						등록</button>
 				</div>
@@ -119,7 +125,7 @@
 
 		</ul>
 	</div>
-	
+
 	<form id='actionForm' action="/merchandise/list" method='get'>
 		<input type='hidden' name='pageNum' value='${pageMaker.cri.pageNum}'>
 		<input type='hidden' name='amount' value='${pageMaker.cri.amount}'>
@@ -128,14 +134,16 @@
 			type='hidden' name='keyword'
 			value='<c:out value="${ pageMaker.cri.keyword }"/>'>
 	</form>
-	
+
 </body>
 
 <form id='actionForm' action="/merchandise/list" method='get'>
 	<input type='hidden' name='pageNum' value='${pageMaker.cri.pageNum}'>
 	<input type='hidden' name='amount' value='${pageMaker.cri.amount}'>
-	<input type='hidden' name='type' value='<c:out value="${ pageMaker.cri.type }"/>'> 
-	<input type='hidden' name='keyword' value='<c:out value="${ pageMaker.cri.keyword }"/>'>
+	<input type='hidden' name='type'
+		value='<c:out value="${ pageMaker.cri.type }"/>'> <input
+		type='hidden' name='keyword'
+		value='<c:out value="${ pageMaker.cri.keyword }"/>'>
 </form>
 
 <script type="text/javascript">
@@ -145,10 +153,10 @@
 						$('#regBtn').click(function() {
 							location.href = "/merchandise/register";
 						});
-						
-						$('#cartBtn').click(function() {
+
+						/* $('#cartBtn').click(function() {
 							location.href = "/merchandise/cart";
-						});
+						}); */
 
 						var actionForm = $("#actionForm");
 
@@ -195,7 +203,7 @@
 											actionForm.submit();
 
 										});
-						
+
 						var searchForm = $("#searchForm");
 
 						$("#searchForm button").on(
