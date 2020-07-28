@@ -20,7 +20,6 @@ public class TeacherDTO {
 	private Long id;
 	private Long userId;
 	private String nickname;
-	private String contact;
 	private String profile;
 	private String snsType;
 	private String snsId;

@@ -18,13 +18,16 @@ import lombok.experimental.Accessors;
 @AllArgsConstructor
 public class LessonRequestDTO {
 	
-		private String name;
-		private String description;
-		private Date openAt;
-		private Date closeAt;
-		private String startAt;
-		private String endAt;
-		private Long categoryId;
-		private Long teacherId;
+	private Long teacherId;
+	private Long categoryId;
+	private String title;
+	private String lessonType;
+	private String lessonLevel;
+	private Long minStudent;
+	private Long maxStudent;
+	private Date openAt;
+	private Date closeAt;
+	private String startAt;
+	private String endAt;
 		
 }
