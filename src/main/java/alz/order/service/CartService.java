@@ -3,8 +3,7 @@ package alz.order.service;
 import java.util.List;
 
 import alz.order.domain.CartDTO;
-import alz.order.domain.MerchandiseCriteria;
-import alz.order.domain.MerchandiseDTO;
+import alz.order.domain.CartListDTO;
 
 public interface CartService {
 
@@ -30,6 +29,9 @@ public interface CartService {
 
 	// 7. 장바구니 상품수량 변경
 	public void updateCart(CartDTO cart);
+
+	// 8. 체크된 장바구니 목록
+	public CartListDTO buyList(Long cartId);
 
 
 }

@@ -31,4 +31,6 @@ public interface UserMapper {
 	UserDTO findpw(UserDTO user);
 	UserDTO selectedByUser(UserDTO user);
 
+	String searchId(String email);
+
 }

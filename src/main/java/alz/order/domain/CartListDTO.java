@@ -17,14 +17,19 @@ import lombok.experimental.Accessors;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class CartDTO {
+public class CartListDTO {
 	
 	private Long id;
 	private Long userId;
 	private Long merchandiseId;
 	private Long amount;
 	private Date addDate;
+	
+	private Long num;
 	private String name;
 	private Long originPrice;
+	private String Thumb;
+	
+	
 	
 }

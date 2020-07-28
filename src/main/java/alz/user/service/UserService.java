@@ -32,6 +32,8 @@ public interface UserService {
 	UserDTO findId(UserDTO user, HttpServletResponse response) throws IOException;
 	UserDTO findpw(UserDTO user);
 
+	String searchId(String email);
+
 //	void asyncService();
 
 }
