@@ -1,8 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
- <%@include file="../../includes/myPageNav.jsp"%>
-
+    <%@include file="../includes/myPageNav.jsp"%>
+<%@ taglib uri="http://www.springframework.org/security/tags"
+	prefix="sec"%>
 <div class="main">
 		<sec:authentication var="principal" property="principal" />
 		<h3>수정 정보 출력</h3>
@@ -145,4 +145,3 @@
 		</script>
 </body>
 </html>
-
