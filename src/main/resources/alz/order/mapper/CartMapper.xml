@@ -63,7 +63,7 @@
 	</delete>
 
 	<!-- 장바구니 선택 리스트 -->
-	<select id="buyList" resultType="alz.order.domain.CartDTO">
+	<select id="buyList" resultType="alz.order.domain.CartListDTO">
 			SELECT c.id, c.user_id,
 		p.ID
 		,
