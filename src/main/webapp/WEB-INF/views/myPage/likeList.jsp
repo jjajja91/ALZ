@@ -7,7 +7,7 @@
 <%@include file="../includes/myPageNav.jsp"%>
 <%@include file="../includes/header.jsp"%>
 	<div class="container">
-		<h1 class="page-header">내 게시글</h1>
+		<h1 class="page-header">내 좋아요</h1>
 	</div>
 
 	<div class="container">
