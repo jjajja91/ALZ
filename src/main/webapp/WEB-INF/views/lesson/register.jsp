@@ -2,55 +2,55 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-<script
-  src="https://code.jquery.com/jquery-3.5.1.min.js"
-  integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
-  crossorigin="anonymous"></script>
-</head>
-<body>
-	<form role="form" action="/class/register" method="post">
-		<div class="form-group">
-			<label>클래스이름</label> <input class="form-control" name='name'>
-		</div>
-		<div class="form-group">
-			<label>클래스설명</label>
-			<textarea class="form-control" rows="3" name='description'></textarea>
-		</div>
-		<div class="form-group">
-			<label>개강날짜</label> <input type="date" class="form-control" id="open">
-			<input type="hidden" class="form-control" name='openAt'> <label>종강날짜</label>
-			<input type="date" class="form-control" id="close"> <input type="hidden"
-				class="form-control" name='closeAt'>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
+<%@include file="../includes/header.jsp"%>
+<div class="container">
+	<h1 class="page-header">클래스 강사소개 등록</h1>
+</div>
 
+<div class="container">
+	
+	<form role="form" action="/lesson/registerTeacher" method="post">
+		<h5><strong>본인을 소개하고<br>활동중인 SNS 채널을 알려주세요</strong></h5>
+		<div class="lessonTeacherDiv">
+			<br>
+			<label>닉네임</label> 
+			<input class="form-control" name='nickname'>
+			<input type="hidden" name="userId" value='<sec:authentication property="principal.id"/>'>
+			<small>최대 15자</small>
+			
+			<br><br><br>
+			<label>활동적인 SNS 채널</label><br>
+			<select class="form-control" name="snsType" id="snsType">
+			  <option value="Instagram">Instagram</option>
+			  <option value="Youtube">Youtube</option>
+			  <option value="Facebook">Facebook</option>
+			</select>
+			
+			<br>
+			<input type="text" class="form-control" placeholder="채널 아이디를 입력해주세요 (@제외)" name="snsId">
+			<br>
+			<input type="text" class="form-control" placeholder="URL주소를 입력해주세요." name="snsUrl">
+			
+			<br><br>
+			<label>강사 소개</label><br>
+			<textarea class="form-control" placeholder="강사님이 어떤 분인지 소개해주세요" name="profile"></textarea>
 		</div>
-		<div class="form-group">
-			<label>시작시간</label> <input type="time" class="form-control"
-				name='startAt'> <label>종료시간</label> <input type="time"
-				class="form-control" name='endAt'>
-		</div>
-		<div class="form-group">
-			<label>카테고리번호</label> <input class="form-control" name='categoryId'>
-		</div>
-		<div class="form-group">
-			<label>선생님번호</label> <input class="form-control" name='teacherId'>
-		</div>
-		<button type="submit">등록</button>
-		<button type="reset">취소</button>
+		
+		<br><br><br>
+		<button type="submit">다음 ＞</button>
 	</form>
-	<script>
-		$("button[type=submit]").click(function(e){
-			var dates = $("input[type=date]");
-			var openAt = dates[0].value.replace(/-/gi,"/");
-			var closeAt = dates[1].value.replace(/-/gi,"/");
-			var hiddens = $("input:hidden");
-			hiddens[0].value = openAt;
-			hiddens[1].value = closeAt;
-		});
-	</script>
+		
+</div>
+
+<script>
+	/* $("button[type=submit]").on("click", function(e){
+
+		e.preventDefault();
+		
+		var snsList = [];
+	
+	}); */
+</script>
 </body>
 </html>

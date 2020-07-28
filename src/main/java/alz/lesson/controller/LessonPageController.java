@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import alz.lesson.domain.LessonRequestDTO;
+import alz.lesson.domain.TeacherDTO;
 import alz.lesson.service.LessonServiceImpl;
 import lombok.extern.log4j.Log4j;
 
@@ -37,15 +38,19 @@ public class LessonPageController {
 		model.addAttribute("quickReview", lessonService.quickReviewById(id));
 	}
 	
-	@PostMapping("/register")
-	public String register(LessonRequestDTO request) {
-		log.info("register: " + request);
-//		lessonService.create(request);
-		return "redirect:/class/list";
+	@PostMapping("/registerTeacher")
+	public String registerTeacher(TeacherDTO teacher) {
+		lessonService.createTeacher(teacher);
+		return "redirect:/lesson/registerBasic";
 	}
 	
 	@GetMapping("/register")
 	public void register() {
+		
+	}
+	
+	@GetMapping("/registerBasic")
+	public void registerBasic() {
 		
 	}
 

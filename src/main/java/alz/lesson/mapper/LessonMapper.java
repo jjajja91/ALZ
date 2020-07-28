@@ -13,6 +13,7 @@ import alz.lesson.domain.TeacherDTO;
 
 public interface LessonMapper {
 
+	int insertTeacher(TeacherDTO teacher);
 	int insert(LessonDTO classes);
 
 	LessonResponseDTO findById(Long id);
