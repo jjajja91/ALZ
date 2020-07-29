@@ -352,6 +352,7 @@ body {
 </head>
 
 <body>
+<sec:authentication var="principal" property="principal" />
 	<div class="container">
 		<div class="head">
 			<div class="logo">
@@ -412,6 +413,7 @@ body {
 					<sec:authorize access="isAuthenticated()">
 					<ul class="sub">
 						<li><a href="/callMypage">마이페이지</a></li>
+						<li><a href="/lesson/register?userId=${principal.id}">클래스등록</a></li>
 						<li><a href="/logout">LOGOUT</a></li>
 					</ul>
 					</sec:authorize>
