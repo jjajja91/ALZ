@@ -1,8 +1,10 @@
 package alz.myPage.mapper;
 
 import java.util.List;
-import alz.myPage.domain.MyPageCriteria;
+
 import alz.board.domain.BoardDTO;
+import alz.board.domain.CommentDTO;
+import alz.myPage.domain.MyPageCriteria;
 
 public interface MyPageMapper {
 	
@@ -13,6 +15,10 @@ public interface MyPageMapper {
 	List<BoardDTO> selectAll();
 
 	List<BoardDTO> selectWithPaging(MyPageCriteria cri);
+	
+	List<CommentDTO> commentSelectWithPaging(MyPageCriteria cri);
+	
+	List<BoardDTO> likeSelectAll(MyPageCriteria cri);
 	
 	int updateById(BoardDTO board);
 	

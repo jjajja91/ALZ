@@ -101,7 +101,7 @@
 		UPDATE alz_user
 		SET nickname = #{nickname},
 		password = #{password},
-		role = '1',
+		role = #{role},
 <!-- 		role = #{role}, -->
 		certification_State = '1',
 <!-- 		certification_State = #{certificationState}, -->

@@ -61,33 +61,45 @@ public class MyPagePageController {
 		return "redirect:/board/list?typeId=" + board.getTypeId();
 	}
 
-	@PostMapping("/update")
-	public String update(@Valid BoardDTO board, @ModelAttribute("cri") MyPageCriteria cri, RedirectAttributes rttr,
-			BindingResult result) {
-
-		MyPageService.update(board.getId(), board);
-
-		rttr.addAttribute("pageNum", cri.getPageNum());
-		rttr.addAttribute("amount", cri.getAmount());
-//		}
-		return "redirect:/board/list";
-	}
 
 	@GetMapping({ "/read", "/update" })
 	public void read(@RequestParam("id") Long id, @ModelAttribute("cri") MyPageCriteria cri, Model model) {
 		log.info("/read or update");
-
+        System.out.println("아이디디"+id);
 		model.addAttribute("board", MyPageService.readById(id));
 	}
 
-	@GetMapping("/list")
-	public void list(@RequestParam("writerId") Long writerId, MyPageCriteria cri, Model model) {
+	@GetMapping({ "/read"})
+	public void commentRead(@RequestParam("boardId") Long id, @ModelAttribute("cri") MyPageCriteria cri, Model model) {
+		log.info("/read or update");
+
+		model.addAttribute("board", MyPageService.readById(id));
+	}
+	
+	@GetMapping("/boardList")
+	public void boardList(@RequestParam("writerId") Long writerId, MyPageCriteria cri, Model model) {
 		cri.setWriterId(writerId);
 		model.addAttribute("list", MyPageService.readAll(cri));
         int total = MyPageService.getTotal(cri);
 		model.addAttribute("pageMaker", new MyPagePageDTO(cri, total));
 	}
 
+	@GetMapping("/commentList")
+	public void commentList(@RequestParam("writerId") Long writerId, MyPageCriteria cri, Model model) {
+		cri.setWriterId(writerId);
+		model.addAttribute("list", MyPageService.commentReadAll(cri));
+        int total = MyPageService.getTotal(cri);
+		model.addAttribute("pageMaker", new MyPagePageDTO(cri, total));
+	}
+	
+	@GetMapping("/likeList")
+	public void likeList(@RequestParam("writerId") Long writerId, MyPageCriteria cri, Model model) {
+		cri.setWriterId(writerId);
+		model.addAttribute("list", MyPageService.likeReadAll(cri));
+        int total = MyPageService.getTotal(cri);
+		model.addAttribute("pageMaker", new MyPagePageDTO(cri, total));
+	}
+	
 	@GetMapping("/write")
 	public void write(@RequestParam("typeId") Integer typeId, Model model, HttpSession session) {
 		if (session.getAttribute("sessionUser") == null) {

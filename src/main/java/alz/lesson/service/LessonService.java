@@ -12,6 +12,7 @@ import alz.lesson.domain.TeacherDTO;
 
 public interface LessonService {
 
+	TeacherDTO createTeacher(TeacherDTO teacher);
 	LessonDTO create(LessonRequestDTO lessons);
 	
 	LessonResponseDTO readById(Long id);

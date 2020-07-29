@@ -25,6 +25,13 @@ public class LessonServiceImpl implements LessonService {
 		this.lessonMapper = lessonMapper;
 	}
 	
+	public TeacherDTO createTeacher(TeacherDTO teacher) {
+		
+		int affectedRowCount = lessonMapper.insertTeacher(teacher);
+		
+		return teacher;
+	}
+	
 	public LessonDTO create(LessonRequestDTO lessons) 	{
 		LessonDTO lessonDTO = toEntity(lessons);
 		int affectedRowCount = lessonMapper.insert(lessonDTO);
@@ -57,6 +64,7 @@ public class LessonServiceImpl implements LessonService {
 
 	public List<LessonDTO> readAll() {
 		List<LessonDTO> lessons = lessonMapper.findAll();
+		System.out.println(lessons);
 		return lessons;
 	}
 

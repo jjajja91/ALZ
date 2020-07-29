@@ -17,24 +17,23 @@
 			<thead id="table-header">
 				<tr>
 					<th>번호</th>
-					<th>제목</th>
+					<th>댓글</th>
 					<th>작성자</th>
 					<th>작성일</th>
-					<th>조회수</th>
+					
 				</tr>
 			</thead>
 			<tbody>
-				<c:forEach items="${list }" var="board">
+				<c:forEach items="${list }" var="comment">
 					<tr>
-						<td><c:out value="${board.id }" /></td>
-						<td><a class='read' href='<c:out value="${board.id }"/>'><c:out
-									value="${board.title }" /> (<c:out value="${board.commentCnt}" />)</a>
+						<td><c:out value="${comment.id }" /></td>
+						<td><a class='read' href='<c:out value="${comment.boardId }"/>'><c:out
+									value="${comment.content }" /></a>
 						</td>
-						<td><c:out value="${board.nickname }" /></td>
+						<td><c:out value="${comment.nickname }" /></td>
 						<td><fmt:formatDate pattern="yyyy-MM-dd"
-								value="${board.writtenAt }" /></td>
-						<td><c:out value="${board.viewCnt }" /></td>
-					</tr>
+								value="${comment.writtenAt }" /></td>
+						</tr>
 				</c:forEach>
 			</tbody>
 		</table>
@@ -62,7 +61,7 @@
 		</div>
 
 
-		<form id='actionForm' action="/myPage/list" method='get'>
+		<form id='actionForm' action="/myPage/commentList" method='get'>
 			<input type='hidden' id='pageNum' name='pageNum' value='<c:out value="${pageMaker.cri.pageNum }"/>' />
 			<input type='hidden' id='amount' name='amount' value='<c:out value="${pageMaker.cri.amount }"/>' />
 			<input type='hidden' id='writerId' name='writerId' value='<sec:authentication property="principal.id"/>' />
@@ -106,6 +105,7 @@
 		// 읽기 이벤트 추가
 		$(".read").on("click", function(e) {
 			e.preventDefault();
+			console.log($(this));
 			actionForm.append("<input type='hidden' name='id' value='"+$(this).attr("href")+"'>");
 			actionForm.attr("action", "/board/read");
 			actionForm.submit();
@@ -178,7 +178,7 @@
 					// 읽기 이벤트 추가
 					$(".read").on("click", function(e) {
 						e.preventDefault();
-						actionForm.append("<input type='hidden' name='id' value='"+$(this).attr("href")+"'>");
+						actionForm.append("<input type='hidden' name='id' value='"+$(this).attr("href")+"' >");
 						actionForm.attr("action", "/board/read");
 						actionForm.submit();
 					});
@@ -223,7 +223,7 @@
 				var title = document.createElement("td");
 				var titleA = document.createElement("a");
 				titleA.setAttribute("class", "read");
-				titleA.setAttribute("href", board.id);
+				titleA.setAttribute("href", board.boardId);
 				titleA.textContent = board.title;
 				
 				title.appendChild(titleA);

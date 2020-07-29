@@ -187,6 +187,37 @@ pre {
     position: sticky;
     top: 20px;
 }
+
+.lessonMainImgDiv {
+	display: flex;
+    padding: 20px;
+}
+
+.lessonMainImgLeftDiv {
+    border: cornflowerblue dashed;
+    border-radius: 5px;
+    background-color: #eee;
+    width: 20%;
+    height: 150px;
+    text-align: center;
+}
+.lessonMainImgRightDiv {
+    padding-left: 40px;
+    width: 60%;
+}
+
+.lessonCategoryDiv {
+	display:flex;
+	padding-top: 10px;
+}
+.mainCategory{
+	width: 100px;
+	margin-left: 10px;
+}
+.subCategory{
+	width: 200px;
+	margin-left: 10px;
+}
 </style>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>

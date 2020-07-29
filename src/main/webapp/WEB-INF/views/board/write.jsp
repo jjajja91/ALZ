@@ -1,3 +1,4 @@
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
@@ -161,19 +162,18 @@
 			</c:if>
 
 			<div class="form-group">
-				<label for="title">title:</label> <input class="form-control"
-					rows="1" name="title"></input> <label for="content">content:</label>
-				<textarea id="summernote" name="content"></textarea>
-				<label>Writer:</label> <input class="form-control" rows="1"
-					name="nickname" value='<sec:authentication property="principal.nickname"/>' readonly="readonly"></input>
-				<label>boardType:</label> <input class="form-control" rows="1"
-					name="typeId" value="${typeId}" readonly="readonly"></input> <input
-					type="hidden" name="parentId" value='<c:out value="${param.pid}"/>'>
-				<input type="hidden" name="boardOrder"
-					value='<c:out value="${param.boardOrder}"/>'> <input
-					type="hidden" name="id" value='<c:out value="${param.id}"/>'>
-					
-					<input type="hidden" name="writerId" value='<sec:authentication property="principal.id"/>'>
+				<label for="title">title:</label> <input class="form-control" rows="1" name="title"></input> 
+				<label for="content">content:</label> <textarea id="summernote" name="content"></textarea>
+				<label>Writer:</label>
+				<input class="form-control" rows="1" name="nickname" value='<sec:authentication property="principal.nickname"/>' readonly="readonly"></input>
+				<label>boardType:</label> 
+				<input class="form-control" rows="1" name="typeId" value="${typeId}" readonly="readonly"></input> 
+				
+				<input type="hidden" name="parentId" value='<c:out value="${param.pid}"/>'>
+				<input type="hidden" name="boardOrder" value='<c:out value="${param.boardOrder}"/>'> 
+				<input type="hidden" name="id" value='<c:out value="${param.id}"/>'>
+				<input type="hidden" name="writerId" value='<sec:authentication property="principal.id"/>'>
+				
 				<div class="row">
 					<div class="col-lg-12">
 						<div class="panel panel-defualt">
