@@ -41,7 +41,7 @@ public class UserDTO implements UserDetails {
 	private String state;
 	private Date startAt;
 	private Date endAt;
-	private boolean ENABLED;
+	private boolean enable;
 
 	public void encodePassword(PasswordEncoder passwordEncoder) {
 		this.password = passwordEncoder.encode(this.password);
@@ -80,7 +80,7 @@ public class UserDTO implements UserDetails {
 
 	@Override
 	public boolean isEnabled() {
-		return true;
+		return this.enable;
 	}
 
 }
