@@ -35,29 +35,8 @@
 	<context:component-scan base-package="alz.order.controller" />
 	<context:component-scan base-package="alz.user.controller" />
 	<context:component-scan base-package="alz.file.controller" />
-<context:component-scan base-package="alz.myPage.controller" />
+	<context:component-scan base-package="alz.myPage.controller" />
 
-<!-- ingyo -->
-<!-- 	<interceptors>
-		<interceptor>
-		특정 페이지만 선언해서 사용할 수 있습니다. 
-			<mapping path="/user/users/Modify"/>
-			<mapping path="/user/anonymous/join"/>
-			<mapping path="/user/users/login"/>
-		
-			View 의 identity 폴더에 있는 페이지에 접근전 실행되며 예외페이지를 등록할 수 있습니다.
-			<mapping path="/identity/**"/>
-			<exclude-mapping path="/identity/anonymous/join"/>
-			<exclude-mapping path="/identity/anonymous/login"/>
-		
-			<beans:bean class="alz.user.interceptor.UserInterceptor"/>
-		</interceptor>
-	</interceptors> -->
-	
-	<!-- <security:global-method-security pre-post-annotations="enabled" secured-annotations="enabled"/> -->
-<!-- ingyo -->
-
-	
 	<beans:bean id="multipartResolver"
 		class="org.springframework.web.multipart.support.StandardServletMultipartResolver">
 	</beans:bean>

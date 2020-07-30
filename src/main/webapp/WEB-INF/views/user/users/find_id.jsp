@@ -10,7 +10,7 @@
 <script>
 	$(function(){
 		$("#loginBtn").click(function(){
-			location.href='/callLogin';
+			location.href='/login';
 		})
 	})
 </script>
@@ -24,7 +24,7 @@
 			</div>
 			<div>
 				<h5>
-					${email}
+					${ email }
 				</h5>
 				<p class="w3-center">
 					<button type="button" id=loginBtn class="w3-button w3-block w3-black w3-ripple w3-margin-top w3-round">Login</button>

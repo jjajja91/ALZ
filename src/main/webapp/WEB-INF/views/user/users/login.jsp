@@ -20,13 +20,6 @@
 	        	</td>
 			</tr>
 
-			<!-- <tr>
-				<td>NICKNAME</td>
-				<td>
-					<input type="text" name="nickname" autocomplete="off" placeholder="6~12자리 이내의 한글">
-				</td>
-			</tr> -->
-
 			<tr>
 				<td>PW</td>
 				<td>
@@ -36,9 +29,7 @@
 			<tr>
 				<td colspan="2">
 		            <button type="submit">Log In</button>
-					<!-- <a href="/callFindInfo">아이디/비번 찾기</a> -->
-					<a href="/callFindId">아이디 찾기</a>
-					<a href="/callFindpw">비번 찾기</a>
+		            <a href="/find_id_form">아디찾기</a>
 				</td>
 			</tr>
 		</table>

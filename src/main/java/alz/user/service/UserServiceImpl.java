@@ -1,15 +1,11 @@
 package alz.user.service;
 
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Async;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -18,7 +14,6 @@ import org.springframework.stereotype.Service;
 
 import alz.user.domain.UserDTO;
 import alz.user.mapper.UserMapper;
-import lombok.extern.java.Log;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
@@ -34,50 +29,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 	public UserServiceImpl(UserMapper userMapper, PasswordEncoder passwordEncoder) {
 		this.userMapper = userMapper;
 		this.passwordEncoder = passwordEncoder;
-	}
-	
-//	@Override
-//	public UserDTO findId(UserDTO user) {
-//		UserDTO searchedUser = userMapper.findId(user);
-//		
-//		if (searchedUser == null) {
-//			System.out.println("Find Fail!!");
-//		} else {
-//			System.out.println("Find Success!!");
-//		}
-//		
-//		return searchedUser;
-//	}
-	
-	@Override
-	public UserDTO findId(UserDTO user, HttpServletResponse response) throws IOException {
-		response.setContentType("text/html;charset=utf-8");
-		PrintWriter out = response.getWriter();
-		UserDTO dto = userMapper.findId(user);
-		
-		if (dto == null) {
-			out.println("<script>");
-			out.println("alert('가입된 아이디가 없습니다.');");
-			out.println("history.go(-1);");
-			out.println("</script>");
-			out.close();
-			return null;
-		} else {
-			return dto;
-		}
-	}
-	
-	@Override
-	public UserDTO findpw(UserDTO user) {
-		UserDTO searchedUser = userMapper.findpw(user);
-		
-		if (searchedUser == null) {
-			System.out.println("Find Fail!!");
-		} else {
-			System.out.println("Find Success!!");
-		}
-		
-		return searchedUser;
 	}
 	
 	@Override
@@ -174,19 +125,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 	}
 
 	@Override
-	public int deleteById(UserDTO user, HttpServletRequest request) {
-		int affectedRowCount = userMapper.deleteById(user, request);
-		
-		if(affectedRowCount == 0 ) {
-			System.out.println("Delete Fail!!");
-		} else {
-			System.out.println("Delete Success!!");
-		}
-		
-		return affectedRowCount;
-	}
-
-	@Override
 	public UserDTO userInfo(long id) {
 		return userMapper.userInfo(id);
 	}
@@ -204,6 +142,24 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 	@Override
 	public String searchId(String email) {
 		return userMapper.searchId(email);
+	}
+	
+	@Override
+	public String find_id(String nickname, String phoneNumber, HttpServletResponse response) throws Exception {
+		response.setContentType("text/html;charset=utf-8");
+		PrintWriter out = response.getWriter();
+		String email = userMapper.find_id(nickname, phoneNumber, response);
+		
+		if (email == null) {
+			out.println("<script>");
+			out.println("alert('가입된 아이디가 없습니다.');");
+			out.println("history.go(-1);");
+			out.println("</script>");
+			out.close();
+			return null;
+		} else {
+			return email;
+		}
 	}
 
 

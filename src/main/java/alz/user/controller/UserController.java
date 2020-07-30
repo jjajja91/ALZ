@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.ibatis.annotations.Param;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import alz.user.domain.UserDTO;
@@ -50,7 +52,7 @@ public class UserController {
    }
 
    // 문자를 보낼때 맵핑되는 메소드
-   @RequestMapping(value = "/sendSms.do")
+   @RequestMapping(value = "/sendSms")
    public String sendSms(HttpServletRequest request) throws Exception {
 
 //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ api키 넣기
@@ -92,16 +94,11 @@ public class UserController {
       return "/user/anonymous/Success"; // 문자 메시지 발송 성공했을때 number페이지로 이동함
    }
 
-   @RequestMapping(value = "/callFindId", method = RequestMethod.GET)
-   public String callFindId() {
-      return "/user/users/findId";
+   @GetMapping("/login")
+   public String login() {
+      return "user/users/login";
    }
-
-   @RequestMapping(value = "/callFindpw", method = RequestMethod.GET)
-   public String callFindpw() {
-      return "/user/users/findpw";
-   }
-
+   
    @RequestMapping(value = "/callMypage", method = RequestMethod.GET)
    public String callMypage() {
       return "/myPage";
@@ -112,59 +109,33 @@ public class UserController {
 
       return "/user/users/Modify";
    }
+   
+   @RequestMapping(value = "/find_id_form")
+	public String find_id_form() throws Exception {
+		return "/user/users/find_id_form";
+	}
 
-   // 아이디 찾기 로직
-   @RequestMapping(value = "/findId", method = RequestMethod.POST)
-   public String findIdAction(UserDTO user, HttpSession session, HttpServletRequest request,
-         HttpServletResponse response, Model model) throws Exception {
-
-      UserDTO dto = userService.findId(user, response);
-//      session.setAttribute("sessionUser", dto);
-
-      if (dto == null) {
-         System.out.println("일치하는 회원 정보가 없습니다.");
-         return "user/users/findId";
-      }
-      model.addAttribute("email", request.getParameter("email"));
-      return "user/users/findIdAfter";
-   }
 
    @RequestMapping(value = "/join", method = RequestMethod.GET)
    public String join() {
       return "user/anonymous/join";
    }
 
-//   @RequestMapping(value = "/findId", method = RequestMethod.POST)
-//   public String findIdAction(HttpServletResponse response, UserDTO user, HttpServletRequest request, Model model) throws Exception{
-//      UserDTO nickname = userService.findId(user);
-//      
-//      if (nickname == null) {
-//         System.out.println("일치하는 회원 정보가 없습니다.");
-//         return "user/users/findId";
-//      }
-//      model.addAttribute("email", userService.findId(user));
-//      model.addAttribute("email", request.getParameter("email"));
-//      userService.findId(user);
-//      return "user/users/findIdAfter";
-//   }
-
-   // 비밀번호 찾기 로직
-   @RequestMapping(value = "/findpw", method = RequestMethod.POST)
-   public ModelAndView findPasswordAction(HttpServletRequest request, HttpServletResponse response, UserDTO user)
-         throws Exception {
-
-      ModelAndView mv = new ModelAndView();
-      HttpSession session = request.getSession();
-      UserDTO dto = userService.findpw(user);
-
-      if (dto == null) {
-         mv.setViewName("/user/users/findpw");
-      } else {
-         mv.setViewName("/user/users/findpwAfter");
-      }
-      mv.addObject("password", request.getParameter("password"));
-//      String referer = (String)request.getHeader("REFERER");
-      return mv;
+//위에는 페이지로 보내주는
+//------------------------------------------------------------------
+//아래는 로직
+   
+   // 아이디 찾기 로직
+   @RequestMapping(value = "/find_id", method = RequestMethod.POST)
+   public String find_id(@RequestParam("nickname") String nickname,  @Param("phoneNumber") String phoneNumber, HttpServletResponse response, Model md)
+		   throws Exception {
+	   
+	   if (nickname == null && phoneNumber == null) {
+		   System.out.println("일치하는 회원 정보가 없습니다.");
+		   return "user/users/find_id_form";
+	   }
+	   md.addAttribute("email", userService.find_id(nickname, phoneNumber, response));
+	   return "user/users/find_id";
    }
 
    // 회원가입 페이지에서 버튼을 누르면 @RequestMapping을 찾아 실행한다.
@@ -203,23 +174,6 @@ public class UserController {
       return mv;
    }
 
-   @RequestMapping(value = "/deleteById", method = RequestMethod.GET)
-   public String Delete(HttpServletRequest request) {
-
-      HttpSession session = request.getSession();
-      UserDTO user = (UserDTO) session.getAttribute("sessionUser");
-
-      userService.deleteById(user, request);
-      session.invalidate();
-
-      return "user/users/logout";
-   }
-
-   @GetMapping("/login")
-   public String login() {
-      return "user/users/login";
-   }
-
 //   @GetMapping("/async-handler")
 //   @ResponseBody
 //   public Callable<String> asyncHandler() {
@@ -237,23 +191,6 @@ public class UserController {
 //      userService.asyncService();
 //      SecurityLogger.log("MVC, after async service");
 //      return "Async Service";
-//   }
-
-//   //로그인 시 session.setAttribute( "세션 호출 명", 세션에 담을 값 ); 
-//   @RequestMapping(value = "/login", method = RequestMethod.POST)
-//   public String login(UserDTO user, HttpSession session, HttpServletRequest request) {
-//
-//      UserDTO dto = userService.readById(user);
-//      session.setAttribute("sessionUser", dto);
-//
-//      if (dto == null) {
-//         System.out.println("로그인 정보가 틀렸습니다.");
-//         return "user/users/login";
-//      }
-//
-//         String referer = (String)request.getHeader("REFERER");
-//         
-//      return "user/users/loggedInfo";
 //   }
 
 }
