@@ -14,15 +14,19 @@ public interface LessonService {
 
 	TeacherDTO createTeacher(TeacherDTO teacher);
 	LessonDTO create(LessonRequestDTO lessons);
+
+	TeacherDTO teacherByUserId(Long userId);
+	List<LessonRequestDTO> lessonsByTeacherId(Long teacherId);
 	
-	LessonResponseDTO readById(Long id);
-	List<CurriculumSubjectDTO> curriculumById(Long id);
-	TeacherDTO teacherById(Long id);
-	List<QuickReviewDTO> quickReviewById(Long id);
+	LessonResponseDTO readByLessonId(Long id);
+	List<CurriculumSubjectDTO> curriculumByLessonId(Long id);
+	TeacherDTO teacherByLessonId(Long id);
+	List<QuickReviewDTO> quickReviewByLessonId(Long id);
 	
 	List<LessonDTO> readAll();
-	
+
 	LessonDTO updateById(Long id, LessonDTO lessons);
+	TeacherDTO updateTeacher(TeacherDTO teacher);
 	
 	int deleteById(Long id);
 	
