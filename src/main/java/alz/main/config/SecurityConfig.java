@@ -72,7 +72,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	public void configure(HttpSecurity http) throws Exception {
 //		http.addFilterBefore(new LoggingFilter(), WebAsyncManagerIntegrationFilter.class);
 
-		http.authorizeRequests().antMatchers("/", "/users/**", "/resources/**", "/join", "/create").permitAll()
+		http.authorizeRequests().antMatchers("/", "/users/**", "/resources/**", "/join", "/create", "/find_id_form", "/find_id").permitAll()
 		.anyRequest().authenticated()
         .expressionHandler(expressionHandler());
 

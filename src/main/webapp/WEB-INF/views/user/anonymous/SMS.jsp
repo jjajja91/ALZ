@@ -6,8 +6,8 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<form method="post" action="sendSms.do">
-<!-- 	<form method="post" action="sendSms.do" id="smsForm"> -->
+	<form method="post" action="sendSms">
+<!-- 	<form method="post" action="sendSms" id="smsForm"> -->
 		<ul>
 			<li>보낼사람 : <input type="text" name="from" placeholder="전화번호 입력 ( '-' 포함 )" /></li>
 			<li>내용 : <textarea name="text" placeholder="보낼 내용 입력 "></textarea></li>
@@ -21,7 +21,7 @@
 	<!-- <script>
 		function sendSMS(pageName) {
 			console.log("문자를 전송합니다.");
-			$("#smsForm").attr("action", pageName + ".do");
+			$("#smsForm").attr("action", pageName);
 			$("#smsForm").submit();
 		}
 	</script> -->

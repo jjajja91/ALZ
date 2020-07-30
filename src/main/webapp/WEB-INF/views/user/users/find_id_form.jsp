@@ -11,19 +11,20 @@
 <body>
 	<div class="w3-content w3-container w3-margin-top">
 		<div class="w3-container w3-card-4">
-			<form action="findId" method="post">
+			<form action="/find_id" method="post">
 				<div class="w3-center w3-large w3-margin-top">
 					<h3>아이디 찾기</h3>
 				</div>
 				<div>
 					<p>
-						<label>닉네임</label>
+						<label>NICKNAME</label>
 						<input class="w3-input" type="text" id="nickname" name="nickname" required>
 					</p>
 					<p>
-						<label>전화번호</label>
+						<label>PHONENUMBER</label>
 						<input class="w3-input" type="text" id="phoneNumber" name="phoneNumber" required>
 					</p>
+					
 					<p class="w3-center">
 						<button type="submit" id=findBtn class="w3-button w3-block w3-black w3-ripple w3-margin-top w3-round">find</button>
 						<button type="button" onclick="history.go(-1);" class="w3-button w3-block w3-black w3-ripple w3-margin-top w3-margin-bottom w3-round">Cancel</button>

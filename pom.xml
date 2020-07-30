@@ -44,6 +44,11 @@
 			<artifactId>spring-context-support</artifactId>
 			<version>${org.springframework-version}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-email</artifactId>
+			<version>1.1</version>
+		</dependency>
 		<!-- SMS인증 -->
 		<dependency>
 			<groupId>net.nurigo</groupId>

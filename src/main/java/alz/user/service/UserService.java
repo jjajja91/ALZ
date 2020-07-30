@@ -1,10 +1,10 @@
 package alz.user.service;
 
-import java.io.IOException;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.apache.ibatis.annotations.Param;
 
 import alz.user.domain.UserDTO;
 
@@ -22,17 +22,15 @@ public interface UserService {
 
 	UserDTO updateById(UserDTO user);
 
-	int deleteById(UserDTO user, HttpServletRequest request);
-	
 	int emailChk(String email);
 	
 	int nicknameChk(String nickname);
 	
 	UserDTO userInfo(long id);
-	UserDTO findId(UserDTO user, HttpServletResponse response) throws IOException;
-	UserDTO findpw(UserDTO user);
 
 	String searchId(String email);
+	
+	String find_id(@Param("nickname") String nickname, @Param("phoneNumber") String phoneNumber, HttpServletResponse response) throws Exception;
 
 //	void asyncService();
 

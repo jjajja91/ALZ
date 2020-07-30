@@ -24,7 +24,7 @@ public class MailController {
    }
 	
 	// mailSending 코드
-	@RequestMapping(value = "mailSending.do")
+	@RequestMapping(value = "mailSending")
 	public String mailSending(HttpServletRequest request
 //			, MultipartHttpServletRequest multi
 			) {
@@ -55,7 +55,7 @@ public class MailController {
 		}
 		
 		return "user/anonymous/Success";
-//		return "redirect:/main.do";
+//		return "redirect:/main";
 	}
 	
 //	@Autowired

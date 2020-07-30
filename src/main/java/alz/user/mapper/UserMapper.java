@@ -2,7 +2,9 @@ package alz.user.mapper;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.ibatis.annotations.Param;
 
 import alz.user.domain.UserDTO;
 
@@ -20,17 +22,16 @@ public interface UserMapper {
 
 	int updateById(UserDTO user);
 
-	int deleteById(UserDTO user, HttpServletRequest request);
-	
 	int emailChk(String email);
 
 	int nicknameChk(String nickname);
 	
 	UserDTO userInfo(Long id);
-	UserDTO findId(UserDTO user);
-	UserDTO findpw(UserDTO user);
+
 	UserDTO selectedByUser(UserDTO user);
 
 	String searchId(String email);
+	
+	String find_id(@Param("nickname") String nickname, @Param("phoneNumber") String phoneNumber, HttpServletResponse response) throws Exception;
 
 }
