@@ -5,10 +5,9 @@ import java.util.List;
 import alz.board.domain.BoardDTO;
 import alz.board.domain.CommentDTO;
 import alz.myPage.domain.MyPageCriteria;
+import alz.user.domain.UserDTO;
 
 public interface MyPageMapper {
-	
-	int insert(BoardDTO board);
 	
 	BoardDTO selectById(Long id);
 	
@@ -20,22 +19,18 @@ public interface MyPageMapper {
 	
 	List<BoardDTO> likeSelectAll(MyPageCriteria cri);
 	
-	int updateById(BoardDTO board);
-	
-	int deleteById(Long id);
-
 	int getTotalCount(MyPageCriteria cri);
-
-	int replyInsert(BoardDTO board);
-
-	int rereplyInsert(BoardDTO board);
-	
-	int insertReply(BoardDTO board);
 
 	Long getCommentsCnt(Long boardId);
 
 	Long getLikeCnt(Long boardId);
 
 	void addLike();
+
+	UserDTO selectByUserId(UserDTO user);
+
+	int deleteAcc(Long id);
+	
+	int updateEnable(Long id);
 
 }

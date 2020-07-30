@@ -3,17 +3,17 @@ package alz.myPage.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import alz.myPage.domain.MyPageCriteria;
 import alz.board.domain.BoardDTO;
 import alz.board.domain.CommentDTO;
-import alz.board.domain.LikeDTO;
-import alz.myPage.mapper.MyPageMapper;
 import alz.board.mapper.LikeMapper;
-import alz.file.domain.BoardFileDTO;
 import alz.file.mapper.BoardFileMapper;
+import alz.myPage.domain.MyPageCriteria;
+import alz.myPage.mapper.MyPageMapper;
+import alz.user.domain.UserDTO;
 import lombok.extern.log4j.Log4j;
 
 @Log4j
@@ -21,14 +21,12 @@ import lombok.extern.log4j.Log4j;
 public class MyPageServiceImpl implements MyPageService {
 
 	private MyPageMapper MyPageMapper;
-	private BoardFileMapper boardFileMapper;
-	private LikeMapper likeMapper;
+	private PasswordEncoder passwordEncoder;
 
 	@Autowired
-	public MyPageServiceImpl(MyPageMapper MyPageMapper, BoardFileMapper boardFileMapper, LikeMapper likeMapper) {
+	public MyPageServiceImpl(MyPageMapper MyPageMapper, PasswordEncoder passwordEncoder) {
 		this.MyPageMapper = MyPageMapper;
-		this.boardFileMapper = boardFileMapper;
-		this.likeMapper = likeMapper;
+		this.passwordEncoder = passwordEncoder;
 	}
 
 
@@ -66,28 +64,32 @@ public class MyPageServiceImpl implements MyPageService {
 	}
 
 
-
-	
-	@Transactional
-	@Override
-	public int deleteById(Long id) {
-		boardFileMapper.deleteAll(id);
-		int affectedRowCount = MyPageMapper.deleteById(id);
-
-		return affectedRowCount;
-	}
-
 	@Override
 	public int getTotal(MyPageCriteria cri) {
 		int total = MyPageMapper.getTotalCount(cri);
 		return total;
 	}
 
+    //탈퇴 전 비밀번호 확인 
 	@Override
-	public List<BoardFileDTO> getFileList(Long boardId) {
-		log.info("get File list by board_id" + boardId);
-		return boardFileMapper.findByBoardId(boardId);
+	public boolean selectById(UserDTO user) {
+		UserDTO pwdChk = MyPageMapper.selectByUserId(user);
+				
+		return passwordEncoder.matches(user.getPassword(),pwdChk.getPassword());
 	}
+
+	//탈퇴
+	@Transactional
+	@Override
+	public int DeleteAcc(Long id) {
+		int deleteAcc = 0;
+		deleteAcc += MyPageMapper.deleteAcc(id);
+		deleteAcc += MyPageMapper.updateEnable(id);
+		return deleteAcc;
+	}
+
+	
+
 
 
 }

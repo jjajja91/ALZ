@@ -6,25 +6,25 @@ import java.nio.file.Paths;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import alz.board.domain.BoardDTO;
 import alz.board.exceptions.NoUserException;
 import alz.file.domain.BoardFileDTO;
 import alz.myPage.domain.MyPageCriteria;
 import alz.myPage.domain.MyPagePageDTO;
 import alz.myPage.service.MyPageService;
+import alz.user.domain.UserDTO;
 import lombok.extern.log4j.Log4j;
 
 @Controller
@@ -33,47 +33,41 @@ import lombok.extern.log4j.Log4j;
 public class MyPagePageController {
 
 	private MyPageService MyPageService;
+	private PasswordEncoder passwordEncoder;
 
 	@Autowired
-	public MyPagePageController(MyPageService MyPageService) {
+	public MyPagePageController(MyPageService MyPageService, PasswordEncoder passwordEncoder) {
 		this.MyPageService = MyPageService;
+		this.passwordEncoder = passwordEncoder;
+	}
+	
+	//회원 탈퇴
+	@PostMapping("/deleteAcc")
+	public String delete(UserDTO user, RedirectAttributes attr) {
+		String result ="";
+	    if (MyPageService.selectById(user)) {	
+	    	 int deleteAcc = MyPageService.DeleteAcc(user.getId());
+	    		 if(deleteAcc != 0) {
+	 				result = "redirect:/logout";
+	    		 } 
+	    		
+			}  else {
+			attr.addAttribute("verify", "no");
+			result = "redirect:/myPage/deleteAccResult";
+			}
+		return result;
 	}
 
-//	@GetMapping("/list")
-//	public void list(Model model) {
-//		System.out.println("들어와?");
-//		model.addAttribute("list", MyPageService.readAll());
-//	}
-
-	@PostMapping("/delete")
-	public String delete(@RequestParam("id") Long id, @ModelAttribute("cri") MyPageCriteria cri,
-			RedirectAttributes rttr) {
-		List<BoardFileDTO> fileList = MyPageService.getFileList(id);
-		BoardDTO board = MyPageService.readById(id);
-		if (MyPageService.deleteById(id) == 1) {
-			deleteFiles(fileList);
-			rttr.addFlashAttribute("result", "success");
-		}
-
-		rttr.addAttribute("pageNum", cri.getPageNum());
-		rttr.addAttribute("amount", cri.getAmount());
-
-		return "redirect:/board/list?typeId=" + board.getTypeId();
-	}
-
-
-	@GetMapping({ "/read", "/update" })
-	public void read(@RequestParam("id") Long id, @ModelAttribute("cri") MyPageCriteria cri, Model model) {
-		log.info("/read or update");
-        System.out.println("아이디디"+id);
-		model.addAttribute("board", MyPageService.readById(id));
-	}
-
-	@GetMapping({ "/read"})
-	public void commentRead(@RequestParam("boardId") Long id, @ModelAttribute("cri") MyPageCriteria cri, Model model) {
-		log.info("/read or update");
-
-		model.addAttribute("board", MyPageService.readById(id));
+	@PostMapping("/modifyAcc")
+	public String modifyAcc(UserDTO user, RedirectAttributes attr) {
+		String result ="";
+	     if (MyPageService.selectById(user)) {	
+	    	 	result = "redirect:/modify";
+			}  else {
+			attr.addAttribute("verify", "no");
+			result = "redirect:/myPage/modifyAccResult";
+			}
+		return result;
 	}
 	
 	@GetMapping("/boardList")
@@ -100,35 +94,27 @@ public class MyPagePageController {
 		model.addAttribute("pageMaker", new MyPagePageDTO(cri, total));
 	}
 	
-	@GetMapping("/write")
-	public void write(@RequestParam("typeId") Integer typeId, Model model, HttpSession session) {
-		if (session.getAttribute("sessionUser") == null) {
-			throw new NoUserException();
-		}
-		model.addAttribute("typeId", typeId);
+	 @GetMapping("/deleteAcc")
+	 public String deleteAcc() {
+
+	  return "/myPage/deleteAccount";
+	}
+	 
+	 @GetMapping("/modifyAcc")
+	 public String modifyAcc() {
+
+	  return "/myPage/pwdChk";
+	}
+	 
+	 @GetMapping(value = "/deleteAccResult")
+	 public String deleteAccResult(@RequestParam String verify) {
+	
+	  return "myPage/deleteAccount";
 	}
 
-	private void deleteFiles(List<BoardFileDTO> fileList) {
-
-		if (fileList == null || fileList.size() == 0) {
-			return;
-		}
-		log.info("delete board files.................");
-		log.info(fileList);
-
-		fileList.forEach(file -> {
-			try {
-				Path files = Paths
-						.get("C:\\upload\\" + file.getUploadPath() + "\\" + file.getUuid() + "_" + file.getFileName());
-				Files.deleteIfExists(files);
-				if (Files.probeContentType(files).startsWith("image")) {
-					Path thumbNail = Paths.get(
-							"C:\\upload\\" + file.getUploadPath() + "\\s_" + file.getUuid() + "_" + file.getFileName());
-					Files.delete(thumbNail);
-				}
-			} catch (Exception e) {
-				log.error("delete file error" + e.getMessage());
-			}
-		});
+	 @GetMapping(value = "/modifyAccResult")
+	 public String modifyAccResult(@RequestParam String verify) {
+		 
+	  return "myPage/pwdChk";
 	}
 }
