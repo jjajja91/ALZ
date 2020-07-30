@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.validation.BindingResult;
 
 import alz.myPage.domain.MyPageCriteria;
+import alz.user.domain.UserDTO;
 import alz.board.domain.BoardDTO;
 import alz.board.domain.CommentDTO;
 import alz.board.domain.LikeDTO;
@@ -21,10 +22,9 @@ public interface MyPageService {
 
 	List<BoardDTO> likeReadAll(MyPageCriteria cri);
 
-	int deleteById(Long id);
-
 	int getTotal(MyPageCriteria cri);
 	
-	public List<BoardFileDTO> getFileList(Long boardId);
+	boolean selectById(UserDTO user);
 
+	int DeleteAcc(Long id);
 }
