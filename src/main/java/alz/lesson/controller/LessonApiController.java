@@ -20,7 +20,7 @@ import alz.lesson.domain.LessonResponseDTO;
 import alz.lesson.service.LessonServiceImpl;
 
 @RestController
-@RequestMapping("/api/lessons")
+@RequestMapping("/lessons")
 public class LessonApiController {
 
 	private LessonServiceImpl lessonService;
@@ -36,10 +36,11 @@ public class LessonApiController {
 		return ResponseEntity.status(HttpStatus.CREATED).body("");
 	}
 	
+	// 자동완성 클래스 선택
 	@GetMapping("/{id}")
 	public ResponseEntity<?> readOne(@PathVariable Long id){
-		LessonResponseDTO searchedClass = lessonService.readById(id);
-		return ResponseEntity.status(HttpStatus.OK).body("");
+		LessonResponseDTO searchedLessons = lessonService.readByLessonId(id);
+		return ResponseEntity.status(HttpStatus.OK).body(searchedLessons);
 	}
 	
 	@GetMapping

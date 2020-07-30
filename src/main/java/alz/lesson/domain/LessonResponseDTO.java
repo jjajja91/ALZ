@@ -25,6 +25,8 @@ public class LessonResponseDTO {
 	@NotEmpty
 	private Long teacherId;
 	private Long categoryId;
+	private Long main;
+	private Long sub; 
 	private String categoryName;
 	private String title;
 	private String lessonType;

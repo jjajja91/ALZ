@@ -15,26 +15,27 @@
 		<div class="lessonTeacherDiv">
 			<br>
 			<label>닉네임</label> 
-			<input class="form-control" name='nickname'>
+			<input class="form-control" id='nickname' name='nickname' value='<c:out value="${teacher.nickname }"/>'>
 			<input type="hidden" name="userId" value='<sec:authentication property="principal.id"/>'>
+			<input type="hidden" name="id" value='<c:out value="${teacher.id }"/>'>
 			<small>최대 15자</small>
 			
 			<br><br><br>
 			<label>활동적인 SNS 채널</label><br>
 			<select class="form-control" name="snsType" id="snsType">
-			  <option value="Instagram">Instagram</option>
-			  <option value="Youtube">Youtube</option>
-			  <option value="Facebook">Facebook</option>
+			  <option value="Instagram" <c:if test="${teacher.snsType eq 'instagram'}"> selected="selected" </c:if>>Instagram</option>
+			  <option value="Youtube" <c:if test="${teacher.snsType eq 'Youtube'}"> selected="selected" </c:if>>Youtube</option>
+			  <option value="Facebook" <c:if test="${teacher.snsType eq 'Facebook'}"> selected="selected" </c:if>>Facebook</option>
 			</select>
 			
 			<br>
-			<input type="text" class="form-control" placeholder="채널 아이디를 입력해주세요 (@제외)" name="snsId">
+			<input type="text" class="form-control" placeholder="채널 아이디를 입력해주세요 (@제외)" name="snsId" value='<c:out value="${teacher.snsId }"/>'>
 			<br>
-			<input type="text" class="form-control" placeholder="URL주소를 입력해주세요." name="snsUrl">
+			<input type="text" class="form-control" placeholder="URL주소를 입력해주세요." name="snsUrl" value='<c:out value="${teacher.snsUrl }"/>'>
 			
 			<br><br>
 			<label>강사 소개</label><br>
-			<textarea class="form-control" placeholder="강사님이 어떤 분인지 소개해주세요" name="profile"></textarea>
+			<textarea class="form-control" placeholder="강사님이 어떤 분인지 소개해주세요" name="profile"><c:out value="${teacher.profile }" /></textarea>
 		</div>
 		
 		<br><br><br>

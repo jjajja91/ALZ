@@ -26,9 +26,7 @@ public class LessonServiceImpl implements LessonService {
 	}
 	
 	public TeacherDTO createTeacher(TeacherDTO teacher) {
-		
 		int affectedRowCount = lessonMapper.insertTeacher(teacher);
-		
 		return teacher;
 	}
 	
@@ -38,27 +36,40 @@ public class LessonServiceImpl implements LessonService {
 //		LessonDTO openedClass = lessonMapper.findById(lessonDTO.getId());
 		return lessonDTO;
 	}
+	
+	// 강사 등록할 때
+	public TeacherDTO teacherByUserId(Long userId) {
+		TeacherDTO teacher = lessonMapper.findTeacherByUserId(userId);
+		return teacher;
+	}
 
-	public LessonResponseDTO readById(Long id) {
-		LessonResponseDTO searchedLessons = lessonMapper.findById(id);
+	// 클래스 기본정보 등록
+	public List<LessonRequestDTO> lessonsByTeacherId(Long teacherId) {
+		List<LessonRequestDTO> lessonList = lessonMapper.lessonsByTeacherId(teacherId);
+		return lessonList;
+	}
+
+	// 클래스 세부
+	public LessonResponseDTO readByLessonId(Long id) {
+		LessonResponseDTO searchedLessons = lessonMapper.findByLessonId(id);
 		return searchedLessons;
 	}
 
 	// 커리큘럼 
-	public List<CurriculumSubjectDTO> curriculumById(Long id) {
-		List<CurriculumSubjectDTO> curriculumSubject = lessonMapper.findCurriculumById(id);
+	public List<CurriculumSubjectDTO> curriculumByLessonId(Long id) {
+		List<CurriculumSubjectDTO> curriculumSubject = lessonMapper.findCurriculumByLessonId(id);
 		return curriculumSubject;
 	}
 	
 	// 강사
-	public TeacherDTO teacherById(Long id) {
-		TeacherDTO teacher = lessonMapper.findTeacherById(id);
+	public TeacherDTO teacherByLessonId(Long id) {
+		TeacherDTO teacher = lessonMapper.findTeacherByLessonId(id);
 		return teacher;
 	}
 	
 	// 한줄평
-	public List<QuickReviewDTO> quickReviewById (Long id) {
-		List<QuickReviewDTO> quickReview = lessonMapper.findQuickReviewById(id);
+	public List<QuickReviewDTO> quickReviewByLessonId (Long id) {
+		List<QuickReviewDTO> quickReview = lessonMapper.findQuickReviewByLessonId(id);
 		return quickReview;
 	}	
 
@@ -75,6 +86,11 @@ public class LessonServiceImpl implements LessonService {
 //		searchedLessons.setState(lessons.getState()).setCategoryId(lessons.getCategoryId());
 //		int affectedRowCount = lessonMapper.updateById(searchedLessons);
 		return null;
+	}
+	
+	public TeacherDTO updateTeacher(TeacherDTO teacher) {
+		int affectedRowCount = lessonMapper.updateTeacher(teacher);
+		return teacher;
 	}
 
 	public int deleteById(Long id) {
