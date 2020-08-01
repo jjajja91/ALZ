@@ -1,18 +1,20 @@
 package alz.order.mapper;
 
-import java.util.List;
-
+import alz.order.domain.OrderAllDTO;
 import alz.order.domain.OrderDTO;
 import alz.order.domain.OrderDetailDTO;
 
 public interface OrderMapper {
-	
-	public List<OrderDTO> listMyOrderGoods(OrderDTO orderDTO);
 
-	public void insertNewOrder(List<OrderDTO> myOrderList);
+	public void removeCart(Long userId);
 
-	public void removeGoodsFromCart(List<OrderDTO> myOrderList);
+	public void insertOrder(OrderDTO order);
 
-	public OrderDTO findMyOrder(long id);
+	public void insertOrderDetail(OrderDetailDTO order);
+
+	// 
+	public void addOrder(OrderAllDTO orderAll);
+
+	public void addOrderDetail(OrderAllDTO orderAll);
 
 }

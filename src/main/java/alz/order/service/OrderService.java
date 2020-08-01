@@ -1,13 +1,15 @@
 package alz.order.service;
 
-import java.util.List;
-
+import alz.order.domain.OrderAllDTO;
 import alz.order.domain.OrderDTO;
 import alz.order.domain.OrderDetailDTO;
 
 public interface OrderService {
 
-	public List<OrderDTO> listMyOrderGoods(OrderDTO OrderDTO) throws Exception;
-	public void addNewOrder(List<OrderDTO> myOrderList) throws Exception;
-	public OrderDTO findMyOrder(long id) throws Exception;
+	public void insertOrder(OrderDTO order) throws Exception;
+	public void insertOrderDetail(OrderDetailDTO order) throws Exception;
+	public void removeCart(Long userId) throws Exception;
+	
+	public void addOrder(OrderAllDTO orderAll) throws Exception;
+	
 }
