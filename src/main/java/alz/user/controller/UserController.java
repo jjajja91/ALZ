@@ -199,18 +199,14 @@ public class UserController {
    public Map<String, String> requestKakao(HttpSession session) {
 	   
 	   	String clientId = "bbee380452a4341a2b39cba2ef0bdefe"; 
- 
 		String redirectUrl = "http://localhost:8080/kakao/oauth";
-		
 		String kakaoLoginUrl = 	"https://kauth.kakao.com/oauth/authorize?" + 
 								"client_id=" + clientId + 
 								"&redirect_uri=" + redirectUrl + 
-								"&response_type=code";
+								"&response_type=code";	
 		
 		Map<String, String> map = new HashMap<String, String>();
-		
 		map.put("url", kakaoLoginUrl);
-		
 		return map;
    }
    
@@ -240,18 +236,14 @@ public class UserController {
 		session.setAttribute("state", state); 
 		
 		String clientId = "ukX6QVXRUc7_8u8KKks7";
-		
 		String redirectUrl = URLEncoder.encode("http://localhost:8080/naver/oauth", "UTF-8");
-		
 		String naverLoginUrl = 	"https://nid.naver.com/oauth2.0/authorize?response_type=code" + 
 								"&client_id=" + clientId + 
 								"&redirect_uri=" + redirectUrl + 
 								"&state="+(String)session.getAttribute("state");
-		
+
 		Map<String, String> map = new HashMap<String, String>();
-		
 		map.put("url", naverLoginUrl);
-		
 		return map;
    }
    

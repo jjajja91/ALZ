@@ -1,26 +1,18 @@
 package alz.myPage.controller;
 
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.List;
-
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import alz.board.exceptions.NoUserException;
-import alz.file.domain.BoardFileDTO;
 import alz.myPage.domain.MyPageCriteria;
 import alz.myPage.domain.MyPagePageDTO;
 import alz.myPage.service.MyPageService;
@@ -39,6 +31,13 @@ public class MyPagePageController {
 	public MyPagePageController(MyPageService MyPageService, PasswordEncoder passwordEncoder) {
 		this.MyPageService = MyPageService;
 		this.passwordEncoder = passwordEncoder;
+	}
+	
+	public UserDTO getLoginUserInfo() {
+		SecurityContext context = SecurityContextHolder.getContext();
+		Authentication auth = context.getAuthentication();
+		UserDTO userInfo = (UserDTO)auth.getPrincipal();
+		return userInfo;
 	}
 	
 	//회원 탈퇴
@@ -71,24 +70,24 @@ public class MyPagePageController {
 	}
 	
 	@GetMapping("/boardList")
-	public void boardList(@RequestParam("writerId") Long writerId, MyPageCriteria cri, Model model) {
-		cri.setWriterId(writerId);
+	public void boardList(MyPageCriteria cri, Model model) {
+		cri.setWriterId(getLoginUserInfo().getId());
 		model.addAttribute("list", MyPageService.readAll(cri));
         int total = MyPageService.getTotal(cri);
 		model.addAttribute("pageMaker", new MyPagePageDTO(cri, total));
 	}
 
 	@GetMapping("/commentList")
-	public void commentList(@RequestParam("writerId") Long writerId, MyPageCriteria cri, Model model) {
-		cri.setWriterId(writerId);
+	public void commentList(MyPageCriteria cri, Model model) {
+		cri.setWriterId(getLoginUserInfo().getId());
 		model.addAttribute("list", MyPageService.commentReadAll(cri));
         int total = MyPageService.getTotal(cri);
 		model.addAttribute("pageMaker", new MyPagePageDTO(cri, total));
 	}
 	
 	@GetMapping("/likeList")
-	public void likeList(@RequestParam("writerId") Long writerId, MyPageCriteria cri, Model model) {
-		cri.setWriterId(writerId);
+	public void likeList(MyPageCriteria cri, Model model) {
+		cri.setWriterId(getLoginUserInfo().getId());
 		model.addAttribute("list", MyPageService.likeReadAll(cri));
         int total = MyPageService.getTotal(cri);
 		model.addAttribute("pageMaker", new MyPagePageDTO(cri, total));
