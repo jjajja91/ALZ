@@ -1,4 +1,4 @@
-package alz.order.domain;
+package alz.lesson.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -8,19 +8,20 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
-@Setter
 @Getter
+@Setter
 @Builder
-@Accessors(chain = true)
+@Accessors(chain=true)
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class OrderDetailDTO {
-
+public class CategoryDTO {
+	
 	private Long id;
-	private String orderId;
-	private Long merchandiseId;
-	private Long amount;
-	private Long userId;
+	private Long main;
+	private Long sub;
+	private String name;
+	private String description;
+	private String total;
 	
 }

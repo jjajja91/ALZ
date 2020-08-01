@@ -120,6 +120,8 @@
 										class="btn btn-default">수정</button>
 									<button type="submit" data-oper='remove' class="btn btn-danger">삭제</button>
 									<button type="submit" data-oper='list' class="btn btn-info">목록</button>
+								</td>
+							</tr>
 						</table>
 
 						<input type='hidden' name='pageNum'
@@ -174,7 +176,6 @@
 								var typeTag = $("input[name='type']").clone();
 								var keywordTag = $("input[name='keyword']")
 										.clone();
-
 
 								formObj.empty();
 

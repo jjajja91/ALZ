@@ -16,7 +16,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import alz.order.domain.CartDTO;
 import alz.order.service.CartService;
-import alz.user.domain.UserDTO;
 import alz.user.service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
@@ -31,18 +30,20 @@ public class CartController {
 	private UserService userService;
 
 	// 장바구니 페이지 연결
-	@GetMapping("/cartList")
-	public void cartList() {
-	}
+//	@GetMapping("/cartList")
+//	public void cartList(Principal pr, OrderDTO order, OrderDetailDTO orderDetail) throws Exception {
+//
+//	}
 
+	
 	// 장바구니 추가
 	@PostMapping("/cartInsert")
 	@ResponseBody
-	public  String addCart(Principal pr, @ModelAttribute CartDTO cart, @RequestParam("id") long id) {
-		
+	public String addCart(Principal pr, @ModelAttribute CartDTO cart, @RequestParam("id") long id) {
+
 		String user = userService.searchId(pr.getName());
 		long userId = Long.parseLong(user);
-		
+
 		cart.setUserId(userId);
 
 		String result = "false";
@@ -56,7 +57,7 @@ public class CartController {
 			cartService.insertCart(cart);
 			result = "true";
 		}
-		
+
 		return result;
 	}
 
@@ -66,10 +67,10 @@ public class CartController {
 
 		// 장바구니 정보를 담을 map 생성
 		Map<String, Object> map = new HashMap<String, Object>();
-		
+
 		String user = userService.searchId(pr.getName());
 		long userId = Long.parseLong(user);
-		
+
 		cart.setUserId(userId);
 
 		List<CartDTO> list = cartService.listCart(userId); // 장바구니 정보
@@ -103,7 +104,7 @@ public class CartController {
 
 		String user = userService.searchId(pr.getName());
 		long userId = Long.parseLong(user);
-		
+
 		String result = "0";
 		long id = 0;
 
@@ -119,6 +120,6 @@ public class CartController {
 		}
 		log.info(id);
 		return result;
-		
+
 	}
 }
