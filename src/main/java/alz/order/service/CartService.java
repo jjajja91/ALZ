@@ -2,6 +2,8 @@ package alz.order.service;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import alz.order.domain.CartDTO;
 import alz.order.domain.CartListDTO;
 
@@ -32,6 +34,9 @@ public interface CartService {
 
 	// 8. 체크된 장바구니 목록
 	public CartListDTO buyList(Long cartId);
+	
+	public CartListDTO findCartId(long merchandiseId, long userId);
+	
 
 
 }

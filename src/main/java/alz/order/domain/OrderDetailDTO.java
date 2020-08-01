@@ -1,7 +1,5 @@
 package alz.order.domain;
 
-import java.util.Date;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -20,9 +18,9 @@ import lombok.experimental.Accessors;
 public class OrderDetailDTO {
 
 	private Long id;
-	private Long orderId;
-	private Long MerchandiseName;
-	private Long MerchandiseId;
-	private String orderState;
+	private String orderId;
+	private Long merchandiseId;
+	private Long amount;
+	private Long userId;
 	
 }

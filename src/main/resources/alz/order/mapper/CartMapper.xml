@@ -78,6 +78,15 @@
 		c.id = #{id}
 		ORDER BY c.id
 	</select>
+	
+	<select id="findCartId" resultType="alz.order.domain.CartListDTO">
+		SELECT alz_cart.id, alz_cart.user_id, alz_merchandise_detail.ID, alz_merchandise_detail.NAME, alz_merchandise_detail.ORIGIN_PRICE
+		FROM alz_cart
+        INNER JOIN alz_merchandise_detail
+        ON alz_cart.merchandise_id =  alz_merchandise_detail.id
+        WHERE alz_merchandise_detail.id = #{merchandiseId} and alz_cart.user_id = #{userId}
+		
+	</select>
 
 
 </mapper>
