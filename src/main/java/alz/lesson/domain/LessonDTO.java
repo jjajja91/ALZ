@@ -25,9 +25,12 @@ public class LessonDTO {
 	@NotEmpty
 	private Long teacherId;
 	private Long categoryId;
+	private Long main;
+	private Long sub; 
 	private String categoryName;
 	private String title;
 	private String lessonType;
+	private String lessonLevelId;
 	private String lessonLevel;
 	private Long minStudent;
 	private Long maxStudent;
@@ -37,5 +40,6 @@ public class LessonDTO {
 	private Date closeAt;
 	private String startAt;
 	private String endAt;
+	private String detail;
 	
 }

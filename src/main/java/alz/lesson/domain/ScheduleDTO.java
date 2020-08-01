@@ -1,6 +1,7 @@
 package alz.lesson.domain;
 
 import java.sql.Date;
+import java.util.List;
 
 import javax.validation.constraints.NotEmpty;
 
@@ -19,24 +20,10 @@ import lombok.experimental.Accessors;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class LessonResponseDTO {
+public class ScheduleDTO {
 
 	private Long id;
 	@NotEmpty
-	private Long teacherId;
-	private Long categoryId;
-	private String categoryName;
-	private String title;
-	private String lessonType;
-	private String lessonLevel;
-	private Long minStudent;
-	private Long maxStudent;
-	private Long currentStudent;
-	private String state;
-	private Date openAt;
-	private Date closeAt;
-	private String startAt;
-	private String endAt;
-	private String detail;
-	
+	private Long lessonId;
+	private List<timeTableDTO> timeList;
 }
