@@ -33,6 +33,9 @@ public interface CartMapper {
 
 	// 8. 장바구니 체크 리스트
 	public CartListDTO buyList(long cartId);
+	
+	
+	public CartListDTO findCartId(@Param("merchandiseId") long merchandiseId, @Param("userId") long userId);
 
 
 }

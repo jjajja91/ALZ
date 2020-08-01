@@ -1,11 +1,10 @@
 package alz.order.service;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import alz.order.domain.MerchandiseDTO;
+import alz.order.domain.OrderAllDTO;
 import alz.order.domain.OrderDTO;
 import alz.order.domain.OrderDetailDTO;
 import alz.order.mapper.OrderMapper;
@@ -21,21 +20,30 @@ public class OrderServiceImpl implements OrderService {
 		this.orderMapper = orderMapper;
 	}
 
-	public List<OrderDTO> listMyOrderGoods(OrderDTO OrderDTO) throws Exception{
-		List<OrderDTO> orderGoodsList;
-		orderGoodsList=orderMapper.listMyOrderGoods(OrderDTO);
-		return orderGoodsList;
-	}
 	
-	public void addNewOrder(List<OrderDTO> myOrderList) throws Exception{
-		orderMapper.insertNewOrder(myOrderList);
-		//카트에서 주문 상품 제거한다.
-		orderMapper.removeGoodsFromCart(myOrderList);
-	}	
-	
-	public OrderDTO findMyOrder(long id) throws Exception{
-		return orderMapper.findMyOrder(id);
+	@Override
+	public void insertOrder(OrderDTO order) throws Exception {
+		orderMapper.insertOrder(order);
 	}
+
+	@Override
+	public void insertOrderDetail(OrderDetailDTO order) throws Exception {
+		orderMapper.insertOrderDetail(order);
+	}
+
+	@Override
+	public void removeCart(Long userId) throws Exception {
+		orderMapper.removeCart(userId);
+	}
+
+
+	@Transactional
+	@Override
+	public void addOrder(OrderAllDTO orderAll) throws Exception {
+		orderMapper.addOrder(orderAll);
+		orderMapper.addOrderDetail(orderAll);
+	}
+
 
 
 

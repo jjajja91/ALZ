@@ -57,6 +57,7 @@
 													value='<c:out value="${merchandise.originPrice }"/>'>
 												<input type="hidden" id="userId" name="userId"
 													value="${principal.id }">
+													<input type='hidden' id='cartId' name='cartId' value="${merchandise.id }">
 
 											<button type="submit" class="buy">구매하기</button>
 											</form>

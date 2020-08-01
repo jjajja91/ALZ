@@ -1,4 +1,9 @@
-package alz.order.domain;
+package alz.lesson.domain;
+
+import java.sql.Date;
+import java.util.List;
+
+import javax.validation.constraints.NotEmpty;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -8,19 +13,17 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
-@Setter
 @Getter
+@Setter
 @Builder
-@Accessors(chain = true)
+@Accessors(chain=true)
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class OrderDetailDTO {
+public class ScheduleDTO {
 
 	private Long id;
-	private String orderId;
-	private Long merchandiseId;
-	private Long amount;
-	private Long userId;
-	
+	@NotEmpty
+	private Long lessonId;
+	private List<timeTableDTO> timeList;
 }

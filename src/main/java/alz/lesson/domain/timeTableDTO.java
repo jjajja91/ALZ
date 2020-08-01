@@ -1,12 +1,13 @@
 package alz.lesson.domain;
 
-import java.util.Date;
+import javax.validation.constraints.NotEmpty;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 import lombok.experimental.Accessors;
 
 
@@ -16,18 +17,11 @@ import lombok.experimental.Accessors;
 @Accessors(chain=true)
 @NoArgsConstructor
 @AllArgsConstructor
-public class LessonRequestDTO {
-	
-	private Long teacherId;
-	private Long categoryId;
-	private String title;
-	private String lessonType;
-	private String lessonLevel;
-	private Long minStudent;
-	private Long maxStudent;
-	private Date openAt;
-	private Date closeAt;
+@ToString
+public class timeTableDTO {
+
+	private Long lessonDate;
 	private String startAt;
 	private String endAt;
-		
+	
 }

@@ -67,4 +67,10 @@ public class CartServiceImpl implements CartService {
 		return cartMapper.buyList(cartId);
 	}
 
+	@Override
+	public CartListDTO findCartId(long merchandiseId, long userId) {
+		return cartMapper.findCartId(merchandiseId, userId);
+	}
+
+
 }
