@@ -14,8 +14,16 @@
 	DELETE FROM alz_board_file WHERE uuid = #{uuid}
 </delete>
 
+<delete id="deleteAll">
+	DELETE FROM alz_board_file WHERE board_id = #{boardId}
+</delete>
+
 <select id="findByBoardId" resultType="alz.file.domain.BoardFileDTO">
 	SELECT * FROM alz_board_file WHERE board_id = #{boardId}
+</select>
+
+<select id="getOldFiles" resultType="alz.file.domain.BoardFileDTO">
+	SELECT * FROM alz_board_file WHERE uploadpath = to_char(sysdate -1, 'yyyy\mm\dd')
 </select>
 
 </mapper>

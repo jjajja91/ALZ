@@ -4,28 +4,57 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import alz.board.domain.BoardCriteria;
 import alz.board.domain.BoardDTO;
+import alz.board.domain.LikeDTO;
 import alz.board.mapper.BoardMapper;
+import alz.board.mapper.LikeMapper;
+import alz.file.domain.BoardFileDTO;
+import alz.file.mapper.BoardFileMapper;
+import lombok.extern.log4j.Log4j;
 
+@Log4j
 @Service
 public class BoardServiceImpl implements BoardService {
-	
 
 	private BoardMapper boardMapper;
-	
+	private BoardFileMapper boardFileMapper;
+	private LikeMapper likeMapper;
+
 	@Autowired
-	public BoardServiceImpl(BoardMapper boardMapper) {
+	public BoardServiceImpl(BoardMapper boardMapper, BoardFileMapper boardFileMapper, LikeMapper likeMapper) {
 		this.boardMapper = boardMapper;
+		this.boardFileMapper = boardFileMapper;
+		this.likeMapper = likeMapper;
 	}
 
+	@Transactional
 	@Override
-	public BoardDTO create(BoardDTO board) {
-	int boardRowCnt = boardMapper.insert(board);
-	BoardDTO createBoard = boardMapper.selectById(board.getId());
-		return createBoard;
-		
+	public void create(BoardDTO board) {
+	  if (board.getParentId() == null) {
+			boardMapper.insert(board);
+	} else if (board.getParentId() == 0) {
+			boardMapper.replyInsert(board);
+			boardMapper.insertReply(board);
+			
+		} else  {
+			board.setParentId(board.getId());
+			boardMapper.rereplyInsert(board);
+			boardMapper.insertReply(board);
+			boardMapper.insertReply(board);
+
+		}
+		if (board.getFileList() == null || board.getFileList().size() <= 0) {
+			return;
+		}
+
+		board.getFileList().forEach(file -> {
+			file.setBoardId(board.getId());
+			boardFileMapper.insert(file);
+		});
+
 	}
 
 	@Override
@@ -37,12 +66,14 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public List<BoardDTO> readAll() {
 		List<BoardDTO> boards = boardMapper.selectAll();
+
 		return boards;
 	}
-	
+
 	@Override
 	public List<BoardDTO> readAll(BoardCriteria cri) {
 		List<BoardDTO> list = boardMapper.selectWithPaging(cri);
+		
 		return list;
 	}
 
@@ -53,21 +84,32 @@ public class BoardServiceImpl implements BoardService {
 		int affectedRowCount = boardMapper.updateById(searchedBoard);
 		return searchedBoard;
 	}
-	
-	@Override
-	public boolean update(Long id, BoardDTO board) {
-		BoardDTO searchedBoard = boardMapper.selectById(id);
-		searchedBoard.setTitle(board.getTitle()).setContent(board.getContent());
-		int affectedRowCount = boardMapper.updateById(searchedBoard);
-		
-		return affectedRowCount==1;
-	}
 
 	@Override
-	public int deleteById(Long id) {
+	public boolean update(Long id, BoardDTO board) {
+		log.info("modify....." + board);
+		boardFileMapper.deleteAll(id);
+
 		BoardDTO searchedBoard = boardMapper.selectById(id);
+		searchedBoard.setTitle(board.getTitle()).setContent(board.getContent()).setFileList(board.getFileList());
+		boolean modifyResult = boardMapper.updateById(searchedBoard) == 1;
+
+		if (modifyResult && board.getFileList() != null && board.getFileList().size() > 0) {
+			board.getFileList().forEach(file -> {
+				file.setBoardId(id);
+				boardFileMapper.insert(file);
+			});
+		}
+
+		return modifyResult;
+	}
+
+	@Transactional
+	@Override
+	public int deleteById(Long id) {
+		boardFileMapper.deleteAll(id);
 		int affectedRowCount = boardMapper.deleteById(id);
-		
+
 		return affectedRowCount;
 	}
 
@@ -75,6 +117,38 @@ public class BoardServiceImpl implements BoardService {
 	public int getTotal(BoardCriteria cri) {
 		int total = boardMapper.getTotalCount(cri);
 		return total;
+	}
+
+	@Override
+	public List<BoardFileDTO> getFileList(Long boardId) {
+		log.info("get File list by board_id" + boardId);
+		return boardFileMapper.findByBoardId(boardId);
+	}
+
+	@Override
+	public Long getCommentsCnt(Long id) {
+		return boardMapper.getCommentsCnt(id);
+	}
+
+	@Override
+	public Long getLikeCnt(Long id) {
+		return boardMapper.getLikeCnt(id);
+	}
+
+	@Override
+	public void addLike(LikeDTO like) {
+		BoardDTO board = new BoardDTO();
+		likeMapper.addLike(like);
+	}
+
+	@Override
+	public boolean isLike(LikeDTO likeDTO) {
+		return likeMapper.getLike(likeDTO)==null ? false : true; 
+	}
+
+	@Override
+	public boolean removeLike(LikeDTO likeDTO) {
+		return likeMapper.removeLike(likeDTO)==0 ? false : true;
 	}
 
 }

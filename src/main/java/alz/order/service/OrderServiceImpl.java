@@ -2,43 +2,42 @@ package alz.order.service;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import alz.order.domain.MerchandiseDTO;
 import alz.order.domain.OrderDTO;
+import alz.order.domain.OrderDetailDTO;
+import alz.order.mapper.OrderMapper;
 
 @Service
 public class OrderServiceImpl implements OrderService {
 
-	//mapper 가져올 것
+	// mapper 가져올 것
+	private OrderMapper orderMapper;
+
+	@Autowired
+	public OrderServiceImpl(OrderMapper orderMapper) {
+		this.orderMapper = orderMapper;
+	}
+
+	public List<OrderDTO> listMyOrderGoods(OrderDTO OrderDTO) throws Exception{
+		List<OrderDTO> orderGoodsList;
+		orderGoodsList=orderMapper.listMyOrderGoods(OrderDTO);
+		return orderGoodsList;
+	}
 	
-	@Override
-	public OrderDTO create(OrderDTO order) {
-		// TODO Auto-generated method stub
-		return null;
+	public void addNewOrder(List<OrderDTO> myOrderList) throws Exception{
+		orderMapper.insertNewOrder(myOrderList);
+		//카트에서 주문 상품 제거한다.
+		orderMapper.removeGoodsFromCart(myOrderList);
+	}	
+	
+	public OrderDTO findMyOrder(long id) throws Exception{
+		return orderMapper.findMyOrder(id);
 	}
 
-	@Override
-	public OrderDTO readById(Long id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
-	@Override
-	public List<OrderDTO> readAll() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
-	@Override
-	public OrderDTO updateById(Long id, OrderDTO order) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public int deleteById(Long id) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 
 }

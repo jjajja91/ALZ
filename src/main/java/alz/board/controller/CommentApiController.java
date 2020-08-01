@@ -2,9 +2,14 @@ package alz.board.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,11 +19,18 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import alz.board.domain.BoardCriteria;
+import alz.board.domain.BoardDTO;
 import alz.board.domain.CommentDTO;
+import alz.board.exceptions.TemporaryServerException;
+import alz.board.exceptions.UnsatisfiedContentException;
 import alz.board.service.CommentService;
+import lombok.AllArgsConstructor;
+import lombok.extern.log4j.Log4j;
 
 @RestController
 @RequestMapping("/comments")
+@Log4j
 public class CommentApiController {
 	
 	private CommentService commentService;
@@ -28,27 +40,58 @@ public class CommentApiController {
 		this.commentService = commentService;
 	}
 	
-	@PostMapping
-	public ResponseEntity<?> create(@RequestBody CommentDTO comment){
-		CommentDTO registerComment = commentService.create(comment);
-		return ResponseEntity.status(HttpStatus.CREATED).body(registerComment);
+	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<?> create(@RequestBody @Valid CommentDTO comment, BindingResult result){
+		if(result.hasErrors()) {
+			FieldError error = result.getFieldError();
+			if(result.getFieldError().getCode().indexOf("NotNull")!=-1)
+				throw new TemporaryServerException(error);
+			else throw new UnsatisfiedContentException(error);
+		} else {
+			commentService.create(comment);
+		}
+		
+		return ResponseEntity.status(HttpStatus.CREATED).body(comment);
 	}
 	
-	@GetMapping("/{id}")
-	public ResponseEntity<?> readOne(@PathVariable Long id){
-		CommentDTO searchedComment = commentService.readById(id);
-		return ResponseEntity.status(HttpStatus.OK).body(searchedComment);
+	@PostMapping(value = "/reComment", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<?> create2(@RequestBody @Valid CommentDTO comment, BindingResult result){
+		if(result.hasErrors()) {
+			FieldError error = result.getFieldError();
+			if(result.getFieldError().getCode().indexOf("NotNull")!=-1)
+				throw new TemporaryServerException(error);
+			else throw new UnsatisfiedContentException(error);
+		} else {
+			commentService.create2(comment);
+		}
+		return ResponseEntity.status(HttpStatus.CREATED).body(comment);
 	}
 	
 	@GetMapping()
-	public ResponseEntity<?> readAll() {
-		List<CommentDTO> comments = commentService.readAll();
+	public ResponseEntity<?> readOne(@PathVariable("boardId") Long boardId){
+		CommentDTO searchedComment = commentService.readById(boardId);
+		return ResponseEntity.status(HttpStatus.OK).body(searchedComment);
+	}
+	
+	@GetMapping(value = "/{boardId}",
+			produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_UTF8_VALUE})
+	public ResponseEntity<?> readAll(@PathVariable("boardId") Long boardId) {
+		List<CommentDTO> comments = commentService.readAll(boardId);
 		return ResponseEntity.status(HttpStatus.OK).body(comments);
 	}
 	
-	@PutMapping("/{id}")
-	public ResponseEntity<?> updateOne(@PathVariable Long id, CommentDTO comment){
-		CommentDTO updatedComment = commentService.updateById(id, comment);
+	@PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<?> updateOne(@PathVariable Long id, @RequestBody @Valid CommentDTO comment, BindingResult result){
+		CommentDTO updatedComment;
+		if(result.hasErrors()) {
+			FieldError error = result.getFieldError();
+			if(result.getFieldError().getCode().indexOf("NotNull")!=-1)
+				throw new TemporaryServerException(error);
+			else throw new UnsatisfiedContentException(error);
+		} else {
+			updatedComment = commentService.updateById(id, comment);
+		}
+
 		return ResponseEntity.status(HttpStatus.OK).body(updatedComment);
 	}
 	

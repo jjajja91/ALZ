@@ -20,4 +20,16 @@ public interface BoardMapper {
 
 	int getTotalCount(BoardCriteria cri);
 
+	int replyInsert(BoardDTO board);
+
+	int rereplyInsert(BoardDTO board);
+	
+	int insertReply(BoardDTO board);
+
+	Long getCommentsCnt(Long boardId);
+
+	Long getLikeCnt(Long boardId);
+
+	void addLike();
+
 }

@@ -7,20 +7,24 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 import lombok.experimental.Accessors;
 
-@Getter
 @Setter
+@Getter
 @Builder
-@Accessors(chain=true)
+@Accessors(chain = true)
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class OrderDTO {
 
 	private Long id;
-	private Date orderAt;
-	private Long price;
-	private String state;
 	private Long userId;
+	private String name;
+	private String phone;
+	private String method;
+	private String state;
+	private Date orderAt;
 	
 }

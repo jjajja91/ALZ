@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="alz.myPage.mapper.MyPageMapper">
+
+	<!-- <sql id="myPageCriteria"> <trim prefix="(" suffix=") AND " prefixOverrides="OR"> 
+		<foreach collection="typeArr" item='type'> <trim prefix="OR"> <choose> <when 
+		test="type == 'T'.toString()"> title like '%'||#{keyword}||'%' </when> <when 
+		test="type == 'C'.toString()"> content like '%'||#{keyword}||'%' </when> 
+		<when test="type == 'W'.toString()"> nickname like '%'||#{keyword}||'%' </when> 
+		</choose> </trim> </foreach> </trim> </sql> - -->
+		
+	<select id="selectAll" resultType="alz.board.domain.BoardDTO">
+		<![CDATA[
+			select id, title, content, written_at writtenAt, updated_at updatedAt, like_cnt likeCnt, 
+					comment_cnt commentCnt, view_cnt viewCnt, board_order boardOrder, nickname, 
+					parent_id parentId, type_id typeId, writer_id writerId  
+			from alz_board 
+			where  writer_id =  #{writerId}
+			
+		]]>
+	</select>
+
+	<select id="selectWithPaging"
+		resultType="alz.board.domain.BoardDTO">
+	<![CDATA[
+          select id, title, content, writtenAt, updatedAt, likeCnt, commentCnt, viewCnt,
+               boardOrder, nickname, parentId, typeId, writerId  
+            from (select rownum, rn, id, title, content, writtenAt, updatedAt, likeCnt, commentCnt, 
+                         viewCnt, boardOrder, nickname, parentId, typeId, writerId 
+                 from (select rownum rn, id, title, content, writtenAt, updatedAt, likeCnt, commentCnt, 
+                            viewCnt, boardOrder, nickname, parentId, typeId, writerId
+                        from (select id, title, content, written_at writtenAt, updated_at updatedAt, 
+                                     like_cnt likeCnt, comment_cnt commentCnt, view_cnt viewCnt,
+                                     board_order boardOrder, nickname, parent_id parentId, type_id typeId, writer_id writerId 
+                               from alz_board
+                         where writer_id = #{writerId}
+                           order by id desc)
+                     where rownum <= #{pageNum} * #{amount} )
+			)
+		where 		
+       	rn > (#{pageNum} -1) * #{amount}
+		order by id desc	
+		]]>
+	</select>
+
+	<select id="commentSelectWithPaging"
+		resultType="alz.board.domain.CommentDTO">
+		select id, content, written_at
+		writtenAt, updated_at
+		updatedAt, like_cnt likeCnt,
+		comment_cnt commentCnt, comment_code
+		commentCode, board_id boardId, nickname,
+		depth, deleted, user_id userId
+		from alz_comment
+		where user_id = #{writerId}
+		order by comment_code
+	</select>
+
+	<select id="likeSelectAll"
+		resultType="alz.board.domain.BoardDTO">
+		select *
+		from alz_board b
+		join
+		(select *
+		from
+		alz_link_like_board
+		where user_id = #{writerId}
+		order by id desc )l
+		on
+		b.id=l.board_id
+	</select>
+
+
+	<select id="selectById" resultType="alz.board.domain.BoardDTO">
+		select id, title, content,
+		written_at writtenAt, updated_at updatedAt, like_cnt likeCnt,
+		comment_cnt commentCnt,
+		view_cnt viewCnt, board_order boardOrder,
+		nickname, parent_id parentId,
+		type_id typeId, writer_id writerId
+		from
+		alz_board where id = #{id}
+	</select>
+
+	<select id="getTotalCount" resultType="int">
+		select count(*)
+		from
+		alz_board
+		where
+
+		id > 0
+	</select>
+
+	<select id="getCommentsCnt" resultType="long">
+		select comment_cnt from
+		alz_board where id = #{id}
+	</select>
+
+	<select id="getLikeCnt" resultType="long">
+		select like_cnt from
+		alz_board where id = #{id}
+	</select>
+
+	<select id="selectByUserId" resultType="alz.user.domain.UserDTO">
+		select *
+		from alz_user
+		where id = #{id} 
+	</select>
+
+   <insert id="deleteAcc">
+       insert into alz_user_state (id, state) values (#{id}, '탈퇴')
+   
+   </insert>
+
+	<update id="updateEnable" parameterType="alz.user.domain.UserDTO">
+		update alz_user
+		set enable = 0
+		where id = #{id}
+	</update>
+</mapper>

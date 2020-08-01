@@ -2,12 +2,16 @@ package alz.board.service;
 
 import java.util.List;
 
+import org.springframework.validation.BindingResult;
+
 import alz.board.domain.BoardCriteria;
 import alz.board.domain.BoardDTO;
+import alz.board.domain.LikeDTO;
+import alz.file.domain.BoardFileDTO;
 
 public interface BoardService {
 	
-	BoardDTO create(BoardDTO board);
+	void create(BoardDTO board);
 
 	BoardDTO readById(Long id);
 
@@ -20,5 +24,17 @@ public interface BoardService {
 	int deleteById(Long id);
 
 	int getTotal(BoardCriteria cri);
+	
+	public List<BoardFileDTO> getFileList(Long boardId);
+
+	Long getCommentsCnt(Long id);
+
+	Long getLikeCnt(Long id);
+
+	void addLike(LikeDTO like);
+
+	boolean isLike(LikeDTO likeDTO);
+
+	boolean removeLike(LikeDTO likeDTO);
 
 }
