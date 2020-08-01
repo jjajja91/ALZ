@@ -5,6 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -16,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import alz.order.domain.CartDTO;
 import alz.order.service.CartService;
+import alz.user.domain.UserDTO;
 import alz.user.service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
@@ -35,14 +39,20 @@ public class CartController {
 //
 //	}
 
+	public UserDTO getLoginUserInfo() {
+		SecurityContext context = SecurityContextHolder.getContext();
+		Authentication auth = context.getAuthentication();
+		UserDTO userInfo = (UserDTO)auth.getPrincipal();
+		return userInfo;
+	}
+	
 	
 	// 장바구니 추가
 	@PostMapping("/cartInsert")
 	@ResponseBody
-	public String addCart(Principal pr, @ModelAttribute CartDTO cart, @RequestParam("id") long id) {
+	public String addCart( @ModelAttribute CartDTO cart, @RequestParam("id") long id) {
 
-		String user = userService.searchId(pr.getName());
-		long userId = Long.parseLong(user);
+		long userId = getLoginUserInfo().getId();
 
 		cart.setUserId(userId);
 
@@ -63,13 +73,12 @@ public class CartController {
 
 	// 장바구니 처리
 	@GetMapping("/cart")
-	public ModelAndView list(Principal pr, @ModelAttribute CartDTO cart, ModelAndView mav) {
+	public ModelAndView list(@ModelAttribute CartDTO cart, ModelAndView mav) {
 
 		// 장바구니 정보를 담을 map 생성
 		Map<String, Object> map = new HashMap<String, Object>();
 
-		String user = userService.searchId(pr.getName());
-		long userId = Long.parseLong(user);
+		long userId = getLoginUserInfo().getId();
 
 		cart.setUserId(userId);
 
@@ -88,9 +97,8 @@ public class CartController {
 
 	// 장바구니 삭제(x버튼)
 	@GetMapping("delete")
-	public String delete(Principal pr, @RequestParam long id) {
-		String userId = userService.searchId(pr.getName());
-		System.out.println(userId);
+	public String delete(@RequestParam long id) {
+		System.out.println(getLoginUserInfo().getId());
 		cartService.deleteCart(id);
 		return "redirect:/merchandise/cart";
 	}
@@ -98,12 +106,12 @@ public class CartController {
 	// 장바구니 삭제(체크박스)
 	@PostMapping("delete")
 	@ResponseBody
-	public String deleteCart(Principal pr, @RequestParam(value = "chkbox[]") List<String> chArr, CartDTO cart)
+	public String deleteCart(@RequestParam(value = "chkbox[]") List<String> chArr, CartDTO cart)
 			throws Exception {
 		log.info("delete cart");
 
-		String user = userService.searchId(pr.getName());
-		long userId = Long.parseLong(user);
+		UserDTO user = getLoginUserInfo();
+		long userId = user.getId();
 
 		String result = "0";
 		long id = 0;

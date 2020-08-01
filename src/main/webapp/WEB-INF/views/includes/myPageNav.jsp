@@ -67,10 +67,9 @@ body {
 
   
     <lable>내가 쓴 글</lable>
-    <sec:authentication var="principal" property="principal" />
-   <a href="/myPage/boardList?writerId=${principal.id}">내 게시글</a>
-  <a href="/myPage/commentList?writerId=${principal.id}">내 댓글</a>
-  <a href="/myPage/likeList?writerId=${principal.id}">내 좋아요</a>
+   <a href="/myPage/boardList">내 게시글</a>
+  <a href="/myPage/commentList">내 댓글</a>
+  <a href="/myPage/likeList">내 좋아요</a>
   
     <lable>내 정보 수정</lable>
   <a href="/myPage/modifyAcc">개인 정보 수정</a>
