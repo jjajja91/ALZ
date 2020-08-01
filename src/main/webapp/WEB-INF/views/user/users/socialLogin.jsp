@@ -26,23 +26,18 @@
 		<table>
 			<tr>
 				<td>EMAIL</td>
-				<td><input type="text" name="username" autocomplete="off"
-					placeholder="example@example.com"></td>
+				<td><input type="text" name="username" value="${email}"></td>
 			</tr>
 
 			<tr>
 				<td>PW</td>
 				<td><input type="password" name="password" autocomplete="off"
-					placeholder="password" onkeypress="if (event.keyCode==13) login()">
+					placeholder="password" value="${id}">
 				</td>
 			</tr>
 			<tr>
 				<td colspan="2">
 					<button type="submit">Log In</button> <a href="/find_id_form">아디찾기</a><br>
-					<a id="kakaoLogin">
-					<img src="resources/img/카카오로그인.png"></a>
-					<a id="naverLogin">
-					<img src="resources/img/네이버로그인.PNG"></a>
 				</td>
 			</tr>
 		</table>
@@ -54,45 +49,8 @@
 	<script>
 	
 		$(document).ready(function(){
-			
-			let $kakaoLogin = $("#kakaoLogin");
-			let $naverLogin = $("#naverLogin");
-			
-			// 카카오 로그인 이벤트
-			$kakaoLogin.click(function(e){
-				e.preventDefault();
-				$.ajax({
-					url : "/kakao/request",
-					method : "get",
-					dataType : "json",
-					headers : {
-						"Accept" : "application/json", 
-						"Content-Type" : "application/json"
-					}, 
-					success : function( JSONData ) {
-						self.location = JSONData.url;
-					}
-				});
-			});
-			
-			$naverLogin.click(function(e){
-				e.preventDefault();
-				$.ajax({
-					url : "/naver/request",
-					method : "get",
-					dataType : "json",
-					headers : {
-						"Accept" : "application/json", 
-						"Content-Type" : "application/json"
-					}, 
-					success : function( JSONData ) {
-						self.location = JSONData.url;
-					}
-				});
-			});
-			
-			
-			
+			let formObj = $("form");
+			formObj.submit();
 		});	
 	
 	</script>

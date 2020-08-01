@@ -1,9 +1,14 @@
 package alz.user.controller;
 
+import java.io.UnsupportedEncodingException;
+import java.math.BigInteger;
+import java.net.URLEncoder;
+import java.security.SecureRandom;
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,6 +24,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import alz.user.domain.UserDTO;
@@ -173,6 +179,101 @@ public class UserController {
 
       return mv;
    }
+   
+   @GetMapping("/socialJoin")
+   public String socialJoin(String email, String id, Model model) {
+	   model.addAttribute("email", email);
+	   model.addAttribute("id", id);
+	   return "user/anonymous/socialJoin";
+   }
+   
+   @GetMapping("/socialLogin")
+   public String socialLogin(String email, String id, Model model) {
+	   model.addAttribute("email", email);
+	   model.addAttribute("id", id);
+	   return "user/users/socialLogin";
+   }
+   
+   @GetMapping("/kakao/request")
+   @ResponseBody
+   public Map<String, String> requestKakao(HttpSession session) {
+	   
+	   	String clientId = "bbee380452a4341a2b39cba2ef0bdefe"; 
+ 
+		String redirectUrl = "http://localhost:8080/kakao/oauth";
+		
+		String kakaoLoginUrl = 	"https://kauth.kakao.com/oauth/authorize?" + 
+								"client_id=" + clientId + 
+								"&redirect_uri=" + redirectUrl + 
+								"&response_type=code";
+		
+		Map<String, String> map = new HashMap<String, String>();
+		
+		map.put("url", kakaoLoginUrl);
+		
+		return map;
+   }
+   
+   
+   
+   @GetMapping("/kakao/oauth")
+   public String kakaoLogin(String code) {
+	   String accessToken = userService.getKakaoAccessToken(code);
+	   HashMap<String, Object> userInfo = userService.getKakaoUserInfo(accessToken);
+	   System.out.println("login Controller : " + userInfo);
+	   
+	   String email = userInfo.get("email").toString();
+	   String password = userInfo.get("id").toString();
+	   
+	   if(userService.duplicateCheck(email)) {
+		   return "redirect:/socialLogin?email="+email+"&id="+password; 
+	   } else {
+		   return "redirect:/socialJoin?email="+email+"&id="+password;
+	   }
+   }
+   
+   @GetMapping("/naver/request")
+   @ResponseBody
+   public Map<String, String> requestNaver(HttpSession session) throws UnsupportedEncodingException {
+	   	SecureRandom random = new SecureRandom();
+		String state = new BigInteger(130, random).toString(32);
+		session.setAttribute("state", state); 
+		
+		String clientId = "ukX6QVXRUc7_8u8KKks7";
+		
+		String redirectUrl = URLEncoder.encode("http://localhost:8080/naver/oauth", "UTF-8");
+		
+		String naverLoginUrl = 	"https://nid.naver.com/oauth2.0/authorize?response_type=code" + 
+								"&client_id=" + clientId + 
+								"&redirect_uri=" + redirectUrl + 
+								"&state="+(String)session.getAttribute("state");
+		
+		Map<String, String> map = new HashMap<String, String>();
+		
+		map.put("url", naverLoginUrl);
+		
+		return map;
+   }
+   
+   @GetMapping("/naver/oauth")
+   public String naverLogin(String code, String state) {
+	   String accessToken = userService.getNaverAccessToken(code, state);
+	   HashMap<String, Object> userInfo = userService.getNaverUserInfo(accessToken);
+	   System.out.println("login Controller : " + userInfo);
+	   
+	   String email = userInfo.get("email").toString();
+	   String password = userInfo.get("id").toString();
+	   
+	   if(userService.duplicateCheck(email)) {
+		   return "redirect:/socialLogin?email="+email+"&id="+password; 
+	   } else {
+		   return "redirect:/socialJoin?email="+email+"&id="+password;
+	   }
+	   
+   }
+   
+   
+   
 
 //   @GetMapping("/async-handler")
 //   @ResponseBody
