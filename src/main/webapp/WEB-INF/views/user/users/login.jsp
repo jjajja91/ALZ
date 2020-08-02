@@ -38,11 +38,17 @@
 			</tr>
 			<tr>
 				<td colspan="2">
-					<button type="submit">Log In</button> <a href="/find_id_form">아디찾기</a><br>
+					<button type="submit">Log In</button> 
+					<a href="/find_id_form">아이디 찾기</a>
+					<a href="/find_password_form">비밀번호 찾기</a><br>
+					
 					<a id="kakaoLogin">
-					<img src="resources/img/카카오로그인.png"></a>
+						<img src="resources/img/카카오로그인.png">
+					</a>
 					<a id="naverLogin">
-					<img src="resources/img/네이버로그인.PNG"></a>
+						<img src="resources/img/네이버로그인.PNG">
+					</a>
+				
 				</td>
 			</tr>
 		</table>
