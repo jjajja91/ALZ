@@ -3,6 +3,9 @@ package alz.lesson.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import alz.lesson.domain.LessonDTO;
 import alz.lesson.domain.TeacherDTO;
 import alz.lesson.service.LessonServiceImpl;
+import alz.user.domain.UserDTO;
 import lombok.extern.log4j.Log4j;
 
 @Controller
@@ -26,6 +30,14 @@ public class LessonPageController {
 	@Autowired
 	public LessonPageController(LessonServiceImpl lessonService) {
 		this.lessonService = lessonService;
+	}
+	
+	
+	public UserDTO getLoginUserInfo() {
+		SecurityContext context = SecurityContextHolder.getContext();
+		Authentication auth = context.getAuthentication();
+		UserDTO userInfo = (UserDTO)auth.getPrincipal();
+		return userInfo;
 	}
 	
 	@GetMapping("/list")
@@ -50,22 +62,24 @@ public class LessonPageController {
 		} else {
 			teacher = lessonService.updateTeacher(teacher);
 		}
-		return "redirect:/lesson/registerBasic?teacherId="+teacher.getId();
+		return "redirect:/lesson/registerBasic";
 	}
 
 	// 강사등록
 	@GetMapping("/register")
-	public void register(@RequestParam Long userId, Model model) {
-		if(userId!=null) {
-			model.addAttribute("teacher", lessonService.teacherByUserId(userId));
+	public void register(Model model) {
+		UserDTO user = getLoginUserInfo();
+		if(user!=null) {
+			model.addAttribute("teacher", lessonService.teacherByUserId(user.getId()));
 		}
 	}
 	
 	// 클래스 개설했던 클래스 가져오기
 	@GetMapping("/registerBasic")
-	public void registerBasic(@RequestParam Long teacherId, Model model) {
-		if(teacherId!=null) {
-			model.addAttribute("lessons", lessonService.lessonsByTeacherId(teacherId));
+	public void registerBasic(Model model) {
+		UserDTO teacher = getLoginUserInfo();
+		if(teacher!=null) {
+			model.addAttribute("lessons", lessonService.lessonsByTeacherId(teacher.getId()));
 		}
 		model.addAttribute("mainCategory", lessonService.mainCategory());
 		model.addAttribute("subCategory", lessonService.subCategory());
