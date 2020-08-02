@@ -22,7 +22,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import alz.board.domain.BoardCriteria;
 import alz.board.domain.BoardDTO;
 import alz.board.domain.BoardPageDTO;
-import alz.board.exceptions.NoUserException;
 import alz.board.service.BoardService;
 import alz.file.domain.BoardFileDTO;
 import lombok.extern.log4j.Log4j;

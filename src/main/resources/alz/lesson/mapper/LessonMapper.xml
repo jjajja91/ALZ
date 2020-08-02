@@ -40,9 +40,9 @@
            and alz_lesson_quickreview.lesson_id = #{id}
    </select>
    
-   <select id="findByLessonId" resultType="alz.lesson.domain.LessonResponseDTO">
+   <select id="findByLessonId" resultType="alz.lesson.domain.LessonDTO">
       select lesson.id id, lesson.teacher_id teacherId, category.id categoryId, category.main, category.sub, 
-            category.name categoryName, lesson.title, lessonType.type lessonType, 
+            category.name categoryName, lesson.title, lessonType.type lessonType, lessonLevel.id lessonLevelId,
             lessonLevel.lesson_level lessonLevel, lesson.min_student minStudent, lesson.max_student maxStudent, 
             lesson.current_student currentStudent, lessonState.state state, lesson.open_at openAt, lesson.close_at closeAt, 
             schedule.start_at startAt, schedule.end_at endAt, detail.detail detail
@@ -59,6 +59,23 @@
          and lesson.category_id = category.id
          and lesson.id = schedule.lesson_id
          and lesson.id = detail.lesson_id
+         and lesson.id = #{id}
+   </select>
+   
+   <select id="findBasicByLessonId" resultType="alz.lesson.domain.LessonDTO">
+      select lesson.id id, lesson.teacher_id teacherId, category.id categoryId, category.main, category.sub, 
+            category.name categoryName, lesson.title, lessonType.type lessonType, lessonLevel.id lessonLevelId,
+            lessonLevel.lesson_level lessonLevel, lesson.min_student minStudent, lesson.max_student maxStudent, 
+            lesson.current_student currentStudent, lessonState.state state, lesson.open_at openAt, lesson.close_at closeAt
+        from alz_lesson lesson, 
+             alz_lesson_type lessonType, 
+             alz_lesson_level lessonLevel,
+             alz_lesson_state lessonState,
+             alz_category category
+       where lesson.lesson_type = lessonType.id 
+         and lesson.lesson_level = lessonLevel.id
+         and lesson.state = lessonState.id
+         and lesson.category_id = category.id
          and lesson.id = #{id}
    </select>
 
@@ -86,22 +103,27 @@
        where user_id = #{userId}
    </select>
    
-   <select id="lessonsByTeacherId" resultType="alz.lesson.domain.LessonResponseDTO">
+   <select id="lessonsByTeacherId" resultType="alz.lesson.domain.LessonDTO">
       select id, teacher_id teacherId, title
         from alz_lesson
        where teacher_id = #{teacherId}
    </select>
    
-   <select id="findMainCategory">
+   <select id="findMainCategory" resultType="alz.lesson.domain.CategoryDTO">
       select id, main, sub, name, description, total
         from alz_category
        where sub = 0
    </select>
    
-   <select id="findSubCategory">
+   <select id="findSubCategory" resultType="alz.lesson.domain.CategoryDTO">
       select id, main, sub, name, description, total
         from alz_category
        where sub > 0
+   </select>
+   
+   <select id="findLessonLevel" resultType="alz.lesson.domain.CategoryDTO">
+      select id, lesson_level name
+        from alz_lesson_level
    </select>
    
    <insert id="insertTeacher" parameterType="alz.lesson.domain.TeacherDTO">
@@ -109,25 +131,21 @@
       values(alz_teacher_seq.nextval, #{userId}, #{nickname}, #{profile}, #{snsType}, #{snsId}, #{snsUrl})
    </insert>
    
-   <insert id="insert" parameterType="alz.lesson.domain.LessonDTO">
+   <insert id="insertLesson" parameterType="alz.lesson.domain.LessonDTO" >
       <selectKey keyProperty="id" order="BEFORE" resultType="long">
-         SELECT alz_LESSON_seq.nextval FROM dual
+         select alz_lesson_seq.nextval from dual
       </selectKey>
-      INSERT INTO
-      ALZ_LESSON(ID,NAME,DISCRIPTION,OPEN_AT,CLOSE_AT,START_AT,END_AT,
-      STATE,CATEGORY_ID, TEACHER_ID)
-      VALUES (#{id}, #{name}, #{discription},
-      #{openAt}, #{closeAt}, #{startAt},
-      #{endAt}, #{state}, #{categoryId},
-      #{teacherId})
+      insert into alz_lesson (id, teacher_id, category_Id, title, lesson_type, lesson_level,
+                            min_student, max_student, open_at, close_at)
+      VALUES (#{id}, #{teacherId}, #{categoryId}, #{title}, #{lessonType}, #{lessonLevel},
+             #{minStudent}, #{maxStudent}, #{openAt}, #{closeAt})
    </insert>
    
    <update id="updateById"
       parameterType="alz.lesson.domain.LessonDTO">
       UPDATE ALZ_LESSON
       SET name = #{name},
-      discription =
-      #{discription},
+      discription = #{discription},
       open_at = #{openAt},
       close_at = #{closeAt},
       start_at =

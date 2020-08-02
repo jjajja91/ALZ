@@ -1,26 +1,27 @@
 package alz.myPage.controller;
 
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import alz.board.exceptions.NoUserException;
-import alz.file.domain.BoardFileDTO;
+import alz.board.domain.BoardCriteria;
+import alz.board.domain.BoardDTO;
+import alz.lesson.domain.LessonDTO;
 import alz.myPage.domain.MyPageCriteria;
 import alz.myPage.domain.MyPagePageDTO;
 import alz.myPage.service.MyPageService;
@@ -41,6 +42,13 @@ public class MyPagePageController {
 		this.passwordEncoder = passwordEncoder;
 	}
 	
+	public UserDTO getLoginUserInfo() {
+		SecurityContext context = SecurityContextHolder.getContext();
+		Authentication auth = context.getAuthentication();
+		UserDTO userInfo = (UserDTO)auth.getPrincipal();
+		return userInfo;
+	}
+	
 	//회원 탈퇴
 	@PostMapping("/deleteAcc")
 	public String delete(UserDTO user, RedirectAttributes attr) {
@@ -57,7 +65,8 @@ public class MyPagePageController {
 			}
 		return result;
 	}
-
+	
+	//내 정보 수정
 	@PostMapping("/modifyAcc")
 	public String modifyAcc(UserDTO user, RedirectAttributes attr) {
 		String result ="";
@@ -70,25 +79,70 @@ public class MyPagePageController {
 		return result;
 	}
 	
+	//진행중인 내 클래스
+	@GetMapping(value = "/activeLesson")
+	public String activeLession(MyPageCriteria cri, Model model) {
+		cri.setId(getLoginUserInfo().getId());
+		model.addAttribute("list", MyPageService.myLessonList(cri));
+        int total = MyPageService.getTotal(cri);
+		model.addAttribute("pageMaker", new MyPagePageDTO(cri, total));		
+		return "myPage/myLessonList";
+	}
+	
+	//완료된 내 클래스
+		@GetMapping(value = "/finishedLesson")
+		public String finishedLesson(MyPageCriteria cri, Model model) {
+			cri.setId(getLoginUserInfo().getId());
+			model.addAttribute("list", MyPageService.finishedLessonList(cri));
+	        int total = MyPageService.getTotal(cri);
+			model.addAttribute("pageMaker", new MyPagePageDTO(cri, total));
+			return "myPage/finishedLessonList";
+		}
+	
+		//환불된 클래스
+		@GetMapping(value = "/refundedLesson")
+		public String refundedLesson(MyPageCriteria cri, Model model) {
+			cri.setId(getLoginUserInfo().getId());
+			model.addAttribute("list", MyPageService.refundedLesson(cri));
+	        int total = MyPageService.getTotal(cri);
+			model.addAttribute("pageMaker", new MyPagePageDTO(cri, total));
+			return "myPage/refundedList";
+		}
+	
+	
+		// 검색 결과 글목록
+	@GetMapping(value = {"{pageNum}/{amount}" }, produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+		public ResponseEntity<?> boardList(@PathVariable Integer pageNum,@PathVariable Integer amount) 
+	{		System.out.println("여기 들어옴?");
+	MyPageCriteria cri = new MyPageCriteria();
+			cri.setId(getLoginUserInfo().getId()).setPageNum(pageNum).setAmount(amount);
+			List<LessonDTO> list = MyPageService.myLessonList(cri);
+
+			return ResponseEntity.status(HttpStatus.OK).body(list);
+		}
+
+	//내 게시물
 	@GetMapping("/boardList")
-	public void boardList(@RequestParam("writerId") Long writerId, MyPageCriteria cri, Model model) {
-		cri.setWriterId(writerId);
+	public void boardList(MyPageCriteria cri, Model model) {
+		cri.setId(getLoginUserInfo().getId());
 		model.addAttribute("list", MyPageService.readAll(cri));
         int total = MyPageService.getTotal(cri);
 		model.addAttribute("pageMaker", new MyPagePageDTO(cri, total));
 	}
 
+	//내 댓글
 	@GetMapping("/commentList")
-	public void commentList(@RequestParam("writerId") Long writerId, MyPageCriteria cri, Model model) {
-		cri.setWriterId(writerId);
+	public void commentList(MyPageCriteria cri, Model model) {
+		cri.setId(getLoginUserInfo().getId());
 		model.addAttribute("list", MyPageService.commentReadAll(cri));
         int total = MyPageService.getTotal(cri);
 		model.addAttribute("pageMaker", new MyPagePageDTO(cri, total));
 	}
 	
+	//내 좋아요
 	@GetMapping("/likeList")
-	public void likeList(@RequestParam("writerId") Long writerId, MyPageCriteria cri, Model model) {
-		cri.setWriterId(writerId);
+	public void likeList(MyPageCriteria cri, Model model) {
+		cri.setId(getLoginUserInfo().getId());
 		model.addAttribute("list", MyPageService.likeReadAll(cri));
         int total = MyPageService.getTotal(cri);
 		model.addAttribute("pageMaker", new MyPagePageDTO(cri, total));
@@ -117,4 +171,5 @@ public class MyPagePageController {
 		 
 	  return "myPage/pwdChk";
 	}
+
 }
