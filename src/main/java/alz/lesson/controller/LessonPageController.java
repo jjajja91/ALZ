@@ -53,17 +53,6 @@ public class LessonPageController {
 		model.addAttribute("teacher", lessonService.teacherByLessonId(id));
 		model.addAttribute("quickReview", lessonService.quickReviewByLessonId(id));
 	}
-	
-	// 강사등록
-	@PostMapping("/registerTeacher")
-	public String registerTeacher(TeacherDTO teacher) {
-		if(teacher.getId()==null) {
-			teacher = lessonService.createTeacher(teacher);
-		} else {
-			teacher = lessonService.updateTeacher(teacher);
-		}
-		return "redirect:/lesson/registerBasic";
-	}
 
 	// 강사등록
 	@GetMapping("/register")
@@ -74,30 +63,48 @@ public class LessonPageController {
 		}
 	}
 	
+	// 강사등록
+	@PostMapping("/registerTeacher")
+	public String registerTeacher(TeacherDTO teacher) {
+		if(teacher.getId()==null) {
+			teacher = lessonService.createTeacher(teacher);
+		} else {
+			teacher = lessonService.updateTeacher(teacher);
+		}
+		return "redirect:/lesson/registerBasic?teacherId="+teacher.getId();
+	}
+	
 	// 클래스 개설했던 클래스 가져오기
 	@GetMapping("/registerBasic")
-	public void registerBasic(Model model) {
-		UserDTO teacher = getLoginUserInfo();
-		if(teacher!=null) {
-			model.addAttribute("lessons", lessonService.lessonsByTeacherId(teacher.getId()));
+	public void registerBasic(@RequestParam Long teacherId, Model model) {
+		if(teacherId!=null) {
+			model.addAttribute("lessons", lessonService.lessonsByTeacherId(teacherId));
 		}
 		model.addAttribute("mainCategory", lessonService.mainCategory());
 		model.addAttribute("subCategory", lessonService.subCategory());
 	}
 	
-	@PostMapping("/registerDetail")
+	@PostMapping("/registerBasic")
 	public String registerDetail(LessonDTO lesson) {
-		if(lesson.getId()==null) {
-			int lessons = lessonService.createLesson(lesson);
+		int lessonId;
+		if(lesson.getState()!=1) {
+			lessonId = lessonService.createLesson(lesson);
 		} else {
-			//lessons = lessonService.update(lesson);
+			lessonService.updateLesson(lesson);
+			lessonId = lesson.getId().intValue();
 		}
-		return "redirect:/lesson/registerDetail?lessonId="+lesson.getId();
+		return "redirect:/lesson/registerDetail?lessonId="+lessonId;
 	}
 	
 	// 클래스 스케줄&세부 jsp
 	@GetMapping("/registerDetail")
 	public void registerDetail(@RequestParam Long lessonId, Model model) {
+		model.addAttribute("lessons", lessonService.readByLessonId(lessonId));
+	}
+	
+	// 클래스 스케줄&세부 jsp
+	@GetMapping("/registerCurriculum")
+	public void registerCurriculum(@RequestParam Long lessonId, Model model) {
 		model.addAttribute("lessons", lessonService.readByLessonId(lessonId));
 	}
 	

@@ -6,12 +6,14 @@ import alz.lesson.domain.CategoryDTO;
 import alz.lesson.domain.CurriculumSubjectDTO;
 import alz.lesson.domain.LessonDTO;
 import alz.lesson.domain.QuickReviewDTO;
+import alz.lesson.domain.ScheduleDTO;
 import alz.lesson.domain.TeacherDTO;
 
 public interface LessonService {
 
 	TeacherDTO createTeacher(TeacherDTO teacher);
 	int createLesson(LessonDTO lesson);
+	int createSchedule(ScheduleDTO schedule);
 
 	TeacherDTO teacherByUserId(Long userId);
 	List<LessonDTO> lessonsByTeacherId(Long teacherId);
@@ -28,8 +30,8 @@ public interface LessonService {
 	
 	List<LessonDTO> readAll();
 
-	LessonDTO updateById(Long id, LessonDTO lessons);
 	TeacherDTO updateTeacher(TeacherDTO teacher);
+	int updateLesson(LessonDTO lesson);
 	
 	int deleteById(Long id);
 	
