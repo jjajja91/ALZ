@@ -35,7 +35,7 @@ public class LessonDTO {
 	private Long minStudent;
 	private Long maxStudent;
 	private Long currentStudent;
-	private String state;
+	private Long state;
 	private Date openAt;
 	private Date closeAt;
 	private String startAt;

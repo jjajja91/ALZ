@@ -53,6 +53,15 @@ public class LessonPageController {
 		model.addAttribute("teacher", lessonService.teacherByLessonId(id));
 		model.addAttribute("quickReview", lessonService.quickReviewByLessonId(id));
 	}
+
+	// 강사등록
+	@GetMapping("/register")
+	public void register(Model model) {
+		UserDTO user = getLoginUserInfo();
+		if(user!=null) {
+			model.addAttribute("teacher", lessonService.teacherByUserId(user.getId()));
+		}
+	}
 	
 	// 강사등록
 	@PostMapping("/registerTeacher")
@@ -65,14 +74,6 @@ public class LessonPageController {
 		return "redirect:/lesson/registerBasic";
 	}
 
-	// 강사등록
-	@GetMapping("/register")
-	public void register(Model model) {
-		UserDTO user = getLoginUserInfo();
-		if(user!=null) {
-			model.addAttribute("teacher", lessonService.teacherByUserId(user.getId()));
-		}
-	}
 	
 	// 클래스 개설했던 클래스 가져오기
 	@GetMapping("/registerBasic")
@@ -85,19 +86,27 @@ public class LessonPageController {
 		model.addAttribute("subCategory", lessonService.subCategory());
 	}
 	
-	@PostMapping("/registerDetail")
+	@PostMapping("/registerBasic")
 	public String registerDetail(LessonDTO lesson) {
-		if(lesson.getId()==null) {
-			int lessons = lessonService.createLesson(lesson);
+		int lessonId;
+		if(lesson.getState()!=1) {
+			lessonId = lessonService.createLesson(lesson);
 		} else {
-			//lessons = lessonService.update(lesson);
+			lessonService.updateLesson(lesson);
+			lessonId = lesson.getId().intValue();
 		}
-		return "redirect:/lesson/registerDetail?lessonId="+lesson.getId();
+		return "redirect:/lesson/registerDetail?lessonId="+lessonId;
 	}
 	
 	// 클래스 스케줄&세부 jsp
 	@GetMapping("/registerDetail")
 	public void registerDetail(@RequestParam Long lessonId, Model model) {
+		model.addAttribute("lessons", lessonService.readByLessonId(lessonId));
+	}
+	
+	// 클래스 스케줄&세부 jsp
+	@GetMapping("/registerCurriculum")
+	public void registerCurriculum(@RequestParam Long lessonId, Model model) {
 		model.addAttribute("lessons", lessonService.readByLessonId(lessonId));
 	}
 	

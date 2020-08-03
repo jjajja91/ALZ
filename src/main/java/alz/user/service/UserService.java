@@ -52,6 +52,9 @@ public interface UserService {
 
 	boolean duplicateCheck(String email);
 
+	String getGoogleAccessToken(String code);
+
+	HashMap<String, Object> getGoogleUserInfo(String accessToken);
 
 //	void asyncService();
 

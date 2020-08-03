@@ -10,7 +10,7 @@
 
 <div class="container">
 	
-	<form role="form" action="/class/registerCurriculum" method="post">
+	<form role="form" action="/lesson/registerCurriculum" method="get">
 	<input type="text" name="lessonId" value='<c:out value="${param.lessonId }"/>'>
 	
 		<h5><strong>수업 날짜와 시간을 입력해주세요.</strong></h5>
@@ -39,11 +39,11 @@
 		<br><br><br>
 		
 		<button type="submit">다음 ＞</button>
-	</form>	
-		
+	</form>
 </div>
 <script>
 
+	var formObj;
 	var timesetDiv;
 	var $addBtn;
 	var $startAt;
@@ -52,6 +52,7 @@
 	var $lessonId;
 	
 	$(document).ready(function(){
+		formObj = $("form[role='form']");
 		timesetDiv =document.getElementById("timesetDiv");
 		$addBtn = $("input[name=addLesson]");
 		$lessonId = $("input[name=lessonId]");
@@ -65,7 +66,7 @@
 		var hiddens = $("input:hidden");
 		hiddens[0].value = openAt;
 		hiddens[1].value = closeAt; */
-		e.preventDefault();
+		
 		$lessonDate = $(".lessonDate");
 		$startAt = $(".startAt");
 		$endAt = $(".endAt");
@@ -73,23 +74,31 @@
 		let timeTable = [];
 		for(let i=0; i<$startAt.length; i++) {
 			let timeTablevalues = {
-					id : $lessonId.val(),
+					lessonId : $lessonId.val(),
 					lessonDate: $lessonDate[i].value,
 					startAt: $startAt[i].value,
 					endAt: $endAt[i].value
 			};
-			
 			timeTable.push(timeTablevalues);
 		}
 		
-		$ajax = {
+		let timeList = {};
+		timeList["id"] = $lessonId.val();
+		timeList["timeList"] = timeTable;
+		
+		$.ajax({
 				type : 'POST',
 				url : '/lessons/schedule',
-				data : JSON.stringify(timeTable),
-				contentType : "application/json; charset=utf-8"
-		}
+				data : timeList,
+				contentType : "application/json; charset=utf-8",
+				success:function(data){
+	                console.log("SUCESS: ", data);
+	                formObj.submit();
+	            }
+		});
+		
 	});
-	
+		
 	$(document).on("click","input[name='addLesson']",function(e){
 		
 		e.preventDefault();

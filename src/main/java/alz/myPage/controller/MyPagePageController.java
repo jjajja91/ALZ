@@ -108,25 +108,13 @@ public class MyPagePageController {
 			model.addAttribute("pageMaker", new MyPagePageDTO(cri, total));
 			return "myPage/refundedList";
 		}
-	
-	
-		// 검색 결과 글목록
-	@GetMapping(value = {"{pageNum}/{amount}" }, produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
-		public ResponseEntity<?> boardList(@PathVariable Integer pageNum,@PathVariable Integer amount) 
-	{		System.out.println("여기 들어옴?");
-	MyPageCriteria cri = new MyPageCriteria();
-			cri.setId(getLoginUserInfo().getId()).setPageNum(pageNum).setAmount(amount);
-			List<LessonDTO> list = MyPageService.myLessonList(cri);
-
-			return ResponseEntity.status(HttpStatus.OK).body(list);
-		}
 
 	//내 게시물
 	@GetMapping("/boardList")
 	public void boardList(MyPageCriteria cri, Model model) {
 		cri.setId(getLoginUserInfo().getId());
 		model.addAttribute("list", MyPageService.readAll(cri));
-        int total = MyPageService.getTotal(cri);
+        int total = MyPageService.getTotal(cri)
 		model.addAttribute("pageMaker", new MyPagePageDTO(cri, total));
 	}
 
