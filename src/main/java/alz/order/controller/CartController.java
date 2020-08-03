@@ -50,7 +50,7 @@ public class CartController {
 	// 장바구니 추가
 	@PostMapping("/cartInsert")
 	@ResponseBody
-	public String addCart( @ModelAttribute CartDTO cart, @RequestParam("id") long id) {
+	public String addCart(@ModelAttribute CartDTO cart, @RequestParam("id") long id) {
 
 		long userId = getLoginUserInfo().getId();
 
