@@ -66,8 +66,8 @@
 	  	 $nickname.change(function(){
 	            $nicknameChkResult.val("false");
 	         });
-	  	 
-			//정보 수정 함수
+	
+		//정보 수정 함수
 			function UserUpdateApi(data) {
 				console.log(data);
 					  return $.ajax({
