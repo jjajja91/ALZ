@@ -263,15 +263,12 @@ public class OrderPageController {
 
 	@PostMapping("/addNewOrder")
 	@ResponseBody
-	public void orderInsert(@RequestParam("cartId") long[] cartId, OrderDetailDTO orderDetail,
-			Principal pr, Model model,@RequestBody OrderDTO order ) throws Exception {
+	public void orderInsert(Principal pr, @RequestBody OrderDTO order ) throws Exception {
 
 		System.out.println("addNewOrder");
 		
 		String user = userService.searchId(pr.getName());
 		long userId = Long.parseLong(user);
-
-		model.addAttribute("userInfo", userService.userInfo(userId));
 
 		// 주문번호 생성
 		Calendar cal = Calendar.getInstance();
@@ -290,15 +287,6 @@ public class OrderPageController {
 		order.setId(orderId);
 		order.setUserId(userId);
 		
-		System.out.println(order.getId());
-		System.out.println(order.getMethod());
-		System.out.println(order.getName());
-		System.out.println(order.getPhone());
-		System.out.println(order.getState());
-		System.out.println(order.getClass());
-		System.out.println(order.getOrderAt());
-		System.out.println(order.getTotalPrice());
-		System.out.println(order.getUserId());
 
 		orderService.insertOrder(order);
 

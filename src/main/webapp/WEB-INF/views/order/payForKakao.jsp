@@ -25,11 +25,12 @@
 	var totalPrice = ${totalPrice};
 	var merchandiseName = "${merchandiseName}";
 	var merchandises = ${merchandises};
+	var msg;
 	
 	  $(function(){
 			var IMP = window.IMP; // 생략가능
 			IMP.init("imp41338638"); // 발급받은 "가맹점 식별코드"를 사용
-			var msg;
+			
 
 				IMP.request_pay({
 				pg : 'kakaopay',
@@ -84,33 +85,33 @@
 			// 2. 오더 상세 테이블 등록
 			// 3. 결제 완료 페이지로 이동
 			addNewOrder();
-			
-			
-			
-		  
 	  }
 	  
 	  function addNewOrder() {
-		  
-		  
+
 		  var Data = {
 					
 					name: name,
 					phone: phone,
 					totalPrice: totalPrice,
-					METHOD: "카카오 페이",
-					STATE : "결제완료",
+					method: "카카오 페이",
+					state : "결제완료"
 						
 				};
 				
 				
 				return $.ajax({
-					url: "/order/addNewOrder",
+					url: "/orders/addNewOrder",
 					type: "POST",
 					data: JSON.stringify(Data),
 					contentType: "application/json",
 					success : function(){console.log("주문 등록 성공")},
-					error : function(){console.log("주문 등록 실패")}
+					error : function(){
+						msg = '결제에 실패하였습니다.';
+						//실패시 이동할 페이지
+						location.href = "/merchandise/cart";
+						alert(msg);
+						}
 					
 				});
 	  }
