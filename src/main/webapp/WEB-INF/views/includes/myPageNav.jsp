@@ -57,9 +57,9 @@ body {
 
 <div class="sidenav">
   <lable>결제 내역</lable>
-  <a href="#about">진행 중인 클래스</a>
-  <a href="#services">완료된 클래스</a>
-  <a href="#clients">취소/환불</a>
+  <a href="/myPage/activeLesson">진행 중인 클래스</a>
+  <a href="/myPage/finishedLesson">완료된 클래스</a>
+  <a href="/myPage/refundedLesson">취소/환불</a>
   
     <lable>관심 클래스</lable>
   <a href="#about">찜 클래스</a>

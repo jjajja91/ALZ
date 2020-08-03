@@ -1,39 +1,47 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib uri="http://www.springframework.org/security/tags"
-	prefix="sec"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@include file="../includes/myPageNav.jsp"%>
 <%@include file="../includes/header.jsp"%>
+<body>
 	<div class="container">
-		<h1 class="page-header">내 댓글</h1>
+
+		<h1 class="page-header">완료된 클래스</h1>
 	</div>
-
 	<div class="container">
 
-		
 		<table class="table table-striped" id="table">
-			<thead id="table-header">
+			<thead>
 				<tr>
-					<th>번호</th>
-					<th>댓글</th>
-					<th>작성자</th>
-					<th>작성일</th>
-					
+					<th class="imgArea"></th>
+					<th></th>
 				</tr>
-			</thead>
 			<tbody>
-				<c:forEach items="${list }" var="comment">
+				<c:forEach items="${list}" var="myLessonList">
+
 					<tr>
-						<td><c:out value="${comment.id }" /></td>
-						<td><a class='read' href='<c:out value="${comment.boardId }"/>'><c:out
-									value="${comment.content }" /></a>
-						</td>
-						<td><c:out value="${comment.nickname }" /></td>
-						<td><fmt:formatDate pattern="yyyy-MM-dd"
-								value="${comment.writtenAt }" /></td>
-						</tr>
+						<td rowspan="2"><img class="lessonImg"
+							src="/resources/img/classtmpimg.jpg"></td>
+						<td><c:out value="${myLessonList.title }" /></td>
+					</tr>
+					<tr>
+						<td><c:out value="${myLessonList.closeAt }" />/ 클래스 종료</td>
+					</tr>
+					<%-- <td><c:out value="${myLessonList.id }" /></td>
+					<td><a class='read' href='<c:out value="${board.id }"/>'><c:out
+								value="${board.title }" /> (<c:out value="${board.commentCnt}" />)</a>
+					</td>
+					<td><c:out value="${board.nickname }" /></td>
+					<td><fmt:formatDate pattern="yyyy-MM-dd"
+							value="${board.writtenAt }" /></td>
+					<td><c:out value="${board.viewCnt }" /></td>
+					
+					--%>
+
+
 				</c:forEach>
 			</tbody>
 		</table>
@@ -60,11 +68,12 @@
 			</ul>
 		</div>
 
-
-		<form id='actionForm' action="/myPage/commentList" method='get'>
-			<input type='hidden' id='pageNum' name='pageNum' value='<c:out value="${pageMaker.cri.pageNum }"/>' />
-			<input type='hidden' id='amount' name='amount' value='<c:out value="${pageMaker.cri.amount }"/>' />
-			</form>
+		<form id='actionForm' action="/myPage/finishedLesson" method='get'>
+			<input type='hidden' id='pageNum' name='pageNum'
+				value='<c:out value="${pageMaker.cri.pageNum }"/>' /> <input
+				type='hidden' id='amount' name='amount'
+				value='<c:out value="${pageMaker.cri.amount }"/>' />
+		</form>
 
 	</div>
 
@@ -104,7 +113,6 @@
 		// 읽기 이벤트 추가
 		$(".read").on("click", function(e) {
 			e.preventDefault();
-			console.log($(this));
 			actionForm.append("<input type='hidden' name='id' value='"+$(this).attr("href")+"'>");
 			actionForm.attr("action", "/board/read");
 			actionForm.submit();
@@ -177,7 +185,7 @@
 					// 읽기 이벤트 추가
 					$(".read").on("click", function(e) {
 						e.preventDefault();
-						actionForm.append("<input type='hidden' name='id' value='"+$(this).attr("href")+"' >");
+						actionForm.append("<input type='hidden' name='id' value='"+$(this).attr("href")+"'>");
 						actionForm.attr("action", "/board/read");
 						actionForm.submit();
 					});
@@ -222,7 +230,7 @@
 				var title = document.createElement("td");
 				var titleA = document.createElement("a");
 				titleA.setAttribute("class", "read");
-				titleA.setAttribute("href", board.boardId);
+				titleA.setAttribute("href", board.id);
 				titleA.textContent = board.title;
 				
 				title.appendChild(titleA);

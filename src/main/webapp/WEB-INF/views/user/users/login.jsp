@@ -46,9 +46,8 @@
 						<img src="resources/img/카카오로그인.png">
 					</a>
 					<a id="naverLogin">
-						<img src="resources/img/네이버로그인.PNG">
-					</a>
-				
+					<img src="resources/img/네이버로그인.PNG"></a>
+					<a id="googleLogin" href="/">구글</a>
 				</td>
 			</tr>
 		</table>
@@ -63,6 +62,7 @@
 			
 			let $kakaoLogin = $("#kakaoLogin");
 			let $naverLogin = $("#naverLogin");
+			let $googleLogin = $("#googleLogin");
 			
 			// 카카오 로그인 이벤트
 			$kakaoLogin.click(function(e){
@@ -97,7 +97,26 @@
 				});
 			});
 			
-			
+			$googleLogin.click(function(e){
+				e.preventDefault();
+				console.log("클릭");
+				$.ajax({
+					url : "/google/request",
+					method : "get",
+					dataType : "json",
+					headers : {
+						"Accept" : "application/json", 
+						"Content-Type" : "application/json"
+					}, 
+					success : function( JSONData ) {
+						console.log(JSONData);
+						self.location = JSONData.url;
+					},
+					fail : function(error) {
+						console.log(error);
+					}
+				});
+			});
 			
 		});	
 	

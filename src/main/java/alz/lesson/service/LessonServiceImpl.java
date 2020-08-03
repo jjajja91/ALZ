@@ -10,6 +10,7 @@ import alz.lesson.domain.CurriculumDetailDTO;
 import alz.lesson.domain.CurriculumSubjectDTO;
 import alz.lesson.domain.LessonDTO;
 import alz.lesson.domain.QuickReviewDTO;
+import alz.lesson.domain.ScheduleDTO;
 import alz.lesson.domain.TeacherDTO;
 import alz.lesson.mapper.LessonMapper;
 
@@ -23,15 +24,27 @@ public class LessonServiceImpl implements LessonService {
 		this.lessonMapper = lessonMapper;
 	}
 	
+	// 강사등록
 	public TeacherDTO createTeacher(TeacherDTO teacher) {
 		int affectedRowCount = lessonMapper.insertTeacher(teacher);
 		return teacher;
 	}
 	
+	// 클래스 기본정보 등록
 	public int createLesson(LessonDTO lesson) 	{
 		int affectedRowCount = lessonMapper.insertLesson(lesson);
-		System.out.println(lesson.getId());
-//		LessonDTO openedClass = lessonMapper.findById(lessonDTO.getId());
+		// 만들어진 클래스 id 보내줌
+		int lessonId = lesson.getId().intValue();
+		return lessonId;
+	}
+	
+	// 클래스 스케줄 등록
+	public int createSchedule(ScheduleDTO schedule) {
+		int affectedRowCount = 0;
+		
+		for(int i=0; i<schedule.getTimeList().size(); i++) {
+			affectedRowCount += lessonMapper.insertSchedule(schedule.getTimeList().get(i));
+		}
 		return affectedRowCount;
 	}
 	
@@ -97,22 +110,17 @@ public class LessonServiceImpl implements LessonService {
 
 	public List<LessonDTO> readAll() {
 		List<LessonDTO> lessons = lessonMapper.findAll();
-		System.out.println(lessons);
 		return lessons;
-	}
-
-	//chain
-	public LessonDTO updateById(Long id, LessonDTO lessons) {
-//		LessonDTO searchedLessons = lessonMapper.findById(id);
-		
-//		searchedLessons.setState(lessons.getState()).setCategoryId(lessons.getCategoryId());
-//		int affectedRowCount = lessonMapper.updateById(searchedLessons);
-		return null;
 	}
 	
 	public TeacherDTO updateTeacher(TeacherDTO teacher) {
 		int affectedRowCount = lessonMapper.updateTeacher(teacher);
 		return teacher;
+	}
+
+	public int updateLesson(LessonDTO lesson) {
+		int affectedRowCount = lessonMapper.updateLesson(lesson);
+		return 0;
 	}
 
 	public int deleteById(Long id) {

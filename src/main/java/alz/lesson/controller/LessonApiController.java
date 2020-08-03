@@ -66,9 +66,8 @@ public class LessonApiController {
 	
 	@PostMapping("/schedule")
 	public ResponseEntity<?> createSchedule(@RequestBody ScheduleDTO schedule){
-		System.out.println(schedule);
-//		LessonDTO openedClass = lessonService.create(classes);
-		return ResponseEntity.status(HttpStatus.CREATED).body("");
+		int affectedRowCount = lessonService.createSchedule(schedule);
+		return ResponseEntity.status(HttpStatus.CREATED).body(affectedRowCount);
 	}
 	
 	@PutMapping("/{id}")

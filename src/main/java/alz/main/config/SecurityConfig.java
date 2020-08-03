@@ -32,11 +32,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     UserServiceImpl userService;
 
-   @Bean
-   public PasswordEncoder passwordEncoder() {
-      return PasswordEncoderFactories.createDelegatingPasswordEncoder();
-   }
-   
+	@Bean
+	public PasswordEncoder passwordEncoder() {
+		return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+	}
+	
     public SecurityExpressionHandler expressionHandler() {
         RoleHierarchyImpl roleHierarchy = new RoleHierarchyImpl();
         roleHierarchy.setHierarchy("ROLE_ADMIN > ROLE_USER");
@@ -47,42 +47,42 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return handler;
     }
 
-   
-   @Bean
-   public AuthenticationSuccessHandler loginSuccessHandler() {
-      return new CustomLoginSuccessHandler();
-   }
-//   
-//   @Bean
-//   public UserDetailsService customUserService() {
-//      return new CustomUserDetailsService();
-//   }
-//   
-//   @Bean
-//   public PersistentTokenRepository persistentTokenRepository() {
-//      JdbcTokenRepositoryImpl repo = new JdbcTokenRepositoryImpl();
-//      repo.setDataSource(dataSource);
-//      return repo;
-//   }
-//   
-   @Setter(onMethod_ = {@Autowired})
-   private DataSource dataSource;
+	
+	@Bean
+	public AuthenticationSuccessHandler loginSuccessHandler() {
+		return new CustomLoginSuccessHandler();
+	}
+//	
+//	@Bean
+//	public UserDetailsService customUserService() {
+//		return new CustomUserDetailsService();
+//	}
+//	
+//	@Bean
+//	public PersistentTokenRepository persistentTokenRepository() {
+//		JdbcTokenRepositoryImpl repo = new JdbcTokenRepositoryImpl();
+//		repo.setDataSource(dataSource);
+//		return repo;
+//	}
+//	
+	@Setter(onMethod_ = {@Autowired})
+	private DataSource dataSource;
 
-   @Override
-   public void configure(HttpSecurity http) throws Exception {
-//      http.addFilterBefore(new LoggingFilter(), WebAsyncManagerIntegrationFilter.class);
+	@Override
+	public void configure(HttpSecurity http) throws Exception {
+//		http.addFilterBefore(new LoggingFilter(), WebAsyncManagerIntegrationFilter.class);
 
-      http.authorizeRequests()
-      .antMatchers("/", "/users/**", "/socialJoin", "/socialLogin", "/google/*", "/naver/*","/kakao/*", "/resources/**", "/join", "/create", "/find_id_form", "/find_id",
-                "/find_password_form", "/find_password_email", "/find_password_change{dice},{email}","/find_password_result{email}").permitAll()
-      .anyRequest().authenticated()
+		http.authorizeRequests()
+		.antMatchers("/", "/users/**", "/socialJoin", "/socialLogin", "/google/*", "/naver/*","/kakao/*", "/resources/**", "/join", "/create", "/find_id_form", "/find_id",
+					 "/find_password_form", "/find_password_email", "/find_password_change{dice},{email}","/find_password_result{email}").permitAll()
+		.anyRequest().authenticated()
         .expressionHandler(expressionHandler());
 
-      http.formLogin()
-         .loginPage("/login").permitAll();
-      
-      http.httpBasic();
-      
+		http.formLogin()
+			.loginPage("/login").permitAll();
+		
+		http.httpBasic();
+		
         http.rememberMe()
         .userDetailsService(userService)
         .key("remember-me-sample");
@@ -102,20 +102,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         SecurityContextHolder.setStrategyName(SecurityContextHolder.MODE_INHERITABLETHREADLOCAL);
 
-   }
+	}
 
 
-   @Override
-   protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-      auth.userDetailsService(userService)
-         .passwordEncoder(passwordEncoder());   
-   }
+	@Override
+	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+		auth.userDetailsService(userService)
+			.passwordEncoder(passwordEncoder());	
+	}
 
-   
-   @Bean
-   @Override
-   public AuthenticationManager authenticationManagerBean() throws Exception {
-      return super.authenticationManagerBean();
-   }
-   
+	
+	@Bean
+	@Override
+	public AuthenticationManager authenticationManagerBean() throws Exception {
+		return super.authenticationManagerBean();
+	}
+	
 }

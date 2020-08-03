@@ -18,9 +18,10 @@ import lombok.experimental.Accessors;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class timeTableDTO {
+public class TimeTableDTO {
 
-	private Long lessonDate;
+	private Long lessonId;
+	private String lessonDate;
 	private String startAt;
 	private String endAt;
 	

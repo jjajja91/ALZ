@@ -66,7 +66,7 @@
       select lesson.id id, lesson.teacher_id teacherId, category.id categoryId, category.main, category.sub, 
             category.name categoryName, lesson.title, lessonType.type lessonType, lessonLevel.id lessonLevelId,
             lessonLevel.lesson_level lessonLevel, lesson.min_student minStudent, lesson.max_student maxStudent, 
-            lesson.current_student currentStudent, lessonState.state state, lesson.open_at openAt, lesson.close_at closeAt
+            lesson.current_student currentStudent, lesson.state state, lesson.open_at openAt, lesson.close_at closeAt
         from alz_lesson lesson, 
              alz_lesson_type lessonType, 
              alz_lesson_level lessonLevel,
@@ -104,9 +104,10 @@
    </select>
    
    <select id="lessonsByTeacherId" resultType="alz.lesson.domain.LessonDTO">
-      select id, teacher_id teacherId, title
-        from alz_lesson
-       where teacher_id = #{teacherId}
+      select alz_lesson.id, alz_lesson.teacher_id teacherId, alz_lesson.title, alz_lesson.state
+      from alz_lesson, alz_teacher
+      where alz_lesson.teacher_id = alz_teacher.id
+       and alz_lesson.teacher_id = #{teacherId}
    </select>
    
    <select id="findMainCategory" resultType="alz.lesson.domain.CategoryDTO">
@@ -137,23 +138,27 @@
       </selectKey>
       insert into alz_lesson (id, teacher_id, category_Id, title, lesson_type, lesson_level,
                             min_student, max_student, open_at, close_at)
-      VALUES (#{id}, #{teacherId}, #{categoryId}, #{title}, #{lessonType}, #{lessonLevel},
+      values (#{id}, #{teacherId}, #{categoryId}, #{title}, #{lessonType}, #{lessonLevel},
              #{minStudent}, #{maxStudent}, #{openAt}, #{closeAt})
    </insert>
    
-   <update id="updateById"
-      parameterType="alz.lesson.domain.LessonDTO">
+   <insert id="insertSchedule" parameterType="alz.lesson.domain.TimeTableDTO" >
+      <selectKey keyProperty="id" order="BEFORE" resultType="long">
+         select alz_lesson_schedule_seq.nextval from dual
+      </selectKey>
+      insert into alz_lesson_schedule (id, lesson_id, lesson_date, start_At, end_At)
+      values (#{id}, #{lessonId}, #{lessonDate}, #{startAt}, #{endAt})
+   </insert>
+   
+   <update id="updateLesson" parameterType="alz.lesson.domain.LessonDTO">
       UPDATE ALZ_LESSON
-      SET name = #{name},
-      discription = #{discription},
-      open_at = #{openAt},
-      close_at = #{closeAt},
-      start_at =
-      #{startAt},
-      end_at = #{endAt},
-      state = #{state},
-      category_id =
-      #{categoryId}
+      SET title = #{title},
+           lesson_type = #{lessonType},
+           lesson_level = #{lessonLevel},
+           min_student = #{minStudent},
+           max_student = #{maxStudent},
+          open_at = #{openAt},
+           close_at = #{closeAt}
       WHERE id = #{id}
    </update>
    
