@@ -73,7 +73,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //		http.addFilterBefore(new LoggingFilter(), WebAsyncManagerIntegrationFilter.class);
 
 		http.authorizeRequests()
-		.antMatchers("/", "/users/**", "/socialJoin", "/socialLogin", "/naver/*","/kakao/*", "/resources/**", "/join", "/create", "/find_id_form", "/find_id").permitAll()
+		.antMatchers("/", "/users/**", "/socialJoin", "/socialLogin", "/google/*", "/naver/*","/kakao/*", "/resources/**", "/join", "/create", "/find_id_form", "/find_id").permitAll()
 		.anyRequest().authenticated()
         .expressionHandler(expressionHandler());
 

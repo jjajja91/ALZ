@@ -269,7 +269,6 @@ public class UserController {
    @GetMapping("/google/request")
    @ResponseBody
    public Map<String, String> requestGoogle(HttpSession session) throws UnsupportedEncodingException {
-	   	System.out.println("출발");
 	   	SecureRandom random = new SecureRandom();
 		String state = new BigInteger(130, random).toString(32);
 		session.setAttribute("state", state); 
@@ -289,7 +288,6 @@ public class UserController {
    
    @GetMapping("/google/oauth")
    public String googleLogin(String code) {
-	   System.out.println("도착");
 	   String accessToken = userService.getGoogleAccessToken(code);
 	   HashMap<String, Object> userInfo = userService.getGoogleUserInfo(accessToken);
 	   System.out.println("login Controller : " + userInfo);

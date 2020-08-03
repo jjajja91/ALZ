@@ -7,14 +7,13 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -378,7 +377,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 	@Override
 	public String getGoogleAccessToken(String code) {
 		String access_Token = "";
-        String refresh_Token = "";
         String reqURL = "https://oauth2.googleapis.com/token";
         
         try {
@@ -414,11 +412,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             JsonParser parser = new JsonParser();
             JsonElement element = parser.parse(result);
             
-            access_Token = element.getAsJsonObject().get("access_token").getAsString();
-            refresh_Token = element.getAsJsonObject().get("refresh_token").getAsString();
+            access_Token = element.getAsJsonObject().get("id_token").getAsString();
             
             System.out.println("access_token : " + access_Token);
-            System.out.println("refresh_token : " + refresh_Token);
             
             br.close();
             bw.close();
@@ -434,43 +430,53 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 	public HashMap<String, Object> getGoogleUserInfo(String accessToken) {
 
 	    HashMap<String, Object> userInfo = new HashMap<>();
+	    
+	    
 	    String reqURL = "https://oauth2.googleapis.com/tokeninfo";
-	    try {
-	        URL url = new URL(reqURL);
-	        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-	        conn.setRequestMethod("POST");
-	        
-	        conn.setRequestProperty("id_token", accessToken);
-	        
-	        int responseCode = conn.getResponseCode();
-	        System.out.println("responseCode : " + responseCode);
-	        
-	        BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-	        
-	        String line = "";
-	        String result = "";
-	        
-	        while ((line = br.readLine()) != null) {
-	            result += line;
-	        }
-	        System.out.println("response body : " + result);
-	        
-	        JsonParser parser = new JsonParser();
-	        JsonElement element = parser.parse(result);
-	        
-	        JsonObject response = element.getAsJsonObject().get("claims_supported").getAsJsonObject();
+        
+        try {
+            URL url = new URL(reqURL);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            
+            conn.setRequestMethod("POST");
+            conn.setDoOutput(true);
+            
+            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
+            StringBuilder sb = new StringBuilder();
+            sb.append("id_token="+accessToken);
 
-	        String id = response.getAsJsonObject().get("aud").getAsString();
-	        String email = response.getAsJsonObject().get("email").getAsString();
-	        
+            
+            bw.write(sb.toString());
+            bw.flush();
+            
+            int responseCode = conn.getResponseCode();
+            System.out.println("responseCode : " + responseCode);
+ 
+            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            String line = "";
+            String result = "";
+            
+            while ((line = br.readLine()) != null) {
+                result += line;
+            }
+            System.out.println("response body : " + result);
+            
+            JsonParser parser = new JsonParser();
+            JsonElement element = parser.parse(result);
+            
+            String id = element.getAsJsonObject().get("kid").getAsString();
+            String email = element.getAsJsonObject().get("email").getAsString();
+            
 	        userInfo.put("id", id);
 	        userInfo.put("email", email);
-	        
-	    } catch (IOException e) {
-	        // TODO Auto-generated catch block
-	        e.printStackTrace();
-	    }
-	    
+            
+            br.close();
+            bw.close();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } 
+		
 	    return userInfo;
 
 	}
