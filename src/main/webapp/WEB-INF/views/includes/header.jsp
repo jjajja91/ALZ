@@ -218,6 +218,9 @@ pre {
 	width: 200px;
 	margin-left: 10px;
 }
+.imgArea{
+width: 120px;
+}
 </style>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>

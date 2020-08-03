@@ -11,6 +11,7 @@ import alz.board.domain.BoardDTO;
 import alz.board.domain.CommentDTO;
 import alz.board.mapper.LikeMapper;
 import alz.file.mapper.BoardFileMapper;
+import alz.lesson.domain.LessonDTO;
 import alz.myPage.domain.MyPageCriteria;
 import alz.myPage.mapper.MyPageMapper;
 import alz.user.domain.UserDTO;
@@ -86,6 +87,29 @@ public class MyPageServiceImpl implements MyPageService {
 		deleteAcc += MyPageMapper.deleteAcc(id);
 		deleteAcc += MyPageMapper.updateEnable(id);
 		return deleteAcc;
+	}
+
+	//내 강의 목록
+	@Override
+	public List<LessonDTO> myLessonList(MyPageCriteria cri) {
+		List<LessonDTO> list = MyPageMapper.myLessonList(cri);
+		
+		return list;
+	}
+
+
+	@Override
+	public List<LessonDTO> finishedLessonList(MyPageCriteria cri) {
+		List<LessonDTO> list = MyPageMapper.finishedLessonList(cri);
+		return list;
+	}
+
+
+	@Override
+	public List<LessonDTO> refundedLesson(MyPageCriteria cri) {
+		List<LessonDTO> list = MyPageMapper.refundedLesson(cri);
+	
+		return list;
 	}
 
 	

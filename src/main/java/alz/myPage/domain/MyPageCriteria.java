@@ -15,7 +15,7 @@ public class MyPageCriteria {
 
 	private long pageNum;
 	private long amount;
-	private long writerId;
+	private long id;
 	
 	public MyPageCriteria() {
 		this(1,10);
@@ -26,10 +26,10 @@ public class MyPageCriteria {
 		this.amount = amount;
 	}
 	
-	public MyPageCriteria(long pageNum, long amount, long writerId) {
+	public MyPageCriteria(long pageNum, long amount, long id) {
 		this.pageNum = pageNum;
 		this.amount = amount;
-		this.writerId = writerId;
+		this.id = id;
 	}
 	
 	/*
@@ -38,7 +38,7 @@ public class MyPageCriteria {
 	 */
 	public String getListLink() {
 		UriComponentsBuilder builder = UriComponentsBuilder.fromPath("")
-				.queryParam("writerId", this.getWriterId())
+				.queryParam("id", this.getId())
 				.queryParam("pageNum", this.pageNum)
 				.queryParam("amount", this.getAmount());
 				

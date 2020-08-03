@@ -135,6 +135,7 @@
 			<c:if test="${typeId == 4}">
 				<div>
 					<select>
+					
 						<option value="" disabled selected hidden>수강 완료한 클래스를 선택해
 							주세요</option>
 
