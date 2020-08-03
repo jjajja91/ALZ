@@ -108,16 +108,13 @@ public class MyPagePageController {
 			model.addAttribute("pageMaker", new MyPagePageDTO(cri, total));
 			return "myPage/refundedList";
 		}
-	
-	
-	
 
 	//내 게시물
 	@GetMapping("/boardList")
 	public void boardList(MyPageCriteria cri, Model model) {
 		cri.setId(getLoginUserInfo().getId());
 		model.addAttribute("list", MyPageService.readAll(cri));
-        int total = MyPageService.getTotal(cri);
+        int total = MyPageService.getTotal(cri)
 		model.addAttribute("pageMaker", new MyPagePageDTO(cri, total));
 	}
 
