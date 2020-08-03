@@ -478,5 +478,3 @@ public class UserController {
 //      SecurityLogger.log("MVC, after async service");
 //      return "Async Service";
 //   }
-
-}
