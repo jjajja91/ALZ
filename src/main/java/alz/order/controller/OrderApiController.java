@@ -1,12 +1,14 @@
 package alz.order.controller;
 
-import java.security.Principal;
 import java.text.DecimalFormat;
 import java.util.Calendar;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import alz.order.domain.OrderDTO;
 import alz.order.service.OrderService;
+import alz.user.domain.UserDTO;
 import alz.user.service.UserService;
 
 @RestController
@@ -24,6 +27,13 @@ public class OrderApiController {
 
 	private OrderService orderService;
 	private UserService userService;
+	
+	public UserDTO getLoginUserInfo() {
+		SecurityContext context = SecurityContextHolder.getContext();
+		Authentication auth = context.getAuthentication();
+		UserDTO userInfo = (UserDTO)auth.getPrincipal();
+		return userInfo;
+	}
 
 	@Autowired
 	public OrderApiController(OrderService orderService, UserService userService) {
@@ -32,9 +42,8 @@ public class OrderApiController {
 	}
 
 	@PostMapping("/addNewOrder")
-	public ResponseEntity<?> create(Principal pr, @RequestBody OrderDTO order) throws Exception {
-		String user = userService.searchId(pr.getName());
-		long userId = Long.parseLong(user);
+	public ResponseEntity<?> create(@RequestBody OrderDTO order) throws Exception {
+		long userId = getLoginUserInfo().getId();
 
 		// 주문번호 생성
 		Calendar cal = Calendar.getInstance();

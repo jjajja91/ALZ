@@ -114,7 +114,7 @@ public class MyPagePageController {
 	public void boardList(MyPageCriteria cri, Model model) {
 		cri.setId(getLoginUserInfo().getId());
 		model.addAttribute("list", MyPageService.readAll(cri));
-        int total = MyPageService.getTotal(cri)
+        int total = MyPageService.getTotal(cri);
 		model.addAttribute("pageMaker", new MyPagePageDTO(cri, total));
 	}
 

@@ -1,11 +1,13 @@
 package alz.order.controller;
 
-import java.security.Principal;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +24,7 @@ import alz.order.domain.OrderDetailDTO;
 import alz.order.service.CartService;
 import alz.order.service.MerchandiseService;
 import alz.order.service.OrderService;
+import alz.user.domain.UserDTO;
 import alz.user.service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
@@ -36,14 +39,19 @@ public class OrderPageController {
 	private MerchandiseService merchandiseService;
 	private UserService userService;
 	private CartService cartService;
+	
+	public UserDTO getLoginUserInfo() {
+		SecurityContext context = SecurityContextHolder.getContext();
+		Authentication auth = context.getAuthentication();
+		UserDTO userInfo = (UserDTO)auth.getPrincipal();
+		return userInfo;
+	}
 
 	// 상품 상세에서 바로 구매
 	@PostMapping("/orderEach")
-	public String orderEach(Principal pr, @RequestParam("id") long merchandiseId, Model model) {
-
-		// 유저 정보 가져오기
-		String user = userService.searchId(pr.getName());
-		long userId = Long.parseLong(user);
+	public String orderEach(@RequestParam("id") long merchandiseId, Model model) {
+		
+		long userId = getLoginUserInfo().getId();
 
 		model.addAttribute("userInfo", userService.userInfo(userId));
 
@@ -64,10 +72,9 @@ public class OrderPageController {
 
 	// 장바구니 체크된 항목 구매하기
 	@PostMapping("/orderForm")
-	public void order(Principal pr, @RequestParam("cartId") long[] cartId, Model model) throws Exception {
+	public void order(@RequestParam("cartId") long[] cartId, Model model) throws Exception {
 
-		String user = userService.searchId(pr.getName());
-		long userId = Long.parseLong(user);
+		long userId = getLoginUserInfo().getId();
 
 		model.addAttribute("userInfo", userService.userInfo(userId));
 
@@ -90,12 +97,9 @@ public class OrderPageController {
 	}
 
 //	@PostMapping("/buy")
-//	public String orderform(@RequestParam("cartId") long[] cartId, OrderAllDTO orderAll, Principal pr, Model model) throws Exception {
+//	public String orderform(@RequestParam("cartId") long[] cartId, OrderAllDTO orderAll, Model model) throws Exception {
 //		
-//		System.out.println("------post buy-------");
-//		// 유저 정보 가져오기
-//		String user = userService.searchId(pr.getName());
-//		long userId = Long.parseLong(user);
+//		long userId = getLoginUserInfo().getId();
 //
 //		// 모델에 유저 정보 추가
 //		model.addAttribute("userInfo", userService.userInfo(userId));
@@ -154,10 +158,9 @@ public class OrderPageController {
 
 	@GetMapping("/buy")
 	public void orderform(@RequestParam("cartId") long[] cartId, OrderDTO order, OrderDetailDTO orderDetail,
-			Principal pr, Model model) throws Exception {
-		// 유저 정보 가져오기
-		String user = userService.searchId(pr.getName());
-		long userId = Long.parseLong(user);
+			Model model) throws Exception {
+		
+		long userId = getLoginUserInfo().getId();
 
 		// 모델에 유저 정보 추가
 		model.addAttribute("userInfo", userService.userInfo(userId));
@@ -219,10 +222,9 @@ public class OrderPageController {
 	}
 
 //	@GetMapping("/buy")
-	public void buy(Principal pr, Model model) throws Exception {
+	public void buy(Model model) throws Exception {
 
-		String user = userService.searchId(pr.getName());
-		long userId = Long.parseLong(user);
+		long userId = getLoginUserInfo().getId();
 
 		model.addAttribute("userInfo", userService.userInfo(userId));
 
@@ -248,10 +250,11 @@ public class OrderPageController {
 	}
 
 	@PostMapping("/payForKakao")
-	public void payForKakao(@RequestParam("cartId") long[] cartId, Principal pr, Model model,
+	public void payForKakao(@RequestParam("cartId") long[] cartId, Model model,
 			@RequestParam("merchandiseName") String[] merchandiseName, @RequestParam("totalPrice") long totalPrice) {
-		String user = userService.searchId(pr.getName());
-		long userId = Long.parseLong(user);
+		
+		long userId = getLoginUserInfo().getId();
+		
 		int merchandises = cartId.length -1 ;
 		
 		model.addAttribute("userInfo", userService.userInfo(userId));
@@ -263,12 +266,14 @@ public class OrderPageController {
 
 	@PostMapping("/addNewOrder")
 	@ResponseBody
-	public void orderInsert(Principal pr, @RequestBody OrderDTO order ) throws Exception {
+	public void orderInsert(@RequestBody OrderDTO order, OrderDetailDTO orderDetail, Model model) throws Exception {
 
 		System.out.println("addNewOrder");
 		
-		String user = userService.searchId(pr.getName());
-		long userId = Long.parseLong(user);
+		long userId = getLoginUserInfo().getId();
+		
+		model.addAttribute("userInfo", userService.userInfo(userId));
+		
 
 		// 주문번호 생성
 		Calendar cal = Calendar.getInstance();
@@ -286,9 +291,11 @@ public class OrderPageController {
 		// 주문에 유저 아이디와 생성된 주문번호 추가
 		order.setId(orderId);
 		order.setUserId(userId);
-		
 
+		// 주문등록
 		orderService.insertOrder(order);
+		// 주문 상세 등록
+		orderService.insertOrderDetail(orderDetail);
 
 	}
 

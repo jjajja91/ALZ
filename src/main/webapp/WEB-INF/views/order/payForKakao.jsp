@@ -101,7 +101,7 @@
 				
 				
 				return $.ajax({
-					url: "/orders/addNewOrder",
+					url: "/order/addNewOrder",
 					type: "POST",
 					data: JSON.stringify(Data),
 					contentType: "application/json",

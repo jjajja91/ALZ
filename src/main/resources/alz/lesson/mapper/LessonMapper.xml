@@ -105,9 +105,9 @@
    
    <select id="lessonsByTeacherId" resultType="alz.lesson.domain.LessonDTO">
       select alz_lesson.id, alz_lesson.teacher_id teacherId, alz_lesson.title, alz_lesson.state
-		from alz_lesson, alz_teacher
-	   where alz_lesson.teacher_id = alz_teacher.id
-		 and alz_lesson.teacher_id = #{teacherId}
+      from alz_lesson, alz_teacher
+      where alz_lesson.teacher_id = alz_teacher.id
+       and alz_lesson.teacher_id = #{teacherId}
    </select>
    
    <select id="findMainCategory" resultType="alz.lesson.domain.CategoryDTO">
@@ -153,12 +153,12 @@
    <update id="updateLesson" parameterType="alz.lesson.domain.LessonDTO">
       UPDATE ALZ_LESSON
       SET title = #{title},
-      	  lesson_type = #{lessonType},
-      	  lesson_level = #{lessonLevel},
-      	  min_student = #{minStudent},
-      	  max_student = #{maxStudent},
-     	  open_at = #{openAt},
-      	  close_at = #{closeAt}
+           lesson_type = #{lessonType},
+           lesson_level = #{lessonLevel},
+           min_student = #{minStudent},
+           max_student = #{maxStudent},
+          open_at = #{openAt},
+           close_at = #{closeAt}
       WHERE id = #{id}
    </update>
    
