@@ -77,10 +77,9 @@ public class LessonPageController {
 	
 	// 클래스 개설했던 클래스 가져오기
 	@GetMapping("/registerBasic")
-	public void registerBasic(Model model) {
-		UserDTO teacher = getLoginUserInfo();
-		if(teacher!=null) {
-			model.addAttribute("lessons", lessonService.lessonsByTeacherId(teacher.getId()));
+	public void registerBasic(@RequestParam Long teacherId, Model model) {
+		if(teacherId!=null) {
+			model.addAttribute("lessons", lessonService.lessonsByTeacherId(teacherId));
 		}
 		model.addAttribute("mainCategory", lessonService.mainCategory());
 		model.addAttribute("subCategory", lessonService.subCategory());
