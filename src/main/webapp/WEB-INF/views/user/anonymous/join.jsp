@@ -40,7 +40,7 @@
          <tr>
             <td>PHONE_NUMBER</td>
             <td><input name="phoneNumber" id="phoneNumber" type="text" placeholder="'-'없이 번호만 입력하세요" maxlength="11" autocomplete="off"></td>
-            <td><button id="phoneNumberChk">전화번호 중복 체크</button></td>
+            <!-- <td><button id="phoneNumberChk">전화번호 중복 체크</button></td> -->
          </tr>
 
          <tr>
@@ -53,7 +53,7 @@
       </form>
             <input type="hidden" id="emailChkResult" value="false"/>
             <input type="hidden" id="nicknameChkResult" value="false"/>
-            <input type="hidden" id="phoneNumberChkResult" value="false"/>
+<!--             <input type="hidden" id="phoneNumberChkResult" value="false"/> -->
       <hr>
       
       <a href="/">메인 페이지 이동</a>
@@ -61,7 +61,6 @@
       <script>
          var $emailChk = $("#emailChk");
          var $nicknameChk = $("#nicknameChk");
-         var $phoneNumberChk = $("#phoneNumberChk");
          var $email = $("#email");
          var $nickname = $("#nickname");
          var $phoneNumber = $("#phoneNumber");
@@ -101,7 +100,7 @@
             emailChk(data)
             .then(function(response){
                console.log(response);
-               if(response.email==$email.val()){
+               if(response){
                   alert("중복된 이메일이 있습니다");
                } else {
                   alert("사용 가능한 이메일입니다");
@@ -125,7 +124,7 @@
             nicknameChk()
             .then(function(response){
                console.log(response);
-               if(response.nickname==$nickname.val()){
+               if(response){
                   alert("중복된 닉네임이 있습니다");
                } else {
                   alert("사용 가능한 닉네임입니다");
@@ -138,7 +137,7 @@
             }
          });
          
-         $phoneNumberChk.click(function(e){
+        /*  $phoneNumberChk.click(function(e){
              e.preventDefault();
              if($phoneNumber.val()==null || $phoneNumber.val().trim()==""){
                 alert("전화번호가 비어있습니다");
@@ -164,7 +163,7 @@
                 console.log(error);
              });
              }
-          });
+          }); */
          
          function emailChk(data){
             return $.ajax({
@@ -183,14 +182,14 @@
             });
          };
 
-         function phoneNumberChk(data){
+        /*  function phoneNumberChk(data){
             return $.ajax({
                url: 'users/phoneNumberChk',
                type: 'POST',
                 data: JSON.stringify(data),
                contentType : "application/json; charset=utf-8"
             });
-         };
+         }; */
          
          $joinSubmit.click(function(e){
             e.preventDefault();
@@ -208,7 +207,7 @@
                alert("닉네임을 16자 이내로 적어주세요");
             /* } else if($password.val().length > 16) {
                alert("비밀번호를 16자 이내로 적어주세요"); */
-            } else if($email.val().length > 11) {
+            } else if($phoneNumber.val().length > 11) {
                alert("전화번호를 11자 이내로 적어주세요");
             } else if(!(emailReg.test($email.val()))) {
                alert("이메일의 형식을 지켜주세요");
@@ -218,9 +217,11 @@
                alert("이메일 중복체크를 해주세요");
             } else if ($nicknameChkResult.val()=="false"){
                alert("닉네임 중복체크를 해주세요");
-            } else if($phoneNumberChkResult.val()=="false"){
+            } 
+/*             else if($phoneNumberChkResult.val()=="false"){
                alert("전화번호 중복체크를 해주세요");
-            } else {
+            }  */
+            else {
                joinForm.submit();
             }
          })
