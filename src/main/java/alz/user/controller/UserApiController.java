@@ -45,6 +45,12 @@ public class UserApiController {
 		return ResponseEntity.status(HttpStatus.OK).body(user);
 	}
 	
+	@PostMapping(value = "/phoneNumberChk", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public ResponseEntity<?> phoneNumberChk(@RequestBody UserDTO user) {
+		UserDTO foundUser = userService.readByPhoneNumber(user.getPhoneNumber());
+		return ResponseEntity.status(HttpStatus.OK).body(foundUser);
+	}
+	
 //	@GetMapping
 //	public ResponseEntity<?> readAll() {
 //		List<UserDTO> user = userService.readAll();
