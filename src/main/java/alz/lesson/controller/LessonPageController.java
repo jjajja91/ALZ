@@ -3,6 +3,9 @@ package alz.lesson.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import alz.lesson.domain.LessonDTO;
 import alz.lesson.domain.TeacherDTO;
 import alz.lesson.service.LessonServiceImpl;
+import alz.user.domain.UserDTO;
 import lombok.extern.log4j.Log4j;
 
 @Controller
@@ -26,6 +30,14 @@ public class LessonPageController {
 	@Autowired
 	public LessonPageController(LessonServiceImpl lessonService) {
 		this.lessonService = lessonService;
+	}
+	
+	
+	public UserDTO getLoginUserInfo() {
+		SecurityContext context = SecurityContextHolder.getContext();
+		Authentication auth = context.getAuthentication();
+		UserDTO userInfo = (UserDTO)auth.getPrincipal();
+		return userInfo;
 	}
 	
 	@GetMapping("/list")
@@ -41,6 +53,15 @@ public class LessonPageController {
 		model.addAttribute("teacher", lessonService.teacherByLessonId(id));
 		model.addAttribute("quickReview", lessonService.quickReviewByLessonId(id));
 	}
+
+	// 강사등록
+	@GetMapping("/register")
+	public void register(Model model) {
+		UserDTO user = getLoginUserInfo();
+		if(user!=null) {
+			model.addAttribute("teacher", lessonService.teacherByUserId(user.getId()));
+		}
+	}
 	
 	// 강사등록
 	@PostMapping("/registerTeacher")
@@ -51,14 +72,6 @@ public class LessonPageController {
 			teacher = lessonService.updateTeacher(teacher);
 		}
 		return "redirect:/lesson/registerBasic?teacherId="+teacher.getId();
-	}
-
-	// 강사등록
-	@GetMapping("/register")
-	public void register(@RequestParam Long userId, Model model) {
-		if(userId!=null) {
-			model.addAttribute("teacher", lessonService.teacherByUserId(userId));
-		}
 	}
 	
 	// 클래스 개설했던 클래스 가져오기
@@ -71,19 +84,27 @@ public class LessonPageController {
 		model.addAttribute("subCategory", lessonService.subCategory());
 	}
 	
-	@PostMapping("/registerDetail")
+	@PostMapping("/registerBasic")
 	public String registerDetail(LessonDTO lesson) {
-		if(lesson.getId()==null) {
-			int lessons = lessonService.createLesson(lesson);
+		int lessonId;
+		if(lesson.getState()!=1) {
+			lessonId = lessonService.createLesson(lesson);
 		} else {
-			//lessons = lessonService.update(lesson);
+			lessonService.updateLesson(lesson);
+			lessonId = lesson.getId().intValue();
 		}
-		return "redirect:/lesson/registerDetail?lessonId="+lesson.getId();
+		return "redirect:/lesson/registerDetail?lessonId="+lessonId;
 	}
 	
 	// 클래스 스케줄&세부 jsp
 	@GetMapping("/registerDetail")
 	public void registerDetail(@RequestParam Long lessonId, Model model) {
+		model.addAttribute("lessons", lessonService.readByLessonId(lessonId));
+	}
+	
+	// 클래스 스케줄&세부 jsp
+	@GetMapping("/registerCurriculum")
+	public void registerCurriculum(@RequestParam Long lessonId, Model model) {
 		model.addAttribute("lessons", lessonService.readByLessonId(lessonId));
 	}
 	

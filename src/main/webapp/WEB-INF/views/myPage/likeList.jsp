@@ -65,8 +65,7 @@
 		<form id='actionForm' action="/myPage/boardList" method='get'>
 			<input type='hidden' id='pageNum' name='pageNum' value='<c:out value="${pageMaker.cri.pageNum }"/>' />
 			<input type='hidden' id='amount' name='amount' value='<c:out value="${pageMaker.cri.amount }"/>' />
-			<input type='hidden' id='writerId' name='writerId' value='<sec:authentication property="principal.id"/>' />
-		</form>
+			</form>
 
 	</div>
 
