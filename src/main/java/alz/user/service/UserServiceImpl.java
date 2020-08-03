@@ -369,7 +369,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 			String id = response.getAsJsonObject().get("id").getAsString();
 			String email = response.getAsJsonObject().get("email").getAsString();
 
-			userInfo.put("id", id);
+			userInfo.put("id", id);	
 			userInfo.put("email", email);
 
 		} catch (IOException e) {
