@@ -264,7 +264,46 @@ public class UserController {
 	   
    }
    
+
    
+   @GetMapping("/google/request")
+   @ResponseBody
+   public Map<String, String> requestGoogle(HttpSession session) throws UnsupportedEncodingException {
+	   	System.out.println("출발");
+	   	SecureRandom random = new SecureRandom();
+		String state = new BigInteger(130, random).toString(32);
+		session.setAttribute("state", state); 
+		
+		String clientId = "316214908433-1li7s1krvf7l2m5t5c832b1uol43p6pc.apps.googleusercontent.com";
+		String redirectUrl = URLEncoder.encode("http://localhost:8080/google/oauth", "UTF-8");
+		String googleLoginUrl = "https://accounts.google.com/o/oauth2/v2/auth?response_type=code&" + 
+								"scope=openid%20profile%20email"+
+								"&client_id=" + clientId + 
+								"&redirect_uri=" + redirectUrl + 
+								"&state="+(String)session.getAttribute("state");
+
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("url", googleLoginUrl);
+		return map;
+   }
+   
+   @GetMapping("/google/oauth")
+   public String googleLogin(String code) {
+	   System.out.println("도착");
+	   String accessToken = userService.getGoogleAccessToken(code);
+	   HashMap<String, Object> userInfo = userService.getGoogleUserInfo(accessToken);
+	   System.out.println("login Controller : " + userInfo);
+	   
+	   String email = userInfo.get("email").toString();
+	   String password = userInfo.get("id").toString();
+	   
+	   if(userService.duplicateCheck(email)) {
+		   return "redirect:/socialLogin?email="+email+"&id="+password; 
+	   } else {
+		   return "redirect:/socialJoin?email="+email+"&id="+password;
+	   }
+	   
+   }
    
 
 //   @GetMapping("/async-handler")

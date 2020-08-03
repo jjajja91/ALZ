@@ -375,6 +375,106 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 		return userMapper.emailChk(email)==1;
 	}
 
+	@Override
+	public String getGoogleAccessToken(String code) {
+		String access_Token = "";
+        String refresh_Token = "";
+        String reqURL = "https://oauth2.googleapis.com/token";
+        
+        try {
+            URL url = new URL(reqURL);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            
+            conn.setRequestMethod("POST");
+            conn.setDoOutput(true);
+            
+            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
+            StringBuilder sb = new StringBuilder();
+            sb.append("grant_type=authorization_code");
+            sb.append("&client_id=316214908433-1li7s1krvf7l2m5t5c832b1uol43p6pc.apps.googleusercontent.com");
+            sb.append("&client_secret=2oy4Y2EhS4Wz9YoiptdI8WIU");
+            sb.append("&code=" + code);
+            sb.append("&redirect_uri=http://localhost:8080/google/oauth");
+            
+            bw.write(sb.toString());
+            bw.flush();
+            
+            int responseCode = conn.getResponseCode();
+            System.out.println("responseCode : " + responseCode);
+ 
+            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            String line = "";
+            String result = "";
+            
+            while ((line = br.readLine()) != null) {
+                result += line;
+            }
+            System.out.println("response body : " + result);
+            
+            JsonParser parser = new JsonParser();
+            JsonElement element = parser.parse(result);
+            
+            access_Token = element.getAsJsonObject().get("access_token").getAsString();
+            refresh_Token = element.getAsJsonObject().get("refresh_token").getAsString();
+            
+            System.out.println("access_token : " + access_Token);
+            System.out.println("refresh_token : " + refresh_Token);
+            
+            br.close();
+            bw.close();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } 
+        
+        return access_Token;
+	}
+
+	@Override
+	public HashMap<String, Object> getGoogleUserInfo(String accessToken) {
+
+	    HashMap<String, Object> userInfo = new HashMap<>();
+	    String reqURL = "https://oauth2.googleapis.com/tokeninfo";
+	    try {
+	        URL url = new URL(reqURL);
+	        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+	        conn.setRequestMethod("POST");
+	        
+	        conn.setRequestProperty("id_token", accessToken);
+	        
+	        int responseCode = conn.getResponseCode();
+	        System.out.println("responseCode : " + responseCode);
+	        
+	        BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+	        
+	        String line = "";
+	        String result = "";
+	        
+	        while ((line = br.readLine()) != null) {
+	            result += line;
+	        }
+	        System.out.println("response body : " + result);
+	        
+	        JsonParser parser = new JsonParser();
+	        JsonElement element = parser.parse(result);
+	        
+	        JsonObject response = element.getAsJsonObject().get("claims_supported").getAsJsonObject();
+
+	        String id = response.getAsJsonObject().get("aud").getAsString();
+	        String email = response.getAsJsonObject().get("email").getAsString();
+	        
+	        userInfo.put("id", id);
+	        userInfo.put("email", email);
+	        
+	    } catch (IOException e) {
+	        // TODO Auto-generated catch block
+	        e.printStackTrace();
+	    }
+	    
+	    return userInfo;
+
+	}
+
 
 
 
