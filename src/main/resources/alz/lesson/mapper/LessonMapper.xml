@@ -157,7 +157,7 @@
            lesson_level = #{lessonLevel},
            min_student = #{minStudent},
            max_student = #{maxStudent},
-          open_at = #{openAt},
+           open_at = #{openAt},
            close_at = #{closeAt}
       WHERE id = #{id}
    </update>
