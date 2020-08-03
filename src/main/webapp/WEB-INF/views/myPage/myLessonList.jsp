@@ -73,11 +73,11 @@
 		</div>
 
 
-		<form id='actionForm' action="/myPage/boardList" method='get'>
-			<input type='hidden' id='pageNum' name='pageNum'
-				value='<c:out value="${pageMaker.cri.pageNum }"/>' /> <input
-				type='hidden' id='amount' name='amount'
+		<form id='actionForm' action="/myPage/activeLesson" method='get'>
+			<input type='hidden' id='pageNum' name='pageNum' value='<c:out value="${pageMaker.cri.pageNum }"/>' /> 
+				<input type='hidden' id='amount' name='amount'
 				value='<c:out value="${pageMaker.cri.amount }"/>' /> 
+			
 		</form>
 
 	</div>
@@ -103,7 +103,6 @@
 			data = {
 					pageNum : $pageNum.val(),
 					amount : $amount.val(),
-				
 				};
 			
 			var targetPageNum = $(this).attr("href");
@@ -169,7 +168,6 @@
 		// 페이지 번호 클릭 이벤트
 		pageFooter.on("click", "li a", function(e) {
 			e.preventDefault();
-			
 			var targetPageNum = $(this).attr("href");
 			data.pageNum = targetPageNum;
 			
@@ -179,7 +177,6 @@
 		
 		// 글목록
 		function getList(data) {
-			console.log(data);
 			// 글 검색 결과
 			boardSearch(data)
 				.then(function(response) {
@@ -187,6 +184,7 @@
 					return printBoardList(response);
 				})
 				.then(function(response) {
+					console.log(response);
 					// 읽기 이벤트 추가
 					$(".read").on("click", function(e) {
 						e.preventDefault();
@@ -203,9 +201,10 @@
 		
 		// 글 검색 결과
 	function boardSearch(data) {
+			console.log(data);
 			return $.ajax({
 				type : "GET",
-				url : "/myPage/" + data.pageNum + "/" + data.amount+ "/" + ".json",
+				url : "/myPage/" + data.pageNum + "/" + data.amount+ ".json",
 				contentType : "application/json; charset=utf-8"
 			});
 		} 
@@ -213,6 +212,7 @@
 		
 		// 글목록 출력
 		function printBoardList(lessons, page) {
+			console.log("오니?")
 			if(page == -1) {
 				pageNum = Math.ceil(totalCnt/10.0);
 				printBoardList(lessons, pageNum);

@@ -10,7 +10,7 @@
 	<div class="container">
 
 		<h1 class="page-header">
-		진행중인 내 클래스
+		취소/환불 클래스
 		</h1>
 	</div>
 	<div class="container">
@@ -74,7 +74,7 @@
 		</div>
 
 
-		<form id='actionForm' action="/myPage/boardList" method='get'>
+		<form id='actionForm' action="/myPage/refundedLesson" method='get'>
 			<input type='hidden' id='pageNum' name='pageNum'
 				value='<c:out value="${pageMaker.cri.pageNum }"/>' /> <input
 				type='hidden' id='amount' name='amount'
@@ -103,8 +103,7 @@
 			
 			data = {
 					pageNum : $pageNum.val(),
-					amount : $amount.val(),
-					writerId : $writerId.val()
+					amount : $amount.val()
 				};
 			
 			var targetPageNum = $(this).attr("href");
