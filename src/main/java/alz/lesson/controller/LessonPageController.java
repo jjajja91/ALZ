@@ -74,6 +74,7 @@ public class LessonPageController {
       return "redirect:/lesson/registerBasic?teacherId="+teacher.getId();
    }
 
+
    
    // 클래스 개설했던 클래스 가져오기
    @GetMapping("/registerBasic")
