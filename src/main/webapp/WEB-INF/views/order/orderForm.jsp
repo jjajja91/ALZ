@@ -23,7 +23,7 @@
 	<br>
 	<br>
 
-	<form name="orderinfo" method="post" action="/order/buy">
+	<form name="orderinfo" method="post" action="/order/payForKakao">
 		<table class="table table-striped table-bordered table-hover">
 			<tr>
 				<td colspan="2">상품정보</td>
@@ -43,6 +43,7 @@
 				<c:set var="i" value="${i+1}" />
 				<c:set var="finalTotalPrice"
 					value="${finalTotalPrice + list.originPrice}" />
+					<input type="hidden" id="merchandiseName" name="merchandiseName" value="${list.name}">
 			</c:forEach>
 
 		</table>
@@ -69,9 +70,8 @@
 
 			</div>
 
-				<input type="hidden" name="state" id="state" value="결제완료"> <input
-				type="hidden" name="totalPrice" id="totalPrice"
-				value="${finalTotalPrice}">
+			<input type="hidden" name="state" id="state" value="결제완료"> 
+			<input type="hidden" name="totalPrice" id="totalPrice" value="${finalTotalPrice}"> 
 		</div>
 	</form>
 
@@ -83,7 +83,11 @@
 		var phoneNumberRegex = /^[0-9]{3}-[0-9]{4}-[0-9]{4}$/;
 
 		$("#buyBtn").click(function() {
-			checkConfirm();
+			if (!(checkConfirm())) {
+				return false;
+			} else {
+			/* payForKakao(); */
+			}
 		});
 
 		function checkConfirm() {
@@ -91,16 +95,19 @@
 				alert("결제 방법을 선택하세요.");
 				event.preventDefault();
 				return false;
+			} else {
+				return true;
 			}
-		/* 	if (!phoneNumberRegex.test(phoneNumber)) {
-				alert("연락처를 다시 확인해주세요.");
-				$("#phone").val("");
-				$("#phone").focus();
-				event.preventDefault();
-				return false;
-			} */
-
+			/* 	if (!phoneNumberRegex.test(phoneNumber)) {
+					alert("연락처를 다시 확인해주세요.");
+					$("#phone").val("");
+					$("#phone").focus();
+					event.preventDefault();
+					return false;
+				} */
 		}
+		
+		
 	});
 </script>
 </html>
