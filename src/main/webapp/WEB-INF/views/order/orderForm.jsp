@@ -19,7 +19,7 @@
 	</div>
 	<br>
 	<br>
-
+	
 	<form name="orderinfo" method="post" action="/order/payForKakao">
 		<table class="table table-striped table-bordered table-hover">
 			<tr>
@@ -38,7 +38,6 @@
 				</tr>
 
 				<input type="hidden" id="cartId" name="cartId" value="${list.id }">
-				<input type="hidden" id="merchandise" name="merchandise" value="${list.merchandiseId }">
 				<c:set var="i" value="${i+1}" />
 				<c:set var="finalTotalPrice"
 					value="${finalTotalPrice + list.originPrice}" />
@@ -69,6 +68,7 @@
 
 			</div>
 
+			<input type="hidden" id="merchandise" name="merchandise" value="${merchandise.id}">
 			<input type="hidden" name="state" id="state" value="결제완료"> 
 			<input type="hidden" name="totalPrice" id="totalPrice" value="${finalTotalPrice}"> 
 		</div>

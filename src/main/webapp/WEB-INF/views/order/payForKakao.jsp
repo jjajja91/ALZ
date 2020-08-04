@@ -25,11 +25,12 @@
 	var totalPrice = ${totalPrice};
 	var merchandiseName = "${merchandiseName}";
 	var merchandises = ${merchandises};
-	var itemId = ${merchandise};
+	var itemId = "${merchandise}";
 	
 	var msg;
 	var orderId;
 	var subNum = "";
+	var orderName = "";
 	
 	var buyList = [
 		  <c:forEach items="${buyList}" var="list">
@@ -39,7 +40,15 @@
 
 	  console.log(buyList);
 	  
-	
+	  function one() {
+		  if (merchandises === 0) {
+			  orderName = merchandiseName;
+			} else if (merchandises >= 1) {
+				orderName = merchandiseName + " 외 " + merchandises + "건";
+			}
+		  return orderName;
+	  }
+	  
 	  $(function(){
 			var IMP = window.IMP; // 생략가능
 			IMP.init("imp41338638"); // 발급받은 "가맹점 식별코드"를 사용
@@ -49,7 +58,7 @@
 				pg : 'kakaopay',
 				pay_method : 'card',
 				merchant_uid : 'merchant_' + new Date().getTime(),
-				name : merchandiseName + " 외 " + merchandises + "건",
+				name : one(),
 				amount : totalPrice,
 				buyer_name : name,
 				buyer_tel : phone,
