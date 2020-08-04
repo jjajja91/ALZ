@@ -68,6 +68,7 @@
 
 			</div>
 
+			<!-- 값전달 -->
 			<input type="hidden" id="merchandise" name="merchandise" value="${merchandise.id}">
 			<input type="hidden" name="state" id="state" value="결제완료"> 
 			<input type="hidden" name="totalPrice" id="totalPrice" value="${finalTotalPrice}"> 

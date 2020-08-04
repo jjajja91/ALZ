@@ -96,23 +96,26 @@ public class OrderPageController {
 	@GetMapping("/buy")
 	public void orderform(@RequestParam("orderId") String orderId, Model model) throws Exception {
 
-		long userId = getLoginUserInfo().getId();
-
 		// 모델에 유저 정보 추가
-		model.addAttribute("userInfo", userService.userInfo(userId));
 		model.addAttribute("orderId", orderId);
 
 		List<OrderDetailDTO> orderList = orderService.orderResult(orderId);
-
+		OrderDTO order = orderService.findOrderer(orderId);
+		
 		model.addAttribute("orderList", orderList);
+		model.addAttribute("orderer", order);
+		
+		
+
 
 		// 카트 비우기
+		long userId = getLoginUserInfo().getId();
 		orderService.removeCart(userId);
 
 	}
 
 	@PostMapping("/payForKakao")
-	public void payForKakao(@RequestParam("cartId") long[] cartId, Model model, @RequestParam("merchandise") String id,
+	public void payForKakao(@RequestParam("name") String name,@RequestParam("phone") String phone, @RequestParam("cartId") long[] cartId, Model model, @RequestParam("merchandise") String id,
 			@RequestParam("merchandiseName") String[] merchandiseName, @RequestParam("totalPrice") long totalPrice) {
 
 		System.out.println("카카오페이");
@@ -122,6 +125,8 @@ public class OrderPageController {
 		int merchandises = cartId.length - 1;
 
 		model.addAttribute("userInfo", userService.userInfo(userId));
+		model.addAttribute("orderer", name);
+		model.addAttribute("orderPhone", phone);
 		model.addAttribute("merchandiseName", merchandiseName[0]);
 		model.addAttribute("merchandise", id);
 		model.addAttribute("totalPrice", totalPrice);

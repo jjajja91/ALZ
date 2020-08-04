@@ -20,8 +20,10 @@
 	<sec:authentication var="principal" property="principal" />
 	<script>
 	
-	var name = "${userInfo.nickname}";
-	var phone = ${userInfo.phoneNumber};
+	<!-- 값 가져오기 -->
+	
+	var name = "${orderer}";	// 주문자 이름
+	var phone = ${orderPhone};
 	var totalPrice = ${totalPrice};
 	var merchandiseName = "${merchandiseName}";
 	var merchandises = ${merchandises};
