@@ -14,6 +14,8 @@ public class BoardPageDTO {
 	private int total;
 	private BoardCriteria cri;
 	
+	// 페이지 생성
+	
 	public BoardPageDTO(BoardCriteria cri, int total) {
 		
 		this.cri = cri;
