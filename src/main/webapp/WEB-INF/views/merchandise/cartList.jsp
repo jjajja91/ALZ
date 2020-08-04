@@ -39,7 +39,7 @@
 							class="chkBox" data-cartId="${row.id }"> <input
 							type="hidden" id="id${i}" name="id" value="${row.id }"></td>
 						<td>${row.name }</td>
-						<td>${row.originPrice }</td>
+						<td><fmt:formatNumber value="${row.originPrice }" pattern="#,###"/></td>
 						<td><a class="delete"
 							href="/merchandise/delete?id=${row.id }">X</a></td>
 					</tr>

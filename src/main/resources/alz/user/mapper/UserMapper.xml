@@ -110,6 +110,7 @@
 		SELECT * FROM alz_user WHERE id = #{id}
 	</select>
 	
+	
 	<!-- 값을 다 넣을 때 -->
 	<!-- <select id="selectById" resultType="alz.user.domain.UserDTO"> 
 	SELECT * FROM alz_user WHERE id = #{id} </select> -->
@@ -135,10 +136,15 @@
 		직접 값을 넣고 싶으면 활성화 WHERE id = #{id} </update> -->
 
 	<delete id="deleteById">
-		DELETE FROM alz_user WHERE email = #{email}
+		DELETE FROM alz_user WHERE id = #{id}
 	</delete>
 	
 	<select id="searchId" resultType="String">
 		SELECT ID FROM alz_user WHERE email = #{email}
 	</select>
+	
+	<select id="findWithdrawUser" resultType="long">
+		SELECT ID FROM alz_user_state where start_at = #{date}
+	</select>
+	
 </mapper>

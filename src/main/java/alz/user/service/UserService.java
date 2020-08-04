@@ -26,9 +26,9 @@ public interface UserService {
 
 	UserDTO updateById(UserDTO user);
 
-	int emailChk(String email);
+	boolean emailChk(String email);
 	
-	int nicknameChk(String nickname);
+	boolean nicknameChk(String nickname);
 	
 	int phoneNumberChk(String phoneNumber);
 	

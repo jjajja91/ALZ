@@ -30,6 +30,8 @@ public interface UserMapper {
 	int nicknameChk(String nickname);
 	
 	int phoneNumberChk(String phoneNumber);
+	
+	int deleteById(Long id);
 
 	UserDTO userInfo(Long id);
 
@@ -42,6 +44,8 @@ public interface UserMapper {
 	public String find_password_email(UserDTO dto); // 비밀번호 찾기
 
 	public void find_password_result(@Param("password") String password, Map<String, Object> map, UserDTO dto) throws Exception; // 비밀번호 변경
+
+	List<Long> findWithdrawUser(String date);
 	
 
 }

@@ -93,6 +93,8 @@
 		</context:component-scan> -->
 		<context:component-scan base-package="alz.file.task">
 		</context:component-scan>
+		<context:component-scan base-package="alz.user.task">
+		</context:component-scan>
      	<context:component-scan base-package="alz.myPage.service">
 		</context:component-scan>
 		
