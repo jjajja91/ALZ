@@ -51,6 +51,7 @@ public class UserDTO implements UserDetails {
 	private String state;
 	private Date startAt;
 	private Date endAt;
+	private String description;
 	
 
 	// 패스워드 인코딩
