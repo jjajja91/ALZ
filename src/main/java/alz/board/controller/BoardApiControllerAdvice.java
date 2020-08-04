@@ -11,11 +11,13 @@ import alz.board.exceptions.UnsatisfiedContentException;
 @RestControllerAdvice
 public class BoardApiControllerAdvice {
 	
+	// 잘못된 요청
 	@ExceptionHandler(UnsatisfiedContentException.class)
 	public ResponseEntity<?> unsatisfy(UnsatisfiedContentException e) {
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getError());
 	}
 	
+	// 생기지 않아야할 에러가 생긴 경우
 	@ExceptionHandler(TemporaryServerException.class)
 	public ResponseEntity<?> tempServer(TemporaryServerException e) {
 		return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(e.getError());

@@ -215,6 +215,7 @@
 		
 		var $summernote = $('#summernote');
 	
+		// 서머노트 커스터마이징
 		$summernote.summernote({
 				placeholder : 'content',
 				minHeight : 370,
@@ -223,6 +224,8 @@
 				focus : true,
 				lang : 'ko-KR',
 				height : 320,
+				
+				// 콜백으로 파일 서버 저장
 				callbacks : {
 					onImageUpload: function(files, editor, welEditable) {
 				            sendFile(files);
@@ -243,6 +246,7 @@
 	            return $("input[type=hidden][name=teacherRate]").val(teacher_star_rate);
 	        });
         
+		 // 파일 제출(저장)
         function sendFile(files){
         		var formData = new FormData();
         		   for(var i=0; i<files.length; i++){
@@ -264,6 +268,8 @@
                    }
                 });
         }
+		 
+		// 서머노트 필요없는 버튼 제거
 		makeFileBtn();
 		
 		function makeFileBtn() {
@@ -277,6 +283,7 @@
 			str += "</div>";
 			$("div[class*=toolbar]").append(str);
 		}
+		
 		//글쓰는 ajax
 		function boardWriteApi(data) {
 			  return $.ajax({
@@ -331,7 +338,9 @@
 		     });
 		 });
 		
+			
 		
+		// 파일 적용
 		$(".uploadResult ul li").each(function(i, obj){
 			var jobj = $(obj);
 			console.dir(jobj);
@@ -391,6 +400,7 @@
 		return true;
 	}
 	
+	// 파일 올린 결과 출력
 	function showUploadResult(uploadResultArr) {
 		if(!uploadResultArr||uploadResultArr.length==0){return;}
 		var uploadUL = $(".uploadResult ul");
@@ -426,12 +436,14 @@
 		$summernote.summernote("insertParagraph");
 	}
 
+	// 파일 변경시 변경
 	   $("input[type='file']").change(function(e){
           	var inputFile = $("input[name='uploadFile']");
            var files = inputFile[0].files;
    		sendFile(files);
        });
        
+	// 파일 삭제 
 	$(".uploadResult").on("click", "button", function(e){
 		console.log("delete file");
 		

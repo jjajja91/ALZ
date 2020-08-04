@@ -24,7 +24,9 @@ import lombok.experimental.Accessors;
 @NoArgsConstructor
 @AllArgsConstructor
 public class BoardDTO {
-	//notBlank_notNull, empty
+	
+	
+	// valid 애너테이션으로 처리
 	private Long id;
 	@NotBlank(message = "글 제목을 입력해주세요")
 	@Size(min=1, max=100, message="제목은 100자 이내로 입력해주세요")

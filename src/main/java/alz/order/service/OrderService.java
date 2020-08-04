@@ -13,5 +13,6 @@ public interface OrderService {
 	
 	public List<OrderDetailDTO> orderResult(String orderId);
 	public void orderDetailInsert(OrderDetailDTO orderDetail) throws Exception;
+	public OrderDTO findOrderer(String orderId);
 	
 }

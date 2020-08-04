@@ -49,6 +49,11 @@ public class OrderServiceImpl implements OrderService {
 		
 	}
 
+	@Override
+	public OrderDTO findOrderer(String orderId) {
+		return orderMapper.findOrderer(orderId);
+	}
+
 
 
 }

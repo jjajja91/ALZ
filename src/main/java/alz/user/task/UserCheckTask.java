@@ -20,6 +20,7 @@ public class UserCheckTask {
 		this.userMapper = userMapper;
 	}
 	
+	// 지정된 시간에 탈퇴한지 15일이 된 유저 삭제
 	@Scheduled(cron="0 58 15 * * *")
 	public void checkUsers() {
 		SimpleDateFormat sdf = new SimpleDateFormat("yy/MM/dd");

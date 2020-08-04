@@ -81,6 +81,13 @@
 			sysdate, #{endAt}) -->
 	</insert>
 
+	<insert id="insertState">
+		<selectKey keyProperty="id" order="BEFORE" resultType="long">
+			SELECT alz_user_state_seq.nextval FROM dual
+		</selectKey>
+		INSERT INTO ALZ_USER_STATE (ID, USER_ID, STATE)
+		VALUES(#{id}, #{userId}, #{state})
+	</insert>
 
 	<!-- 값을 다 넣을 때 -->
 	<!-- 

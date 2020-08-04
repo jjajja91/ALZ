@@ -52,6 +52,14 @@
 		(#{id}, #{orderId}, #{merchandiseId}, #{userId})
 	</insert>
 	
+	<select id="findOrderer"
+		resultType="alz.order.domain.OrderDTO">
+		select name, phone
+		from alz_order
+		where id = #{id}
+	</select>
+	
+	
 	
 
 </mapper>

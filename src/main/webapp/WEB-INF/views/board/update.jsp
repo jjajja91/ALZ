@@ -73,6 +73,7 @@
 				content: $content
 			};
 		
+		// 서머노트 커스터마이징
 		$summernote.summernote({
 			placeholder : 'content',
 			minHeight : 370,
@@ -81,6 +82,7 @@
 			lang : 'ko-KR',
 			height : 320,
 			
+			// 콜백으로 이미지를 서버에 저장ㄴ
 			callbacks : {
 				onImageUpload: function(files, editor, welEditable) {
 			            sendFile(files);
@@ -88,6 +90,7 @@
 			}
 		});
 		
+		// 필요 없는 이미지 등록 버튼 제거
 		makeFileBtn();
 		
 		// 서머노트 이미지 복사 붙여넣기를 파일업로드로 사용하기 위해 저장하는 메서드
@@ -313,6 +316,7 @@
   			return true;
   		}
   		
+  		// 올린 파일 결과 보여주기
   		function showUploadResult(uploadResultArr) {
   			if(!uploadResultArr||uploadResultArr.length==0){return;}
   			var uploadUL = $(".uploadResult ul");
@@ -350,6 +354,7 @@
   			
   		}
   		
+  		// 파일 바꾸면
   		$("input[type='file']").change(function(e){
   			var formData = new FormData();
   			var inputFile = $("input[name='uploadFile']");
@@ -377,6 +382,7 @@
   			});
   		});
   		
+  		// 파일 삭제
   		$(".uploadResult").on("click", "button", function(e){
   			console.log("delete file");
   			if(confirm("Remove this file? ")){

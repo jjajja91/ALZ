@@ -48,13 +48,9 @@
 								<td><c:out value="${merchandise.id }" /></td>
 								<td><c:out value="${merchandise.codeType }" /></td>
 								<td><a class='move'
-									href='<c:out value="${merchandise.id }"/>'><c:out
-											value="${merchandise.name }" /></a><br> <!--  
-					<button data-oper='modify' class="btn btn-default">상품 편집</button>
-					<form id='operForm'  method="get">
-						<input type='hidden' id='id' name='id' value="" >
-					</form>
-					--></td>
+									href='<c:out value="${merchandise.id }"/>'>
+								<c:out value="${merchandise.name }" /></a><br> 
+								</td>
 								<td><fmt:formatNumber value="${merchandise.originPrice }" pattern="#,###"/></td>
 								<td><a class='modify'
 									href='<c:out value="${merchandise.id }"/>'>상품 편집</a></td>
@@ -62,6 +58,7 @@
 						</c:forEach>
 					</table>
 
+					<!-- 검색창 -->
 					<div class='row'>
 						<div class="col-lg-12">
 
@@ -104,7 +101,7 @@
 	<!-- /.row -->
 
 
-
+	<!-- 페이징 -->
 	<div class='pull-right'>
 		<ul class="pagination">
 			<c:if test="${pageMaker.prev}">

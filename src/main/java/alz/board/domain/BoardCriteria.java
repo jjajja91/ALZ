@@ -15,6 +15,8 @@ public class BoardCriteria {
 
 	private int pageNum;
 	private int amount;
+	
+	// 게시판 타입 추가
 	private int typeId;
 	
 	private String type;

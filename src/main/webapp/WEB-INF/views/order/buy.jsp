@@ -20,6 +20,7 @@
 		<p>주문 내역은 [마이페이지 > 주문 내역]에서 다시 확인할 수 있습니다.
 	</div>
 
+	<!-- alz_order_detail에서 가져옴 -->
 	<div class="orderConfirm">
 		<div class="mdInfo">
 			<strong>주문번호 : ${orderId}</strong>
@@ -30,7 +31,7 @@
 				<c:set var="finalTotalPrice" value="0" />
 				<c:forEach items="${orderList}" var="list">
 					<tr>
-						<td >이미지</td>
+						<td>이미지</td>
 						<td>${list.name }<br>
 						<fmt:formatNumber value="${list.originPrice}" pattern="#,###"/>원</td>
 						<td>결제 완료</td>
@@ -47,11 +48,11 @@
 			<table border="1">
 				<tr>
 					<td>이름</td>
-					<td>${userInfo.nickname}</td>
+					<td>${orderer.name}</td>
 				</tr>
 				<tr>
 					<td>연락처</td>
-					<td>${userInfo.phoneNumber}</td>
+					<td>${orderer.phone}</td>
 				</tr>
 			</table>
 		</div>
