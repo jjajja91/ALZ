@@ -9,6 +9,9 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -24,6 +27,7 @@ import alz.board.domain.BoardDTO;
 import alz.board.domain.BoardPageDTO;
 import alz.board.service.BoardService;
 import alz.file.domain.BoardFileDTO;
+import alz.user.domain.UserDTO;
 import lombok.extern.log4j.Log4j;
 
 @Controller
@@ -38,6 +42,13 @@ public class BoardPageController {
 		this.boardService = boardService;
 	}
 	
+	public UserDTO getLoginUserInfo() {
+		SecurityContext context = SecurityContextHolder.getContext();
+		Authentication auth = context.getAuthentication();
+		UserDTO userInfo = (UserDTO)auth.getPrincipal();
+		return userInfo;
+	}
+	
 	//@GetMapping("/list")
 	//public void list(Model model) {
 	//	model.addAttribute("list", boardService.readAll());
@@ -45,28 +56,37 @@ public class BoardPageController {
 	
 	@PostMapping("/delete")
 	public String delete(@RequestParam("id") Long id, @ModelAttribute("cri") BoardCriteria cri, RedirectAttributes rttr) {
-		List<BoardFileDTO> fileList = boardService.getFileList(id);
-		BoardDTO board =boardService.readById(id);
-		if(boardService.deleteById(id)==1) {
-			deleteFiles(fileList);
-			rttr.addFlashAttribute("result", "success");
+		if(id!=getLoginUserInfo().getId()) {
+			return "redirect:/";
+		} else {
+			List<BoardFileDTO> fileList = boardService.getFileList(id);
+			BoardDTO board =boardService.readById(id);
+			if(boardService.deleteById(id)==1) {
+				deleteFiles(fileList);
+				rttr.addFlashAttribute("result", "success");
+			}
+		
+			rttr.addAttribute("pageNum", cri.getPageNum());
+			rttr.addAttribute("amount", cri.getAmount());
+		
+			return "redirect:/board/list?typeId=" + board.getTypeId();
 		}
-		
-		rttr.addAttribute("pageNum", cri.getPageNum());
-		rttr.addAttribute("amount", cri.getAmount());
-		
-		return "redirect:/board/list?typeId=" + board.getTypeId();
 	}
 	
 	@PostMapping("/update")
 	public String update(@Valid BoardDTO board, @ModelAttribute("cri") BoardCriteria cri, RedirectAttributes rttr,  BindingResult result) {
-	
+		
+		if(board.getId()!=getLoginUserInfo().getId()) {
+			return "redirect:/";
+		} else {
+		
 		boardService.update(board.getId(), board);
 			
 		rttr.addAttribute("pageNum", cri.getPageNum());
 		rttr.addAttribute("amount", cri.getAmount());
 //		}
 		return "redirect:/board/list";
+		}
 	}
 	
 	@GetMapping( {"/read", "/update" })
