@@ -430,11 +430,8 @@ public class UserController {
 			out_equals.flush();
 
 			return mv2;
-
 		}
-
 		return mv;
-
 	}
 
 	// 변경할 비밀번호를 입력한 후에 확인 버튼을 누르면 넘어오는 컨트롤러
