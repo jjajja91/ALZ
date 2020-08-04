@@ -42,12 +42,12 @@
 									</tr>
 									<tr align="center">
 										<td>가격</td>
-										<td><fmt:formatNumber value="${merchandise.originPrice }" pattern="#,###"/></td>
+										<td><fmt:formatNumber value="${merchandise.originPrice }"
+												pattern="#,###" /></td>
 									</tr>
 									<tr align="center">
 										<td colspan="2">
-											<form name="orderform" method="get"
-												action="/order/orderForm">
+											<form name="orderform" method="get" action="/order/orderForm">
 
 												<input type="hidden" id="id" name="id"
 													value='<c:out value="${merchandise.id }"/>'> <input
@@ -56,10 +56,10 @@
 													type="hidden" id="originPrice" name="originPrice"
 													value='<c:out value="${merchandise.originPrice }"/>'>
 												<input type="hidden" id="userId" name="userId"
-													value="${principal.id }">
-													<input type='hidden' id='cartId' name='cartId' value="${merchandise.id }">
+													value="${principal.id }"> <input type='hidden'
+													id='cartId' name='cartId' value="${merchandise.id }">
 
-											<button type="submit" class="buy">구매하기</button>
+												<button type="submit" class="buy">구매하기</button>
 											</form>
 
 											<button class="addCart">장바구니 담기</button>
@@ -79,15 +79,16 @@
 </body>
 <script type="text/javascript">
 
-	$(".addCart").click(function(){
-	  var userId = $("#userId").val();
-	  var id = $("#id").val();
-	           console.log(userId);
-	           console.log(id);
-	  var data = {
-			  userId : userId,
-			  id : id
-	    };
+	// 장바구니 담기
+	$(".addCart").click(function() {
+		var userId = $("#userId").val();
+		var id = $("#id").val();
+		console.log(userId);
+		console.log(id);
+		var data = {
+			userId : userId,
+			id : id
+		};
 
 		$.ajax({
 			type : "post",
@@ -116,6 +117,6 @@
 				//alert("작업을완료 했습니다");
 			}
 		}); //end ajax	
-	 });
+	});
 </script>
 </html>

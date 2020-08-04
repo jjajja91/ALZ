@@ -16,4 +16,6 @@ public interface OrderMapper {
 	public List<OrderDetailDTO> orderResult(String orderId);
 
 	public void orderDetailInsert(OrderDetailDTO orderDetail);
+
+	public OrderDTO findOrderer(String orderId);
 }

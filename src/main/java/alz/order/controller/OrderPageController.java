@@ -55,13 +55,14 @@ public class OrderPageController {
 
 		List<MerchandiseDTO> list = new ArrayList<MerchandiseDTO>();
 
-		MerchandiseDTO merchandiseList = new MerchandiseDTO();
+		MerchandiseDTO merchandise = new MerchandiseDTO();
 
-		merchandiseList = merchandiseService.readById(merchandiseId);
+		merchandise = merchandiseService.readById(merchandiseId);
 
-		list.add(merchandiseList);
-
+		list.add(merchandise);
+		
 		model.addAttribute("buyList", list);
+		model.addAttribute("merchandise", merchandise);
 
 		/* 개별 구매 완료시 해당 아이템이 카트에 있다면 결제 후 카트에서 삭제해주는 것도 필요하겠네 */
 	}
@@ -76,7 +77,7 @@ public class OrderPageController {
 
 		List<CartListDTO> list = new ArrayList<CartListDTO>();
 
-		System.out.println(cartId.length);
+		System.out.println("cartId.length : " + cartId.length);
 		// 장바구니 목록중 선택한것 가져오기
 		for (int i = 0; i < cartId.length; i++) {
 			long no = 0;
@@ -95,31 +96,37 @@ public class OrderPageController {
 	@GetMapping("/buy")
 	public void orderform(@RequestParam("orderId") String orderId, Model model) throws Exception {
 
-		long userId = getLoginUserInfo().getId();
-
 		// 모델에 유저 정보 추가
-		model.addAttribute("userInfo", userService.userInfo(userId));
 		model.addAttribute("orderId", orderId);
 
 		List<OrderDetailDTO> orderList = orderService.orderResult(orderId);
-
+		OrderDTO order = orderService.findOrderer(orderId);
+		
 		model.addAttribute("orderList", orderList);
+		model.addAttribute("orderer", order);
+		
+		
+
 
 		// 카트 비우기
+		long userId = getLoginUserInfo().getId();
 		orderService.removeCart(userId);
 
 	}
 
 	@PostMapping("/payForKakao")
-	public void payForKakao(@RequestParam("cartId") long[] cartId, Model model,@RequestParam("merchandise") long id,
+	public void payForKakao(@RequestParam("name") String name,@RequestParam("phone") String phone, @RequestParam("cartId") long[] cartId, Model model, @RequestParam("merchandise") String id,
 			@RequestParam("merchandiseName") String[] merchandiseName, @RequestParam("totalPrice") long totalPrice) {
 
 		System.out.println("카카오페이");
+		System.out.println(id);
 		long userId = getLoginUserInfo().getId();
 
 		int merchandises = cartId.length - 1;
 
 		model.addAttribute("userInfo", userService.userInfo(userId));
+		model.addAttribute("orderer", name);
+		model.addAttribute("orderPhone", phone);
 		model.addAttribute("merchandiseName", merchandiseName[0]);
 		model.addAttribute("merchandise", id);
 		model.addAttribute("totalPrice", totalPrice);
