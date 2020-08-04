@@ -36,10 +36,12 @@
 				<tr>
 					<td class="main_list_col1">이미지</td>
 					<td class="main_list_col2">${list.name}</td>
-					<td class="main_list_col3">${list.originPrice}</td>
+					<td class="main_list_col3">
+					<fmt:formatNumber value="${list.originPrice}" pattern="#,###"/></td>
 				</tr>
 
 				<input type="hidden" id="cartId" name="cartId" value="${list.id }">
+				<input type="hidden" id="merchandise" name="merchandise" value="${list.merchandiseId }">
 				<c:set var="i" value="${i+1}" />
 				<c:set var="finalTotalPrice"
 					value="${finalTotalPrice + list.originPrice}" />
@@ -54,7 +56,7 @@
 				<strong>연락처 정보</strong><br> 이름 <input type="text" name="name"
 					id="name" value="${userInfo.nickname}"><br> 휴대폰 <input
 					type="text" name="phone" id="phone" value="${userInfo.phoneNumber}"><br>
-				할인 금액 <br> 결제 금액 ${finalTotalPrice} <br> <br>
+				할인 금액 <br> 결제 금액 <fmt:formatNumber value="${finalTotalPrice}" pattern="#,###"/> <br> <br>
 			</div>
 
 			<div>
