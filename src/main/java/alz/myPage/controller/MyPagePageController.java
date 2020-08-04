@@ -42,6 +42,7 @@ public class MyPagePageController {
 		this.passwordEncoder = passwordEncoder;
 	}
 	
+	// 로그인한 유저 정보 가져오기
 	public UserDTO getLoginUserInfo() {
 		SecurityContext context = SecurityContextHolder.getContext();
 		Authentication auth = context.getAuthentication();
