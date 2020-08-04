@@ -1,8 +1,11 @@
 package alz.board.mapper;
 
 import java.util.List;
+
 import alz.board.domain.BoardCriteria;
 import alz.board.domain.BoardDTO;
+import alz.board.domain.ReviewDTO;
+import alz.board.domain.ReviewOptDTO;
 
 public interface BoardMapper {
 	
@@ -31,5 +34,17 @@ public interface BoardMapper {
 	Long getLikeCnt(Long boardId);
 
 	void addLike();
+
+	List<ReviewOptDTO> reviewOption(Long id);
+
+	void createReview(BoardDTO board);
+
+	void createReviewRate(BoardDTO board);
+	
+	Long lessonChk (BoardDTO board);
+
+	int reviewChk(Long merchandiseId);
+
+	ReviewDTO readReview(BoardDTO board);
 
 }

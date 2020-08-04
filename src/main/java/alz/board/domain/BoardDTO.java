@@ -45,6 +45,10 @@ public class BoardDTO {
 	private Integer typeId;
 	private Long writerId;
 	
+	private Long lessonReview;
+	private Long teacherReview;
+	private Long lessonId;
+	
 	private List<BoardFileDTO> fileList;
 
 		

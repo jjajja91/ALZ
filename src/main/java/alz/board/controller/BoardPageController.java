@@ -3,12 +3,14 @@ package alz.board.controller;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.security.Principal;
 import java.util.List;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -22,8 +24,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import alz.board.domain.BoardCriteria;
 import alz.board.domain.BoardDTO;
 import alz.board.domain.BoardPageDTO;
+import alz.board.domain.ReviewOptDTO;
 import alz.board.service.BoardService;
 import alz.file.domain.BoardFileDTO;
+import alz.lesson.domain.LessonDTO;
+import alz.user.domain.UserDTO;
 import lombok.extern.log4j.Log4j;
 
 @Controller
@@ -38,6 +43,12 @@ public class BoardPageController {
 		this.boardService = boardService;
 	}
 	
+	public UserDTO getLoginUserInfo() {
+		SecurityContext context = SecurityContextHolder.getContext();
+		Authentication auth = context.getAuthentication();
+		UserDTO userInfo = (UserDTO)auth.getPrincipal();
+		return userInfo;
+	}
 	//@GetMapping("/list")
 	//public void list(Model model) {
 	//	model.addAttribute("list", boardService.readAll());
@@ -71,9 +82,11 @@ public class BoardPageController {
 	
 	@GetMapping( {"/read", "/update" })
 	public void read(@RequestParam("id") Long id, @ModelAttribute("cri") BoardCriteria cri, Model model) {
-		log.info("/read or update");
-		
-		model.addAttribute("board", boardService.readById(id));
+		BoardDTO board = boardService.readById(id);
+		if(board.getTypeId()==4) {
+		board = boardService.readReview(board);
+		}
+		model.addAttribute("board", board);
 		}
 	
 	@GetMapping("/list")
@@ -87,6 +100,7 @@ public class BoardPageController {
 	
 	@GetMapping("/write")
 	public void write(@RequestParam("typeId") Integer typeId, Model model) {
+		model.addAttribute("reviewOpt", boardService.reviewOption(getLoginUserInfo().getId()));	
 		model.addAttribute("typeId", typeId);
 	}
 	
