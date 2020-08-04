@@ -34,7 +34,7 @@ public interface MyPageMapper {
 
 	UserDTO selectByUserId(UserDTO user);
 
-	int deleteAcc(Long id);
+	int deleteAcc(Long userId);
 	
 	int updateEnable(Long id);
 

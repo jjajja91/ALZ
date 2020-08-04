@@ -415,7 +415,7 @@ body {
 						<li><a href="/callMypage">마이페이지</a></li>
 						<li><a href="/lesson/register">클래스등록</a></li>
 						<c:if test="${principal.role eq 'ROLE_ADMIN'}">
-						<li><a href="/index/admin">관리자</a></li>
+						<li><a href="/admin/index">관리자</a></li>
 						</c:if>
 						<li><a href="/logout">LOGOUT</a></li>
 					</ul>

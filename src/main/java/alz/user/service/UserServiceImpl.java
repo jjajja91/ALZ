@@ -14,19 +14,20 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import alz.user.domain.UserDTO;
+import alz.user.domain.UserStateDTO;
 import alz.user.mapper.UserMapper;
 
 @Service
@@ -43,10 +44,14 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 		this.passwordEncoder = passwordEncoder;
 	}
 
+	@Transactional
 	@Override
 	public UserDTO create(UserDTO user) {
 		user.encodePassword(passwordEncoder);
 		int affectedRowCount = userMapper.insert(user);
+		UserStateDTO userState = new UserStateDTO();
+		userState.setUserId(user.getId()).setState("가입");
+		userMapper.insertState(userState);
 		UserDTO openUser = userMapper.selectById(user);
 
 		if (openUser == null) {

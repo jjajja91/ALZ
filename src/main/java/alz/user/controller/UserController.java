@@ -438,7 +438,7 @@ public class UserController {
 	}
 
 	// 변경할 비밀번호를 입력한 후에 확인 버튼을 누르면 넘어오는 컨트롤러
-	@RequestMapping(value = "/find_password_result", method = RequestMethod.POST)
+	@RequestMapping(value = "/find_password_result/{email}", method = RequestMethod.POST)
 	public ModelAndView find_password_result(@PathVariable String email, @RequestParam("password") String password, HttpServletRequest request,
 			HttpServletResponse pass) throws Exception {
 

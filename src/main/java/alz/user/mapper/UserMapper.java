@@ -8,11 +8,14 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.ibatis.annotations.Param;
 
 import alz.user.domain.UserDTO;
+import alz.user.domain.UserStateDTO;
 
 public interface UserMapper {
 
 	// 유저 생성
 	int insert(UserDTO user);
+	// 가입 시 상태저장
+	int insertState(UserStateDTO userState);
 
 	// 유저 정보 가져오기
 	UserDTO selectById(UserDTO user);
@@ -62,6 +65,7 @@ public interface UserMapper {
 
 	// 탈퇴한(15일이 지나서 삭제할 유저 찾기)
 	List<Long> findWithdrawUser(String date);
+
 	
 
 }

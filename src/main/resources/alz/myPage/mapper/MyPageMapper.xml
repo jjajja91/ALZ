@@ -147,8 +147,11 @@
 	</select>
 
    <insert id="deleteAcc">
-       insert into alz_user_state (id, state) values (#{id}, '탈퇴')
-   
+   		<selectKey keyProperty="id" order="BEFORE" resultType="long">
+			SELECT alz_user_state_seq.nextval FROM dual
+		</selectKey>
+       insert into alz_user_state (id, user_id, state) values (#{id}, #{userId}, '탈퇴')
+
    </insert>
 
 	<update id="updateEnable" parameterType="alz.user.domain.UserDTO">

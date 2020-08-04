@@ -24,7 +24,7 @@ public interface MyPageService {
 	
 	boolean selectById(UserDTO user);
 
-	int DeleteAcc(Long id);
+	int DeleteAcc(Long userId);
 
 	List<LessonDTO> finishedLessonList(MyPageCriteria cri);
 
