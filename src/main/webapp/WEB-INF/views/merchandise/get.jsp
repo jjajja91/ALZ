@@ -42,12 +42,12 @@
 									</tr>
 									<tr align="center">
 										<td>가격</td>
-										<td><c:out value="${merchandise.originPrice }" /></td>
+										<td><fmt:formatNumber value="${merchandise.originPrice }" pattern="#,###"/></td>
 									</tr>
 									<tr align="center">
 										<td colspan="2">
-											<form name="orderform" method="post"
-												action="/order/orderEach">
+											<form name="orderform" method="get"
+												action="/order/orderForm">
 
 												<input type="hidden" id="id" name="id"
 													value='<c:out value="${merchandise.id }"/>'> <input
