@@ -195,22 +195,22 @@
             e.preventDefault();
             if($email.val()==null || $email.val().trim()==""){
                alert("이메일이 비어있습니다");
-            } else if($nickname.val()==null || $nickname.val().trim()==""){
-               alert("닉네임이 비어있습니다");
-            /* } else if($password.val()==null || $password.val().trim()==""){
-               alert("비밀번호가 비어있습니다"); */
-            } else if($phoneNumber.val()==null || $phoneNumber.val().trim()==""){
-               alert("전화번호가 비어있습니다");
             } else if($email.val().length > 30) {
                alert("이메일을 30자 이내로 적어주세요");
-            } else if($nickname.val().length > 16) {
-               alert("닉네임을 16자 이내로 적어주세요");
-            /* } else if($password.val().length > 16) {
-               alert("비밀번호를 16자 이내로 적어주세요"); */
-            } else if($phoneNumber.val().length > 11) {
-               alert("전화번호를 11자 이내로 적어주세요");
             } else if(!(emailReg.test($email.val()))) {
                alert("이메일의 형식을 지켜주세요");
+            } else if($nickname.val()==null || $nickname.val().trim()==""){
+               alert("닉네임이 비어있습니다");
+            } else if($nickname.val().length > 16) {
+               alert("닉네임을 16자 이내로 적어주세요");
+            /* } else if($password.val()==null || $password.val().trim()==""){
+               alert("비밀번호가 비어있습니다"); */
+            /* } else if($password.val().length > 16) {
+               alert("비밀번호를 16자 이내로 적어주세요"); */
+            } else if($phoneNumber.val()==null || $phoneNumber.val().trim()==""){
+               alert("전화번호가 비어있습니다");
+            } else if($phoneNumber.val().length > 11) {
+               alert("전화번호를 11자 이내로 적어주세요");
             } else if(!(phoneNumberReg.test($phoneNumber.val()))) {
                alert("전화번호의 형식을 지켜주세요");
             } else if($emailChkResult.val()=="false"){
