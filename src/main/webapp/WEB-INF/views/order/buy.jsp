@@ -30,7 +30,7 @@
 				<c:set var="finalTotalPrice" value="0" />
 				<c:forEach items="${orderList}" var="list">
 					<tr>
-						<td >이미지</td>
+						<td>이미지</td>
 						<td>${list.name }<br>
 						<fmt:formatNumber value="${list.originPrice}" pattern="#,###"/>원</td>
 						<td>결제 완료</td>

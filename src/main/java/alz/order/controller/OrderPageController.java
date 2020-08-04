@@ -55,13 +55,14 @@ public class OrderPageController {
 
 		List<MerchandiseDTO> list = new ArrayList<MerchandiseDTO>();
 
-		MerchandiseDTO merchandiseList = new MerchandiseDTO();
+		MerchandiseDTO merchandise = new MerchandiseDTO();
 
-		merchandiseList = merchandiseService.readById(merchandiseId);
+		merchandise = merchandiseService.readById(merchandiseId);
 
-		list.add(merchandiseList);
-
+		list.add(merchandise);
+		
 		model.addAttribute("buyList", list);
+		model.addAttribute("merchandise", merchandise);
 
 		/* 개별 구매 완료시 해당 아이템이 카트에 있다면 결제 후 카트에서 삭제해주는 것도 필요하겠네 */
 	}
@@ -76,7 +77,7 @@ public class OrderPageController {
 
 		List<CartListDTO> list = new ArrayList<CartListDTO>();
 
-		System.out.println(cartId.length);
+		System.out.println("cartId.length : " + cartId.length);
 		// 장바구니 목록중 선택한것 가져오기
 		for (int i = 0; i < cartId.length; i++) {
 			long no = 0;
@@ -111,10 +112,11 @@ public class OrderPageController {
 	}
 
 	@PostMapping("/payForKakao")
-	public void payForKakao(@RequestParam("cartId") long[] cartId, Model model,@RequestParam("merchandise") long id,
+	public void payForKakao(@RequestParam("cartId") long[] cartId, Model model, @RequestParam("merchandise") String id,
 			@RequestParam("merchandiseName") String[] merchandiseName, @RequestParam("totalPrice") long totalPrice) {
 
 		System.out.println("카카오페이");
+		System.out.println(id);
 		long userId = getLoginUserInfo().getId();
 
 		int merchandises = cartId.length - 1;
