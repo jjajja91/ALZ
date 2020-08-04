@@ -89,7 +89,7 @@ public class MyPagePageController {
 		return "myPage/myLessonList";
 	}
 	
-	//완료된 내 클래스
+		//완료된 내 클래스
 		@GetMapping(value = "/finishedLesson")
 		public String finishedLesson(MyPageCriteria cri, Model model) {
 			cri.setId(getLoginUserInfo().getId());

@@ -94,13 +94,13 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 	}
 	
 	@Override
-	public int emailChk(String email) {
-		return emailChk(email);
+	public boolean emailChk(String email) {
+		return userMapper.emailChk(email)==1;
 	}
 
 	@Override
-	public int nicknameChk(String nickname) {
-		return nicknameChk(nickname);
+	public boolean nicknameChk(String nickname) {
+		return userMapper.nicknameChk(nickname)==1;
 	}
 
 	@Override

@@ -35,14 +35,14 @@ public class UserApiController {
 	
 	@PostMapping(value = "/emailChk", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public ResponseEntity<?> emailChk(@RequestBody UserDTO user) {
-		UserDTO foundUser = userService.readByEmail(user.getEmail());
-		return ResponseEntity.status(HttpStatus.OK).body(foundUser);
+		boolean result = userService.emailChk(user.getEmail());
+		return ResponseEntity.status(HttpStatus.OK).body(result);
 	}
 	
 	@GetMapping(value = "/nicknameChk/{nickname}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public ResponseEntity<?> nicknameChk(@PathVariable String nickname) {
-		UserDTO user = userService.readByNickname(nickname);
-		return ResponseEntity.status(HttpStatus.OK).body(user);
+		boolean result = userService.nicknameChk(nickname);
+		return ResponseEntity.status(HttpStatus.OK).body(result);
 	}
 	
 	@PostMapping(value = "/phoneNumberChk", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
