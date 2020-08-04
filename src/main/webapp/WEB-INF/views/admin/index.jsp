@@ -80,11 +80,11 @@
         </a>
         <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
-            <h6 class="collapse-header">Custom Utilities:</h6>
-            <a class="collapse-item" href="utilities-color.html">Colors</a>
-            <a class="collapse-item" href="utilities-border.html">Borders</a>
-            <a class="collapse-item" href="utilities-animation.html">Animations</a>
-            <a class="collapse-item" href="utilities-other.html">Other</a>
+            <h6 class="collapse-header">관리 메뉴</h6>
+            <a class="collapse-item" href="utilities-color.html">주문 통합 리스트</a>
+            <a class="collapse-item" href="utilities-border.html">주문 취소 리스트</a>
+           <!--  <a class="collapse-item" href="utilities-animation.html">메뉴3</a>
+            <a class="collapse-item" href="utilities-other.html">메뉴4</a> -->
           </div>
         </div>
       </li>
