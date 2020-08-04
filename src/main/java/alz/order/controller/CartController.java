@@ -1,6 +1,5 @@
 package alz.order.controller;
 
-import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,7 +19,6 @@ import org.springframework.web.servlet.ModelAndView;
 import alz.order.domain.CartDTO;
 import alz.order.service.CartService;
 import alz.user.domain.UserDTO;
-import alz.user.service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
 
@@ -31,7 +29,6 @@ import lombok.extern.log4j.Log4j;
 public class CartController {
 
 	private CartService cartService;
-	private UserService userService;
 
 	// 장바구니 페이지 연결
 //	@GetMapping("/cartList")
@@ -126,6 +123,7 @@ public class CartController {
 			}
 			result = "1";
 		}
+		
 		log.info(id);
 		return result;
 

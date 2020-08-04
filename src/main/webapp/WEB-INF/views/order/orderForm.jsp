@@ -3,8 +3,6 @@
 <%@include file="../includes/header.jsp"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%@ taglib uri="http://www.springframework.org/security/tags"
-	prefix="sec"%>
 
 <!DOCTYPE html>
 <html>
@@ -13,7 +11,6 @@
 <title>ORDER</title>
 </head>
 <body>
-	<sec:authentication var="principal" property="principal" />
 	<div>
 
 		<h2>ORDER</h2>
@@ -92,6 +89,7 @@
 			}
 		});
 
+		// 결제방법, 폰번호 체크
 		function checkConfirm() {
 			if ($('input[name="method"]:radio:checked').length < 1) {
 				alert("결제 방법을 선택하세요.");

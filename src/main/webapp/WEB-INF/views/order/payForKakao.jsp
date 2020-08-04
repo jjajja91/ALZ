@@ -93,6 +93,7 @@
 	        
 	    });
 	  
+	  // 결제 완료 후 실행됨
 	  function orderComplete() {
 			// 1. 오더 테이블 등록
 			addNewOrder()
@@ -112,12 +113,12 @@
 				}
 				  
 				  
-				
+				// 주문 완료 화면으로 이동
 			}).then(function(){
 				
 				setTimeout(function(){
 			
-				// orderResult 페이지로 넘어가기 
+				// 주문완료 페이지로 넘어가기 
 					location.href = "/order/buy?orderId="+orderId; 
 				
 				});
@@ -144,6 +145,7 @@
 		    day = "0" + day; 
 		  };
 		  
+		  // 6자리 난수 생성
 		  for (var i = 1; i <= 6; i++) {
 				subNum += Math.floor(Math.random() * 10);
 			};
