@@ -28,7 +28,7 @@ import lombok.extern.log4j.Log4j;
 @EnableWebSecurity
 @Log4j
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-	
+   
     @Autowired
     UserServiceImpl userService;
 
