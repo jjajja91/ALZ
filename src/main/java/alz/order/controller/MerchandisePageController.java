@@ -36,6 +36,7 @@ public class MerchandisePageController {
 //
 //	}
 
+	// 목록 출력
 	@GetMapping("/list")
 	public void list(MerchandiseCriteria cri, Model model) {
 
@@ -49,6 +50,7 @@ public class MerchandisePageController {
 		model.addAttribute("pageMaker", new MerchandisePageDTO(cri, total));
 	}
 
+	// 상품 등록
 	@PostMapping("/register")
 	public String register(MerchandiseDTO merchandise, RedirectAttributes rttr) {
 
@@ -61,6 +63,7 @@ public class MerchandisePageController {
 		return "redirect:/merchandise/list";
 	}
 
+	// 상품 상세 및 수정
 	@GetMapping({ "/get", "/modify" })
 	public void get(@RequestParam("id") Long id, @ModelAttribute("cri") MerchandiseCriteria cri, Model model) {
 
@@ -68,6 +71,7 @@ public class MerchandisePageController {
 		model.addAttribute("merchandise", merchandiseService.readById(id));
 	}
 
+	// 상품 삭제
 	@PostMapping("/remove")
 	public String remove(@RequestParam("id") Long id, @ModelAttribute("cri") MerchandiseCriteria cri,
 			RedirectAttributes rttr) {
@@ -80,6 +84,7 @@ public class MerchandisePageController {
 		return "redirect:/merchandise/list" + cri.getListLink();
 	}
 
+	// 상품 삭제
 	@PostMapping("/modify")
 	public String modify(@RequestParam("id") Long id, @ModelAttribute("cri") MerchandiseCriteria cri,
 			MerchandiseDTO merchandise, RedirectAttributes rttr) {
