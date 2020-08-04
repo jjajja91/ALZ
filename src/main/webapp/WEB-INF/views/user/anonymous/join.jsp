@@ -224,8 +224,7 @@
             else {
                joinForm.submit();
             }
-         })
-         
+         })   
       </script>
 </body>
 </html>

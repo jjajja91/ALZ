@@ -10,7 +10,6 @@ import alz.order.domain.CartListDTO;
 import alz.order.mapper.CartMapper;
 import lombok.extern.log4j.Log4j;
 
-
 @Service
 @Log4j
 public class CartServiceImpl implements CartService {
@@ -71,6 +70,5 @@ public class CartServiceImpl implements CartService {
 	public CartListDTO findCartId(long merchandiseId, long userId) {
 		return cartMapper.findCartId(merchandiseId, userId);
 	}
-
 
 }
