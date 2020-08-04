@@ -45,38 +45,55 @@ public class BoardApiController {
 		return ResponseEntity.status(HttpStatus.OK).body(commentsCnt);
 	}
 
+	// 파일 리스트 얻어오기
 	@GetMapping(value = "/getFileList", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public ResponseEntity<List<BoardFileDTO>> getFileList(Long boardId) {
 		List<BoardFileDTO> boardFiles = boardService.getFileList(boardId);
 		return ResponseEntity.status(HttpStatus.OK).body(boardFiles);
 	}
 
+	// 글 작성
 	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> create(@RequestBody @Valid BoardDTO board, BindingResult result) {
+		// 에러가 있으면
 		if (result.hasErrors()) {
+			// 에러 객체에 담아서
 			FieldError error = result.getFieldError();
+			// 예외를 던져줌
 			if (result.getFieldError().getCode().indexOf("NotNull") != -1)
 				throw new TemporaryServerException(error);
 			else
 				throw new UnsatisfiedContentException(error);
 		} else {
+			// 에러 없으면 작성
 			boardService.create(board);
 		}
 		return ResponseEntity.status(HttpStatus.CREATED).body(board);
 	}
 
+	// 하나 읽기
 	@GetMapping("/{id}")
 	public ResponseEntity<?> readOne(@PathVariable Long id) {
 		BoardDTO searchedBoard = boardService.readById(id);
 		return ResponseEntity.status(HttpStatus.OK).body(searchedBoard);
 	}
 
+	// 전체 리스트 가져오기
 	@GetMapping
 	public ResponseEntity<?> readAll() {
 		List<BoardDTO> boards = boardService.readAll();
 		return ResponseEntity.status(HttpStatus.OK).body(boards);
 	}
 
+	// 페이징 글목록
+	@GetMapping(value = "/{typeId}/{pageNum}")
+	public ResponseEntity<?> getListByPage(@PathVariable Integer typeId, @PathVariable Integer pageNum) {
+		BoardCriteria cri = new BoardCriteria(pageNum, 10, typeId);
+		List<BoardDTO> boardList = boardService.readAll(cri);
+		return ResponseEntity.status(HttpStatus.OK).body(boardList);
+	}
+	
+	
 	// 검색 결과 글목록
 	@GetMapping(value = { "{typeId}/{pageNum}/{amount}/{type}/{keyword}",
 			"{typeId}/{pageNum}/{amount}/{type}" }, produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
@@ -107,6 +124,7 @@ public class BoardApiController {
 		return total;
 	}
 
+	// 하나 수정
 	@PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> updateOne(@PathVariable Long id, @RequestBody @Valid BoardDTO board,
 			BindingResult result) {
@@ -123,6 +141,7 @@ public class BoardApiController {
 		}
 	}
 
+	// 하나 삭제
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> deleteOne(@PathVariable Long id) {
 		int affectedRowCount = boardService.deleteById(id);
@@ -162,5 +181,6 @@ public class BoardApiController {
 		boolean isLike = boardService.isLike(likeDTO);
 		return ResponseEntity.status(HttpStatus.OK).body(isLike);
 	}
+	
 
 }

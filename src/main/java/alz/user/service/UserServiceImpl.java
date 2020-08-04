@@ -87,7 +87,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 	@Override
 	public UserDTO readByNickname(String nickname) {
 		UserDTO searchedUser = userMapper.selectByNickname(nickname);
-
 		return searchedUser;
 	}
 
