@@ -55,7 +55,7 @@
 						<input type='hidden' id='id' name='id' value="" >
 					</form>
 					--></td>
-								<td><c:out value="${merchandise.originPrice }" /></td>
+								<td><fmt:formatNumber value="${merchandise.originPrice }" pattern="#,###"/></td>
 								<td><a class='modify'
 									href='<c:out value="${merchandise.id }"/>'>상품 편집</a></td>
 							</tr>

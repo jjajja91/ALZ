@@ -22,20 +22,18 @@
 
 	<div class="orderConfirm">
 		<div class="mdInfo">
-			<strong>주문번호 : <c:out value="${orderList.id }" /></strong>
+			<strong>주문번호 : ${orderId}</strong>
 			<table border="1">
 				<tr>
 					<td colspan="3">상품정보</td>
 				</tr>
 				<c:set var="finalTotalPrice" value="0" />
-				<c:forEach items="${buyList}" var="list">
+				<c:forEach items="${orderList}" var="list">
 					<tr>
-						<td rowspan="2">이미지</td>
-						<td>${list.name }</td>
-						<td rowspan="2">${orderList.state }</td>
-					</tr>
-					<tr>
-						<td>${list.originPrice}</td>
+						<td >이미지</td>
+						<td>${list.name }<br>
+						<fmt:formatNumber value="${list.originPrice}" pattern="#,###"/>원</td>
+						<td>결제 완료</td>
 					</tr>
 					<c:set var="finalTotalPrice"
 						value="${finalTotalPrice + list.originPrice}" />
@@ -64,11 +62,11 @@
 			<table border="1">
 				<tr>
 					<td>결제 방법</td>
-					<td>${orderList.method}</td>
+					<td>카카오 페이</td>
 				</tr>
 				<tr>
 					<td>결제 금액</td>
-					<td>${finalTotalPrice}</td>
+					<td><fmt:formatNumber value="${finalTotalPrice}" pattern="#,###"/></td>
 				</tr>
 			</table>
 		</div>
