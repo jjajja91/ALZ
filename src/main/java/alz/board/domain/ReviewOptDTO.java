@@ -1,6 +1,5 @@
 package alz.board.domain;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -16,13 +15,9 @@ import lombok.experimental.Accessors;
 @Accessors(chain=true)
 @NoArgsConstructor
 @AllArgsConstructor
-public class ReviewDTO {
+public class ReviewOptDTO {
 
-	private Long lessonReview;
-	private Long teacherReview;
-	private Long lessonId;
-	private Long boardId;
-	private Long reviewerId;
-	
-	
+	private Long id;
+	private String title;
+	private String orderId;
 }

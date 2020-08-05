@@ -9,6 +9,8 @@ import org.springframework.transaction.annotation.Transactional;
 import alz.board.domain.BoardCriteria;
 import alz.board.domain.BoardDTO;
 import alz.board.domain.LikeDTO;
+import alz.board.domain.ReviewDTO;
+import alz.board.domain.ReviewOptDTO;
 import alz.board.mapper.BoardMapper;
 import alz.board.mapper.LikeMapper;
 import alz.file.domain.BoardFileDTO;
@@ -33,13 +35,13 @@ public class BoardServiceImpl implements BoardService {
 	@Transactional
 	@Override
 	public void create(BoardDTO board) {
-	  if (board.getParentId() == null) {
+		if (board.getParentId() == null) {
 			boardMapper.insert(board);
-	} else if (board.getParentId() == 0) {
+		} else if (board.getParentId() == 0) {
 			boardMapper.replyInsert(board);
 			boardMapper.insertReply(board);
-			
-		} else  {
+
+		} else {
 			board.setParentId(board.getId());
 			boardMapper.rereplyInsert(board);
 			boardMapper.insertReply(board);
@@ -73,7 +75,7 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public List<BoardDTO> readAll(BoardCriteria cri) {
 		List<BoardDTO> list = boardMapper.selectWithPaging(cri);
-		
+
 		return list;
 	}
 
@@ -143,12 +145,42 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public boolean isLike(LikeDTO likeDTO) {
-		return likeMapper.getLike(likeDTO)==null ? false : true; 
+		return likeMapper.getLike(likeDTO) == null ? false : true;
 	}
 
 	@Override
 	public boolean removeLike(LikeDTO likeDTO) {
-		return likeMapper.removeLike(likeDTO)==0 ? false : true;
+		return likeMapper.removeLike(likeDTO) == 0 ? false : true;
+	}
+
+	@Override
+	public List<ReviewOptDTO> reviewOption(Long id) {
+		List<ReviewOptDTO> list = boardMapper.reviewOption(id);
+		return list;
+	}
+
+	@Override
+	public void createReview(BoardDTO board) {
+
+		boardMapper.createReview(board);
+		System.out.println(board.getId());
+
+	}
+
+	@Transactional
+	@Override
+	public void createReviewRate(BoardDTO board) {
+		boardMapper.createReviewRate(board);
+		Long merchandiseId = boardMapper.lessonChk(board);
+		boardMapper.reviewChk(merchandiseId);
+	}
+
+	@Override
+	public BoardDTO readReview(BoardDTO board) {
+		ReviewDTO review = boardMapper.readReview(board);
+		board.setLessonId(review.getLessonId()).setTeacherReview(review.getTeacherReview())
+		.setLessonReview(review.getLessonReview());
+		return board;
 	}
 
 }

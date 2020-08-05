@@ -2,11 +2,13 @@ package alz.board.service;
 
 import java.util.List;
 
-import org.springframework.validation.BindingResult;
+import javax.validation.Valid;
 
 import alz.board.domain.BoardCriteria;
 import alz.board.domain.BoardDTO;
 import alz.board.domain.LikeDTO;
+import alz.board.domain.ReviewDTO;
+import alz.board.domain.ReviewOptDTO;
 import alz.file.domain.BoardFileDTO;
 
 public interface BoardService {
@@ -49,5 +51,14 @@ public interface BoardService {
 
 	// 좋아요 삭제
 	boolean removeLike(LikeDTO likeDTO);
+
+	List<ReviewOptDTO> reviewOption(Long id);
+
+	void createReview(BoardDTO board);
+
+	void createReviewRate(BoardDTO board);
+
+	BoardDTO readReview(BoardDTO board);
+
 
 }

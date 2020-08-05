@@ -3,7 +3,6 @@ package alz.board.controller;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.security.Principal;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -25,8 +24,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import alz.board.domain.BoardCriteria;
 import alz.board.domain.BoardDTO;
 import alz.board.domain.BoardPageDTO;
+import alz.board.domain.ReviewOptDTO;
 import alz.board.service.BoardService;
 import alz.file.domain.BoardFileDTO;
+import alz.lesson.domain.LessonDTO;
 import alz.user.domain.UserDTO;
 import lombok.extern.log4j.Log4j;
 
@@ -41,15 +42,13 @@ public class BoardPageController {
 	public BoardPageController(BoardService boardService) {
 		this.boardService = boardService;
 	}
-	
-	// 로그인 유저 정보 획득
 	public UserDTO getLoginUserInfo() {
 		SecurityContext context = SecurityContextHolder.getContext();
 		Authentication auth = context.getAuthentication();
 		UserDTO userInfo = (UserDTO)auth.getPrincipal();
 		return userInfo;
 	}
-	
+  
 	//@GetMapping("/list")
 	//public void list(Model model) {
 	//	model.addAttribute("list", boardService.readAll());
@@ -106,9 +105,11 @@ public class BoardPageController {
 	// 읽기와 수정 동시처리
 	@GetMapping( {"/read", "/update" })
 	public void read(@RequestParam("id") Long id, @ModelAttribute("cri") BoardCriteria cri, Model model) {
-		log.info("/read or update");
-		// 나눠서 수정 권한 체크해야할 듯
-		model.addAttribute("board", boardService.readById(id));
+		BoardDTO board = boardService.readById(id);
+		if(board.getTypeId()==4) {
+		board = boardService.readReview(board);
+		}
+		model.addAttribute("board", board);
 		}
 	
 	// 리스트
@@ -125,7 +126,7 @@ public class BoardPageController {
 	// 작성
 	@GetMapping("/write")
 	public void write(@RequestParam("typeId") Integer typeId, Model model) {
-		// 게시판 타입에 맞게 작성
+		model.addAttribute("reviewOpt", boardService.reviewOption(getLoginUserInfo().getId()));	
 		model.addAttribute("typeId", typeId);
 	}
 	

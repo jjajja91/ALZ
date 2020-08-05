@@ -2,7 +2,8 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
+<%@ taglib uri="http://www.springframework.org/security/tags"
+	prefix="sec"%>
 
 <%@include file="../includes/header.jsp"%>
 <sec:authentication var="principal" property="principal" />
@@ -14,9 +15,9 @@
 	<div class="panel-body">
 
 		<div class="form-group">
-			<input type = 'hidden' id = 'boardId' value='${board.id }'>
-			<input type = 'hidden' id = 'userId' value='${principal.id}'>
-			<input class="form-control" name='title'
+			<input type='hidden' id='boardId' value='${board.id }'> <input
+				type='hidden' id='userId' value='${principal.id}'> <input
+				class="form-control" name='title'
 				value='<c:out value="${board.title }"/>' readonly="readonly">
 		</div>
 		<div class="form-group">
@@ -30,6 +31,30 @@
 				value='<c:out value="${board.viewCnt }"/>' readonly="readonly">
 		</div>
 		<hr>
+		<c:if test="${board.typeId == 4}">
+			<div>
+				<lable>강의 만족도</lable>
+				<p id="lesson_star_rate">
+					<a href="#" id="star1">★</a> <a href="#" id="star2">★</a> <a
+						href="#" id="star3">★</a> <a href="#" id="star4">★</a> <a href="#"
+						id="star5">★</a>
+				</p>
+				<input type='hidden' name='lessonReview'
+					value='<c:out value="${board.lessonReview}"/>'>
+
+				<lable>강사 만족도</lable>
+				<p id="teacher_star_rate">
+					<a href="#" id="star1">★</a> <a href="#" id="star2">★</a> <a
+						href="#" id="star3">★</a> <a href="#" id="star4">★</a> <a href="#"
+						id="star5">★</a>
+				</p>
+				<input type='hidden' name='teacherReview'
+					value='<c:out value="${board.teacherReview}"/>'>
+
+
+			</div>
+
+		</c:if>
 		<div class="form-group">
 			<textarea class="form-control" id='content' rows="10" name='content'
 				readonly="readonly"><c:out value="${board.content }" />
@@ -37,16 +62,15 @@
 		</div>
 
 		<div class="form-group">
-			<input type="hidden" id="isLike" value="false">
-			<input type="hidden" id="likeCnt" value="${board.likeCnt }"/>
-			<a class='likeCnt' href='<c:out value="${board.likeCnt }"/>'>
-			♡ 좋아요 <c:out value="${board.likeCnt }" />
-			</a> 
-			<a class='commentCnt' href='<c:out value="${board.commentCnt }"/>'>댓글
+			<input type="hidden" id="isLike" value="false"> <input
+				type="hidden" id="likeCnt" value="${board.likeCnt }" /> <a
+				class='likeCnt' href='<c:out value="${board.likeCnt }"/>'> ♡ 좋아요
+				<c:out value="${board.likeCnt }" />
+			</a> <a class='commentCnt' href='<c:out value="${board.commentCnt }"/>'>댓글
 				<c:out value="${board.commentCnt }" />
 			</a>
 		</div>
-		
+
 		<%-- <div>
 
 		<div class="bigPictureWrapper">
@@ -68,12 +92,12 @@
 			</div>
 		</div> --%>
 
-	<button data-oper='write' class="btn btn-info"
-			onclick="location.href='/board/write?typeId=<c:out value="${board.typeId}"/>&id=<c:out value="${board.id}"/>&pid=<c:out value="${board.parentId}"/>&boardOrder=<c:out value="${board.boardOrder}"/>'">답글쓰기</button> 
-		
+		<button data-oper='write' class="btn btn-info"
+			onclick="location.href='/board/write?typeId=<c:out value="${board.typeId}"/>&id=<c:out value="${board.id}"/>&pid=<c:out value="${board.parentId}"/>&boardOrder=<c:out value="${board.boardOrder}"/>'">답글쓰기</button>
+
 		<c:if test="${principal.nickname eq board.nickname}">
-		<button data-oper='update' class="btn btn-default"
-			onclick="location.href='/board/update?id=<c:out value="${board.id}"/>'">수정</button>
+			<button data-oper='update' class="btn btn-default"
+				onclick="location.href='/board/update?id=<c:out value="${board.id}"/>'">수정</button>
 		</c:if>
 		<button data-oper='list' class="btn btn-info"
 			onclick="location.href='/board/list?typeId='${board.typeId}">목록</button>
@@ -86,37 +110,39 @@
 			<input type='hidden' name='keyword'
 				value='<c:out value="${cri.keyword }"/>'> <input
 				type='hidden' name='type' value='<c:out value="${cri.type }"/>'>
-				<input type='hidden' name='typeId' value='<c:out value="${board.typeId }"/>'>
+			<input type='hidden' name='typeId'
+				value='<c:out value="${board.typeId }"/>'>
 		</form>
 	</div>
 
-    <!-- 댓글  -->
-    <input type='hidden' name='replyNickname' id='replyNickname' value='${principal.nickname}'>
+	<!-- 댓글  -->
+	<input type='hidden' name='replyNickname' id='replyNickname'
+		value='${principal.nickname}'>
 	<div class="container">
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<i class="fa fa-comments fa-fw"></i> 댓글
 			</div>
-			
+
 			<div class="panel-body">
-				<ul class="chat"> 
-					<li>
-						<strong class="primary-font">user00</strong>
-						<small class="pull-right text-muted">2020-07-03</small>
-						<pre>Good job!</pre>
+				<ul class="chat">
+					<li><strong class="primary-font">user00</strong> <small
+						class="pull-right text-muted">2020-07-03</small> <pre>Good job!</pre>
 					</li>
 				</ul>
-				
+
 				<!-- 댓글입력 -->
 				<div>
-					<textarea id="commentContent" name='comment' placeholder='댓글을 남겨보세요'></textarea>
+					<textarea id="commentContent" name='comment'
+						placeholder='댓글을 남겨보세요'></textarea>
 					<button id="registerCommentBtn">등록</button>
 				</div>
 			</div>
-			<input type="hidden" id="targetUser" name="targetUser" value="<sec:authentication property="principal.nickname"/>"/>
+			<input type="hidden" id="targetUser" name="targetUser"
+				value="<sec:authentication property="principal.nickname"/>" />
 		</div>
 	</div>
-	
+
 </div>
 
 <script type="text/javascript" src="/resources/js/comment.js"></script>
@@ -135,8 +161,19 @@
 				userId : $userId.val(),
 				boardId : $boardId.val()
 			};
+		var $lessonReview = $("input[name=lessonReview]");
+		var $teacherReview = $("input[name=teacherReview]");
+	   
+		lessonReview = $lessonReview.val();
+		teacherReview = $teacherReview.val(); 
 		
-		// 유저와 게시글 아이디를 통해서 좋아요 상태 알아와서
+		for(var i=1; i<=lessonReview;i++){
+			 $('#lesson_star_rate').children('#star'+i).addClass("lessonOn");
+			}
+	    for(var i=1; i<=teacherReview;i++){
+	      $('#teacher_star_rate').children('#star'+i).addClass("teacherOn");
+	       }
+		  
 		isLike(likeData)
 		.then(function(response){
 			// 좋아요 상태 반영
