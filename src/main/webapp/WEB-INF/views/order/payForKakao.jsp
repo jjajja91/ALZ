@@ -5,7 +5,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://www.springframework.org/security/tags"
 	prefix="sec"%>
-  
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,13 +20,37 @@
 	<sec:authentication var="principal" property="principal" />
 	<script>
 	
-	var name = "${userInfo.nickname}";
-	var phone = ${userInfo.phoneNumber};
+	<!-- 값 가져오기 -->
+	
+	var name = "${orderer}";	// 주문자 이름
+	var phone = ${orderPhone};
 	var totalPrice = ${totalPrice};
 	var merchandiseName = "${merchandiseName}";
 	var merchandises = ${merchandises};
-	var msg;
+	var itemId = "${merchandise}";
 	
+	var msg;
+	var orderId;
+	var subNum = "";
+	var orderName = "";
+	
+	var buyList = [
+		  <c:forEach items="${buyList}" var="list">
+		                 {merchandiseId: "${list.merchandiseId}"},
+		  </c:forEach>
+		             ];
+
+	  console.log(buyList);
+	  
+	  function one() {
+		  if (merchandises === 0) {
+			  orderName = merchandiseName;
+			} else if (merchandises >= 1) {
+				orderName = merchandiseName + " 외 " + merchandises + "건";
+			}
+		  return orderName;
+	  }
+	  
 	  $(function(){
 			var IMP = window.IMP; // 생략가능
 			IMP.init("imp41338638"); // 발급받은 "가맹점 식별코드"를 사용
@@ -36,7 +60,7 @@
 				pg : 'kakaopay',
 				pay_method : 'card',
 				merchant_uid : 'merchant_' + new Date().getTime(),
-				name : merchandiseName + " 외 " + merchandises + "건",
+				name : one(),
 				amount : totalPrice,
 				buyer_name : name,
 				buyer_tel : phone,
@@ -80,17 +104,70 @@
 	        
 	    });
 	  
+	  // 결제 완료 후 실행됨
 	  function orderComplete() {
 			// 1. 오더 테이블 등록
+			addNewOrder()
+			
 			// 2. 오더 상세 테이블 등록
-			// 3. 결제 완료 페이지로 이동
-			addNewOrder();
+			.then(function(){
+				// 단독 구매시
+				if (merchandises === 0) {
+					orderDetail(itemId);
+					console.log("A");
+				} else {  // 장바구니 구매시
+					console.log("B");
+					for(var i=0; i<buyList.length; i++) {
+						console.log(buyList[i].merchandiseId);
+						orderDetail(buyList[i].merchandiseId);
+					}
+				}
+				  
+				  
+				// 주문 완료 화면으로 이동
+			}).then(function(){
+				
+				setTimeout(function(){
+			
+				// 주문완료 페이지로 넘어가기 
+					location.href = "/order/buy?orderId="+orderId; 
+				
+				});
+			});
+			
+			
 	  }
 	  
+	  
+	  // 주문 등록
 	  function addNewOrder() {
+		  
+		  // 주문 번호 생성
+		  var date = new Date(); 
+		  var year = date.getFullYear(); 
+		  var month = new String(date.getMonth()+1); 
+		  var day = new String(date.getDate()); 
 
+		  // 한자리수일 경우 0을 채워준다. 
+		  if(month.length == 1){ 
+		    month = "0" + month; 
+		  };
+		  if(day.length == 1){ 
+		    day = "0" + day; 
+		  };
+		  
+		  // 6자리 난수 생성
+		  for (var i = 1; i <= 6; i++) {
+				subNum += Math.floor(Math.random() * 10);
+			};
+
+		  orderId = year + "" + month + "" + day + "_" + subNum;
+		  console.log(orderId);   // ex) 20200804_615664
+		  
+		  
 		  var Data = {
 					
+				  	id : orderId,
 					name: name,
 					phone: phone,
 					totalPrice: totalPrice,
@@ -105,7 +182,9 @@
 					type: "POST",
 					data: JSON.stringify(Data),
 					contentType: "application/json",
-					success : function(){console.log("주문 등록 성공")},
+					success : function(){console.log("주문 등록 성공")
+						/* location.href = "/order/buy?orderId="+orderId; */
+					},
 					error : function(){
 						msg = '결제에 실패하였습니다.';
 						//실패시 이동할 페이지
@@ -114,6 +193,27 @@
 						}
 					
 				});
+	  }
+	  
+	  // 주문 상세 등록
+	  function orderDetail(merchandiseId) {
+		  console.log("orderDetail");
+		  console.log(orderId);
+		  
+		  var orderDetailData = {
+					orderId : orderId,
+					merchandiseId : merchandiseId
+				}
+		  
+		  return $.ajax({
+				url: "/order/orderDetailInsert",
+				type: "POST",
+				data: JSON.stringify(orderDetailData),
+				contentType: "application/json",
+				error : function(){console.log("오더디테일 실패")},
+			    success : function(){console.log("오더디테일 성공")}
+			}); 
+		  
 	  }
 	</script>
 

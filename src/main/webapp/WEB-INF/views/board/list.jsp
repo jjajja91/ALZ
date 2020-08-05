@@ -86,6 +86,7 @@
 
 <script type="text/javascript">
 	$(document).ready(function() {
+
 		var $pageNum = $("#pageNum");
 		var $amount = $("#amount");
 		var $type = $("#type");

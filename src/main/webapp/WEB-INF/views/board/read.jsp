@@ -167,7 +167,6 @@
 		lessonReview = $lessonReview.val();
 		teacherReview = $teacherReview.val(); 
 		
-		
 		for(var i=1; i<=lessonReview;i++){
 			 $('#lesson_star_rate').children('#star'+i).addClass("lessonOn");
 			}
@@ -175,15 +174,17 @@
 	      $('#teacher_star_rate').children('#star'+i).addClass("teacherOn");
 	       }
 		  
-		
 		isLike(likeData)
 		.then(function(response){
+			// 좋아요 상태 반영
 			$isLike.val(response);
 		})
 		.then(function(response){
+			// 좋아요 수 반영
 			return countLike($boardId.val());
 		})
 		.then(function(response){
+			// 좋아요 그리기(채워진/빈 하트)
 			drawLikeCnt(response);
 		})
 		.catch(function(error){
@@ -226,6 +227,7 @@
 
 		var $content = $('#content');
 		
+		//서머노트 툴바 삭제
 		$content.summernote('code', $content.val());
 		$("div[class*=toolbar]").css("display", "none");
 		$("div[class*=note-editable]").attr("contenteditable", "false");
@@ -379,10 +381,12 @@
 					$('#commentContent').val("");
 				})
 				.then(function(response){
+					// 댓글 수 구하기
 					return countComments($boardId.val());
 				})
 				.then(function(response){
 					console.log(response);
+					// 댓글 수 다시 그리기
 					drawCommentCnt(response);
 				})
 				.catch(function(error) {
@@ -395,13 +399,17 @@
 			
 		})
 		
+		// 좋아요  수
 		var $likeCnt = $(".likeCnt");
+		// 댓글 수
 		var $commentCnt = $(".commentCnt");
 		
 		$likeCnt.click(function(e){
 			e.preventDefault();
 			
+			// 좋아요 상태가 true면
 			if($isLike.val()=="true"){
+				// 좋아요 제거
 				removeLike(likeData)
 				.then(function(response){
 					return countLike($boardId.val());
@@ -413,7 +421,9 @@
 				.catch(function(error){
 					console.log(error);
 				});
+			// 좋아요 상태가 false면
 			} else {
+				// 좋아요 추가
 				addLike(likeData)
 				.then(function(response){
 					return countLike($boardId.val());
@@ -595,6 +605,7 @@
 			
 		}
 		
+		// 좋아요 추가
 		function addLike(likeData) {
 			return $.ajax({
 				type : "POST",
@@ -604,6 +615,7 @@
 			});
 		}
 		
+		// 좋아요 삭제
 		function removeLike(likeData) {
 			return $.ajax({
 				type : 'DELETE',
@@ -612,6 +624,7 @@
 			});
 		}
 		
+		// 좋아요 수
 		function countLike(id) {
 			return $.ajax({
 				type : "GET",
@@ -620,10 +633,12 @@
 			});
 		}
 		
+		// 댓글 수 갱신 반영
 		function drawCommentCnt(commentCnt){
 			$commentCnt.html("댓글 "+commentCnt);
 		}
 		
+		// 좋아요 수 갱신 반영 및 좋아요 여부 반영
 		function drawLikeCnt(likeCnt) {
 			if($isLike.val()=="true") {
 			$likeCnt.html("♥ 좋아요 "+likeCnt);
@@ -632,6 +647,7 @@
 			}
 		}
 		
+		// 댓글 수 구하기
 		function countComments(id) {
 			return $.ajax({				
 				type: 'GET',
@@ -640,6 +656,7 @@
 			});
 		}
 		
+		// 좋아요 여부 확인
 		function isLike(likeData){
 			return $.ajax({
 				type : "GET",

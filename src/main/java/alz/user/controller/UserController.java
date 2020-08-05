@@ -23,6 +23,9 @@ import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -46,6 +49,13 @@ public class UserController {
 
 	@Autowired
 	UserService userService; // 서비스를 호출하기 위해 의존성을 주입
+	
+	public UserDTO getLoginUserInfo() {
+		SecurityContext context = SecurityContextHolder.getContext();
+		Authentication auth = context.getAuthentication();
+		UserDTO userInfo = (UserDTO)auth.getPrincipal();
+		return userInfo;
+	}
 
 	@ModelAttribute("path")
 	public String getContextPath(HttpServletRequest request) {
@@ -110,27 +120,32 @@ public class UserController {
 		return "/user/anonymous/Success"; // 문자 메시지 발송 성공했을때 number페이지로 이동함
 	}
 
+	// 로그인 페이지
 	@GetMapping("/login")
 	public String login() {
 		return "user/users/login";
 	}
 
+	// 가입 페이지
 	@RequestMapping(value = "/join", method = RequestMethod.GET)
 	public String join() {
 		return "user/anonymous/join";
 	}
 
+	// 마이페이지 페이지
 	@RequestMapping(value = "/callMypage", method = RequestMethod.GET)
 	public String callMypage() {
 		return "/myPage";
 	}
 
+	// 수정 페이지
 	@GetMapping("/modify")
 	public String callUpdate() {
-
+		System.out.println(getLoginUserInfo().getNickname());
 		return "/user/users/Modify";
 	}
 
+	// 아이디 찾기 페이지
 	@RequestMapping(value = "/find_id_form")
 	public String find_id_form() throws Exception {
 		return "/user/users/find_id_form";
@@ -182,6 +197,7 @@ public class UserController {
 		return mv;
 	}
 
+	// 소셜회원 최초 로그인 시 가입화면
 	@GetMapping("/socialJoin")
 	public String socialJoin(String email, String id, Model model) {
 		model.addAttribute("email", email);
@@ -189,6 +205,7 @@ public class UserController {
 		return "user/anonymous/socialJoin";
 	}
 
+	// 소셜 로그인 시 로그인 처리
 	@GetMapping("/socialLogin")
 	public String socialLogin(String email, String id, Model model) {
 		model.addAttribute("email", email);
@@ -196,6 +213,7 @@ public class UserController {
 		return "user/users/socialLogin";
 	}
 
+	// 카카오 요청
 	@GetMapping("/kakao/request")
 	@ResponseBody
 	public Map<String, String> requestKakao(HttpSession session) {
@@ -210,6 +228,7 @@ public class UserController {
 		return map;
 	}
 
+	// 카카오 인증
 	@GetMapping("/kakao/oauth")
 	public String kakaoLogin(String code) {
 		String accessToken = userService.getKakaoAccessToken(code);
@@ -226,6 +245,7 @@ public class UserController {
 		}
 	}
 
+	// 네이버 요청
 	@GetMapping("/naver/request")
 	@ResponseBody
 	public Map<String, String> requestNaver(HttpSession session) throws UnsupportedEncodingException {
@@ -243,6 +263,7 @@ public class UserController {
 		return map;
 	}
 
+	// 네이버 인증
 	@GetMapping("/naver/oauth")
 	public String naverLogin(String code, String state) {
 		String accessToken = userService.getNaverAccessToken(code, state);
@@ -260,6 +281,7 @@ public class UserController {
 
 	}
 
+	// 구글 요청
 	@GetMapping("/google/request")
 	@ResponseBody
 	public Map<String, String> requestGoogle(HttpSession session) throws UnsupportedEncodingException {
@@ -278,6 +300,7 @@ public class UserController {
 		return map;
 	}
 
+	// 구글 인증
 	@GetMapping("/google/oauth")
 	public String googleLogin(String code) {
 		String accessToken = userService.getGoogleAccessToken(code);
@@ -417,30 +440,25 @@ public class UserController {
 			out_equals.flush();
 
 			return mv2;
-
 		}
-
 		return mv;
-
 	}
 
 	// 변경할 비밀번호를 입력한 후에 확인 버튼을 누르면 넘어오는 컨트롤러
-	@RequestMapping(value = "/find_password_result{email}", method = RequestMethod.POST)
-	public ModelAndView find_password_result(@PathVariable String email, @RequestParam("password") String password,
-			HttpServletRequest request, UserDTO dto, HttpServletResponse pass) throws Exception {
+	@RequestMapping(value = "/find_password_result/{email}", method = RequestMethod.POST)
+	public ModelAndView find_password_result(@PathVariable @RequestParam("email") String email, @RequestParam("password") String password, HttpServletRequest request,
+			HttpServletResponse pass) throws Exception {
 
 		request.getParameter("password");
-
-		String email1 = email;
-
-		dto.setEmail(email1);
+		UserDTO dto = new UserDTO();
+		dto.setEmail(email);
 		dto.setPassword(password);
 
 		// 값을 여러개 담아야 하므로 해쉬맵을 사용해서 값을 저장함
 
 		Map<String, Object> map = new HashMap<>();
 
-		map.put("email", dto.getEmail());
+		map.put("emai", dto.getEmail());
 		map.put("password", dto.getPassword());
 
 		userService.find_password_result(password, map, dto);

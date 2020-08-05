@@ -28,9 +28,9 @@ import lombok.extern.log4j.Log4j;
 @EnableWebSecurity
 @Log4j
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-	
+   
     @Autowired
-    UserServiceImpl userService;
+    UserServiceImpl userServiceImpl;
 
 	@Bean
 	public PasswordEncoder passwordEncoder() {
@@ -74,7 +74,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 		http.authorizeRequests()
 		.antMatchers("/", "/users/**", "/socialJoin", "/socialLogin", "/google/*", "/naver/*","/kakao/*", "/resources/**", "/join", "/create", "/find_id_form", "/find_id",
-					 "/find_password_form", "/find_password_email", "/find_password_change{dice},{email}","/find_password_result{email}").permitAll()
+					 "/find_password_form", "/find_password_email", "/find_password_change{dice},{email}","/find_password_result/*").permitAll()
 		.anyRequest().authenticated()
         .expressionHandler(expressionHandler());
 
@@ -84,7 +84,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.httpBasic();
 		
         http.rememberMe()
-        .userDetailsService(userService)
+        .userDetailsService(userServiceImpl)
         .key("remember-me-sample");
         
         http.logout()
@@ -107,7 +107,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.userDetailsService(userService)
+		auth.userDetailsService(userServiceImpl)
 			.passwordEncoder(passwordEncoder());	
 	}
 
