@@ -7,9 +7,10 @@
 
 	<select id="orderList" resultType="alz.order.domain.OrderAllDTO">
 		select rownum, order_at,id,
-		name,phone, merchandise_name, total_price, state from(select
-		order_at,id, name,phone, max(merchandise) merchandise_name,
-		total_price, state
+		name,phone, merchandise_name, total_price, state, b.count from
+		(select rownum, order_at,id, name,phone, merchandise_name, total_price, state
+		from(select order_at,id, name,phone, max(merchandise)
+		merchandise_name, total_price, state
 		from (select o.order_at, o.id, o.name, o.phone, m.name merchandise,
 		o.total_price, o.state
 		from alz_order o
@@ -18,7 +19,9 @@
 		where d.order_id = o.id and o.user_id = d.user_id)
 		group by order_at,id, name,phone, total_price, state
 		order by order_at)
-		order by rownum desc
+		order by rownum desc) a, (SELECT order_id, COUNT(*)count FROM
+		alz_order_detail GROUP BY order_id) b
+		where a.id = b.order_id
 	</select>
 
 

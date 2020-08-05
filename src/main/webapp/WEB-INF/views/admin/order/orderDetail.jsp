@@ -170,7 +170,8 @@
 					</div>
 					<div class="card shadow mb-4">
 						<div class="card-header py-3">
-							<h4 class="m-0 font-weight-bold text-primary">주문번호 : ${orderId}</h4>
+							<h4 class="m-0 font-weight-bold text-primary">주문번호 :
+								${orderId}</h4>
 						</div>
 
 						<div class="card-body">
@@ -265,7 +266,7 @@
 			<footer class="sticky-footer bg-white">
 				<div class="container my-auto">
 					<div class="copyright text-center my-auto">
-						<span>Copyright &copy; Your Website 2020</span>
+						<span>Copyright &copy; ALZ Corp. All rights reserved.</span>
 					</div>
 				</div>
 			</footer>
@@ -304,6 +305,7 @@
 			</div>
 		</div>
 	</div>
+	
 
 	<!-- Bootstrap core JavaScript-->
 	<script src="/resources/vendor/jquery/jquery.min.js"></script>

@@ -17,6 +17,9 @@
 
 <title>알랴쥼 관리자</title>
 
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
 <!-- Custom fonts for this template-->
 <link href="/resources/vendor/fontawesome-free/css/all.min.css"
 	rel="stylesheet" type="text/css">
@@ -175,11 +178,12 @@
 						</div>
 						<div class="card-body">
 							<div class="table-responsive">
+
 								<table class="table table-bordered" id="dataTable" width="100%"
 									cellspacing="0">
 									<thead>
 										<tr>
-											<th>선택</th>
+											<th><input type="checkbox" id="checkAll"></th>
 											<th>번호</th>
 											<th>주문 일시</th>
 											<th>주문 번호</th>
@@ -192,13 +196,23 @@
 									<tbody>
 										<c:forEach items="${list}" var="order">
 											<tr>
-												<td></td>
+												<td><input type="checkbox" class="checkEach"></td>
 												<td><c:out value="${order.rownum}" /></td>
-												<td><fmt:formatDate pattern="yyyy-MM-dd HH:mm" value="${order.orderAt}" /></td>
-												<td><a href='/admin/order/orderDetail?id=<c:out value="${order.id}" />'>
-												<c:out value="${order.id}" /></a></td>
+												<td><fmt:formatDate pattern="yyyy-MM-dd HH:mm"
+														value="${order.orderAt}" /></td>
+												<td><a
+													href='/admin/order/orderDetail?id=<c:out value="${order.id}" />'>
+														<c:out value="${order.id}" />
+												</a></td>
 												<td><c:out value="${order.name}" /></td>
-												<td><c:out value="${order.merchandiseName}" /></td>
+												<td><c:choose>
+														<c:when test="${order.count == 1}">
+															<c:out value="${order.merchandiseName}" />
+														</c:when>
+														<c:otherwise>
+															<c:out value="${order.merchandiseName}" /> 외 <c:out value="${order.count-1}" />건
+														</c:otherwise>
+													</c:choose></td>
 												<td><c:out value="${order.totalPrice}" /></td>
 												<td><c:out value="${order.state}" /></td>
 											</tr>
@@ -220,7 +234,7 @@
 			<footer class="sticky-footer bg-white">
 				<div class="container my-auto">
 					<div class="copyright text-center my-auto">
-						<span>Copyright &copy; Your Website 2020</span>
+						<span>Copyright &copy; ALZ Corp. All rights reserved.</span>
 					</div>
 				</div>
 			</footer>
@@ -259,7 +273,24 @@
 			</div>
 		</div>
 	</div>
+	<script>
+		$(document).ready(function() {
+			// 체크박스 전체 체크 하기
+			$("#checkAll").click(function() {
+				var check = $('#checkAll').prop("checked");
+				if (check) {
+					$(".checkEach").prop("checked", true);
+				} else {
+					$(".checkEach").prop("checked", false);
+				}
+			});
 
+			// 개별 체크 해제 시 전체 체크 해제
+			$(".checkEach").click(function() {
+				$("#checkAll").prop("checked", false);
+			});
+		});
+	</script>
 	<!-- Bootstrap core JavaScript-->
 	<script src="/resources/vendor/jquery/jquery.min.js"></script>
 	<script src="/resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

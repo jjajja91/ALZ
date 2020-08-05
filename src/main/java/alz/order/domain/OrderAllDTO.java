@@ -45,5 +45,7 @@ public class OrderAllDTO {
 	private Long totalPrice;
 	// 주문 일시
 	private Date orderAt;
+	// 주문 일시
+	private Long count;
 
 }
