@@ -195,7 +195,8 @@
 												<td></td>
 												<td><c:out value="${order.rownum}" /></td>
 												<td><fmt:formatDate pattern="yyyy-MM-dd HH:mm" value="${order.orderAt}" /></td>
-												<td><c:out value="${order.id}" /></td>
+												<td><a href='/admin/order/orderDetail?id=<c:out value="${order.id}" />'>
+												<c:out value="${order.id}" /></a></td>
 												<td><c:out value="${order.name}" /></td>
 												<td><c:out value="${order.merchandiseName}" /></td>
 												<td><c:out value="${order.totalPrice}" /></td>
