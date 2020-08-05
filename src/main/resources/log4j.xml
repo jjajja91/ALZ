@@ -24,6 +24,10 @@
 	<logger name="alz.board.controller">
 		<level value="info" />
 	</logger>
+	
+	<logger name="alz.user.controller">
+		<level value="info" />
+	</logger>
 
 	<logger name="alz.board.service">
 		<level value="info" />

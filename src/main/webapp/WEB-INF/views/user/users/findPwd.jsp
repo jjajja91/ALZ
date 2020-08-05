@@ -7,17 +7,7 @@
 </head>
 <body>
 
-<!-- 비밀번호 찾기 페이지 -->
-<!-- 에러메시지를 전달받는 함수 -->
 <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
-<script>
-	$(function() {
-		var responseMessage = "${message}";
-		if (responseMessage != "") {
-			alert(responseMessage)
-		}
-	})
-</script>
 	<div style="width: 50rem; border-radius: 20px;">
 		<!-- id와 이메일을 입력하면 컨트롤러로 맵핑 -->
 			<div id="container">

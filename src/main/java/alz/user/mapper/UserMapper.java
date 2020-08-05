@@ -59,8 +59,8 @@ public interface UserMapper {
 
 	public String find_password_email(UserDTO dto); // 비밀번호 찾기
 
-	public void find_password_result(@Param("password") String password, Map<String, Object> map, UserDTO dto) throws Exception; // 비밀번호 변경
-
+	int modifyPwd(UserDTO user);
+	
 	// 탈퇴한(15일이 지나서 삭제할 유저 찾기)
 	List<Long> findWithdrawUser(String date);
 

@@ -74,7 +74,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 		http.authorizeRequests()
 		.antMatchers("/", "/users/**", "/socialJoin", "/socialLogin", "/google/*", "/naver/*","/kakao/*", "/resources/**", "/join", "/create", "/find_id_form", "/find_id",
-					 "/find_password_form", "/find_password_email", "/find_password_change{dice},{email}","/find_password_result/*").permitAll()
+					 "/findPwd", "/find_password_email", "/modifyPwd").permitAll()
 		.anyRequest().authenticated()
         .expressionHandler(expressionHandler());
 

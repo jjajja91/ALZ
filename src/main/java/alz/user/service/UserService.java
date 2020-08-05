@@ -53,8 +53,6 @@ public interface UserService {
 	
 	public String find_password_email(UserDTO dto); // 비밀번호 찾기 관련
 	
-	public void find_password_result(@Param("password") String password, Map<String, Object> map, UserDTO dto) throws Exception; // 비밀번호 변경
-
 	// 이메일로 중복 체크
 	boolean duplicateCheck(String email);
 	
@@ -75,6 +73,8 @@ public interface UserService {
 
 	// 구글 유저 정보 가져오기
 	HashMap<String, Object> getGoogleUserInfo(String accessToken);
+
+	boolean modifyPwd(UserDTO user);
 
 //	void asyncService();
 
