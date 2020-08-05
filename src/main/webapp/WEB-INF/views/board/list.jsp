@@ -259,7 +259,7 @@
 		function boardSearch(data) {
 			return $.ajax({
 				type : "GET",
-				url : "/boards/" +data.typeId + "/" + data.pageNum + "/" + data.amount+ ".json",
+				url : "/boards/" +data.typeId + "/" + data.pageNum + "/" + data.amount,
 				contentType : "application/json; charset=utf-8"
 			});
 		}

@@ -10,7 +10,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -498,6 +497,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 	@Override
 	public boolean duplicateCheck(String email) {
 		return userMapper.emailChk(email) == 1;
+	}
+
+	@Override
+	public boolean findUserByEmailNickname(UserDTO user) {
+		return userMapper.findUserByEmailNickname(user)==1;
 	}
 
 
