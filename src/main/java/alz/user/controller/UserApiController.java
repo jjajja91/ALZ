@@ -4,6 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,6 +30,15 @@ public class UserApiController {
 		this.userService = userService;
 	}
 
+	
+	public UserDTO getLoginUserInfo() {
+		SecurityContext context = SecurityContextHolder.getContext();
+		Authentication auth = context.getAuthentication();
+		UserDTO userInfo = (UserDTO)auth.getPrincipal();
+		return userInfo;
+	}
+	
+	
 //	@PostMapping
 //	public ResponseEntity<?> create(@RequestBody UserDTO user) {
 //		UserDTO openedUser = userService.create(user);
@@ -63,6 +75,7 @@ public class UserApiController {
 	// 개인 정보 수정
 	@PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> updateOne(@RequestBody UserDTO user) {
+		user.setId(getLoginUserInfo().getId());
 		UserDTO updatedUser = userService.updateById(user);
 		return ResponseEntity.status(HttpStatus.OK).body(updatedUser);
 	}

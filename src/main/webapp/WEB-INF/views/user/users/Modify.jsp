@@ -18,7 +18,9 @@
 					<td>NICKNAME</td>
 					<td>
 						<input type="text"  id="nickname" name="nickname" value="${principal.nickname}">
-						<input type="hidden" id="description" name="description" value="${principal.nickname}">
+						<input type="hidden" id="originNickname" value="${principal.nickname}">
+						<input type="hidden" id="originPhone" value="${principal.phoneNumber}">
+						<input type="hidden" id="description" name="description" value="">
 							<button id="nicknameChk">닉네임 중복확인</button>
 					</td>
 				
@@ -58,12 +60,15 @@
 		
 		<script type="text/javascript">
 		$(document).ready(function() {
+			var $id = $("#id");
 			var $email = $("#email");
 	  		var $password = $("#password");
 	  		var $nickname = $("#nickname");
 	  		var $phoneNumber = $("#phoneNumber");
 	  		var $nicknameChk = $("#nicknameChk");
-	  		var $description = $("#description")
+	  		var $description = $("#description");
+	  		var $originNickname = $("#originNickname");
+	  		var $originPhone = $("#originPhone");
 	  	  var $nicknameChkResult = $("#nicknameChkResult");
 	  	 $nickname.change(function(){
 	            $nicknameChkResult.val("false");
@@ -90,7 +95,7 @@
 						nickname: $nickname.val(),
 						password : $password.val(),
 						phoneNumber :$phoneNumber.val(),
-						description : $description.val()+"/"+$nickname.val(),
+						description : $originNickname.val()+"/"+$nickname.val()+"/"+$originPhone.val()+"/"+$phoneNumber.val(),
 						};
 				 if(operation === 'update') {			
 					UserUpdateApi(data) 
@@ -126,7 +131,10 @@
 	            nicknameChk()
 	            .then(function(response){
 	               console.log(response);
-	               if(response.nickname==$nickname.val()){
+	               if($nickname.val()==$originNickname.val()){
+	            	   alert("사용 가능한 닉네임입니다");
+	            	   $nicknameChkResult.val("true");
+	               } else if(response==true){
 	                  alert("중복된 닉네임이 있습니다");
 	               } else {
 	                  alert("사용 가능한 닉네임입니다");

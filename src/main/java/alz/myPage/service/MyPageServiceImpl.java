@@ -9,12 +9,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import alz.board.domain.BoardDTO;
 import alz.board.domain.CommentDTO;
-import alz.board.mapper.LikeMapper;
-import alz.file.mapper.BoardFileMapper;
 import alz.lesson.domain.LessonDTO;
 import alz.myPage.domain.MyPageCriteria;
 import alz.myPage.mapper.MyPageMapper;
 import alz.user.domain.UserDTO;
+import alz.user.domain.UserStateDTO;
 import lombok.extern.log4j.Log4j;
 
 @Log4j
@@ -82,10 +81,12 @@ public class MyPageServiceImpl implements MyPageService {
 	//탈퇴
 	@Transactional
 	@Override
-	public int DeleteAcc(Long id) {
+	public int deleteAcc(UserDTO user) {
 		int deleteAcc = 0;
-		deleteAcc += MyPageMapper.deleteAcc(id);
-		deleteAcc += MyPageMapper.updateEnable(id);
+		UserStateDTO userState = new UserStateDTO();
+		userState.setUserId(user.getId()).setDescription(user.getDescription());
+		deleteAcc += MyPageMapper.deleteAcc(userState);
+		deleteAcc += MyPageMapper.updateEnable(user.getId());
 		return deleteAcc;
 	}
 

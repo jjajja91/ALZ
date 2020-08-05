@@ -150,7 +150,7 @@
    		<selectKey keyProperty="id" order="BEFORE" resultType="long">
 			SELECT alz_user_state_seq.nextval FROM dual
 		</selectKey>
-       insert into alz_user_state (id, user_id, state) values (#{id}, #{userId}, '탈퇴')
+       insert into alz_user_state (id, user_id, state, description) values (#{id}, #{userId}, '탈퇴', #{description})
 
    </insert>
 

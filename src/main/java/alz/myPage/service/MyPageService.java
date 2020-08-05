@@ -24,11 +24,11 @@ public interface MyPageService {
 	
 	boolean selectById(UserDTO user);
 
-	int DeleteAcc(Long userId);
-
 	List<LessonDTO> finishedLessonList(MyPageCriteria cri);
 
 	List<LessonDTO> refundedLesson(MyPageCriteria cri);
+
+	int deleteAcc(UserDTO user);
 	
 	
 }
