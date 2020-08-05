@@ -156,6 +156,7 @@
 			let selectedCategory = $("select[name=sub]").val();
 			$("input[name=categoryId]").val(selectedCategory);
 
+			//formObj.attr("action", "/lesson/registerTeacher").attr("method", "get");
 			formObj.submit();
 		}
 		
