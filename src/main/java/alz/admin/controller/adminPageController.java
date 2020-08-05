@@ -49,4 +49,9 @@ public class adminPageController {
 	public void index() {
 	}
 	
+	@GetMapping("/tables")
+	public String tables() {
+		System.out.println("칙촉");
+		return "admin/boardAdmin";
+	}
 }
