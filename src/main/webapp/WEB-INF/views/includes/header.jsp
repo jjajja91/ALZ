@@ -181,6 +181,21 @@ pre {
 	color: red;
 }
 
+#lesson_star_rate a {
+	text-decoration: none;
+	color: gray;
+	font-size: 30px;
+}
+
+#teacher_star_rate a {
+	text-decoration: none;
+	color: gray;
+	font-size: 30px;
+}
+
+#teacher_star_rate a.teacherOn {
+	color: red;
+}
 .lessonSideDiv {
 	padding: 15px;
     border: 1px solid #eee;

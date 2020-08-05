@@ -9,6 +9,8 @@ import alz.lesson.domain.CategoryDTO;
 import alz.lesson.domain.CurriculumDetailDTO;
 import alz.lesson.domain.CurriculumSubjectDTO;
 import alz.lesson.domain.LessonDTO;
+import alz.lesson.domain.LessonDetailDTO;
+import alz.lesson.domain.LessonScheduleDTO;
 import alz.lesson.domain.QuickReviewDTO;
 import alz.lesson.domain.ScheduleDTO;
 import alz.lesson.domain.TeacherDTO;
@@ -42,10 +44,21 @@ public class LessonServiceImpl implements LessonService {
 	public int createSchedule(ScheduleDTO schedule) {
 		int affectedRowCount = 0;
 		
-		for(int i=0; i<schedule.getTimeList().size(); i++) {
-			affectedRowCount += lessonMapper.insertSchedule(schedule.getTimeList().get(i));
+		// 원래 있던 스케줄 삭제하고 새로만듬
+		int deleteRowCount = lessonMapper.deleteSchedule(schedule.getLessonId());
+		
+		for(int i=0; i<schedule.getTimeTable().size(); i++) {
+			affectedRowCount += lessonMapper.insertSchedule(schedule.getTimeTable().get(i));
 		}
 		return affectedRowCount;
+	}
+	
+	// 클래스 세부 등록
+	public int createLessonDetail(LessonDetailDTO detail) {
+		int affectedRowCount = lessonMapper.insertLessonDetail(detail);
+		// 만들어진 클래스 id 보내줌
+		int detailId = detail.getId().intValue();
+		return detailId;
 	}
 	
 	// 강사 등록할 때
@@ -102,7 +115,7 @@ public class LessonServiceImpl implements LessonService {
 		return findSubCategory;
 	}
 	
-	// 서브 카테고리
+	// 난이도
 	public List<CategoryDTO> lessonLevel () {
 		List<CategoryDTO> findLessonLevel = lessonMapper.findLessonLevel();
 		return findLessonLevel;
@@ -113,6 +126,17 @@ public class LessonServiceImpl implements LessonService {
 		return lessons;
 	}
 	
+	// 스케줄
+	public ScheduleDTO scheduleByLessonId(Long lessonId) {
+		ScheduleDTO schedule = lessonMapper.findLessonSchedule(lessonId);
+		return schedule;
+	}
+
+	public LessonDetailDTO detailByLessonId(Long lessonId) {
+		LessonDetailDTO detail = lessonMapper.findLessonDetail(lessonId);
+		return detail;
+	}
+	
 	public TeacherDTO updateTeacher(TeacherDTO teacher) {
 		int affectedRowCount = lessonMapper.updateTeacher(teacher);
 		return teacher;
@@ -120,8 +144,14 @@ public class LessonServiceImpl implements LessonService {
 
 	public int updateLesson(LessonDTO lesson) {
 		int affectedRowCount = lessonMapper.updateLesson(lesson);
-		return 0;
+		return affectedRowCount;
 	}
+	
+	public int updateLessonDetail(LessonDetailDTO detail) {
+		int affectedRowCount = lessonMapper.updateLessonDetail(detail);
+		return affectedRowCount;
+	}
+
 
 	public int deleteById(Long id) {
 //		LessonDTO searchedLesson = lessonMapper.findById(id);
@@ -135,6 +165,5 @@ public class LessonServiceImpl implements LessonService {
 				    .teacherId(request.getTeacherId())
 					.build();
 	}
-
 
 }

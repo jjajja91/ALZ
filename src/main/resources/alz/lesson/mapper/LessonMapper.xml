@@ -18,10 +18,10 @@
    
    <select id="findCurriculumByLessonId" resultMap="subjectMap">
       select c.id, c.curriculum_order, c.subject, d.curriculum_detail_order, d.detail
-          from alz_curriculum c, alz_curriculum_detail d
-         where c.id = d.curriculum_id
-           and c.lesson_id = #{id}
-      order by c.curriculum_order, d.curriculum_detail_order
+		from alz_curriculum c, alz_curriculum_detail d
+	   where c.id = d.curriculum_id
+		 and c.lesson_id = #{id}
+	order by c.curriculum_order, d.curriculum_detail_order
    </select>
    
    <select id="findTeacherByLessonId" resultType="alz.lesson.domain.TeacherDTO">
@@ -127,9 +127,38 @@
         from alz_lesson_level
    </select>
    
+   <select id="findLessonDetail" resultType="alz.lesson.domain.LessonDetailDTO">
+      select id, lesson_id, detail
+        from alz_lesson_detail
+       where lesson_id = #{lessonId}
+   </select>
+   
+   <resultMap type="alz.lesson.domain.ScheduleDTO" id="timeTableMap">
+      <result property="lessonId" column="lesson_id"/>
+      <result property="openAt" column="open_at"/>
+      <result property="closeAt" column="close_at"/>
+      
+      <collection property="timeTable" ofType="alz.lesson.domain.TimeTableDTO">
+      	  <result property="timeTableId" column="id"/>
+	      <result property="lessonDate" column="lesson_date"/>
+	      <result property="startAt" column="start_at"/>
+	      <result property="endAt" column="end_at"/>
+      </collection>
+   </resultMap>
+   
+	<select id="findLessonSchedule" resultMap="timeTableMap">
+		select s.lesson_id, s.id, l.open_at, l.close_at, s.lesson_date, s.start_at, s.end_at
+		  from alz_lesson l, alz_lesson_schedule s
+		 where l.id = s.lesson_id
+		   and l.id = #{lessonId}
+	</select>
+   
    <insert id="insertTeacher" parameterType="alz.lesson.domain.TeacherDTO">
+		<selectKey keyProperty="id" order="BEFORE" resultType="long">
+			select alz_teacher_seq.nextval from dual
+		</selectKey>
       insert into alz_teacher
-      values(alz_teacher_seq.nextval, #{userId}, #{nickname}, #{profile}, #{snsType}, #{snsId}, #{snsUrl})
+      values(#{id}, #{userId}, #{nickname}, #{profile}, #{snsType}, #{snsId}, #{snsUrl})
    </insert>
    
    <insert id="insertLesson" parameterType="alz.lesson.domain.LessonDTO" >
@@ -143,22 +172,28 @@
    </insert>
    
    <insert id="insertSchedule" parameterType="alz.lesson.domain.TimeTableDTO" >
-      <selectKey keyProperty="id" order="BEFORE" resultType="long">
-         select alz_lesson_schedule_seq.nextval from dual
-      </selectKey>
       insert into alz_lesson_schedule (id, lesson_id, lesson_date, start_At, end_At)
-      values (#{id}, #{lessonId}, #{lessonDate}, #{startAt}, #{endAt})
+      values (alz_lesson_schedule_seq.nextval, #{timeTableId}, #{lessonDate}, #{startAt}, #{endAt})
+   </insert>
+   
+   <insert id="insertLessonDetail" parameterType="alz.lesson.domain.LessonDetailDTO" >
+      <selectKey keyProperty="id" order="BEFORE" resultType="long">
+         select alz_lesson_detail_seq.nextval from dual
+      </selectKey>
+      insert into alz_lesson_detail (id, lesson_id, detail)
+      values (#{id}, #{lessonId}, #{detail})
    </insert>
    
    <update id="updateLesson" parameterType="alz.lesson.domain.LessonDTO">
-      UPDATE ALZ_LESSON
-      SET title = #{title},
-           lesson_type = #{lessonType},
-           lesson_level = #{lessonLevel},
-           min_student = #{minStudent},
-           max_student = #{maxStudent},
-           open_at = #{openAt},
-           close_at = #{closeAt}
+      update alz_lesson
+      set title = #{title},
+          lesson_type = #{lessonType},
+          lesson_level = #{lessonLevel},
+          min_student = #{minStudent},
+          max_student = #{maxStudent},
+          open_at = #{openAt},
+          close_at = #{closeAt},
+          state = 1
       WHERE id = #{id}
    </update>
    
@@ -172,8 +207,19 @@
       where  id = #{id}
    </update>
    
+   <update id="updateLessonDetail" parameterType="alz.lesson.domain.LessonDetailDTO">
+      update alz_lesson_detail
+      	 set detail = #{detail}
+      where  id = #{id}
+   </update>
+   
    <delete id="deleteById">
       DELETE FROM ALZ_LESSON WHERE id = #{id}
+   </delete>
+   
+   <delete id="deleteSchedule">
+      delete from alz_lesson_schedule 
+      where lesson_id = #{lessonId}
    </delete>
 
 </mapper>

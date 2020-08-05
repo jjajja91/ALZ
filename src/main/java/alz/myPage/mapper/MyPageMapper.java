@@ -7,6 +7,7 @@ import alz.board.domain.CommentDTO;
 import alz.lesson.domain.LessonDTO;
 import alz.myPage.domain.MyPageCriteria;
 import alz.user.domain.UserDTO;
+import alz.user.domain.UserStateDTO;
 
 public interface MyPageMapper {
 	
@@ -33,12 +34,12 @@ public interface MyPageMapper {
 	void addLike();
 
 	UserDTO selectByUserId(UserDTO user);
-
-	int deleteAcc(Long userId);
 	
 	int updateEnable(Long id);
 
 	List<LessonDTO> refundedLesson(MyPageCriteria cri);
+
+	int deleteAcc(UserStateDTO userState);
 
 
 

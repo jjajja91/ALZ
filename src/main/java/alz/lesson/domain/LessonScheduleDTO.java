@@ -1,7 +1,8 @@
 package alz.lesson.domain;
 
 import java.sql.Date;
-import java.util.List;
+
+import javax.validation.constraints.NotEmpty;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,13 +19,14 @@ import lombok.experimental.Accessors;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class CurriculumSubjectDTO {
-	
-	private Long subjectId;
-	private Long lessonId;
-	private Long curriculumOrder;
-	private String subject;
-	
-	private List<CurriculumDetailDTO> detailList;
+public class LessonScheduleDTO {
 
+	private Long id;
+	private Long lessonId;
+	private Date openAt;
+	private Date closeAt;
+	private Date lessonDate;
+	private String startAt;
+	private String endAt;
+	
 }

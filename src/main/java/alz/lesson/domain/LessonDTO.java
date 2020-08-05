@@ -22,7 +22,6 @@ import lombok.experimental.Accessors;
 public class LessonDTO {
 
 	private Long id;
-	@NotEmpty
 	private Long teacherId;
 	private Long categoryId;
 	private Long main;

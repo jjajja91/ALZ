@@ -1,164 +1,41 @@
-
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
-
-<html>
-<head>
-<title>Board Write</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-
-<style>
-.uploadResult {
-	width: 100%;
-	background-color: gray;
-}
-
-.uploadResult ul {
-	display: flex;
-	flex-flow: row;
-	justify-content: center;
-	align-items: center;
-}
-
-.uploadResult ul li {
-	list-style: none;
-	padding: 10px;
-	align-content: center;
-	text-align: center;
-}
-
-.uploadResult ul li img {
-	width: 100px;
-}
-
-.uploadResult ul li span {
-	color: white;
-}
-
-.bigPictureWrapper {
-	position: absolute;
-	display: none;
-	justify-content: center;
-	align-items: center;
-	top: 0%;
-	width: 100%;
-	height: 100%;
-	background-color: gray;
-	z-index: 100;
-	background: rgba(255, 255, 255, 0.5);
-}
-
-.bigPicture {
-	position: relative;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-}
-
-.bigpicture img {
-	width: 600px
-}
-
-.note-dropzone {
-	opacity: 0 !important;
-}
-
-.note-editor note-frame card .note-dropzone {
-	opacity: 0 !important;
-}
-
-#lesson_star_rate a {
-	text-decoration: none;
-	color: gray;
-	font-size: 30px;
-}
-
-#lesson_star_rate a.lessonOn {
-	color: red;
-}
-
-#teacher_star_rate a {
-	text-decoration: none;
-	color: gray;
-	font-size: 30px;
-}
-
-#teacher_star_rate a.teacherOn {
-	color: red;
-}
-</style>
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-
-
-<!-- include summernote-ko-KR -->
-<script src="/resources/js/summernote-ko-KR.js"></script>
-
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"
-	crossorigin="anonymous"></script>
-<script
-	src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-	integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-	crossorigin="anonymous"></script>
-
-<link rel="stylesheet"
-	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-	integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
-	crossorigin="anonymous">
-<script
-	src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
-	integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
-	crossorigin="anonymous"></script>
-
-<link
-	href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css"
-	rel="stylesheet">
-<script
-	src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
-</head>
-
-<body>
+<%@include file="../includes/header.jsp"%>
 
 	<div class="container">
 		<h2 id="head">Board Write</h2>
 		<form role="form" id="form" action="/board/write" method="post">
 			<c:if test="${typeId == 4}">
 				<div>
-					<select>
-					
-						<option value="" disabled selected hidden>수강 완료한 클래스를 선택해
+							
+		<strong>수강했던 클래스</strong>
+		   <select name="reviewOpts" id="reviewOpts" class="reviewOpts">
+		      <option value="" disabled selected hidden>수강 완료한 클래스를 선택해
 							주세요</option>
-
-						<option>옵션1</option>
-						<option>옵션2</option>
-						<option>욥션3</option>
-					</select>
-					<div>
-						<lable>강의 만족도</lable>
+		      
+		      <c:forEach var="reviewOpts" items="${reviewOpt}">
+		         <option value="${reviewOpts.id}">${reviewOpts.title}</option>
+		      </c:forEach>
+		   </select>
+								
+					<br><br>	<lable>강의 만족도</lable>
 						<p id="lesson_star_rate">
 							<a href="#" id="star1">★</a> <a href="#" id="star2">★</a> <a
 								href="#" id="star3">★</a> <a href="#" id="star4">★</a> <a
 								href="#" id="star5">★</a>
 						</p>
-						<input type='hidden' name='lessonRate'>
+						<input type='hidden' name='lessonReview'>
 						<lable>강사 만족도</lable>
 						<p id="teacher_star_rate">
 							<a href="#" id="star1">★</a> <a href="#" id="star2">★</a> <a
 								href="#" id="star3">★</a> <a href="#" id="star4">★</a> <a
 								href="#" id="star5">★</a>
 						</p>
-						<input type='hidden' name='teacherRate'>
-					</div>
+						<input type='hidden' name='teacherReview'>
+					
 				</div>
 			</c:if>
 
@@ -199,6 +76,7 @@
 
 
 	<script type="text/javascript">
+	//var $lessonId;
 	$(document).ready(function(e){
 		var $title = $("input[name=title]");
 		var $content = $("textarea[name=content]");
@@ -212,6 +90,10 @@
 		var $boardOrder = $("input[name=boardOrder]");
 		var $id = $("input[name=id]");
 		var $writerId = $("input[name=writerId]");
+		var $lessonReview = $("input[name=lessonReview]");
+		var $teacherReview = $("input[name=teacherReview]");
+	
+		var $lessonId = $("select[name=reviewOpts]");
 		
 		var $summernote = $('#summernote');
 	
@@ -237,13 +119,13 @@
 	            $(this).parent().children("a").removeClass("lessonOn");  /* 별점의 on 클래스 전부 제거 */ 
 	            $(this).addClass("lessonOn").prevAll("a").addClass("lessonOn"); /* 클릭한 별과, 그 앞 까지 별점에 on 클래스 추가 */
 	            var lesson_star_rate = $(".lessonOn").length;
-	            return $("input[type=hidden][name=lessonRate]").val(lesson_star_rate);
+	            return $("input[type=hidden][name=lessonReview]").val(lesson_star_rate);
 	        });
 		 $('#teacher_star_rate a').click(function(){
 	            $(this).parent().children("a").removeClass("teacherOn");  /* 별점의 on 클래스 전부 제거 */ 
 	            $(this).addClass("teacherOn").prevAll("a").addClass("teacherOn"); /* 클릭한 별과, 그 앞 까지 별점에 on 클래스 추가 */
 	            var teacher_star_rate = $(".teacherOn").length;
-	            return $("input[type=hidden][name=teacherRate]").val(teacher_star_rate);
+	            return $("input[type=hidden][name=teacherReview]").val(teacher_star_rate);
 	        });
         
 		 // 파일 제출(저장)
@@ -355,7 +237,6 @@
 			fileList[i] = file;
 			
 		});
-		
 		var data = {
 				title: $title.val(),
 				content: $content.val(),
@@ -365,6 +246,9 @@
 				boardOrder : $boardOrder.val(),
 				id : $id.val(),
 				writerId : $writerId.val(),
+				lessonReview : $lessonReview.val(),
+				teacherReview : $teacherReview.val(),
+				lessonId : $lessonId.val(),
 				
 				fileList: fileList
 		};

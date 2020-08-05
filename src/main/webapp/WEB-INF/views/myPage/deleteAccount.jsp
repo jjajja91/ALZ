@@ -17,7 +17,8 @@
 <form role="form" action="/myPage/deleteAcc" method="post">
 <label for="password">비밀번호</label>
 <input type="password" name="password" autocomplete="off" placeholder="password">
-<input type="hidden" name="id" value='<sec:authentication property="principal.id"/>'>
+<label for="description">탈퇴사유</label>
+<input type="text" id="description" name="description">
 <button type=submit>탈퇴하기</button>
 
 </form>

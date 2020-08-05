@@ -87,7 +87,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 	@Override
 	public UserDTO readByNickname(String nickname) {
 		UserDTO searchedUser = userMapper.selectByNickname(nickname);
-
 		return searchedUser;
 	}
 
@@ -119,6 +118,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 		return user;
 	}
 
+	@Transactional
 	@Override
 	public UserDTO updateById(UserDTO user) {
 		UserDTO searchedUser = userMapper.selectedByUser(user);
@@ -130,7 +130,10 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 		searchedUser.encodePassword(passwordEncoder); // security 수정에 적용
 
 		int affectedRowCount = userMapper.updateById(searchedUser);
-
+		UserStateDTO userState = new UserStateDTO();
+		userState.setUserId(user.getId()).setState("수정").setDescription(user.getDescription());
+		userMapper.insertState(userState);
+		
 		if (affectedRowCount == 0) {
 			System.out.println("Modify Fail!!");
 		} else {

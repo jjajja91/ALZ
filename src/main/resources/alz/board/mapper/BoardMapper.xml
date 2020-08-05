@@ -2,8 +2,8 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-  
-  
+
+
 <mapper namespace="alz.board.mapper.BoardMapper">
 
 	<sql id="boardCriteria">
@@ -36,8 +36,9 @@
 			
 		]]>
 	</select>
-	
-	<select id="selectWithPaging" resultType="alz.board.domain.BoardDTO">
+
+	<select id="selectWithPaging"
+		resultType="alz.board.domain.BoardDTO">
 
 	<![CDATA[
           select id, title, content, writtenAt, updatedAt, likeCnt, commentCnt, viewCnt,
@@ -58,81 +59,161 @@
 			)
 		where 		
 		   	]]>
-				<include refid="boardCriteria"></include>
+		<include refid="boardCriteria"></include>
        <![CDATA[ 
                       rn > (#{pageNum} -1) * #{amount}
 		start with parentId = 0
 		connect by prior id = parentId
 		order siblings by boardOrder desc
 	
-		]]>	
+		]]>
 
 	</select>
 
 	<select id="selectById" resultType="alz.board.domain.BoardDTO">
-		select id, title, content, written_at writtenAt, updated_at updatedAt, like_cnt likeCnt, comment_cnt commentCnt,
-					view_cnt viewCnt, board_order boardOrder, nickname, parent_id parentId, type_id typeId, writer_id writerId
-		from alz_board where id = #{id}
+		select id, title, content,
+		written_at writtenAt, updated_at updatedAt, like_cnt likeCnt,
+		comment_cnt commentCnt,
+		view_cnt viewCnt, board_order boardOrder,
+		nickname, parent_id parentId,
+		type_id typeId, writer_id writerId
+		from
+		alz_board where id = #{id}
 	</select>
-	
+
 	<select id="getTotalCount" resultType="int">
 		select count(*)
 		from alz_board
-		where 
+		where
 		<include refid="boardCriteria"></include>
-			id > 0
+		id > 0
 	</select>
 
 	<insert id="insert">
 		<selectKey keyProperty="id" order="BEFORE" resultType="long">
 			select alz_board_seq.nextval from dual
 		</selectKey>
-		
-		insert into alz_board (id, title, content, nickname, type_id, parent_id, board_order, writer_id)
-		values (#{id}, #{title}, #{content}, #{nickname}, #{typeId}, '0', #{id}, #{writerId})
-		
+
+		insert into alz_board (id, title, content, nickname, type_id,
+		parent_id, board_order, writer_id)
+		values (#{id}, #{title}, #{content},
+		#{nickname}, #{typeId}, '0', #{id}, #{writerId})
+
 	</insert>
-	
+
 	<insert id="replyInsert">
 		<selectKey keyProperty="id" order="BEFORE" resultType="long">
-			select alz_board_seq.nextval from dual	
-			</selectKey>	
-		insert into alz_board (id, title, content, nickname, type_id, parent_id, board_order, writer_id)
-		values (#{id}, #{title}, #{content}, #{nickname}, #{typeId}, #{boardOrder}, #{boardOrder}, #{writerId})
-		
+			select alz_board_seq.nextval from dual
+		</selectKey>
+		insert into alz_board (id, title, content, nickname, type_id,
+		parent_id, board_order, writer_id)
+		values (#{id}, #{title}, #{content},
+		#{nickname}, #{typeId}, #{boardOrder}, #{boardOrder}, #{writerId})
+
 	</insert>
-	
+
 	<insert id="rereplyInsert">
 		<selectKey keyProperty="id" order="BEFORE" resultType="long">
-			select alz_board_seq.nextval from dual	
-			</selectKey>	
-		insert into alz_board (id, title, content, nickname, type_id, parent_id, board_order, writer_id)
-		values (#{id}, #{title}, #{content}, #{nickname}, #{typeId}, #{parentId}, #{boardOrder}, #{writerId})
-		
+			select alz_board_seq.nextval from dual
+		</selectKey>
+		insert into alz_board (id, title, content, nickname, type_id,
+		parent_id, board_order, writer_id)
+		values (#{id}, #{title}, #{content},
+		#{nickname}, #{typeId}, #{parentId}, #{boardOrder}, #{writerId})
+
 	</insert>
-	
-	<update  id="insertReply" parameterType="alz.board.domain.BoardDTO">
-	    update alz_board set title ='re :'||title where id=#{id} 
+
+	<update id="insertReply"
+		parameterType="alz.board.domain.BoardDTO">
+		update alz_board set title ='re :'||title where id=#{id}
 	</update>
-	
+
 	<delete id="deleteById">
 		delete from alz_board where id = #{id}
 	</delete>
-	
+
 	<select id="getCommentsCnt" resultType="long">
-		select comment_cnt from alz_board where id = #{id}
+		select comment_cnt from
+		alz_board where id = #{id}
 	</select>
-	
+
 	<select id="getLikeCnt" resultType="long">
-		select like_cnt from alz_board where id = #{id}
+		select like_cnt from
+		alz_board where id = #{id}
 	</select>
-	
-	<update id="updateById" parameterType="alz.board.domain.BoardDTO">
+
+	<update id="updateById"
+		parameterType="alz.board.domain.BoardDTO">
 		update alz_board
 		set title = #{title},
-			content = #{content},
-			updated_at = sysdate
+		content =
+		#{content},
+		updated_at = sysdate
 		where id = #{id}
 	</update>
+
+	<select id="reviewOption"
+		resultType="alz.board.domain.ReviewOptDTO">
+		select l.title title, l.id id, od.order_id orderId
+		from
+		alz_order_detail od,
+		alz_merchandise_detail md,
+		alz_lesson l
+		where
+		od.merchandise_id = md.merchandise_id
+		and md.ref_id = l.id
+		and
+		od.user_id = #{id}
+		and od.review_chk = 0
+		and l.state = 10
+	</select>
+
+	<insert id="createReview"
+		parameterType="alz.board.domain.BoardDTO">
+		<selectKey keyProperty="id" order="BEFORE" resultType="long">
+			select alz_board_seq.nextval from dual
+		</selectKey>
+		insert into alz_board (id, title, content, nickname, type_id,
+		parent_id, board_order, writer_id)
+		values (#{id}, #{title}, #{content},
+		#{nickname}, #{typeId}, '0', #{id}, #{writerId})
+
+	</insert>
+
+	<insert id="createReviewRate">
+		insert into alz_lesson_review (lesson_review,
+		teacher_review, lesson_id,
+		board_id, reviewer_id
+		)
+		values
+		(#{lessonReview}, #{teacherReview},
+		#{lessonId}, #{id}, #{writerId})
+	</insert>
+	
+	<update id="reviewChk" parameterType="long">
+		update alz_order_detail
+		set review_chk = 1
+		where merchandise_id = #{merchandiseId}
+	</update>
+
+	<select id="lessonChk" resultType="long">
+		select merchandise_id
+		from
+		alz_merchandise_detail
+		where ref_id = #{lessonId}
+
+	</select>
+
+
+	<select id="readReview" resultType="alz.board.domain.ReviewDTO">
+		select *
+		from
+		alz_lesson_review
+		where board_id = #{id}
+		and reviewer_id = #{writerId}
+
+	</select>
+
+
 
 </mapper>

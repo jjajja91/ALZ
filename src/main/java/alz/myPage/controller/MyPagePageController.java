@@ -54,8 +54,10 @@ public class MyPagePageController {
 	@PostMapping("/deleteAcc")
 	public String delete(UserDTO user, RedirectAttributes attr) {
 		String result ="";
+		user.setId(getLoginUserInfo().getId());
+		System.out.println(user);
 	    if (MyPageService.selectById(user)) {	
-	    	 int deleteAcc = MyPageService.DeleteAcc(user.getId());
+	    	 int deleteAcc = MyPageService.deleteAcc(user);
 	    		 if(deleteAcc != 0) {
 	 				result = "redirect:/logout";
 	    		 } 

@@ -23,6 +23,9 @@ import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -46,6 +49,13 @@ public class UserController {
 
 	@Autowired
 	UserService userService; // 서비스를 호출하기 위해 의존성을 주입
+	
+	public UserDTO getLoginUserInfo() {
+		SecurityContext context = SecurityContextHolder.getContext();
+		Authentication auth = context.getAuthentication();
+		UserDTO userInfo = (UserDTO)auth.getPrincipal();
+		return userInfo;
+	}
 
 	@ModelAttribute("path")
 	public String getContextPath(HttpServletRequest request) {
@@ -131,7 +141,7 @@ public class UserController {
 	// 수정 페이지
 	@GetMapping("/modify")
 	public String callUpdate() {
-
+		System.out.println(getLoginUserInfo().getNickname());
 		return "/user/users/Modify";
 	}
 
@@ -430,16 +440,13 @@ public class UserController {
 			out_equals.flush();
 
 			return mv2;
-
 		}
-
 		return mv;
-
 	}
 
 	// 변경할 비밀번호를 입력한 후에 확인 버튼을 누르면 넘어오는 컨트롤러
 	@RequestMapping(value = "/find_password_result/{email}", method = RequestMethod.POST)
-	public ModelAndView find_password_result(@PathVariable String email, @RequestParam("password") String password, HttpServletRequest request,
+	public ModelAndView find_password_result(@PathVariable @RequestParam("email") String email, @RequestParam("password") String password, HttpServletRequest request,
 			HttpServletResponse pass) throws Exception {
 
 		request.getParameter("password");

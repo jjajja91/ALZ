@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="alz.admin.mapper.OrdersMapper">
+
+	<select id="orderList" resultType="alz.order.domain.OrderAllDTO">
+		select rownum, order_at,id,
+		name,phone, merchandise_name, total_price, state from(select
+		order_at,id, name,phone, max(merchandise) merchandise_name,
+		total_price, state
+		from (select o.order_at, o.id, o.name, o.phone, m.name merchandise,
+		o.total_price, o.state
+		from alz_order o
+		inner join alz_order_detail d on o.id = d.order_id
+		inner join alz_merchandise_detail m on m.id = d.merchandise_id
+		where d.order_id = o.id and o.user_id = d.user_id)
+		group by order_at,id, name,phone, total_price, state
+		order by order_at)
+		order by rownum desc
+	</select>
+
+
+</mapper>

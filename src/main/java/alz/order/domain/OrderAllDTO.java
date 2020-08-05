@@ -19,6 +19,8 @@ import lombok.experimental.Accessors;
 @ToString
 public class OrderAllDTO {
 
+	// 순번
+	private Long rownum;
 	// 주문번호 (ex. 20200731_123456)
 	private String id;
 	// 주문 상세 번호 (1,2,3,4...)
@@ -37,6 +39,8 @@ public class OrderAllDTO {
 	private String method;
 	// 주문 상태
 	private String state;
+	// 주문 상태
+	private String merchandiseName;
 	// 결제 금액
 	private Long totalPrice;
 	// 주문 일시

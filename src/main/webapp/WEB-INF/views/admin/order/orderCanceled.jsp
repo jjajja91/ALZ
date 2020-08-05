@@ -74,15 +74,15 @@
 
       <!-- Nav Item - Utilities Collapse Menu -->
       <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
+        <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
           <i class="fas fa-fw fa-shopping-cart"></i>
           <span>주문 관리</span>
         </a>
-        <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+        <div id="collapseUtilities" class="collapse show" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">관리 메뉴</h6>
             <a class="collapse-item" href="/admin/order/orderMain">주문 통합 리스트</a>
-            <a class="collapse-item" href="/admin/order/orderCanceled">주문 취소 리스트</a>
+            <a class="collapse-item active" href="/admin/order/orderCanceled">주문 취소 리스트</a>
            <!--  <a class="collapse-item" href="utilities-animation.html">메뉴3</a>
             <a class="collapse-item" href="utilities-other.html">메뉴4</a> -->
           </div>
