@@ -115,6 +115,7 @@
 				}
 		});
 		
+		//별 클릭 메소드
 		 $('#lesson_star_rate a').click(function(){
 	            $(this).parent().children("a").removeClass("lessonOn");  /* 별점의 on 클래스 전부 제거 */ 
 	            $(this).addClass("lessonOn").prevAll("a").addClass("lessonOn"); /* 클릭한 별과, 그 앞 까지 별점에 on 클래스 추가 */

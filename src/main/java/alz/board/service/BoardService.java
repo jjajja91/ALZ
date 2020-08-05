@@ -52,12 +52,16 @@ public interface BoardService {
 	// 좋아요 삭제
 	boolean removeLike(LikeDTO likeDTO);
 
+	//리뷰 가능한 클래스 불러오기
 	List<ReviewOptDTO> reviewOption(Long id);
 
+	//리뷰쓰기
 	void createReview(BoardDTO board);
 
+	//평점작성
 	void createReviewRate(BoardDTO board);
 
+	//평점 가져오기
 	BoardDTO readReview(BoardDTO board);
 
 
