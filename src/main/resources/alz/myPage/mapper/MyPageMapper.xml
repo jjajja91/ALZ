@@ -48,16 +48,32 @@
 
 	<select id="commentSelectWithPaging"
 		resultType="alz.board.domain.CommentDTO">
-		select id, content, written_at
-		writtenAt, updated_at
-		updatedAt, like_cnt likeCnt,
-		comment_cnt commentCnt, comment_code
-		commentCode, board_id boardId, nickname,
-		depth, deleted, user_id userId
-		from alz_comment
+		<![CDATA[
+		select * from(
+		select rownum rn, id, content, written_at, updated_at, like_cnt, comment_cnt, comment_code, board_id, nickname, depth, deleted, user_id
+		from( select * from alz_comment
 		where user_id = #{id}
-		order by comment_code
+		order by written_at desc))
+		where rn <= #{pageNum} * #{amount}
+		and rn > (#{pageNum}-1) * #{amount}
+		]]>
 	</select>
+
+	<select id="likeSelectWithPaging"
+		resultType="alz.board.domain.BoardDTO">
+		<![CDATA[	
+		select * from(
+		select rownum rn, id, title, content, written_at, view_cnt, nickname
+		from (select b.id, b.title, b.content, b.written_at, b.view_cnt, b.nickname 
+		from alz_board b, alz_link_like_board l
+		where b.id = l.board_id
+		and l.user_id = #{id}
+		order by written_at desc))
+		where rn <= #{pageNum} * #{amount}
+		and rn > (#{pageNum}-1) * #{amount}
+		]]>
+	</select>
+	
 
 	<select id="likeSelectAll"
 		resultType="alz.board.domain.BoardDTO">
