@@ -1,5 +1,8 @@
 package alz.lesson.domain;
 
+
+import java.sql.Date;
+
 import javax.validation.constraints.NotEmpty;
 
 import lombok.AllArgsConstructor;
@@ -20,8 +23,8 @@ import lombok.experimental.Accessors;
 @ToString
 public class TimeTableDTO {
 
-	private Long lessonId;
-	private String lessonDate;
+	private Long timeTableId;  // lesson id
+	private Date lessonDate;
 	private String startAt;
 	private String endAt;
 	
