@@ -12,6 +12,7 @@
 	
 	<form role="form" action="/lesson/registerDetail" method="get">
 		<input type="text" name="lessonId" value='<c:out value="${param.lessonId }"/>'>
+		<input type="text" name="originalId" value='<c:out value="${param.originalId }"/>'>
 	
 		<h5><strong>수업 날짜와 시간을 입력해주세요.</strong></h5>
 		<br><br><br>
@@ -72,11 +73,13 @@
 	var $endAt;
 	var $lessonDate;
 	var $lessonId;
+	var $originalId;
 	
 	$(document).ready(function(){
 		formObj = $("form[role='form']");
 		$addBtn = $("input[name=addLesson]");
 		$lessonId = $("input[name=lessonId]");
+		$originalId = $("input[name=originalId]");
 		
 	});
 	
@@ -113,7 +116,7 @@
 				contentType : "application/json; charset=utf-8",
 				success:function(data){
 	                console.log("SUCESS: ", data);
-	                self.location = "/lesson/registerDetail?lessonId="+$lessonId.val();
+	                self.location = "/lesson/registerDetail?lessonId="+$lessonId.val()+"&originalId="+$originalId.val();
 	            }
 		});
 		

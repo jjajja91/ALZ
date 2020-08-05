@@ -19,6 +19,7 @@ import lombok.experimental.Accessors;
 @ToString
 public class LessonDetailDTO {
 	
+	private Long originalId;
 	private Long id;
 	private Long lessonId;
 	private String Detail;

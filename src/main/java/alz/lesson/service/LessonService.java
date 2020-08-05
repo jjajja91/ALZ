@@ -24,7 +24,7 @@ public interface LessonService {
 	LessonDTO readByLessonId(Long id); 
 	
 	LessonDTO basicByLessonId(Long id); // 기본정보만
-	List<CurriculumSubjectDTO> curriculumByLessonId(Long id);
+	List<CurriculumSubjectDTO> curriculumByLessonId(Long lessonId); // 새로만든 클래스
 	TeacherDTO teacherByLessonId(Long id);
 	List<QuickReviewDTO> quickReviewByLessonId(Long id);
 	

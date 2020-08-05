@@ -12,6 +12,7 @@
 	
 	<form role="form" action="/lesson/registerCurriculum" method="post">
 		<input type="text" name="lessonId" value='<c:out value="${param.lessonId }"/>'>
+		<input type="text" name="originalId" value='<c:out value="${param.originalId }"/>'>
 	
 		<h5><strong>커리큘럼</strong></h5>클래스를 신청하신 분들이 배우고 있는 커리큘럼입니다. 주제와 그에 따른 소주제를 작성해 주세요.
 		<br><br><br>
@@ -19,30 +20,59 @@
 		<br>
 		<div>
 			<br>
-			<c:forEach items='${curriculum}' var='list' varStatus="subjectLoop">
-				<div id="subjectDiv">
-					<label for="subject">주제</label>
-					<input type="text" class="subject" name="subject" value='<c:out value="${list.subject }"/>'> 
-					
-					<c:if test="${subjectLoop.index != 0}" >
-						<input type="button" class="deleteSubject" name="delete" value="-delete">
-					</c:if>
-				</div>
-				
-				<c:forEach items='${list.detailList}' var='detail' varStatus="detailLoop">
-					<div id="detailDiv">
-						<label for="detail">소주제</label>
-						<input type="text" class="detail" name="detail" value='<c:out value="${detail.detail }"/>'>
+			<c:if test="${empty newCurriculum}" >
+				<c:forEach items='${originCurriculum}' var='list' varStatus="subjectLoop">
+					<div id="subjectDiv">
+						<label for="subject">주제</label>
+						<input type="text" class="subject" name="subject" value='<c:out value="${list.subject }"/>'> 
 						
-						<c:if test="${detailLoop.index != 0}" >
-							<input type="button" class="deleteDetail" name="delete" value="-delete">
+						<c:if test="${subjectLoop.index != 0}" >
+							<input type="button" class="deleteSubject" name="delete" value="-delete">
 						</c:if>
 					</div>
+					
+					<c:forEach items='${list.detailList}' var='detail' varStatus="detailLoop">
+						<div id="detailDiv">
+							<label for="detail">소주제</label>
+							<input type="text" class="detail" name="detail" value='<c:out value="${detail.detail }"/>'>
+							<input type="hidden" class="detailOrder" name="detailOrder" value='<c:out value="${detailLoop.index+1 }"/>'>
+							
+							<c:if test="${detailLoop.index != 0}" >
+								<input type="button" class="deleteDetail" name="delete" value="-delete">
+							</c:if>
+						</div>
+					</c:forEach>
+					<br>
 				</c:forEach>
-				<br>
-			</c:forEach>
+			</c:if>
 			
-			<c:if test="${empty curriculum}" >
+			<c:if test="${!empty newCurriculum}" >
+				<c:forEach items='${newCurriculum}' var='list' varStatus="subjectLoop">
+					<div id="subjectDiv">
+						<label for="subject">주제</label>
+						<input type="text" class="subject" name="subject" value='<c:out value="${list.subject }"/>'> 
+						
+						<c:if test="${subjectLoop.index != 0}" >
+							<input type="button" class="deleteSubject" name="delete" value="-delete">
+						</c:if>
+					</div>
+					
+					<c:forEach items='${list.detailList}' var='detail' varStatus="detailLoop">
+						<div id="detailDiv">
+							<label for="detail">소주제</label>
+							<input type="text" class="detail" name="detail" value='<c:out value="${detail.detail }"/>'>
+							<input type="hidden" class="detailOrder" name="detailOrder" value='<c:out value="${detailLoop.index+1 }"/>'>
+							
+							<c:if test="${detailLoop.index != 0}" >
+								<input type="button" class="deleteDetail" name="delete" value="-delete">
+							</c:if>
+						</div>
+					</c:forEach>
+					<br>
+				</c:forEach>
+			</c:if>
+			
+			<c:if test="${!empty newCurriculum}" >
 				<div id="subjectDiv">
 					<label for="subject">주제</label>
 					<input type="text" class="subject" name="subject" > 
