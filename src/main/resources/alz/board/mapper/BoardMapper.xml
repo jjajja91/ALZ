@@ -189,10 +189,11 @@
 		(#{lessonReview}, #{teacherReview},
 		#{lessonId}, #{id}, #{writerId})
 	</insert>
-	
+
 	<update id="reviewChk" parameterType="long">
 		update alz_order_detail
-		set review_chk = 1
+		set
+		review_chk = 1
 		where merchandise_id = #{merchandiseId}
 	</update>
 
@@ -214,6 +215,21 @@
 
 	</select>
 
+	<select id="getTitle" resultType="alz.lesson.domain.LessonDTO">
+		select *
+		from
+		alz_lesson
+		where id
+		= #{lessonId}
+	</select>
 
+	<update id="updateReview"
+		parameterType="alz.board.domain.BoardDTO">
+		update alz_lesson_review
+		set lesson_review =
+		#{lessonReview},
+		teacher_review = #{teacherReview}
+		where board_id = #{id}
+	</update>
 
 </mapper>

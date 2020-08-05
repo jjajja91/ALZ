@@ -15,6 +15,7 @@ import alz.board.mapper.BoardMapper;
 import alz.board.mapper.LikeMapper;
 import alz.file.domain.BoardFileDTO;
 import alz.file.mapper.BoardFileMapper;
+import alz.lesson.domain.LessonDTO;
 import lombok.extern.log4j.Log4j;
 
 @Log4j
@@ -82,7 +83,10 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public BoardDTO updateById(Long id, BoardDTO board) {
 		BoardDTO searchedBoard = boardMapper.selectById(id);
-		searchedBoard.setTitle(board.getTitle()).setContent(board.getContent());
+			boardMapper.updateReview(board);
+		ReviewDTO review = boardMapper.readReview(board);
+		searchedBoard.setTitle(board.getTitle()).setContent(board.getContent())
+		.setLessonId(review.getLessonId()).setLessonReview(review.getLessonReview()).setTeacherReview(review.getTeacherReview());
 		int affectedRowCount = boardMapper.updateById(searchedBoard);
 		return searchedBoard;
 	}
@@ -163,8 +167,7 @@ public class BoardServiceImpl implements BoardService {
 	public void createReview(BoardDTO board) {
 
 		boardMapper.createReview(board);
-		System.out.println(board.getId());
-
+	
 	}
 
 	@Transactional
@@ -175,11 +178,14 @@ public class BoardServiceImpl implements BoardService {
 		boardMapper.reviewChk(merchandiseId);
 	}
 
+	@Transactional
 	@Override
 	public BoardDTO readReview(BoardDTO board) {
 		ReviewDTO review = boardMapper.readReview(board);
+		LessonDTO lesson=boardMapper.getTitle(review.getLessonId());
 		board.setLessonId(review.getLessonId()).setTeacherReview(review.getTeacherReview())
-		.setLessonReview(review.getLessonReview());
+		.setLessonReview(review.getLessonReview()).setLessonTitle(lesson.getTitle());
+		
 		return board;
 	}
 

@@ -6,6 +6,7 @@ import alz.board.domain.BoardCriteria;
 import alz.board.domain.BoardDTO;
 import alz.board.domain.ReviewDTO;
 import alz.board.domain.ReviewOptDTO;
+import alz.lesson.domain.LessonDTO;
 
 public interface BoardMapper {
 	
@@ -47,4 +48,8 @@ public interface BoardMapper {
 
 	ReviewDTO readReview(BoardDTO board);
 
-}
+	LessonDTO getTitle(Long lessonId);
+
+	Long updateReview(BoardDTO Board);
+
+	}

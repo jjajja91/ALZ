@@ -126,6 +126,9 @@ public class BoardApiController {
 			else
 				throw new UnsatisfiedContentException(error);
 		} else {
+			if(board.getTypeId()==4) {
+				
+			}
 			BoardDTO updatedBoard = boardService.updateById(id, board);
 			return ResponseEntity.status(HttpStatus.OK).body(updatedBoard);
 		}
