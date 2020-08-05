@@ -189,8 +189,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 	}
 
 	@Override
-	public void find_password_result(String password, Map<String, Object> map, UserDTO dto) throws Exception {
-		userMapper.find_password_result(password, map, dto);
+	public boolean modifyPwd(UserDTO user) {
+		user.encodePassword(passwordEncoder);
+		return userMapper.modifyPwd(user)==1;
 	}
 
 	
@@ -498,6 +499,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 	public boolean duplicateCheck(String email) {
 		return userMapper.emailChk(email) == 1;
 	}
+
 
 //	@Async
 //	@Override

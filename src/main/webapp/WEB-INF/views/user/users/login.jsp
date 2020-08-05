@@ -40,7 +40,7 @@
 				<td colspan="2">
 					<button type="submit">Log In</button> 
 					<a href="/find_id_form">아이디 찾기</a>
-					<a href="/find_password_form">비밀번호 찾기</a><br>
+					<a href="/findPwd">비밀번호 찾기</a><br>
 					
 					<a id="kakaoLogin">
 						<img src="resources/img/카카오로그인.png">
