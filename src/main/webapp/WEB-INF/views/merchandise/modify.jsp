@@ -69,13 +69,13 @@
 							<tr>
 								<td>가격</td>
 								<td><input type="text" id="originPrice" name="originPrice"
-									value="${merchandise.originPrice }"></td>
+									value='<fmt:formatNumber value="${merchandise.originPrice }" pattern="#,###"/>'></td>
 							</tr>
 
 							<tr>
 								<td>할인금액</td>
 								<td><input type="text" id="salePrice" name="salePrice"
-									value="${merchandise.salePrice }"></td>
+									value='<fmt:formatNumber value="${merchandise.salePrice }" pattern="#,###"/>'></td>
 							</tr>
 
 							<tr>

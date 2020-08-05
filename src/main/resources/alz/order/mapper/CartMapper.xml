@@ -65,7 +65,7 @@
 	<!-- 장바구니 선택 리스트 -->
 	<select id="buyList" resultType="alz.order.domain.CartListDTO">
 			SELECT c.id, c.user_id,
-		p.ID
+		p.ID merchandise_id
 		,
 		m.id, p.NAME, p.ORIGIN_PRICE
 		FROM alz_user m,

@@ -226,8 +226,7 @@
 	<update id="updateReview"
 		parameterType="alz.board.domain.BoardDTO">
 		update alz_lesson_review
-		set lesson_review =
-		#{lessonReview},
+		set lesson_review = #{lessonReview},
 		teacher_review = #{teacherReview}
 		where board_id = #{id}
 	</update>

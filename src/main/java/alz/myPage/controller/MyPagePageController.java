@@ -42,6 +42,7 @@ public class MyPagePageController {
 		this.passwordEncoder = passwordEncoder;
 	}
 	
+	// 로그인한 유저 정보 가져오기
 	public UserDTO getLoginUserInfo() {
 		SecurityContext context = SecurityContextHolder.getContext();
 		Authentication auth = context.getAuthentication();
@@ -53,8 +54,10 @@ public class MyPagePageController {
 	@PostMapping("/deleteAcc")
 	public String delete(UserDTO user, RedirectAttributes attr) {
 		String result ="";
+		user.setId(getLoginUserInfo().getId());
+		System.out.println(user);
 	    if (MyPageService.selectById(user)) {	
-	    	 int deleteAcc = MyPageService.DeleteAcc(user.getId());
+	    	 int deleteAcc = MyPageService.deleteAcc(user);
 	    		 if(deleteAcc != 0) {
 	 				result = "redirect:/logout";
 	    		 } 
@@ -89,7 +92,7 @@ public class MyPagePageController {
 		return "myPage/myLessonList";
 	}
 	
-	//완료된 내 클래스
+		//완료된 내 클래스
 		@GetMapping(value = "/finishedLesson")
 		public String finishedLesson(MyPageCriteria cri, Model model) {
 			cri.setId(getLoginUserInfo().getId());

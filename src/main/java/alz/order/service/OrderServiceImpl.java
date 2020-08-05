@@ -1,10 +1,10 @@
 package alz.order.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import alz.order.domain.OrderAllDTO;
 import alz.order.domain.OrderDTO;
 import alz.order.domain.OrderDetailDTO;
 import alz.order.mapper.OrderMapper;
@@ -37,14 +37,22 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 
-	@Transactional
 	@Override
-	public void addOrder(OrderAllDTO orderAll) throws Exception {
-		orderMapper.addOrder(orderAll);
-		orderMapper.addOrderDetail(orderAll);
+	public List<OrderDetailDTO> orderResult(String orderId) {
+		return orderMapper.orderResult(orderId);
 	}
 
 
+	@Override
+	public void orderDetailInsert(OrderDetailDTO orderDetail) throws Exception {
+		orderMapper.orderDetailInsert(orderDetail);
+		
+	}
+
+	@Override
+	public OrderDTO findOrderer(String orderId) {
+		return orderMapper.findOrderer(orderId);
+	}
 
 
 

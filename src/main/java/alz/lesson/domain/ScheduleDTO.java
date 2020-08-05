@@ -23,5 +23,9 @@ import lombok.experimental.Accessors;
 public class ScheduleDTO {
 
 	private Long id;
-	private List<TimeTableDTO> timeList;
+	private Long lessonId;
+	private Date openAt;
+	private Date closeAt;
+	
+	private List<TimeTableDTO> timeTable;
 }

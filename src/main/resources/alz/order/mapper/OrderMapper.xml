@@ -5,45 +5,61 @@
 
 <mapper namespace="alz.order.mapper.OrderMapper">
 
-	<insert id="insertOrder" parameterType="alz.order.domain.OrderDTO">
+	<insert id="insertOrder"
+		parameterType="alz.order.domain.OrderDTO">
 		INSERT INTO ALZ_ORDER
 		(ID,USER_ID,NAME,PHONE,METHOD,STATE,TOTAL_PRICE)
 		VALUES
-		(#{id}, #{userId}, #{name}, #{phone}, #{method},#{state},#{totalPrice})
+		(#{id},
+		#{userId}, #{name}, #{phone}, #{method},#{state},#{totalPrice})
 	</insert>
 
 	<insert id="insertOrderDetail"
-		parameterType="alz.order.domain.OrderDetailDTO" >
-		insert into alz_order_detail
-		(id, order_id, merchandise_id, user_id)
-		select alz_order_detail_seq.nextval, #{orderId}, merchandise_id, user_id
-		from alz_cart
-		where user_id = #{userId}
+		parameterType="alz.order.domain.OrderDetailDTO">
+		insert into
+		alz_order_detail
+		(id, order_id,
+		merchandise_id, user_id)
+		select
+		alz_order_detail_seq.nextval,
+		#{orderId}, merchandise_id, user_id
+		from
+		alz_cart
+		where user_id =
+		#{userId}
 	</insert>
 
 	<delete id="removeCart">
 		delete alz_cart
 		where user_Id = #{userId}
 	</delete>
-	
-	<insert id="addOrder" parameterType="alz.order.domain.OrderAllDTO">
-		INSERT INTO ALZ_ORDER
-		(ID,USER_ID,NAME,PHONE,METHOD,STATE,TOTAL_PRICE)
-		VALUES
-		(#{id}, #{userId}, #{name}, #{phone}, #{method},#{state},#{totalPrice})
-	</insert>
 
-	<insert id="addOrderDetail"
-		parameterType="alz.order.domain.OrderAllDTO" >
+	<select id="orderResult"
+		resultType="alz.order.domain.OrderDetailDTO">
+		select o.order_id, m.merchandise_id, m.NAME, m.ORIGIN_PRICE
+		from alz_order_detail o, alz_merchandise_detail m
+		where o.order_id = #{orderId}
+		and m.id = o.merchandise_id
+	</select>
+	
+	<insert id="orderDetailInsert" parameterType="alz.order.domain.OrderDetailDTO">
 		<selectKey keyProperty="id" order="BEFORE" resultType="long">
 			SELECT alz_order_detail_seq.nextval FROM dual
 		</selectKey>
-		insert into alz_order_detail
-		(id, order_id, merchandise_id, user_id)
-		select #{id}, #{orderId}, merchandise_id, user_id
-		from alz_cart
-		where user_id = #{userId}
+		INSERT INTO ALZ_ORDER_DETAIL
+		(ID, ORDER_ID, MERCHANDISE_ID, USER_ID)
+		VALUES
+		(#{id}, #{orderId}, #{merchandiseId}, #{userId})
 	</insert>
-
+	
+	<select id="findOrderer"
+		resultType="alz.order.domain.OrderDTO">
+		select name, phone
+		from alz_order
+		where id = #{id}
+	</select>
+	
+	
+	
 
 </mapper>

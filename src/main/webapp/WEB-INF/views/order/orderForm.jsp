@@ -3,8 +3,6 @@
 <%@include file="../includes/header.jsp"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%@ taglib uri="http://www.springframework.org/security/tags"
-	prefix="sec"%>
 
 <!DOCTYPE html>
 <html>
@@ -13,7 +11,6 @@
 <title>ORDER</title>
 </head>
 <body>
-	<sec:authentication var="principal" property="principal" />
 	<div>
 
 		<h2>ORDER</h2>
@@ -22,7 +19,7 @@
 	</div>
 	<br>
 	<br>
-
+	
 	<form name="orderinfo" method="post" action="/order/payForKakao">
 		<table class="table table-striped table-bordered table-hover">
 			<tr>
@@ -36,7 +33,8 @@
 				<tr>
 					<td class="main_list_col1">이미지</td>
 					<td class="main_list_col2">${list.name}</td>
-					<td class="main_list_col3">${list.originPrice}</td>
+					<td class="main_list_col3">
+					<fmt:formatNumber value="${list.originPrice}" pattern="#,###"/></td>
 				</tr>
 
 				<input type="hidden" id="cartId" name="cartId" value="${list.id }">
@@ -54,7 +52,7 @@
 				<strong>연락처 정보</strong><br> 이름 <input type="text" name="name"
 					id="name" value="${userInfo.nickname}"><br> 휴대폰 <input
 					type="text" name="phone" id="phone" value="${userInfo.phoneNumber}"><br>
-				할인 금액 <br> 결제 금액 ${finalTotalPrice} <br> <br>
+				할인 금액 <br> 결제 금액 <fmt:formatNumber value="${finalTotalPrice}" pattern="#,###"/> <br> <br>
 			</div>
 
 			<div>
@@ -70,6 +68,8 @@
 
 			</div>
 
+			<!-- 값전달 -->
+			<input type="hidden" id="merchandise" name="merchandise" value="${merchandise.id}">
 			<input type="hidden" name="state" id="state" value="결제완료"> 
 			<input type="hidden" name="totalPrice" id="totalPrice" value="${finalTotalPrice}"> 
 		</div>
@@ -90,6 +90,7 @@
 			}
 		});
 
+		// 결제방법, 폰번호 체크
 		function checkConfirm() {
 			if ($('input[name="method"]:radio:checked').length < 1) {
 				alert("결제 방법을 선택하세요.");

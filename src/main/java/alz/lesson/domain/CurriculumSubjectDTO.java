@@ -21,6 +21,7 @@ import lombok.experimental.Accessors;
 public class CurriculumSubjectDTO {
 	
 	private Long subjectId;
+	private Long lessonId;
 	private Long curriculumOrder;
 	private String subject;
 	

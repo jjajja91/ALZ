@@ -12,7 +12,7 @@
 	
 	<form role="form" action="/lesson/registerBasic" method="post">
 		<input type="hidden" name="userId" value='<sec:authentication property="principal.id"/>'>
-		<input type="hidden" name="id" value='<c:out value="${lesson.id }"/>'>
+		<input type="hidden" name="id" id="id" value='<c:out value="${lesson.id }"/>'>
 		<input type="hidden" name="teacherId" value='<c:out value="${param.teacherId }"/>'>
 		<input type="hidden" name="state" id="state" />
 		
@@ -27,7 +27,7 @@
 		   </select>
 		</c:if>
 		
-		<div class="lessonDetail">
+		<div class="lessonBasic">
 			<br><br>
 			<h5><strong>어떤 클래스인지 알려주세요</strong></h5>가르쳐보고 싶은게 있으신가요? 카테고리를 설정해봐요.
 			<div class="lessonCategoryDiv">
@@ -112,7 +112,7 @@
 <script>
 
 	var formObj;
-	var lessonDetailDiv;
+	var lessonBasicDiv;
 
 	// 카테고리를 담기위한 변수
 	var mainCategory = [];
@@ -133,7 +133,7 @@
 	$(document).ready(function(){
 		
 		formObj = $("form[role='form']");
-		lessonDetailDiv = $(".lessonDetail");
+		lessonBasicDiv = $(".lessonBasic");
 
 	});
 	

@@ -43,6 +43,8 @@
 						href="#" id="star3">★</a> <a href="#" id="star4">★</a> <a href="#"
 						id="star5">★</a>
 				</p>
+					<input type='hidden' name='teacherReview' value='<c:out value="${board.teacherReview}"/>'>
+					
 				</div></c:if>
 			<div class="form-group">
 				<label>제 목</label> <input class="form-control" id='title' name='title'
@@ -96,6 +98,8 @@
 	
 		var $lessonId = $("select[name=reviewOpts]");
 		
+
+		// 서머노트 커스터마이징
 		$summernote.summernote({
 			placeholder : 'content',
 			minHeight : 370,
@@ -104,12 +108,15 @@
 			lang : 'ko-KR',
 			height : 320,
 			
+			// 콜백으로 이미지를 서버에 저장ㄴ
 			callbacks : {
 				onImageUpload: function(files, editor, welEditable) {
 			            sendFile(files);
 			          }
 			}
 		});
+
+		//별 클릭 함수
 		 $('#lesson_star_rate a').click(function(){
 	            $(this).parent().children("a").removeClass("lessonOn");  /* 별점의 on 클래스 전부 제거 */ 
 	            $(this).addClass("lessonOn").prevAll("a").addClass("lessonOn"); /* 클릭한 별과, 그 앞 까지 별점에 on 클래스 추가 */
@@ -122,6 +129,10 @@
 	            var teacher_star_rate = $(".teacherOn").length;
 	            return $("input[type=hidden][name=teacherReview]").val(teacher_star_rate);
 	        });
+
+		
+		// 필요 없는 이미지 등록 버튼 제거
+
 		makeFileBtn();
 		
 		// 서머노트 이미지 복사 붙여넣기를 파일업로드로 사용하기 위해 저장하는 메서드
@@ -351,6 +362,7 @@
   			return true;
   		}
   		
+  		// 올린 파일 결과 보여주기
   		function showUploadResult(uploadResultArr) {
   			if(!uploadResultArr||uploadResultArr.length==0){return;}
   			var uploadUL = $(".uploadResult ul");
@@ -388,6 +400,7 @@
   			
   		}
   		
+  		// 파일 바꾸면
   		$("input[type='file']").change(function(e){
   			var formData = new FormData();
   			var inputFile = $("input[name='uploadFile']");
@@ -415,6 +428,7 @@
   			});
   		});
   		
+  		// 파일 삭제
   		$(".uploadResult").on("click", "button", function(e){
   			console.log("delete file");
   			if(confirm("Remove this file? ")){

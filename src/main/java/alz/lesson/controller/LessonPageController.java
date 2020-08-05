@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import alz.lesson.domain.LessonDTO;
+import alz.lesson.domain.LessonDetailDTO;
 import alz.lesson.domain.TeacherDTO;
 import alz.lesson.service.LessonServiceImpl;
 import alz.user.domain.UserDTO;
@@ -86,8 +87,9 @@ public class LessonPageController {
       model.addAttribute("subCategory", lessonService.subCategory());
    }
    
+   // 기본정보 저장
    @PostMapping("/registerBasic")
-   public String registerDetail(LessonDTO lesson) {
+   public String registerBasic(LessonDTO lesson) {
       int lessonId;
       if(lesson.getState()!=1) {
          lessonId = lessonService.createLesson(lesson);
@@ -95,19 +97,35 @@ public class LessonPageController {
          lessonService.updateLesson(lesson);
          lessonId = lesson.getId().intValue();
       }
-      return "redirect:/lesson/registerDetail?lessonId="+lessonId;
+      return "redirect:/lesson/registerSchedule?lessonId="+lessonId;
    }
    
-   // 클래스 스케줄&세부 jsp
-   @GetMapping("/registerDetail")
-   public void registerDetail(@RequestParam Long lessonId, Model model) {
-      model.addAttribute("lessons", lessonService.readByLessonId(lessonId));
-   }
+	// 클래스 스케줄 jsp
+	@GetMapping("/registerSchedule")
+	public void registerSchedule(@RequestParam Long lessonId, Model model) {
+		model.addAttribute("schedule", lessonService.scheduleByLessonId(lessonId));
+	}
    
-   // 클래스 스케줄&세부 jsp
-   @GetMapping("/registerCurriculum")
-   public void registerCurriculum(@RequestParam Long lessonId, Model model) {
-      model.addAttribute("lessons", lessonService.readByLessonId(lessonId));
-   }
+	// 클래스 세부 jsp
+	@GetMapping("/registerDetail")
+	public void registerDetail(@RequestParam Long lessonId, Model model) {
+		model.addAttribute("detail", lessonService.detailByLessonId(lessonId));
+	}
+	
+	// 클래스 세부 저장
+	@PostMapping("/registerDetail")
+	public String registerDetail(LessonDetailDTO lessonDetail) {
+	   if(lessonDetail.getId()==null) {
+		   lessonService.createLessonDetail(lessonDetail);
+	   } else {
+		   lessonService.updateLessonDetail(lessonDetail);
+	   }
+	   return "redirect:/lesson/registerCurriculum?lessonId="+lessonDetail.getLessonId();
+	}
    
+	// 클래스 세부 jsp
+	@GetMapping("/registerCurriculum")
+	public void registerCurriculum(@RequestParam Long lessonId, Model model) {
+		model.addAttribute("curriculum", lessonService.curriculumByLessonId(lessonId));
+	}
 }

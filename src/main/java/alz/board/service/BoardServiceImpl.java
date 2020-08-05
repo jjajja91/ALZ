@@ -83,10 +83,13 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public BoardDTO updateById(Long id, BoardDTO board) {
 		BoardDTO searchedBoard = boardMapper.selectById(id);
-			boardMapper.updateReview(board);
+		System.out.println("보드" + board);
+		if(board.getTypeId()==4) {
+		boardMapper.updateReview(board);
 		ReviewDTO review = boardMapper.readReview(board);
-		searchedBoard.setTitle(board.getTitle()).setContent(board.getContent())
-		.setLessonId(review.getLessonId()).setLessonReview(review.getLessonReview()).setTeacherReview(review.getTeacherReview());
+		searchedBoard.setLessonId(review.getLessonId()).setLessonReview(review.getLessonReview()).setTeacherReview(review.getTeacherReview());
+		}
+		searchedBoard.setTitle(board.getTitle()).setContent(board.getContent());
 		int affectedRowCount = boardMapper.updateById(searchedBoard);
 		return searchedBoard;
 	}

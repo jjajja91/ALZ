@@ -36,6 +36,7 @@
 	<context:component-scan base-package="alz.user.controller" />
 	<context:component-scan base-package="alz.file.controller" />
 	<context:component-scan base-package="alz.myPage.controller" />
+	<context:component-scan base-package="alz.admin.controller" />
 
 	<beans:bean id="multipartResolver"
 		class="org.springframework.web.multipart.support.StandardServletMultipartResolver">
