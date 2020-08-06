@@ -63,8 +63,8 @@
 		resultType="alz.board.domain.BoardDTO">
 		<![CDATA[	
 		select * from(
-		select rownum rn, id, title, content, written_at, view_cnt, nickname
-		from (select b.id, b.title, b.content, b.written_at, b.view_cnt, b.nickname 
+		select rownum rn, id, title, content, written_at, comment_cnt, view_cnt, nickname
+		from (select b.id, b.title, b.content, b.written_at, b.comment_cnt, b.view_cnt, b.nickname 
 		from alz_board b, alz_link_like_board l
 		where b.id = l.board_id
 		and l.user_id = #{id}

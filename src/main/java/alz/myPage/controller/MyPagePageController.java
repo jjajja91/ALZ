@@ -116,7 +116,7 @@ public class MyPagePageController {
 	@GetMapping("/commentList")
 	public void commentList(MyPageCriteria cri, Model model) {
 		cri.setId(getLoginUserInfo().getId());
-		model.addAttribute("list", myPageService.commentReadAll(cri));
+		model.addAttribute("list", myPageService.getMyCommentList(cri));
 		Long total = myPageService.getMyCommentTotal(cri);
 		model.addAttribute("pageMaker", new MyPagePageDTO(cri, total));
 	}
@@ -125,7 +125,7 @@ public class MyPagePageController {
 	@GetMapping("/likeList")
 	public void likeList(MyPageCriteria cri, Model model) {
 		cri.setId(getLoginUserInfo().getId());
-		model.addAttribute("list", myPageService.likeReadAll(cri));
+		model.addAttribute("list", myPageService.getMyLikeList(cri));
 		Long total = myPageService.getMyLikeTotal(cri);
 		model.addAttribute("pageMaker", new MyPagePageDTO(cri, total));
 	}

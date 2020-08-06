@@ -75,8 +75,13 @@
 		$tbody = $("tbody");
 
 		$pageBtn.on().click(function(e){
+			// active 관련은 나중에 없앨 수도 있음
+			$pageBtn.parent().removeClass("active")
 			e.preventDefault();
-			var pageNum = e.target.text;
+			var $target = e.target
+			console.log($target);
+			$target.parentNode.setAttribute("class", "active");
+			var pageNum = $target.text;
 			getMyCommentList(pageNum)
 			.then(function(response){
 				drawMyCommentList(response);
