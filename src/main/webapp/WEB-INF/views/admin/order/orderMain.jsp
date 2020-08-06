@@ -205,14 +205,17 @@
 														<c:out value="${order.id}" />
 												</a></td>
 												<td><c:out value="${order.name}" /></td>
-												<td><c:choose>
+												<td>
+													<!-- 단독 구매 시 "상품명" / 2개 이상일 시 수량 표시 --> <c:choose>
 														<c:when test="${order.count == 1}">
 															<c:out value="${order.merchandiseName}" />
 														</c:when>
 														<c:otherwise>
-															<c:out value="${order.merchandiseName}" /> 외 <c:out value="${order.count-1}" />건
+															<c:out value="${order.merchandiseName}" /> 외 <c:out
+																value="${order.count-1}" />건
 														</c:otherwise>
-													</c:choose></td>
+													</c:choose>
+												</td>
 												<td><c:out value="${order.totalPrice}" /></td>
 												<td><c:out value="${order.state}" /></td>
 											</tr>
