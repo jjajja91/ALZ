@@ -69,8 +69,8 @@ public class AdminUserServiceImpl implements AdminUserService, UserDetailsServic
 
 	// 04. 회원 정보 삭제 처리
 	@Override
-	public void deleteUser(String email) {
-		adminUserMapper.deleteUser(email);
+	public void deleteUser(UserDTO dto) {
+		adminUserMapper.deleteUser(dto);
 	}
 
 	// 05. 회원 정보 수정 처리
@@ -82,14 +82,19 @@ public class AdminUserServiceImpl implements AdminUserService, UserDetailsServic
 
 	// 06. 회원 정보 수정 및 삭제를 위한 비밀번호 체크
 	@Override
-	public boolean checkPw(String email, String password) {
+	public boolean checkPw(UserDTO dto) {
+		UserDTO user = adminUserMapper.selectByEmail(dto.getEmail());
 		boolean result = false;
-		Map<String, String> map = new HashMap<String, String>();
-		map.put("email", email);
-		map.put("password", password);
-		int count = adminUserMapper.checkPw("member.checkPw", map);
-		if (count == 1)
+//		System.out.println(count);
+		if (passwordEncoder.matches(dto.getPassword(),user.getPassword()))
 			result = true;
+//		Map<String, String> map = new HashMap<String, String>();
+//		System.out.println(dto.getEmail());
+//		map.put("email", dto.getEmail());
+//		map.put("password", dto.getPassword());
+//		int count = adminUserMapper.checkPw("member.checkPw", map);
+//		if (count == 1)
+//			result = true;
 		return result;
 	}
 

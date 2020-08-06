@@ -22,13 +22,13 @@ public interface AdminUserService {
 	public UserDTO viewUser(String email);
 
 	// 회원삭제
-	public void deleteUser(String email);
+	public void deleteUser(UserDTO dto);
 
 	// 회원정보 수정
 	public void updateUser(UserDTO dto);
 
 	// 비밀번호 체크
-	public boolean checkPw(String email, String password);
+	public boolean checkPw(UserDTO dto);
 
 	// 회원정보를 찾는 메소드
 	List<UserDTO> find_member_info(String email) throws Exception;

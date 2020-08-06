@@ -25,7 +25,7 @@ public class AdminUserController {
 	@Autowired
 	AdminUserService adminUserService; // 서비스를 호출하기 위해 의존성을 주입
 
-	private static final Logger logger = LoggerFactory.getLogger(AdminUserController.class);
+//	private static final Logger logger = LoggerFactory.getLogger(AdminUserController.class);
 
 	// 01 회원 목록
 	// url pattern mapping
@@ -67,8 +67,8 @@ public class AdminUserController {
 	public String memberView(@RequestParam String email, Model model) {
 		// 회원 정보를 model에 저장
 		model.addAttribute("dto", adminUserService.viewUser(email));
-		// System.out.println("클릭한 아이디 확인 : "+email);
-		logger.info("클릭한 아이디 : " + email);
+		 System.out.println("클릭한 아이디 확인 : "+email);
+//		logger.info("클릭한 아이디 : " + email);
 		// member_view.jsp로 포워드
 		return "admin/user/member_view";
 	}
@@ -77,7 +77,7 @@ public class AdminUserController {
 	@RequestMapping("admin/update")
 	public String memberUpdate(@ModelAttribute UserDTO dto, Model model) {
 		// 비밀번호 체크
-		boolean result = adminUserService.checkPw(dto.getEmail(), dto.getPassword());
+		boolean result = adminUserService.checkPw(dto);
 		if (result) { // 비밀번호가 일치하면 수정 처리후, 전체 회원 목록으로 리다이렉트
 			adminUserService.updateUser(dto);
 			return "redirect:/admin/list";
@@ -95,15 +95,15 @@ public class AdminUserController {
 	// @RequestMapping : url mapping
 	// @RequestParam : get or post방식으로 전달된 변수값
 	@RequestMapping("admin/delete")
-	public String memberDelete(@RequestParam String email, @RequestParam String password, Model model) {
+	public String memberDelete(UserDTO dto, Model model) {
 		// 비밀번호 체크
-		boolean result = adminUserService.checkPw(email, password);
+		boolean result = adminUserService.checkPw(dto);
 		if (result) { // 비밀번호가 맞다면 삭제 처리후, 전체 회원 목록으로 리다이렉트
-			adminUserService.deleteUser(email);
+			adminUserService.deleteUser(dto);
 			return "redirect:/admin/list";
 		} else { // 비밀번호가 일치하지 않는다면, div에 불일치 문구 출력, viwe.jsp로 포워드
 			model.addAttribute("message", "비밀번호 불일치");
-			model.addAttribute("dto", adminUserService.viewUser(email));
+			model.addAttribute("dto", adminUserService.viewUser(dto.getEmail()));
 			return "admin/user/member_view";
 		}
 	}

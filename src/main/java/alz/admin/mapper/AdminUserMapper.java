@@ -26,13 +26,13 @@ public interface AdminUserMapper {
 	public UserDTO viewUser(String email);
 
 	// 회원삭제
-	public void deleteUser(String email);
+	public void deleteUser(UserDTO dto);
 
 	// 회원정보 수정
 	public void updateUser(UserDTO dto);
 
 	// 비밀번호 체크
-	public int checkPw(String email, Map<String, String> map);
+	public int checkPw(UserDTO dto);
 
 	// 회원정보를 찾는 메소드
 	List<UserDTO> member_info(String email) throws Exception;
