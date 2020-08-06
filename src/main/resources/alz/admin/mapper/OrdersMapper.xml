@@ -6,9 +6,11 @@
 <mapper namespace="alz.admin.mapper.OrdersMapper">
 
 	<select id="orderList" resultType="alz.order.domain.OrderAllDTO">
-		select rownum, order_at,id,
-		name,phone, merchandise_name, total_price, state, b.count from
-		(select rownum, order_at,id, name,phone, merchandise_name, total_price, state
+		SELECT rownum no, order_at,id,
+		name,phone, merchandise_name, total_price, state, count
+		FROM (select order_at,id, name,phone, merchandise_name, total_price,
+		state, b.count from
+		(select order_at,id, name,phone, merchandise_name, total_price, state
 		from(select order_at,id, name,phone, max(merchandise)
 		merchandise_name, total_price, state
 		from (select o.order_at, o.id, o.name, o.phone, m.name merchandise,
@@ -16,12 +18,41 @@
 		from alz_order o
 		inner join alz_order_detail d on o.id = d.order_id
 		inner join alz_merchandise_detail m on m.id = d.merchandise_id
-		where d.order_id = o.id and o.user_id = d.user_id order by order_at desc)
-		group by order_at,id, name,phone, total_price, state
-		order by order_at)
-		order by rownum desc) a, (SELECT order_id, COUNT(*)count FROM
-		alz_order_detail GROUP BY order_id) b
+		where d.order_id = o.id and o.user_id = d.user_id)
+		group by order_at,id, name,phone, total_price, state)
+		) a, (SELECT order_id, COUNT(*)count FROM alz_order_detail GROUP BY
+		order_id) b
 		where a.id = b.order_id
+		order by order_at desc)
+	</select>
+	
+	<select id="orderListPaging" resultType="alz.order.domain.OrderAllDTO">
+	<![CDATA[
+		select rownum no, order_at,id,
+		name,phone, merchandise_name, total_price, state, count
+		FROM
+		(SELECT rownum no, order_at,id,
+		name,phone, merchandise_name, total_price, state, count
+		FROM (select order_at,id, name,phone, merchandise_name, total_price,
+		state, b.count from
+		(select order_at,id, name,phone, merchandise_name, total_price, state
+		from(select order_at,id, name,phone, max(merchandise)
+		merchandise_name, total_price, state
+		from (select o.order_at, o.id, o.name, o.phone, m.name merchandise,
+		o.total_price, o.state
+		from alz_order o
+		inner join alz_order_detail d on o.id = d.order_id
+		inner join alz_merchandise_detail m on m.id = d.merchandise_id
+		where d.order_id = o.id and o.user_id = d.user_id)
+		group by order_at,id, name,phone, total_price, state)
+		) a, (SELECT order_id, COUNT(*)count FROM alz_order_detail GROUP BY
+		order_id) b
+		where a.id = b.order_id
+		order by order_at desc)
+		where rownum <= #{pageNum} * #{amount})
+		where no > (#{pageNum}-1)*#{amount}
+		]]>
+	
 	</select>
 
 

@@ -118,7 +118,7 @@
 								<c:forEach items="${list}" var="order">
 									<tr>
 										<td><input type="checkbox" class="checkEach"></td>
-										<td><c:out value="${order.rownum}" /></td>
+										<td><c:out value="${order.no}" /></td>
 										<td><fmt:formatDate pattern="yyyy-MM-dd HH:mm"
 												value="${order.orderAt}" /></td>
 										<td><a

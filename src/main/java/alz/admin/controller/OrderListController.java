@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import alz.admin.domain.OrderCriteria;
+import alz.admin.domain.OrderPageDTO;
 import alz.admin.service.OrdersService;
 import alz.order.domain.OrderDTO;
 import alz.order.domain.OrderDetailDTO;
@@ -30,9 +32,15 @@ public class OrderListController {
 		this.orderService = orderService;
 	}
 
+//	@GetMapping("/order/orderMain")
+//	public void orderMain(Model model) {
+//		model.addAttribute("list", ordersService.orderList());
+//	}
+	
 	@GetMapping("/order/orderMain")
-	public void orderMain(Model model) {
-		model.addAttribute("list", ordersService.orderList());
+	public void orderMain(OrderCriteria cri, Model model) {
+		model.addAttribute("list", ordersService.orderListPaging(cri));
+		model.addAttribute("pageMaker", new OrderPageDTO(cri, 123));
 	}
 
 	@GetMapping("/order/orderCanceled")
@@ -55,5 +63,5 @@ public class OrderListController {
 	public void tables(Model model) {
 		model.addAttribute("list", ordersService.orderList());
 	}
-
+	
 }
