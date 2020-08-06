@@ -68,4 +68,6 @@ public interface UserMapper {
 
 	int findUserByEmailNickname(UserDTO user);
 
+	int insertDetail(UserDTO user);
+
 }

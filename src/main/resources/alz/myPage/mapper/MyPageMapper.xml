@@ -152,6 +152,19 @@
 		alz_board where id = #{id}
 	</select>
 
+	<select id="myLikeCnt" resultType="long">
+	</select>
+	
+	<select id="myBoardCnt" resultType="long">
+		select board_cnt from alz_user_detail
+		where id = #{id}
+	</select>
+	
+	<select id="myCommentCnt" resultType="long">
+		select comment_cnt from alz_user_detail
+		where id = #{id}
+	</select>
+
 	<select id="getLikeCnt" resultType="long">
 		select like_cnt from
 		alz_board where id = #{id}
@@ -168,7 +181,6 @@
 			SELECT alz_user_state_seq.nextval FROM dual
 		</selectKey>
        insert into alz_user_state (id, user_id, state, description) values (#{id}, #{userId}, '탈퇴', #{description})
-
    </insert>
 
 	<update id="updateEnable" parameterType="alz.user.domain.UserDTO">
