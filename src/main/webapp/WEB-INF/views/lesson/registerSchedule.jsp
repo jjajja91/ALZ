@@ -26,7 +26,21 @@
 		<br>
 		<div>
 			<br>
+			<c:if test="${empty schedule.timeTable}" >
+				<div id="timesetDiv">
+					<label for="lessonDate">날짜 </label>
+					<input type="date" class="lessonDate" name="lessonDate" >
+	
+					<label for="startAt">수업 시작시간 </label>
+					<input type="time" class="startAt" name="startAt" >
+					<label for="endAt">수업 종료시간 </label>
+					<input type="time" class="endAt" name="endAt" >
+				</div>
+			</c:if>
+			
 			<c:forEach items='${schedule.timeTable}' var='timeList' varStatus="loop">
+			
+				
 				<div id="timesetDiv">
 					<label for="lessonDate">날짜 </label>
 					<input type="date" class="lessonDate" name="lessonDate" value='<c:out value="${timeList.lessonDate }"/>'>
@@ -43,23 +57,14 @@
 				<br>
 			</c:forEach>
 			
-			<c:if test="${empty schedule}" >
-				<div id="timesetDiv">
-					<label for="lessonDate">날짜 </label>
-					<input type="date" class="lessonDate" name="lessonDate" >
-	
-					<label for="startAt">수업 시작시간 </label>
-					<input type="time" class="startAt" name="startAt" >
-					<label for="endAt">수업 종료시간 </label>
-					<input type="time" class="endAt" name="endAt" >
-				</div>
-			</c:if>
+			
 		</div>
 		
 		<input type="button" id="addLesson" name="addLesson" value="+add"/>
 		<br><br><br>
 		
-		<button type="submit">다음 ＞</button>
+		<button type="submit" name="prev">＜ 이전</button>
+		<button type="submit" name="next">다음 ＞</button>
 	</form>
 </div>
 <script>
@@ -86,39 +91,58 @@
 	// 다음 클릭시 지우고 저장
 	$("button[type=submit]").click(function(e){
 
+		var name = $(this).attr("name");
+		
 		$openAt = $("#openAt");
 		$closeAt = $("#closeAt");
 		$lessonDate = $(".lessonDate");
 		$startAt = $(".startAt");
 		$endAt = $(".endAt");
-		
-		let timeTable = [];
-		for(let i=0; i<$startAt.length; i++) {
-			let timeTablevalues = {
-					timeTableId: $lessonId.val(),
-					lessonDate: $lessonDate[i].value,
-					startAt: $startAt[i].value,
-					endAt: $endAt[i].value
-			};
-			timeTable.push(timeTablevalues);
+
+		if (name === 'prev') {
+			
+			e.preventDefault();
+			
+			if($originalId.val()!="") {
+	        	self.location = "/lesson/registerBasic?lessonId="+$lessonId.val()+"&originalId="+$originalId.val();
+	        } else {
+	        	self.location = "/lesson/registerBasic?lessonId="+$lessonId.val();
+	        }
+			
+		} else {
+			
+			let timeTable = [];
+			for(let i=0; i<$startAt.length; i++) {
+				let timeTablevalues = {
+						timeTableId: $lessonId.val(),
+						lessonDate: $lessonDate[i].value,
+						startAt: $startAt[i].value,
+						endAt: $endAt[i].value
+				};
+				timeTable.push(timeTablevalues);
+			}
+			
+			let timeList = {};
+			timeList["lessonId"] = $lessonId.val();
+			timeList["openAt"] = $openAt.val();
+			timeList["closeAt"] = $closeAt.val();
+			timeList["timeTable"] = timeTable;
+			
+			$.ajax({
+					type : 'POST',
+					url : '/lessons/schedule',
+					data : JSON.stringify(timeList),
+					contentType : "application/json; charset=utf-8",
+					success:function(data){
+		                console.log("SUCESS: ", data);
+		                if($originalId.val()!=null) {
+		                	self.location = "/lesson/registerDetail?lessonId="+$lessonId.val()+"&originalId="+$originalId.val();
+		                } else {
+		                	self.location = "/lesson/registerDetail?lessonId="+$lessonId.val();
+		                }
+		            }
+			});
 		}
-		
-		let timeList = {};
-		timeList["lessonId"] = $lessonId.val();
-		timeList["openAt"] = $openAt.val();
-		timeList["closeAt"] = $closeAt.val();
-		timeList["timeTable"] = timeTable;
-		
-		$.ajax({
-				type : 'POST',
-				url : '/lessons/schedule',
-				data : JSON.stringify(timeList),
-				contentType : "application/json; charset=utf-8",
-				success:function(data){
-	                console.log("SUCESS: ", data);
-	                self.location = "/lesson/registerDetail?lessonId="+$lessonId.val()+"&originalId="+$originalId.val();
-	            }
-		});
 		
 	});
 		
@@ -151,7 +175,6 @@
 		e.target.parentNode.remove();
 	});
 	
-
     
 </script>
 </body>

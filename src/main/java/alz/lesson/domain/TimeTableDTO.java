@@ -24,6 +24,8 @@ import lombok.experimental.Accessors;
 public class TimeTableDTO {
 
 	private Long timeTableId;  // lesson id
+	private Date openAt;
+	private Date closeAt;
 	private Date lessonDate;
 	private String startAt;
 	private String endAt;

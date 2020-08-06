@@ -10,6 +10,7 @@ import alz.lesson.domain.LessonScheduleDTO;
 import alz.lesson.domain.QuickReviewDTO;
 import alz.lesson.domain.ScheduleDTO;
 import alz.lesson.domain.TeacherDTO;
+import alz.lesson.domain.TimeTableDTO;
 
 public interface LessonService {
 
@@ -17,9 +18,11 @@ public interface LessonService {
 	int createLesson(LessonDTO lesson);
 	int createSchedule(ScheduleDTO schedule);
 	int createLessonDetail(LessonDetailDTO detail);
+	int createCurriculum(List<CurriculumSubjectDTO> curriculumList);
 
 	TeacherDTO teacherByUserId(Long userId);
-	List<LessonDTO> lessonsByTeacherId(Long teacherId);
+	List<LessonDTO> lessonsByTeacherId(LessonDTO lesson);
+	LessonDTO lessonByTeacherId(LessonDTO lesson);
 	
 	LessonDTO readByLessonId(Long id); 
 	
@@ -38,9 +41,7 @@ public interface LessonService {
 	List<LessonDTO> readAll();
 
 	TeacherDTO updateTeacher(TeacherDTO teacher);
-	int updateLesson(LessonDTO lesson);
 	int updateLessonDetail(LessonDetailDTO detail);
-	
-	int deleteById(Long id);
+	int lessonSubmit(Long lessonId); // 상태변경 제출
 	
 }

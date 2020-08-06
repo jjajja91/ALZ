@@ -18,91 +18,108 @@
 		<br><br><br>
 		<br>대주제를 입력해주세요.
 		<br>
-		<div>
-			<br>
-			<c:if test="${empty newCurriculum}" >
-				<c:forEach items='${originCurriculum}' var='list' varStatus="subjectLoop">
-					<div id="subjectDiv">
+		<br>
+		<div class="parentDiv">
+		<c:if test="${empty newCurriculum}" >
+			<c:forEach items='${originCurriculum}' var='list' varStatus="subjectLoop">
+				<ul>
+					<li class="subjectLi">
+					<br>
 						<label for="subject">주제</label>
 						<input type="text" class="subject" name="subject" value='<c:out value="${list.subject }"/>'> 
-						
+						 
 						<c:if test="${subjectLoop.index != 0}" >
 							<input type="button" class="deleteSubject" name="delete" value="-delete">
 						</c:if>
-					</div>
-					
-					<c:forEach items='${list.detailList}' var='detail' varStatus="detailLoop">
-						<div id="detailDiv">
-							<label for="detail">소주제</label>
-							<input type="text" class="detail" name="detail" value='<c:out value="${detail.detail }"/>'>
-							<input type="hidden" class="detailOrder" name="detailOrder" value='<c:out value="${detailLoop.index+1 }"/>'>
-							
-							<c:if test="${detailLoop.index != 0}" >
-								<input type="button" class="deleteDetail" name="delete" value="-delete">
-							</c:if>
-						</div>
-					</c:forEach>
-					<br>
-				</c:forEach>
-			</c:if>
-			
-			<c:if test="${!empty newCurriculum}" >
-				<c:forEach items='${newCurriculum}' var='list' varStatus="subjectLoop">
-					<div id="subjectDiv">
-						<label for="subject">주제</label>
-						<input type="text" class="subject" name="subject" value='<c:out value="${list.subject }"/>'> 
 						
-						<c:if test="${subjectLoop.index != 0}" >
-							<input type="button" class="deleteSubject" name="delete" value="-delete">
-						</c:if>
-					</div>
-					
-					<c:forEach items='${list.detailList}' var='detail' varStatus="detailLoop">
-						<div id="detailDiv">
-							<label for="detail">소주제</label>
-							<input type="text" class="detail" name="detail" value='<c:out value="${detail.detail }"/>'>
-							<input type="hidden" class="detailOrder" name="detailOrder" value='<c:out value="${detailLoop.index+1 }"/>'>
-							
-							<c:if test="${detailLoop.index != 0}" >
-								<input type="button" class="deleteDetail" name="delete" value="-delete">
-							</c:if>
-						</div>
-					</c:forEach>
-					<br>
-				</c:forEach>
-			</c:if>
-			
-			<c:if test="${!empty newCurriculum}" >
-				<div id="subjectDiv">
-					<label for="subject">주제</label>
-					<input type="text" class="subject" name="subject" > 
-				</div>
-				
-				<div id="detailDiv">
-					<label for="detail">소주제</label>
-					<input type="text" class="detail" name="detail">
-				</div>
-			</c:if>
-		</div>
+						<input type="button" name="addDetail" value="add Detail" />
+						
+						<c:forEach items='${list.detailList}' var='detail' varStatus="detailLoop">
+							<ul>
+								<li class="detailLi">
+									<label for="detail">소주제</label>
+									<input type="text" class="detail" name="detail" value='<c:out value="${detail.detail }"/>'>
+									
+									<c:if test="${subjectLoop.index>0 || detailLoop.index>0}" >	
+										<input type="button" class="deleteDetail" name="delete" value="-delete">
+									</c:if>
+								</li>
+							</ul>
+						</c:forEach>
+					</li>
+				</ul>
+			</c:forEach>
+		</c:if>
 		
-		<input type="button" id="addSubject" name="addSubject" value="+Add Subject"/>
-		<input type="button" id="addDetail" name="addDetail" value="+Add Detail"/>
+		<c:if test="${!empty newCurriculum}" >
+			<c:forEach items='${newCurriculum}' var='list' varStatus="subjectLoop">
+				<ul>
+					<li class="subjectLi">
+						<label for="subject">주제</label>
+						<input type="text" class="subject" name="subject" value='<c:out value="${list.subject }"/>'> 
+						
+						<c:if test="${subjectLoop.index != 0}" >
+							<input type="button" class="deleteSubject" name="delete" value="-delete">
+						</c:if>
+						
+						<input type="button" name="addDetail" value="add Detail" />
+						
+						<c:forEach items='${list.detailList}' var='detail' varStatus="detailLoop">
+							<ul>
+								<li class="detailLi">
+									<label for="detail">소주제</label>
+									<input type="text" class="detail" name="detail" value='<c:out value="${detail.detail }"/>'>
+									
+									<c:if test="${subjectLoop.index>0 || detailLoop.index>0}" >	
+										<input type="button" class="deleteDetail" name="delete" value="-delete">
+									</c:if>
+								</li>
+							</ul>
+						</c:forEach>
+					</li>
+				</ul>
+			</c:forEach>
+		</c:if>
+		
+		<c:if test="${empty newCurriculum}" >
+			<c:if test="${empty originCurriculum}" >
+				<ul>
+					<li class="subjectLi">
+						<label for="subject">주제</label>
+						<input type="text" class="subject" name="subject" > 
+						
+						<input type="button" name="addDetail" value="add Detail" />
+					
+						<ul>
+							<li class="detailLi">
+								<label for="detail">소주제</label>
+								<input type="text" class="detail" name="detail">
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</c:if>
+		</c:if>
+		</div>
+		<input type="button" name="addSubject" value="+Add Subject"/>
 		<br><br><br>
-		<button type="submit">다음 ＞</button>
+		<button type="submit" name="prev">＜ 이전</button>
+		<button type="submit" name="save">저장</button>
+		<button type="submit" name="submit">제출</button>
 	</form>
 </div>
 <script>
 
 	var formObj;
-	var subjectDiv;
-	var detailDiv;
+	var $subjectLi;
+	var $detailLi;
 	var $addSubjectBtn;
 	var $addDetailBtn;
 	var $subject;
 	var $detail;
+	var $lessonId;
 	
 	$(document).ready(function(){
-		formObj = $("form[role='form']");
 		$addSubjectBtn = $("input[name=addSubject]");
 		$addDetailBtn = $("input[name=addDetail]");
 		$lessonId = $("input[name=lessonId]");
@@ -112,35 +129,49 @@
 	// 쓰기 아직 완성안됨
 	$("button[type=submit]").click(function(e) {
 		
-		$subject = $(".subject");
-		$detail = $(".detail");
-		
-		// 소주제 담을 배열
-		let detail = [];
-		for(let i=0; i<$detail.length; i++) {
-			let detailList = {
-					detailOrder : i+1,
-					detail: $detail[i].value
-			};
-			detail.push(detailList);
-		}
-		
-		// 대주제 담을 배열
-		let subjectList = {};
-		for(let i=0; i<$subject.length; i++) {
-			subjectList["id"] = $lessonId.val();
+		e.preventDefault();
+		formObj = $("form[role='form']");
+
+		var name = $(this).attr("name");
+		var curriculumList = [];
+
+		// 커리큘럼 목록 배열
+		$('.subjectLi').each(function() { 
+			var curriculumObj = {
+					lessonId : $lessonId.val(),
+					subject : $(this).find('input[name=subject]').val(),
+			    	detailList : []
+			}
 			
-		}
-		subjectList["detailList"] = detail;
+			$(this).find('.detailLi input[name=detail]').each(function(){
+				//$(this).val()
+			    var detailObj = {
+						lessonId : $lessonId.val(),
+			    		detail: $(this).val()
+			    }
+			    curriculumObj.detailList.push(detailObj)
+			})
+			curriculumList.push(curriculumObj);
+		});
 		
+	
 		$.ajax({
 				type : 'POST',
-				url : '/lessons/schedule',
-				data : timeList,
+				url : '/lessons/curriculum',
 				contentType : "application/json; charset=utf-8",
+		        dataType: 'json',
+		        data: JSON.stringify(curriculumList),
 				success:function(data){
 	                console.log("SUCESS: ", data);
-	                formObj.submit();
+	        		if (name === 'save') {
+	                	formObj.submit();
+	        		} else if (name==='prev') {
+	    	        	self.location = "/lesson/registerDetail?lessonId="+$lessonId.val();
+	        		} else {
+	        			// 상태값 제출로 변경(안됨)
+						formObj.attr("action", "/lesson/registerSubmit?lessonId="+$lessonId.val()).attr("method", "post");
+	                	formObj.submit();
+	        		}
 	            }
 		});
 		
@@ -151,22 +182,38 @@
 		
 		e.preventDefault();
 
-		subjectDiv =document.getElementById("subjectDiv");
+		var parentDiv = $(".parentDiv");
+		let parentUl = document.createElement("ul");
 		
-		var i =0;
-		var clone = subjectDiv.cloneNode(true); // "deep" clone
-		clone.id = "duplicater" + ++i;
-		  
-		clone.getElementsByTagName("input").subject.value = "";
-		  
+		var subjectLi = document.createElement("li");
+		subjectLi.setAttribute("class", "subjectLi");
+					
+		var subjectLable = document.createElement("lable");
+		subjectLable.setAttribute("for", "subject");
+		subjectLable.innerText = "주제";
+		
+		var subjectInput = document.createElement("input");
+		subjectInput.setAttribute("type", "text");
+		subjectInput.setAttribute("class", "subject");
+		subjectInput.setAttribute("name", "subject");
+
 		var deleteBtn = document.createElement("input");
 		deleteBtn.setAttribute("type", "button");
+		deleteBtn.setAttribute("class", "deleteSubject");
 		deleteBtn.setAttribute("name", "delete");
-		deleteBtn.setAttribute("value", "delete");
-		  
-		clone.appendChild(deleteBtn);
-		subjectDiv.parentNode.appendChild(clone);
-		/* timesetDiv.appendChild(timesetDiv); */
+		deleteBtn.setAttribute("value", "delete Subject");
+		
+		var addDetailBtn = document.createElement("input");
+		addDetailBtn.setAttribute("type", "button");
+		addDetailBtn.setAttribute("name", "addDetail");
+		addDetailBtn.setAttribute("value", "add Detail");
+
+		subjectLi.appendChild(subjectLable);
+		subjectLi.appendChild(subjectInput);
+		subjectLi.appendChild(deleteBtn);
+		subjectLi.appendChild(addDetailBtn);
+		parentUl.appendChild(subjectLi);
+		parentDiv[0].appendChild(parentUl);
 	});
 	
 	// 소주제 추가 버튼 눌렀을때 이벤트
@@ -174,28 +221,48 @@
 		
 		e.preventDefault();
 
-		detailDiv =document.getElementById("detailDiv");
+		var parent = e.target.parentNode;
 		
-		var i =0;
-		var clone = detailDiv.cloneNode(true); // "deep" clone
-		clone.id = "duplicater" + ++i;
-		  
-		clone.getElementsByTagName("input").detail.value = "";
-		  
+		let parentUl = document.createElement("ul");
+		
+		var detailLi = document.createElement("li");
+		detailLi.setAttribute("class", "detailLi");
+					
+		var detailLable = document.createElement("lable");
+		detailLable.setAttribute("for", "detail");
+		detailLable.innerText = "소주제";
+		
+		var detailInput = document.createElement("input");
+		detailInput.setAttribute("type", "text");
+		detailInput.setAttribute("class", "detail");
+		detailInput.setAttribute("name", "detail");
+
 		var deleteBtn = document.createElement("input");
 		deleteBtn.setAttribute("type", "button");
+		deleteBtn.setAttribute("class", "deleteDetail");
 		deleteBtn.setAttribute("name", "delete");
-		deleteBtn.setAttribute("value", "delete");
-		  
-		clone.appendChild(deleteBtn);
-		detailDiv.parentNode.appendChild(clone);
+		deleteBtn.setAttribute("value", "delete Detail");
+
+		detailLi.appendChild(detailLable);
+		detailLi.appendChild(detailInput);
+		detailLi.appendChild(deleteBtn);
+		parentUl.appendChild(detailLi);
+		parent.appendChild(parentUl);
 	});
 	
+	// 삭제버튼 이벤트
 	$(document).on("click","input[name='delete']",function(e){
 		
-		e.target.parentNode.remove();
+		if(e.target.className=="deleteSubject") {
+			e.target.parentNode.parentNode.remove();
+		} else {
+			e.target.parentNode.remove();
+		}
 	});
 	
+	function goBack() {
+		window.history.back();
+	}
 
     
 </script>

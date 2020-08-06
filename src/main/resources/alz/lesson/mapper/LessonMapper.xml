@@ -60,12 +60,13 @@
          and lesson.id = schedule.lesson_id
          and lesson.id = detail.lesson_id
          and lesson.id = #{id}
+    order by lesson.id
    </select>
    
    <select id="findBasicByLessonId" resultType="alz.lesson.domain.LessonDTO">
-      select lesson.id id, lesson.teacher_id teacherId, category.id categoryId, category.main, category.sub, 
-            category.name categoryName, lesson.title, lessonType.type lessonType, lessonLevel.id lessonLevelId,
-            lessonLevel.lesson_level lessonLevel, lesson.min_student minStudent, lesson.max_student maxStudent, 
+      select lesson.id id, lesson.teacher_id teacherId, lesson.category_main categoryMain, lesson.category_sub categorySub,   
+            category.name categoryName, lesson.title, lesson.lesson_type lessonType, lessonType.type typeName, lessonLevel.id lessonLevel,
+            lessonLevel.lesson_level levelName, lesson.min_student minStudent, lesson.max_student maxStudent, 
             lesson.current_student currentStudent, lesson.state state, lesson.open_at openAt, lesson.close_at closeAt
         from alz_lesson lesson, 
              alz_lesson_type lessonType, 
@@ -75,12 +76,14 @@
        where lesson.lesson_type = lessonType.id 
          and lesson.lesson_level = lessonLevel.id
          and lesson.state = lessonState.id
-         and lesson.category_id = category.id
+          and lesson.category_main = category.main
+          and lesson.category_sub = category.sub
          and lesson.id = #{id}
+    order by lesson.id
    </select>
 
    <select id="findAll" resultType="alz.lesson.domain.LessonDTO">
-      select lesson.id id, lesson.teacher_id teacherId, category.name categoryName, lesson.title,
+      select lesson.id id, lesson.teacher_id teacherId, lesson.category_main categoryMain, lesson.category_sub categorySub, lesson.title,
           lessonType.type lessonType, lessonLevel.lesson_level lessonLevel, lesson.min_student minStudent,
           lesson.max_student maxStudent, lesson.current_student currentStudent, lessonState.state state,
             lesson.open_at openAt, lesson.close_at closeAt, schedule.start_at startAt, schedule.end_at endAt
@@ -93,7 +96,8 @@
       where lesson.lesson_type = lessonType.id 
         and lesson.lesson_level = lessonLevel.id
         and lesson.state = lessonState.id
-          and lesson.category_id = category.id
+          and lesson.category_main = category.main
+          and lesson.category_sub = category.sub
           and lesson.id = schedule.lesson_id
    </select>
    
@@ -104,10 +108,27 @@
    </select>
    
    <select id="lessonsByTeacherId" resultType="alz.lesson.domain.LessonDTO">
-      select alz_lesson.id, alz_lesson.teacher_id teacherId, alz_lesson.title, alz_lesson.state
-      from alz_lesson, alz_teacher
-      where alz_lesson.teacher_id = alz_teacher.id
-       and alz_lesson.teacher_id = #{teacherId}
+      select l.id id, l.teacher_id teacherId, l.category_main categoryMain, l.category_sub categorySub,   
+            l.title, l.lesson_level lessonLevel, l.lesson_type lessonType,
+            l.min_student minStudent, l.max_student maxStudent, l.state,
+            l.current_student currentStudent, l.state state, l.open_at openAt, l.close_at closeAt
+        from alz_lesson l, alz_teacher t
+       where l.teacher_id = t.id
+       	 and l.state = #{state}
+         and l.teacher_id = #{teacherId}
+    order by l.id
+   </select>
+   
+   <select id="lessonByTeacherId" resultType="alz.lesson.domain.LessonDTO">
+      select l.id id, l.teacher_id teacherId, l.category_main categoryMain, l.category_sub categorySub,   
+            l.title, l.lesson_level lessonLevel, l.lesson_type lessonType,
+            l.min_student minStudent, l.max_student maxStudent, l.state,
+            l.current_student currentStudent, l.state state, l.open_at openAt, l.close_at closeAt
+        from alz_lesson l, alz_teacher t
+       where l.teacher_id = t.id
+       	 and l.state = #{state}
+         and l.teacher_id = #{teacherId}
+    order by l.id
    </select>
    
    <select id="findMainCategory" resultType="alz.lesson.domain.CategoryDTO">
@@ -152,7 +173,7 @@
 		 where l.id = s.lesson_id
 		   and l.id = #{lessonId}
 	</select>
-   
+	
    <insert id="insertTeacher" parameterType="alz.lesson.domain.TeacherDTO">
 		<selectKey keyProperty="id" order="BEFORE" resultType="long">
 			select alz_teacher_seq.nextval from dual
@@ -165,9 +186,9 @@
       <selectKey keyProperty="id" order="BEFORE" resultType="long">
          select alz_lesson_seq.nextval from dual
       </selectKey>
-      insert into alz_lesson (id, teacher_id, category_Id, title, lesson_type, lesson_level,
+      insert into alz_lesson (id, teacher_id, category_main, category_sub, title, lesson_type, lesson_level,
                             min_student, max_student, open_at, close_at)
-      values (#{id}, #{teacherId}, #{categoryId}, #{title}, #{lessonType}, #{lessonLevel},
+      values (#{id}, #{teacherId}, #{categoryMain}, #{categorySub}, #{title}, #{lessonType}, #{lessonLevel},
              #{minStudent}, #{maxStudent}, #{openAt}, #{closeAt})
    </insert>
    
@@ -182,6 +203,19 @@
       </selectKey>
       insert into alz_lesson_detail (id, lesson_id, detail)
       values (#{id}, #{lessonId}, #{detail})
+   </insert>
+   
+   <insert id="insertCurriculumSubject" parameterType="alz.lesson.domain.CurriculumSubjectDTO" >
+      <selectKey keyProperty="subjectId" order="BEFORE" resultType="long">
+         select ALZ_CURRICULUM_SEQ.nextval from dual
+      </selectKey>
+      insert into alz_curriculum (id, lesson_id, curriculum_order, subject)
+      values (#{subjectId}, #{lessonId}, #{curriculumOrder}, #{subject})
+   </insert>
+   
+   <insert id="insertCurriculumDetail" parameterType="alz.lesson.domain.CurriculumDetailDTO" >
+      insert into alz_curriculum_detail (id, curriculum_id, lesson_id, curriculum_detail_order, detail)
+      values (alz_curriculum_detail_seq.nextval, #{curriculumId}, #{lessonId}, #{detailOrder}, #{detail})
    </insert>
    
    <update id="updateLesson" parameterType="alz.lesson.domain.LessonDTO">
@@ -213,13 +247,33 @@
       where  id = #{id}
    </update>
    
-   <delete id="deleteById">
-      DELETE FROM ALZ_LESSON WHERE id = #{id}
+   <update id="updateState" parameterType="Long">
+      update alz_lesson
+      	 set state = 2
+       where id = #{lessonId}
+   </update>
+   
+   <delete id="deleteLesson">
+      delete from alz_lesson where id = #{id}
    </delete>
    
    <delete id="deleteSchedule">
-      delete from alz_lesson_schedule 
-      where lesson_id = #{lessonId}
+      delete from alz_lesson_schedule
+       where lesson_id = #{lessonId}
+   </delete>
+   
+   <delete id="deleteLessonDetail">
+      delete from alz_lesson_detail
+       where id = #{id}
    </delete>
 
+   <delete id="deleteCurriculum">
+      delete from alz_curriculum
+       where lesson_id = #{lessonId}
+   </delete>
+   
+   <delete id="deleteCurriculumDetail">
+      delete from alz_curriculum_detail
+       where lesson_id = #{lessonId}
+   </delete>
 </mapper>

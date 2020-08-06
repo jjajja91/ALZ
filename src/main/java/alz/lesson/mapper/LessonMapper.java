@@ -21,9 +21,12 @@ public interface LessonMapper {
 	int insertLesson(LessonDTO lesson);
 	int insertSchedule(TimeTableDTO timeTable);
 	int insertLessonDetail(LessonDetailDTO detail);
+	int insertCurriculumSubject(CurriculumSubjectDTO curriculumSubject);
+	int insertCurriculumDetail(CurriculumDetailDTO curriculumDetail);
 	
 	TeacherDTO findTeacherByUserId(Long userId);
-	List<LessonDTO> lessonsByTeacherId(Long teacherId);
+	List<LessonDTO> lessonsByTeacherId(LessonDTO lesson);
+	LessonDTO lessonByTeacherId(LessonDTO lesson);
 
 	LessonDTO findByLessonId(Long id);
 	LessonDTO findBasicByLessonId(Long id); // 기본정보
@@ -40,11 +43,15 @@ public interface LessonMapper {
 	
 	LessonDetailDTO findLessonDetail(Long lessonId);
 
-	int updateLesson(LessonDTO lessons);
+	int updateLesson(LessonDTO lesson);
 	int updateTeacher(TeacherDTO teacher);
 	int updateLessonDetail(LessonDetailDTO detail);
+	int updateState(Long lessonId);
 
-	int deleteById(Long id);
+	int deleteLesson(Long id);
 	int deleteSchedule(Long lessonId);
+	int deleteLessonDetail(Long detailId);
+	int deleteCurriculum(Long lessonId);
+	int deleteCurriculumDetail(Long lessonId);
 
 }
