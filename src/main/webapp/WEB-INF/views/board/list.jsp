@@ -45,7 +45,6 @@
 		<tbody>
 			<c:forEach items="${list }" var="board">
 				<tr>
-			
 					<td><c:out value="${board.id }" /></td>
 					<td>
 						<a class='read' href='<c:out value="${board.id }"/>'><c:out value="${board.title }"/> (<c:out value="${board.commentCnt}"/>)</a>
@@ -260,7 +259,7 @@
 		function boardSearch(data) {
 			return $.ajax({
 				type : "GET",
-				url : "/boards/" +data.typeId + "/" + data.pageNum + "/" + data.amount+ ".json",
+				url : "/boards/" +data.typeId + "/" + data.pageNum + "/" + data.amount,
 				contentType : "application/json; charset=utf-8"
 			});
 		}

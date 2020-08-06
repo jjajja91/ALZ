@@ -108,8 +108,6 @@ public class BoardApiController {
 			@PathVariable(name = "keyword", required = false) String keyword, @PathVariable Integer pageNum,
 			@PathVariable Integer amount) {
 
-		
-		
 		BoardCriteria cri = new BoardCriteria();
 		cri.setKeyword(keyword).setType(type).setPageNum(pageNum).setAmount(amount).setTypeId(typeId);
 		List<BoardDTO> boards = boardService.readAll(cri);
@@ -145,9 +143,6 @@ public class BoardApiController {
 			else
 				throw new UnsatisfiedContentException(error);
 		} else {
-			if(board.getTypeId()==4) {
-				
-			}
 			BoardDTO updatedBoard = boardService.updateById(id, board);
 			return ResponseEntity.status(HttpStatus.OK).body(updatedBoard);
 		}

@@ -89,6 +89,13 @@ public class UserApiController {
 		return ResponseEntity.status(HttpStatus.OK).body(updatedUser);
 	}
 	
+	@PostMapping(value = "/checkUser", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public ResponseEntity<?> checkUser(@RequestBody UserDTO user) {
+		System.out.println(user);
+		boolean result = userService.findUserByEmailNickname(user);
+		return ResponseEntity.status(HttpStatus.OK).body(result);
+	}
+	
 	// 이메일 인증
 	@PostMapping(value = "/emailCode", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> sendEmailCode(@RequestBody String email){

@@ -6,7 +6,6 @@ import alz.board.domain.BoardCriteria;
 import alz.board.domain.BoardDTO;
 import alz.board.domain.ReviewDTO;
 import alz.board.domain.ReviewOptDTO;
-import alz.lesson.domain.LessonDTO;
 
 public interface BoardMapper {
 	
@@ -49,28 +48,16 @@ public interface BoardMapper {
 	// 좋아요 추가
 	void addLike();
 
-	//리뷰 클래스 리스트 불러오기
 	List<ReviewOptDTO> reviewOption(Long id);
 
-	//리뷰 작성
 	void createReview(BoardDTO board);
 
-	//리뷰평점 작성
 	void createReviewRate(BoardDTO board);
 	
-	//클래스연결된 상품 값 가져오기
 	Long lessonChk (BoardDTO board);
 
-	//리뷰쓰고 체크값 변경
 	int reviewChk(Long merchandiseId);
 
-	//리뷰값 불러오기
 	ReviewDTO readReview(BoardDTO board);
 
-	//클래스 타이틀 값 가져오기
-	LessonDTO getTitle(Long lessonId);
-
-	//리뷰값 수정
-	Long updateReview(BoardDTO Board);
-
-	}
+}

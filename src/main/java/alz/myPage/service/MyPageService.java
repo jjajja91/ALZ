@@ -29,6 +29,16 @@ public interface MyPageService {
 	List<LessonDTO> refundedLesson(MyPageCriteria cri);
 
 	int deleteAcc(UserDTO user);
+
+	List<CommentDTO> getMyCommentList(MyPageCriteria cri);
+
+	List<BoardDTO> getMyLikeList(MyPageCriteria cri);
+
+	Long getMyBoardTotal(MyPageCriteria cri);
+
+	Long getMyCommentTotal(MyPageCriteria cri);
+
+	Long getMyLikeTotal(MyPageCriteria cri);
 	
 	
 }

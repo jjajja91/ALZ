@@ -14,7 +14,7 @@
 				<span style="color: green; font-weight: bold;">비밀번호 찾기</span><br><br> 
 				
 				<span style="color: black; font-weight: bold;">닉네임</span><br><br> 
-				<input type="text" name="nickname" placeholder="닉네임을 입력하세요." class="form-control"><br><br> 
+				<input type="text" name="nickname" id="nickname" placeholder="닉네임을 입력하세요." class="form-control"><br><br> 
 				
 				<span style="color: black; font-weight: bold;">이메일</span><br><br> 
 				<input type="text" id= "email" name="email" placeholder="이메일을 입력하세요." class="form-control"><br><br>
@@ -34,6 +34,7 @@
 		$(document).ready(function(){
 			$sendEmailCodeBtn = $("#sendEmailCode");
 			$emailInput = $("#email");
+			$nicknameInput = $("#nickname")
 			$dice = $("#dice");
 			$container = $("#container");
 			$inputCode = $("#inputCode");
@@ -42,9 +43,25 @@
 			
 			$sendEmailCodeBtn.click(function(e){
 				e.preventDefault();
-				sendEmail($emailInput.val())
+				var user = {
+					email: $emailInput.val(),
+					nickname: $nicknameInput.val()
+				};
+				
+				checkUser(user).
+				then(function(response){
+					if(response==true){
+						return sendEmail($emailInput.val());				
+					} else {
+						alert("해당하는 유저가 없습니다.");
+						return false;
+					}
+				})
 				.then(function(response){
 					console.log(response);
+					if(response==false){
+						return false;
+					}
 					alert("메일로 인증번호를 발송했습니다.");
 					$dice.val(response);
 					$inputEmailCode.click(function(e){
@@ -83,6 +100,15 @@
 					console.log(error);
 				});
 			});
+			
+			function checkUser(user) {
+				return $.ajax({
+					type : "POST",
+					url : "/users/checkUser",
+					data : JSON.stringify(user),
+					contentType : "application/json"
+				});
+			}
 			
 			function sendEmail(email) {
 				return $.ajax({

@@ -1,11 +1,6 @@
 package alz.myPage.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -13,15 +8,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import alz.board.domain.BoardCriteria;
-import alz.board.domain.BoardDTO;
-import alz.lesson.domain.LessonDTO;
 import alz.myPage.domain.MyPageCriteria;
 import alz.myPage.domain.MyPagePageDTO;
 import alz.myPage.service.MyPageService;
@@ -33,12 +24,12 @@ import lombok.extern.log4j.Log4j;
 @RequestMapping("/myPage/*")
 public class MyPagePageController {
 
-	private MyPageService MyPageService;
+	private MyPageService myPageService;
 	private PasswordEncoder passwordEncoder;
 
 	@Autowired
-	public MyPagePageController(MyPageService MyPageService, PasswordEncoder passwordEncoder) {
-		this.MyPageService = MyPageService;
+	public MyPagePageController(MyPageService myPageService, PasswordEncoder passwordEncoder) {
+		this.myPageService = myPageService;
 		this.passwordEncoder = passwordEncoder;
 	}
 	
@@ -56,8 +47,8 @@ public class MyPagePageController {
 		String result ="";
 		user.setId(getLoginUserInfo().getId());
 		System.out.println(user);
-	    if (MyPageService.selectById(user)) {	
-	    	 int deleteAcc = MyPageService.deleteAcc(user);
+	    if (myPageService.selectById(user)) {	
+	    	 int deleteAcc = myPageService.deleteAcc(user);
 	    		 if(deleteAcc != 0) {
 	 				result = "redirect:/logout";
 	    		 } 
@@ -73,7 +64,7 @@ public class MyPagePageController {
 	@PostMapping("/modifyAcc")
 	public String modifyAcc(UserDTO user, RedirectAttributes attr) {
 		String result ="";
-	     if (MyPageService.selectById(user)) {	
+	     if (myPageService.selectById(user)) {	
 	    	 	result = "redirect:/modify";
 			}  else {
 			attr.addAttribute("verify", "no");
@@ -86,8 +77,8 @@ public class MyPagePageController {
 	@GetMapping(value = "/activeLesson")
 	public String activeLession(MyPageCriteria cri, Model model) {
 		cri.setId(getLoginUserInfo().getId());
-		model.addAttribute("list", MyPageService.myLessonList(cri));
-        int total = MyPageService.getTotal(cri);
+		model.addAttribute("list", myPageService.myLessonList(cri));
+        int total = myPageService.getTotal(cri);
 		model.addAttribute("pageMaker", new MyPagePageDTO(cri, total));		
 		return "myPage/myLessonList";
 	}
@@ -96,8 +87,8 @@ public class MyPagePageController {
 		@GetMapping(value = "/finishedLesson")
 		public String finishedLesson(MyPageCriteria cri, Model model) {
 			cri.setId(getLoginUserInfo().getId());
-			model.addAttribute("list", MyPageService.finishedLessonList(cri));
-	        int total = MyPageService.getTotal(cri);
+			model.addAttribute("list", myPageService.finishedLessonList(cri));
+	        int total = myPageService.getTotal(cri);
 			model.addAttribute("pageMaker", new MyPagePageDTO(cri, total));
 			return "myPage/finishedLessonList";
 		}
@@ -106,8 +97,8 @@ public class MyPagePageController {
 		@GetMapping(value = "/refundedLesson")
 		public String refundedLesson(MyPageCriteria cri, Model model) {
 			cri.setId(getLoginUserInfo().getId());
-			model.addAttribute("list", MyPageService.refundedLesson(cri));
-	        int total = MyPageService.getTotal(cri);
+			model.addAttribute("list", myPageService.refundedLesson(cri));
+	        int total = myPageService.getTotal(cri);
 			model.addAttribute("pageMaker", new MyPagePageDTO(cri, total));
 			return "myPage/refundedList";
 		}
@@ -116,8 +107,8 @@ public class MyPagePageController {
 	@GetMapping("/boardList")
 	public void boardList(MyPageCriteria cri, Model model) {
 		cri.setId(getLoginUserInfo().getId());
-		model.addAttribute("list", MyPageService.readAll(cri));
-        int total = MyPageService.getTotal(cri);
+		model.addAttribute("list", myPageService.readAll(cri));
+		Long total = myPageService.getMyBoardTotal(cri);
 		model.addAttribute("pageMaker", new MyPagePageDTO(cri, total));
 	}
 
@@ -125,8 +116,8 @@ public class MyPagePageController {
 	@GetMapping("/commentList")
 	public void commentList(MyPageCriteria cri, Model model) {
 		cri.setId(getLoginUserInfo().getId());
-		model.addAttribute("list", MyPageService.commentReadAll(cri));
-        int total = MyPageService.getTotal(cri);
+		model.addAttribute("list", myPageService.getMyCommentList(cri));
+		Long total = myPageService.getMyCommentTotal(cri);
 		model.addAttribute("pageMaker", new MyPagePageDTO(cri, total));
 	}
 	
@@ -134,8 +125,8 @@ public class MyPagePageController {
 	@GetMapping("/likeList")
 	public void likeList(MyPageCriteria cri, Model model) {
 		cri.setId(getLoginUserInfo().getId());
-		model.addAttribute("list", MyPageService.likeReadAll(cri));
-        int total = MyPageService.getTotal(cri);
+		model.addAttribute("list", myPageService.getMyLikeList(cri));
+		Long total = myPageService.getMyLikeTotal(cri);
 		model.addAttribute("pageMaker", new MyPagePageDTO(cri, total));
 	}
 	

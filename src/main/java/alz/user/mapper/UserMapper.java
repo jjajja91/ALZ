@@ -66,6 +66,8 @@ public interface UserMapper {
 
 	int insertState(UserStateDTO userState);
 
-	
+	int findUserByEmailNickname(UserDTO user);
+
+	int insertDetail(UserDTO user);
 
 }

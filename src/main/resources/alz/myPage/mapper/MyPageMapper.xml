@@ -11,7 +11,7 @@
 		test="type == 'C'.toString()"> content like '%'||#{keyword}||'%' </when> 
 		<when test="type == 'W'.toString()"> nickname like '%'||#{keyword}||'%' </when> 
 		</choose> </trim> </foreach> </trim> </sql> - -->
-
+		
 	<select id="selectAll" resultType="alz.board.domain.BoardDTO">
 		<![CDATA[
 			select id, title, content, written_at writtenAt, updated_at updatedAt, like_cnt likeCnt, 
@@ -48,16 +48,32 @@
 
 	<select id="commentSelectWithPaging"
 		resultType="alz.board.domain.CommentDTO">
-		select id, content, written_at
-		writtenAt, updated_at
-		updatedAt, like_cnt likeCnt,
-		comment_cnt commentCnt, comment_code
-		commentCode, board_id boardId, nickname,
-		depth, deleted, user_id userId
-		from alz_comment
+		<![CDATA[
+		select * from(
+		select rownum rn, id, content, written_at, updated_at, like_cnt, comment_cnt, comment_code, board_id, nickname, depth, deleted, user_id
+		from( select * from alz_comment
 		where user_id = #{id}
-		order by comment_code
+		order by written_at desc))
+		where rn <= #{pageNum} * #{amount}
+		and rn > (#{pageNum}-1) * #{amount}
+		]]>
 	</select>
+
+	<select id="likeSelectWithPaging"
+		resultType="alz.board.domain.BoardDTO">
+		<![CDATA[	
+		select * from(
+		select rownum rn, id, title, content, written_at, comment_cnt, view_cnt, nickname
+		from (select b.id, b.title, b.content, b.written_at, b.comment_cnt, b.view_cnt, b.nickname 
+		from alz_board b, alz_link_like_board l
+		where b.id = l.board_id
+		and l.user_id = #{id}
+		order by written_at desc))
+		where rn <= #{pageNum} * #{amount}
+		and rn > (#{pageNum}-1) * #{amount}
+		]]>
+	</select>
+	
 
 	<select id="likeSelectAll"
 		resultType="alz.board.domain.BoardDTO">
@@ -73,46 +89,43 @@
 		b.id=l.board_id
 	</select>
 
-	<select id="myLessonList"
-		resultType="alz.lesson.domain.LessonDTO">
-		select l.id id, l.title title, l.close_at closeAt, l.state state
-		from
-		alz_order_detail od,
-		alz_merchandise_detail md,
-		alz_lesson l
-		where od.merchandise_id = md.merchandise_id
-		and md.ref_id = l.id
-		and l.state = 9
-		and od.user_id =#{id}
-	</select>
-
-	<select id="finishedLessonList"
-		resultType="alz.lesson.domain.LessonDTO">
-		select l.id id, l.title title, l.close_at closeAt, l.state state
-		from
-		alz_order_detail od,
-		alz_merchandise_detail md,
-		alz_lesson l
-		where od.merchandise_id = md.merchandise_id
-		and md.ref_id = l.id
-		and l.state = 10
-		and od.user_id =#{id}
-	</select>
-
-	<select id="refundedLesson"
-		resultType="alz.lesson.domain.LessonDTO">
-		select l.id id, l.title title, l.close_at closeAt, l.state state
-		from
-		alz_order o,
-		alz_order_detail od,
-		alz_merchandise_detail md,
-		alz_lesson l
-		where od.merchandise_id = md.merchandise_id
-		and o.id = od.order_id
-		and md.ref_id = l.id
-		and o.state = '취소완료'
-		and od.user_id =#{id}
-	</select>
+     <select id="myLessonList" resultType="alz.lesson.domain.LessonDTO">
+      select l.id id, l.title title,  l.close_at closeAt, l.state state
+      from
+        alz_order_detail od,
+        alz_merchandise_detail md,
+        alz_lesson l
+        where od.merchandise_id = md.merchandise_id
+        and md.ref_id = l.id
+        and l.state = 9
+        and od.user_id =#{id}     
+     </select>
+     
+         <select id="finishedLessonList" resultType="alz.lesson.domain.LessonDTO">
+      select l.id id, l.title title, l.close_at closeAt, l.state state
+      from
+        alz_order_detail od,
+        alz_merchandise_detail md,
+        alz_lesson l
+        where od.merchandise_id = md.merchandise_id
+        and md.ref_id = l.id
+        and l.state = 10
+        and od.user_id =#{id}     
+     </select>
+     
+      <select id="refundedLesson" resultType="alz.lesson.domain.LessonDTO">
+         select  l.id id, l.title title,  l.close_at closeAt, l.state state 
+         from
+        alz_order o,
+        alz_order_detail od,
+        alz_merchandise_detail md,
+        alz_lesson l
+        where od.merchandise_id = md.merchandise_id
+        and o.id = od.order_id
+        and md.ref_id = l.id
+        and o.state = '취소완료'
+        and od.user_id =#{id}  
+     </select>
 
 	<select id="selectById" resultType="alz.board.domain.BoardDTO">
 		select id, title, content,
@@ -139,7 +152,22 @@
 		alz_board where id = #{id}
 	</select>
 
-	<select id="getLikeCnt" resultType="long">
+	<select id="myLikeCnt" resultType="long">
+		select count(*) from alz_link_like_board
+		where user_id = #{id}
+	</select>
+	
+	<select id="myBoardCnt" resultType="long">
+		select board_cnt from alz_user_detail
+		where id = #{id}
+	</select>
+	
+	<select id="myCommentCnt" resultType="long">
+		select comment_cnt from alz_user_detail
+		where id = #{id}
+	</select>
+
+	<select id="getLikeCnt">
 		select like_cnt from
 		alz_board where id = #{id}
 	</select>
@@ -147,20 +175,17 @@
 	<select id="selectByUserId" resultType="alz.user.domain.UserDTO">
 		select *
 		from alz_user
-		where id = #{id}
+		where id = #{id} 
 	</select>
 
-	<insert id="deleteAcc">
-		<selectKey keyProperty="id" order="BEFORE" resultType="long">
+   <insert id="deleteAcc">
+   		<selectKey keyProperty="id" order="BEFORE" resultType="long">
 			SELECT alz_user_state_seq.nextval FROM dual
 		</selectKey>
-		insert into alz_user_state (id, user_id, state, description) values
-		(#{id}, #{userId}, '탈퇴', #{description})
+       insert into alz_user_state (id, user_id, state, description) values (#{id}, #{userId}, '탈퇴', #{description})
+   </insert>
 
-	</insert>
-
-	<update id="updateEnable"
-		parameterType="alz.user.domain.UserDTO">
+	<update id="updateEnable" parameterType="alz.user.domain.UserDTO">
 		update alz_user
 		set enable = 0
 		where id = #{id}

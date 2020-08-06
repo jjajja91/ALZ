@@ -50,7 +50,6 @@ public class BoardDTO {
 	private Long lessonReview;
 	private Long teacherReview;
 	private Long lessonId;
-	private String lessonTitle;
 	
 	private List<BoardFileDTO> fileList;
 

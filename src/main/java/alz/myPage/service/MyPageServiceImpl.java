@@ -20,60 +20,60 @@ import lombok.extern.log4j.Log4j;
 @Service
 public class MyPageServiceImpl implements MyPageService {
 
-	private MyPageMapper MyPageMapper;
+	private MyPageMapper myPageMapper;
 	private PasswordEncoder passwordEncoder;
 
 	@Autowired
-	public MyPageServiceImpl(MyPageMapper MyPageMapper, PasswordEncoder passwordEncoder) {
-		this.MyPageMapper = MyPageMapper;
+	public MyPageServiceImpl(MyPageMapper myPageMapper, PasswordEncoder passwordEncoder) {
+		this.myPageMapper = myPageMapper;
 		this.passwordEncoder = passwordEncoder;
 	}
 
 
 	@Override
 	public BoardDTO readById(Long id) {
-		BoardDTO searchBoardWriter = MyPageMapper.selectById(id);
+		BoardDTO searchBoardWriter = myPageMapper.selectById(id);
 		return searchBoardWriter;
 	}
 
 	@Override
 	public List<BoardDTO> readAll() {
-		List<BoardDTO> myPageList = MyPageMapper.selectAll();
+		List<BoardDTO> myPageList = myPageMapper.selectAll();
 		return myPageList;
 	}
 
 	//내가 쓴 글 불러오기
 	@Override
 	public List<BoardDTO> readAll(MyPageCriteria cri) {
-		List<BoardDTO> list = MyPageMapper.selectWithPaging(cri);
+		List<BoardDTO> list = myPageMapper.selectWithPaging(cri);
 		return list;
 	}
 	
 	//내 댓글 불러오기
 	@Override
 	public List<CommentDTO> commentReadAll(MyPageCriteria cri) {
-		List<CommentDTO> list = MyPageMapper.commentSelectWithPaging(cri);
+		List<CommentDTO> list = myPageMapper.commentSelectWithPaging(cri);
 		return list;
 	}
 	
 	//like 불러오기
 	@Override
 	public List<BoardDTO> likeReadAll(MyPageCriteria cri) {
-		List<BoardDTO> list = MyPageMapper.likeSelectAll(cri);
+		List<BoardDTO> list = myPageMapper.likeSelectAll(cri);
 		return list;
 	}
 
 
 	@Override
 	public int getTotal(MyPageCriteria cri) {
-		int total = MyPageMapper.getTotalCount(cri);
+		int total = myPageMapper.getTotalCount(cri);
 		return total;
 	}
 
     //탈퇴 전 비밀번호 확인 
 	@Override
 	public boolean selectById(UserDTO user) {
-		UserDTO pwdChk = MyPageMapper.selectByUserId(user);
+		UserDTO pwdChk = myPageMapper.selectByUserId(user);
 				
 		return passwordEncoder.matches(user.getPassword(),pwdChk.getPassword());
 	}
@@ -85,15 +85,15 @@ public class MyPageServiceImpl implements MyPageService {
 		int deleteAcc = 0;
 		UserStateDTO userState = new UserStateDTO();
 		userState.setUserId(user.getId()).setDescription(user.getDescription());
-		deleteAcc += MyPageMapper.deleteAcc(userState);
-		deleteAcc += MyPageMapper.updateEnable(user.getId());
+		deleteAcc += myPageMapper.deleteAcc(userState);
+		deleteAcc += myPageMapper.updateEnable(user.getId());
 		return deleteAcc;
 	}
 
 	//내 강의 목록
 	@Override
 	public List<LessonDTO> myLessonList(MyPageCriteria cri) {
-		List<LessonDTO> list = MyPageMapper.myLessonList(cri);
+		List<LessonDTO> list = myPageMapper.myLessonList(cri);
 		
 		return list;
 	}
@@ -101,16 +101,46 @@ public class MyPageServiceImpl implements MyPageService {
 
 	@Override
 	public List<LessonDTO> finishedLessonList(MyPageCriteria cri) {
-		List<LessonDTO> list = MyPageMapper.finishedLessonList(cri);
+		List<LessonDTO> list = myPageMapper.finishedLessonList(cri);
 		return list;
 	}
 
 
 	@Override
 	public List<LessonDTO> refundedLesson(MyPageCriteria cri) {
-		List<LessonDTO> list = MyPageMapper.refundedLesson(cri);
+		List<LessonDTO> list = myPageMapper.refundedLesson(cri);
 	
 		return list;
+	}
+
+
+	@Override
+	public List<CommentDTO> getMyCommentList(MyPageCriteria cri) {
+		return myPageMapper.commentSelectWithPaging(cri);
+	}
+
+
+	@Override
+	public List<BoardDTO> getMyLikeList(MyPageCriteria cri) {
+		return myPageMapper.likeSelectWithPaging(cri);
+	}
+
+
+	@Override
+	public Long getMyBoardTotal(MyPageCriteria cri) {
+		return myPageMapper.myBoardCnt(cri);
+	}
+
+
+	@Override
+	public Long getMyCommentTotal(MyPageCriteria cri) {
+		return myPageMapper.myCommentCnt(cri);
+	}
+
+
+	@Override
+	public Long getMyLikeTotal(MyPageCriteria cri) {
+		return myPageMapper.myLikeCnt(cri);
 	}
 
 	

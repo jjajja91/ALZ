@@ -115,7 +115,6 @@ public class BoardPageController {
 	// 리스트
 	@GetMapping("/list")
 	public void list(BoardCriteria cri, Model model) {
-		
         model.addAttribute("list", boardService.readAll(cri));
 
 		int total = boardService.getTotal(cri);

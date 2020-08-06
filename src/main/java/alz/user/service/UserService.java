@@ -76,6 +76,8 @@ public interface UserService {
 
 	boolean modifyPwd(UserDTO user);
 
+	boolean findUserByEmailNickname(UserDTO user);
+
 //	void asyncService();
 
 }

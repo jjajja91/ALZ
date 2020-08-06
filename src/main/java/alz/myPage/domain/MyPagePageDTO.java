@@ -11,10 +11,10 @@ public class MyPagePageDTO {
 	private int endPage;
 	private boolean prev, next;
 	
-	private int total;
+	private long total;
 	private MyPageCriteria cri;
 	
-	public MyPagePageDTO(MyPageCriteria cri, int total) {
+	public MyPagePageDTO(MyPageCriteria cri, long total) {
 		
 		this.cri = cri;
 		this.total = total;
