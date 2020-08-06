@@ -19,6 +19,8 @@ import lombok.experimental.Accessors;
 @ToString
 public class CurriculumDetailDTO {
 
+	private Long curriculumId;
+	private Long lessonId;
 	private Long detailOrder;
 	private String detail;
 

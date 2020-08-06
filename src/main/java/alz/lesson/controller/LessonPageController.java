@@ -57,7 +57,7 @@ public class LessonPageController {
 
    // 강사등록
    @GetMapping("/register")
-   public void register(Model model) {
+   public void register(@RequestParam(required=false) Long originalId, Model model) {
       UserDTO user = getLoginUserInfo();
       if(user!=null) {
          model.addAttribute("teacher", lessonService.teacherByUserId(user.getId()));
@@ -72,35 +72,61 @@ public class LessonPageController {
       } else {
          teacher = lessonService.updateTeacher(teacher);
       }
-      return "redirect:/lesson/registerBasic?teacherId="+teacher.getId();
+      String url="redirect:/lesson/registerBasic?teacherId="+teacher.getId();
+      
+      if(teacher.getOriginalId()!=null)
+    	  url = "redirect:/lesson/registerBasic?teacherId="+teacher.getId()+"&originalId="+teacher.getOriginalId();
+      
+      return url;
    }
 
-   // 클래스 개설했던 클래스 가져오기
+   // 작성중클래스, 개설했던 클래스 가져오기
    @GetMapping("/registerBasic")
-   public void registerBasic(@RequestParam Long teacherId, Model model) {
+   public void registerBasic(@RequestParam(required=false) Long teacherId, 
+		   					 @RequestParam(required=false) Long originalId, 
+		   					 @RequestParam(required=false) Long lessonId, Model model) {
       if(teacherId!=null) {
-         model.addAttribute("lessons", lessonService.lessonsByTeacherId(teacherId));
+    	 // 개설했던 클래스
+    	 LessonDTO lesson = new LessonDTO();
+    	 lesson.setTeacherId(teacherId);
+    	 lesson.setState(7L);
+         model.addAttribute("oldLessons", lessonService.lessonsByTeacherId(lesson));
+         
+         // 작성중 클래스
+         lesson.setTeacherId(teacherId);
+    	 lesson.setState(1L);
+         model.addAttribute("lesson", lessonService.lessonByTeacherId(lesson));
+      } else {
+          model.addAttribute("lesson", lessonService.basicByLessonId(lessonId));
       }
+      
       model.addAttribute("mainCategory", lessonService.mainCategory());
       model.addAttribute("subCategory", lessonService.subCategory());
+      model.addAttribute("levelList", lessonService.lessonLevel());
    }
    
    // 기본정보 저장
    @PostMapping("/registerBasic")
    public String registerBasic(LessonDTO lesson) {
       int lessonId;
-      Long originalId = lesson.getId();
-
-      if(lesson.getState()==null && lesson.getState()!=1) {
-         lessonId = lessonService.createLesson(lesson);
-      } else {
-         lessonService.updateLesson(lesson);
-         lessonId = lesson.getId().intValue();
-      }
-      String url = "redirect:/lesson/registerSchedule?lessonId="+lessonId+"&originalId="+originalId;
+      Long originalId = lesson.getOriginalId();
       
-      if(originalId==null) {
-    	  url = "redirect:/lesson/registerSchedule?lessonId="+lessonId;
+      lessonId = lessonService.createLesson(lesson);
+      
+      String url = "redirect:/lesson/register?originalId="+originalId;
+      
+      if(lesson.getLocation().equals("next")) {
+    	  url = "redirect:/lesson/registerSchedule?lessonId="+lessonId+"&originalId="+originalId;
+
+	      if(originalId==null) {
+	    	  url = "redirect:/lesson/registerSchedule?lessonId="+lessonId;
+	      }
+      } else {
+    	  url = "redirect:/lesson/register?originalId="+originalId;
+    	  
+    	  if(originalId==null) {
+        	  url = "redirect:/lesson/register";
+	      }
       }
 
       return url;
@@ -109,7 +135,11 @@ public class LessonPageController {
 	// 클래스 스케줄 
 	@GetMapping("/registerSchedule")
 	public void registerSchedule(@RequestParam Long lessonId, @RequestParam(required=false) Long originalId, Model model) {
-		model.addAttribute("schedule", lessonService.scheduleByLessonId(lessonId));
+		if(originalId!=null) {
+			model.addAttribute("schedule", lessonService.scheduleByLessonId(originalId));
+		} else {
+			model.addAttribute("schedule", lessonService.scheduleByLessonId(lessonId));
+		}
 	}
    
 	// 클래스 세부 설명
@@ -121,19 +151,48 @@ public class LessonPageController {
 	// 클래스 세부 설명 저장 
 	@PostMapping("/registerDetail")
 	public String registerDetail(LessonDetailDTO lessonDetail) {
-	   if(lessonDetail.getId()==null) {
-		   lessonService.createLessonDetail(lessonDetail);
-	   } else {
-		   lessonService.updateLessonDetail(lessonDetail);
-	   }
+		int id;
+	    Long originalId = lessonDetail.getOriginalId();
+	    Long lessonId = lessonDetail.getLessonId();
+	      
+	    id = lessonService.createLessonDetail(lessonDetail);
+	      
+	    String url = "redirect:/lesson/registerSchedule?originalId="+originalId;
+	      
+	    if(lessonDetail.getLocation().equals("prev")) {
+	    	  url = "redirect:/lesson/registerSchedule?lessonId="+lessonId+"&originalId="+originalId;
 
-	   return "redirect:/lesson/registerCurriculum?lessonId="+lessonDetail.getLessonId()+"&originalId="+lessonDetail.getOriginalId();
+		      if(originalId==null) {
+		    	  url = "redirect:/lesson/registerSchedule?lessonId="+lessonId;
+		      }
+	      } else {
+	    	  url = "redirect:/lesson/registerCurriculum?lessonId="+lessonId+"&originalId="+originalId;
+	    	  
+	    	  if(originalId==null) {
+	        	  url = "redirect:/lesson/registerCurriculum?lessonId="+lessonId;
+		      }
+	      }
+		
+	   return url;
 	}
 
 	// 클래스 커리큘럼
 	@GetMapping("/registerCurriculum")
 	public void registerCurriculum(@RequestParam Long lessonId, @RequestParam(required=false) Long originalId, Model model) {
-		model.addAttribute("originCurriculum", lessonService.curriculumByLessonId(originalId));
+		if(originalId!=null) {
+			model.addAttribute("originCurriculum", lessonService.curriculumByLessonId(originalId));
+		}
 		model.addAttribute("newCurriculum", lessonService.curriculumByLessonId(lessonId));
+	}
+	
+	// 클래스 제출
+	@PostMapping("/registerSubmit")
+	public String registerSubmit(@RequestParam Long lessonId) {
+		System.out.println(lessonId);
+		if(lessonId!=null) {
+			lessonService.lessonSubmit(lessonId);
+		}
+		
+		return "redirect:/lesson/registerCurriculum?lessonId="+lessonId;
 	}
 }

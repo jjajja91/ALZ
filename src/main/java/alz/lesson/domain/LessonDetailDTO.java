@@ -23,5 +23,7 @@ public class LessonDetailDTO {
 	private Long id;
 	private Long lessonId;
 	private String Detail;
+	
+	private String location;
 
 }

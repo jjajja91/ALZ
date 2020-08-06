@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import alz.lesson.domain.CategoryDTO;
+import alz.lesson.domain.CurriculumSubjectDTO;
 import alz.lesson.domain.LessonDTO;
 import alz.lesson.domain.ScheduleDTO;
 import alz.lesson.service.LessonServiceImpl;
@@ -67,6 +68,12 @@ public class LessonApiController {
 	@PostMapping("/schedule")
 	public ResponseEntity<?> createSchedule(@RequestBody ScheduleDTO schedule){
 		int affectedRowCount = lessonService.createSchedule(schedule);
+		return ResponseEntity.status(HttpStatus.CREATED).body(affectedRowCount);
+	}
+	
+	@PostMapping("/curriculum")
+	public ResponseEntity<?> createCurriculum(@RequestBody List<CurriculumSubjectDTO> curriculumList){
+		int affectedRowCount = lessonService.createCurriculum(curriculumList);
 		return ResponseEntity.status(HttpStatus.CREATED).body(affectedRowCount);
 	}
 	

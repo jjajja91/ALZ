@@ -11,6 +11,7 @@
 <div class="container">
 	
 	<form role="form" action="/lesson/registerTeacher" method="post">
+		<input type="text" name="originalId" value='<c:out value="${param.originalId }"/>'>
 		<h5><strong>본인을 소개하고<br>활동중인 SNS 채널을 알려주세요</strong></h5>
 		<div class="lessonTeacherDiv">
 			<br>

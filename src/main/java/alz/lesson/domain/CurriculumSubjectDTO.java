@@ -1,6 +1,7 @@
 package alz.lesson.domain;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 import lombok.AllArgsConstructor;
@@ -26,5 +27,6 @@ public class CurriculumSubjectDTO {
 	private String subject;
 	
 	private List<CurriculumDetailDTO> detailList;
+
 
 }
