@@ -16,7 +16,7 @@
 		from alz_order o
 		inner join alz_order_detail d on o.id = d.order_id
 		inner join alz_merchandise_detail m on m.id = d.merchandise_id
-		where d.order_id = o.id and o.user_id = d.user_id)
+		where d.order_id = o.id and o.user_id = d.user_id order by order_at desc)
 		group by order_at,id, name,phone, total_price, state
 		order by order_at)
 		order by rownum desc) a, (SELECT order_id, COUNT(*)count FROM

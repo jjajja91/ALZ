@@ -50,5 +50,10 @@ public class OrderListController {
 		model.addAttribute("orderList", orderList);
 		model.addAttribute("orderer", order);
 	}
+	
+	@GetMapping("/order/tables")
+	public void tables(Model model) {
+		model.addAttribute("list", ordersService.orderList());
+	}
 
 }
