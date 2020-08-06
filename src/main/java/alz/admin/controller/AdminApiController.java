@@ -34,14 +34,14 @@ import alz.order.service.PaymentService;
 
 @RestController
 @RequestMapping("/admins")
-public class adminApiController {
+public class AdminApiController {
 
 	private ClassService classService;
 	private MemberService memberService;
 	private OrdersService orderService;
 
 	@Autowired
-	public adminApiController(ClassService classService, MemberService memberService, OrdersService orderService) {
+	public AdminApiController(ClassService classService, MemberService memberService, OrdersService orderService) {
 		this.memberService = memberService;
 		this.classService = classService;
 		this.orderService = orderService;
