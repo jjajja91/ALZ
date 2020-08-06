@@ -15,14 +15,16 @@ public interface AdminUserService {
 	// 회원 목록
 	public List<UserDTO> userList();
 
-	// 회원 입력
+	// 회원 입력(관리자)
 	public void insertUser(UserDTO dto);
+	// 회원 입력(일반회원)
+	public void insertUser1(UserDTO dto);
 
 	// 회원 정보 상세보기
 	public UserDTO viewUser(String email);
 
-	// 회원삭제
-	public void deleteUser(UserDTO dto);
+//	// 회원삭제
+//	public void deleteUser(UserDTO dto);
 
 	// 회원정보 수정
 	public void updateUser(UserDTO dto);

@@ -46,7 +46,7 @@ public class AdminUserController {
 
 	// 02_02 회원 등록 처리 후 ==> 회원목록으로 리다이렉트
 	// @ModelAttribute에 폼에서 입력한 데이터가 저장된다.
-	@RequestMapping("admin/insert.do")
+	@RequestMapping("admin/insert")
 	// * 폼에서 입력한 데이터를 받아오는 법 3가지
 	// public String memberInsert(HttpServlet request){
 	// public String memberInsert(String email, String password, String userName,
@@ -54,6 +54,24 @@ public class AdminUserController {
 	public String memberInsert(@ModelAttribute UserDTO dto) {
 		// 테이블에 레코드 입력
 		dto.setRole("ROLE_ADMIN");
+		adminUserService.insertUser(dto);
+		// * (/)의 유무에 차이
+		// /admin/list : 루트 디렉토리를 기준
+		// admin/list : 현재 디렉토리를 기준
+		// member_list.jsp로 리다이렉트
+		return "redirect:/admin/list";
+	}
+	
+	// 02_02 회원 등록 처리 후 ==> 회원목록으로 리다이렉트
+	// @ModelAttribute에 폼에서 입력한 데이터가 저장된다.
+	@RequestMapping("admin/insert1")
+	// * 폼에서 입력한 데이터를 받아오는 법 3가지
+	// public String memberInsert(HttpServlet request){
+	// public String memberInsert(String email, String password, String userName,
+	// String userEmail){
+	public String memberInsert1(@ModelAttribute UserDTO dto) {
+		// 테이블에 레코드 입력
+		dto.setRole("ROLE_USER");
 		adminUserService.insertUser(dto);
 		// * (/)의 유무에 차이
 		// /admin/list : 루트 디렉토리를 기준
@@ -91,22 +109,22 @@ public class AdminUserController {
 
 	}
 
-	// 05. 회원정보 삭제 처리
-	// @RequestMapping : url mapping
-	// @RequestParam : get or post방식으로 전달된 변수값
-	@RequestMapping("admin/delete")
-	public String memberDelete(UserDTO dto, Model model) {
-		// 비밀번호 체크
-		boolean result = adminUserService.checkPw(dto);
-		if (result) { // 비밀번호가 맞다면 삭제 처리후, 전체 회원 목록으로 리다이렉트
-			adminUserService.deleteUser(dto);
-			return "redirect:/admin/list";
-		} else { // 비밀번호가 일치하지 않는다면, div에 불일치 문구 출력, viwe.jsp로 포워드
-			model.addAttribute("message", "비밀번호 불일치");
-			model.addAttribute("dto", adminUserService.viewUser(dto.getEmail()));
-			return "admin/user/member_view";
-		}
-	}
+//	// 05. 회원정보 삭제 처리
+//	// @RequestMapping : url mapping
+//	// @RequestParam : get or post방식으로 전달된 변수값
+//	@RequestMapping("admin/delete")
+//	public String memberDelete(UserDTO dto, Model model) {
+//		// 비밀번호 체크
+//		boolean result = adminUserService.checkPw(dto);
+//		if (result) { // 비밀번호가 맞다면 삭제 처리후, 전체 회원 목록으로 리다이렉트
+//			adminUserService.deleteUser(dto);
+//			return "redirect:/admin/list";
+//		} else { // 비밀번호가 일치하지 않는다면, div에 불일치 문구 출력, viwe.jsp로 포워드
+//			model.addAttribute("message", "비밀번호 불일치");
+//			model.addAttribute("dto", adminUserService.viewUser(dto.getEmail()));
+//			return "admin/user/member_view";
+//		}
+//	}
 
 	// 관리자로 로그인한 후에 회원정보 버튼을 누르면 맵핑되는 메소드 회원정보 페이지로 이동시킨다.
 	@RequestMapping(value = "/admin/admin_member_info")

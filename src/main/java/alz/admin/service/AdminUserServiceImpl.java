@@ -54,9 +54,15 @@ public class AdminUserServiceImpl implements AdminUserService, UserDetailsServic
 		return adminUserMapper.userList();
 	}
 
-	// 02. 회원 등록
+	// 02. 회원 등록(관리자)
 	@Override
 	public void insertUser(UserDTO dto) {
+		dto.encodePassword(passwordEncoder);
+		adminUserMapper.insertUser(dto);
+	}
+	// 02. 회원 등록(일반회원)
+	@Override
+	public void insertUser1(UserDTO dto) {
 		dto.encodePassword(passwordEncoder);
 		adminUserMapper.insertUser(dto);
 	}
@@ -67,11 +73,11 @@ public class AdminUserServiceImpl implements AdminUserService, UserDetailsServic
 		return adminUserMapper.viewUser(email);
 	}
 
-	// 04. 회원 정보 삭제 처리
-	@Override
-	public void deleteUser(UserDTO dto) {
-		adminUserMapper.deleteUser(dto);
-	}
+//	// 04. 회원 정보 삭제 처리
+//	@Override
+//	public void deleteUser(UserDTO dto) {
+//		adminUserMapper.deleteUser(dto);
+//	}
 
 	// 05. 회원 정보 수정 처리
 	@Override

@@ -20,8 +20,10 @@ $(function() {
 </script>
 </head>
 <body>
-	<h2>회원등록폼</h2>
-	<form name="form1" method="post" action="${path}/admin/insert.do">
+	<h1>회원등록폼</h1>
+	<button type="button" id=adminHomeBtn class="form-control btn btn-primary">관리자 홈으로</button><br><br>
+	<form name="form1" method="post" action="${path}/admin/insert">
+		<h3>관리자 등록</h3>
 		<table border="1" width="400px">
 			<tr>
 				<td>이메일</td>
@@ -43,7 +45,33 @@ $(function() {
 				<td colspan="2" align="center">
 					<input type="submit" value="확인">
 					<input type="reset" value="취소">
-					<button type="button" id=adminHomeBtn class="form-control btn btn-primary">관리자 홈으로</button><br><br>
+				</td>
+			</tr>
+		</table>
+	</form>
+	<form name="form1" method="post" action="${path}/admin/insert1">
+		<h2>일반회원 등록</h2>
+		<table border="1" width="400px">
+			<tr>
+				<td>이메일</td>
+				<td><input name="email"></td>
+			</tr>
+			<tr>
+				<td>닉네임</td>
+				<td><input name="nickname"></td>
+			</tr>
+			<tr>
+				<td>비밀번호</td>
+				<td><input type="password" name="password"></td>
+			</tr>
+			<tr>
+				<td>전화번호</td>
+				<td><input name="phoneNumber"></td>
+			</tr>
+			<tr>
+				<td colspan="2" align="center">
+					<input type="submit" value="확인">
+					<input type="reset" value="취소">
 				</td>
 			</tr>
 		</table>

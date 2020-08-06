@@ -21,7 +21,7 @@
 			}
 		});
 	});
-	$(document).ready(function(){
+	/* $(document).ready(function(){
 		$("#btnDelete").click(function(){
 			// 확인 대화상자 
 			if(confirm("삭제하시겠습니까?")){
@@ -29,7 +29,7 @@
 				document.form1.submit();
 			}
 		});
-	});
+	}); */
 	$(function() {
 		$("#adminHomeBtn").click(function() {
 			location.href = '/admin/index';
@@ -62,7 +62,7 @@
 			<tr>
 				<td colspan="2" align="center">
 					<input type="button" value="수정" id="btnUpdate">
-					<input type="button" value="삭제" id="btnDelete">
+					<!-- <input type="button" value="삭제" id="btnDelete"> -->
 					<button type="button" id=adminHomeBtn class="form-control btn btn-primary">관리자 홈으로</button><br><br>
 					<div style="color: red;">${message}</div>
 				</td>

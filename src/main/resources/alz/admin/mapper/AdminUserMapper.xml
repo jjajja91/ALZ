@@ -41,6 +41,16 @@
 		VALUES(#{id}, #{email}, #{nickname}, #{password},
 		#{role}, #{phoneNumber})
 	</insert>
+	<!-- 02. 회원 등록 -->
+	<insert id="insertUser1" parameterType="alz.user.domain.UserDTO">
+		<selectKey keyProperty="id" order="BEFORE" resultType="long">
+			SELECT alz_user_seq.nextval FROM dual
+		</selectKey>
+		INSERT INTO ALZ_USER (ID, EMAIL, NICKNAME, PASSWORD, ROLE,
+		PHONE_NUMBER)
+		VALUES(#{id}, #{email}, #{nickname}, #{password},
+		#{role}, #{phoneNumber})
+	</insert>
 
 	<!-- 03. 회원정보 상세조회 -->
 	<select id="viewUser" resultType="alz.user.domain.UserDTO">
@@ -64,10 +74,10 @@
 	</update>
 
 	<!-- 05. 회원정보 삭제 처리 -->
-	<delete id="deleteUser">
+	<!-- <delete id="deleteUser">
 		DELETE FROM alz_user
 		WHERE email = #{email}
-	</delete>
+	</delete> -->
 
 	<!-- 06. 비밀번호 체크 -->
 	<select id="checkPw" resultType="int">
