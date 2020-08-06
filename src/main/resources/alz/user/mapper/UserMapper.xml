@@ -13,7 +13,7 @@
 	</select>
 	
 	<!-- 비밀번호 변경 관련 mapper -->
-	<update id="find_password_result" parameterType="hashMap">
+	<update id="modifyPwd">
 		UPDATE alz_user
 		SET
 		password = #{password}
@@ -85,8 +85,13 @@
 		<selectKey keyProperty="id" order="BEFORE" resultType="long">
 			SELECT alz_user_state_seq.nextval FROM dual
 		</selectKey>
-		INSERT INTO ALZ_USER_STATE (ID, USER_ID, STATE)
-		VALUES(#{id}, #{userId}, #{state})
+		INSERT INTO ALZ_USER_STATE (ID, USER_ID, STATE, DESCRIPTION)
+		VALUES(#{id}, #{userId}, #{state}, #{description, jdbcType=VARCHAR})
+	</insert>
+	
+	<insert id="insertDetail">
+		INSERT INTO ALZ_USER_DETAIL (ID)
+		VALUES(#{id})
 	</insert>
 
 	<!-- 값을 다 넣을 때 -->
@@ -145,6 +150,12 @@
 	<delete id="deleteById">
 		DELETE FROM alz_user WHERE id = #{id}
 	</delete>
+	
+	<select id="findUserByEmailNickname" parameterType="alz.user.domain.UserDTO" resultType="int">
+		select count(*) from alz_user
+		where email = #{email}
+		and nickname = #{nickname}
+	</select>
 	
 	<select id="searchId" resultType="String">
 		SELECT ID FROM alz_user WHERE email = #{email}
