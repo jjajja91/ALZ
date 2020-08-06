@@ -41,6 +41,14 @@ public interface MyPageMapper {
 
 	int deleteAcc(UserStateDTO userState);
 
+	List<BoardDTO> likeSelectWithPaging(MyPageCriteria cri);
+
+	Long myBoardCnt(MyPageCriteria cri);
+
+	Long myCommentCnt(MyPageCriteria cri);
+
+	Long myLikeCnt(MyPageCriteria cri);
+
 
 
 }

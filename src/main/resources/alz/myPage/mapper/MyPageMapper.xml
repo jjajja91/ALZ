@@ -153,6 +153,8 @@
 	</select>
 
 	<select id="myLikeCnt" resultType="long">
+		select count(*) from alz_link_like_board
+		where user_id = #{id}
 	</select>
 	
 	<select id="myBoardCnt" resultType="long">
@@ -165,7 +167,7 @@
 		where id = #{id}
 	</select>
 
-	<select id="getLikeCnt" resultType="long">
+	<select id="getLikeCnt">
 		select like_cnt from
 		alz_board where id = #{id}
 	</select>
