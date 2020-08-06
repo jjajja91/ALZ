@@ -45,6 +45,7 @@
 		<tbody>
 			<c:forEach items="${list }" var="board">
 				<tr>
+			
 					<td><c:out value="${board.id }" /></td>
 					<td>
 						<a class='read' href='<c:out value="${board.id }"/>'><c:out value="${board.title }"/> (<c:out value="${board.commentCnt}"/>)</a>

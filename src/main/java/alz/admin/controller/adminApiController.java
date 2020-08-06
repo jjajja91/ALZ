@@ -56,11 +56,11 @@ public class adminApiController {
 	public ResponseEntity<?> readOne() {
 		return ResponseEntity.status(HttpStatus.OK).body("");
 	}
-
-	@GetMapping
-	public ResponseEntity<?> readAll() {
-		return ResponseEntity.status(HttpStatus.OK).body("");
-	}
+//	@GetMapping
+//	public ResponseEntity<?> readAll() {
+//		List<BoardDTO> boards = boardService.readAll();
+//		return ResponseEntity.status(HttpStatus.OK).body(boards);
+//	}
 
 	@PutMapping("/{id}")
 	public ResponseEntity<?> updateOne() {
