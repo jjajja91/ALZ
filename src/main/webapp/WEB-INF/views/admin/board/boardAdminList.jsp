@@ -373,7 +373,7 @@
 		//체크박스 전체 체크
 		$(function(){ //전체선택 체크박스 클릭
 			$("#checkAll").click(function(){ 
-				console.log()
+				console.log("나와?")
 				//만약 전체 선택 체크박스가 체크된상태일경우
 				if($("#checkAll").prop("checked")) { 
 					$("input[type=checkbox]").prop("checked",true); 
