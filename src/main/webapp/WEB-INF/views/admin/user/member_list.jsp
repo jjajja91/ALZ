@@ -27,14 +27,22 @@ $(function() {
 		<tr>
 			<th>이메일</th>
 			<th>닉네임</th>
+			<th>권한</th>
 			<th>전화번호</th>
+			<th>회원 상태</th>
+			<th>상태 시작일시</th>
+			<th>상태 종료일시</th>
 		</tr>
 		<c:forEach var="row" items="${list}">
 		<tr>
 			<td>${row.email}</td>
 			<!-- 회원정보 상세조회를 위해 a태그 추가 -->
 			<td><a href="${path}/admin/view?email=${row.email}">${row.nickname}</a></td>
+			<td>${row.role}</td>
 			<td>${row.phoneNumber}</td>
+			<td>${row.state}</td>
+			<td>${row.startAt}</td>
+			<td>${row.endAt}</td>
 		</tr>
 		</c:forEach>
 	</table>

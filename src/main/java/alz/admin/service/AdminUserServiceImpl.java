@@ -8,15 +8,19 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import alz.admin.mapper.AdminUserMapper;
 import alz.user.domain.UserDTO;
+import alz.user.domain.UserStateDTO;
+import alz.user.mapper.UserMapper;
 
 @Service
 public class AdminUserServiceImpl implements AdminUserService, UserDetailsService {
 
 	// mapper 가져와서 사용
 	private AdminUserMapper adminUserMapper;
+//	private UserMapper userMapper;
 
 	private PasswordEncoder passwordEncoder;
 
@@ -111,26 +115,43 @@ public class AdminUserServiceImpl implements AdminUserService, UserDetailsServic
 	}
 
 	// 회원 강제탈퇴 관련 메소드
+	@Transactional //전부 실행 되야만 실행되는 어노테이션
 	@Override
 	public void dropOut(UserDTO dto) throws Exception {
+		
+		UserDTO user = adminUserMapper.selectByEmail(dto.getEmail());
+//		System.out.println(dto);
+		adminUserMapper.dropOutStateChange(user);
 		adminUserMapper.dropOut(dto);
 	}
 
 	// 회원 강제정지 관련 메소드
+	@Transactional //전부 실행 되야만 실행되는 어노테이션
 	@Override
 	public void suspended(UserDTO dto) throws Exception {
+		UserDTO user = adminUserMapper.selectByEmail(dto.getEmail());
+//		System.out.println(dto);
+		adminUserMapper.suspendedStateChange(user);
 		adminUserMapper.suspended(dto);
 	}
 
 	// 회원 휴면전환 관련 메소드
+	@Transactional //전부 실행 되야만 실행되는 어노테이션
 	@Override
 	public void inactive(UserDTO dto) throws Exception {
+		UserDTO user = adminUserMapper.selectByEmail(dto.getEmail());
+//		System.out.println(dto);
+		adminUserMapper.inactiveStateChange(user);
 		adminUserMapper.inactive(dto);
 	}
 
 	// 회원 일반회원으로 전환 관련 메소드
+	@Transactional //전부 실행 되야만 실행되는 어노테이션
 	@Override
 	public void backNormal(UserDTO dto) throws Exception {
+		UserDTO user = adminUserMapper.selectByEmail(dto.getEmail());
+//		System.out.println(dto);
+		adminUserMapper.backNormalStateChange(user);
 		adminUserMapper.backNormal(dto);
 	}
 	

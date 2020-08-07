@@ -50,7 +50,7 @@ public class UserDTO implements UserDetails {
 	// 휴면, 정지, 탈퇴 등 상태
 	private String state;
 	private Date startAt;
-	private Date endAt;
+	private Date endAt;	
 	private String description;
 	
 

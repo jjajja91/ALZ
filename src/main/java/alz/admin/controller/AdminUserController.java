@@ -28,7 +28,7 @@ public class AdminUserController {
 	// 01 회원 목록
 	// url pattern mapping
 	@RequestMapping("admin/list")
-	public String memberList(Model model) {
+	public String userList(Model model) {
 		// controller => service => dao 요청
 		List<UserDTO> list = adminUserService.userList();
 		model.addAttribute("list", list);
@@ -37,7 +37,7 @@ public class AdminUserController {
 
 	// 02_01 회원 등록 페이지로 이동
 	@RequestMapping("admin/write")
-	public String memberWrite() {
+	public String userWrite() {
 
 		return "admin/user/member_write";
 	}
@@ -46,8 +46,8 @@ public class AdminUserController {
 //	// @ModelAttribute에 폼에서 입력한 데이터가 저장된다.
 //	@RequestMapping("admin/insertManager")
 //	// * 폼에서 입력한 데이터를 받아오는 법 3가지
-//	// public String memberInsert(HttpServlet request){
-//	// public String memberInsert(String email, String password, String userName,
+//	// public String userInsert(HttpServlet request){
+//	// public String userInsert(String email, String password, String userName,
 //	// String userEmail){
 //	public String InsertManager(@ModelAttribute UserDTO dto) {
 //		// 테이블에 레코드 입력
@@ -64,8 +64,8 @@ public class AdminUserController {
 //	// @ModelAttribute에 폼에서 입력한 데이터가 저장된다.
 //	@RequestMapping("admin/insertUser")
 //	// * 폼에서 입력한 데이터를 받아오는 법 3가지
-//	// public String memberInsert(HttpServlet request){
-//	// public String memberInsert(String email, String password, String userName,
+//	// public String userInsert(HttpServlet request){
+//	// public String userInsert(String email, String password, String userName,
 //	// String userEmail){
 //	public String InsertUser(@ModelAttribute UserDTO dto) {
 //		// 테이블에 레코드 입력
@@ -80,7 +80,7 @@ public class AdminUserController {
 
 	// 03 회원 상세정보 조회
 	@RequestMapping("admin/view")
-	public String memberView(@RequestParam String email, Model model) {
+	public String userView(@RequestParam String email, Model model) {
 		// 회원 정보를 model에 저장
 		model.addAttribute("dto", adminUserService.viewUser(email));
 		System.out.println("클릭한 아이디 확인 : " + email);
@@ -91,12 +91,15 @@ public class AdminUserController {
 
 	// 04. 회원 정보 수정 처리
 	@RequestMapping("admin/update")
-	public String memberUpdate(@ModelAttribute UserDTO dto, Model model) {
+	public String userUpdate(@ModelAttribute UserDTO dto, Model model) {
 		// 비밀번호 체크
 		boolean result = adminUserService.checkPw(dto);
 		if (result) { // 비밀번호가 일치하면 수정 처리후, 전체 회원 목록으로 리다이렉트
 			adminUserService.updateUser(dto);
-			return "redirect:/admin/list";
+			model.addAttribute("dto", dto);
+			model.addAttribute("message", "수정 완료");
+//			return "redirect:/admin/member_view";
+			return "admin/user/member_view";
 		} else { // 비밀번호가 일치하지 않는다면, div에 불일치 문구 출력, viwe.jsp로 포워드
 			// 가입일자, 수정일자 저장
 			UserDTO dto2 = adminUserService.viewUser(dto.getEmail());
@@ -111,7 +114,7 @@ public class AdminUserController {
 //	// @RequestMapping : url mapping
 //	// @RequestParam : get or post방식으로 전달된 변수값
 //	@RequestMapping("admin/delete")
-//	public String memberDelete(UserDTO dto, Model model) {
+//	public String userDelete(UserDTO dto, Model model) {
 //		// 비밀번호 체크
 //		boolean result = adminUserService.checkPw(dto);
 //		if (result) { // 비밀번호가 맞다면 삭제 처리후, 전체 회원 목록으로 리다이렉트
@@ -136,7 +139,7 @@ public class AdminUserController {
 	public ModelAndView find_member_info(String email, UserDTO dto) throws Exception {
 
 		// 데이터베이스에서 검색한 값들을 DTO타입에 LIST에 저장한다.
-		java.util.List<UserDTO> list = adminUserService.find_member_info(email); // 넘길 데이터가 많기 때문에
+		List<UserDTO> list = adminUserService.find_member_info(email); // 넘길 데이터가 많기 때문에
 
 		Map<String, Object> map = new HashMap<>();
 
@@ -161,7 +164,6 @@ public class AdminUserController {
 			mv.setViewName("admin/user/member_info");
 
 		} else {
-
 			mv.addObject("message", "회원정보가 없는 회원입니다.");
 			mv.setViewName("admin/user/member_info");
 		}
@@ -187,17 +189,16 @@ public class AdminUserController {
 		// 회원탈퇴 체크를 하기위한 메소드, 탈퇴 시키려는 회원의 아이디가 있는지 검사한후에 result 변수에 저장한다.
 		adminUserService.dropOut(dto);
 
-		ModelAndView mav = new ModelAndView();
+		ModelAndView mv = new ModelAndView();
 
 		if (dto.getEmail() != null) { // 회원 강제탈퇴가 성공했을시 출력되는 뷰
-			mav.setViewName("admin/index");
-			mav.addObject("message", "회원이 정상적으로 강제탈퇴 처리 되었습니다.");
-
+			mv.addObject("message", "회원이 정상적으로 강제탈퇴 처리 되었습니다.");
+			mv.setViewName("admin/index");
 		} else {
-			mav.setViewName("admin/changeStateView");
-			mav.addObject("message", "회원 목록에 없는 회원입니다. 다시 확인해주세요.");
+			mv.addObject("message", "회원 목록에 없는 회원입니다. 다시 확인해주세요.");
+			mv.setViewName("admin/changeStateView");
 		}
-		return mav;
+		return mv;
 
 	}
 
@@ -212,17 +213,17 @@ public class AdminUserController {
 		// 회원정지 체크를 하기위한 메소드, 정지 시키려는 회원의 아이디가 있는지 검사한후에 result 변수에 저장한다.
 		adminUserService.suspended(dto);
 
-		ModelAndView mav = new ModelAndView();
+		ModelAndView mv = new ModelAndView();
 
 		if (dto.getEmail() != null) { // 회원 강제정지가 성공했을시 출력되는 뷰
-			mav.setViewName("admin/index");
-			mav.addObject("message", "회원이 정상적으로 강제정지 처리 되었습니다.");
+			mv.addObject("message", "회원이 정상적으로 강제정지 처리 되었습니다.");
+			mv.setViewName("admin/index");
 
 		} else {
-			mav.setViewName("admin/changeStateView");
-			mav.addObject("message", "회원 목록에 없는 회원입니다. 다시 확인해주세요.");
+			mv.addObject("message", "회원 목록에 없는 회원입니다. 다시 확인해주세요.");
+			mv.setViewName("admin/changeStateView");
 		}
-		return mav;
+		return mv;
 
 	}
 
@@ -237,17 +238,16 @@ public class AdminUserController {
 		// 휴면전환 체크를 하기위한 메소드, 휴면전환 시키려는 회원의 아이디가 있는지 검사한후에 result 변수에 저장한다.
 		adminUserService.inactive(dto);
 
-		ModelAndView mav = new ModelAndView();
+		ModelAndView mv = new ModelAndView();
 
 		if (dto.getEmail() != null) { // 회원 휴면전환가 성공했을시 출력되는 뷰
-			mav.setViewName("admin/index");
-			mav.addObject("message", "회원이 정상적으로 휴면전환 처리 되었습니다.");
-
+			mv.addObject("message", "회원이 정상적으로 휴면전환 처리 되었습니다.");
+			mv.setViewName("admin/index");
 		} else {
-			mav.setViewName("admin/changeStateView");
-			mav.addObject("message", "회원 목록에 없는 회원입니다. 다시 확인해주세요.");
+			mv.addObject("message", "회원 목록에 없는 회원입니다. 다시 확인해주세요.");
+			mv.setViewName("admin/changeStateView");
 		}
-		return mav;
+		return mv;
 
 	}
 
@@ -262,17 +262,16 @@ public class AdminUserController {
 		// 일반회원 체크를 하기위한 메소드, 일반회원으로 전환 시키려는 회원의 아이디가 있는지 검사한후에 result 변수에 저장한다.
 		adminUserService.backNormal(dto);
 		
-		ModelAndView mav = new ModelAndView();
+		ModelAndView mv = new ModelAndView();
 		
 		if (dto.getEmail() != null) { // 회원이 일반회원으로 전환을 성공했을시 출력되는 뷰
-			mav.setViewName("admin/index");
-			mav.addObject("message", "회원이 정상적으로 일반회원으로 전환 처리 되었습니다.");
-			
+			mv.addObject("message", "회원이 정상적으로 일반회원으로 전환 처리 되었습니다.");
+			mv.setViewName("admin/index");
 		} else {
-			mav.setViewName("admin/changeStateView");
-			mav.addObject("message", "회원 목록에 없는 회원입니다. 다시 확인해주세요.");
+			mv.addObject("message", "회원 목록에 없는 회원입니다. 다시 확인해주세요.");
+			mv.setViewName("admin/changeStateView");
 		}
-		return mav;
+		return mv;
 		
 	}
 	// 관리자로 로그인 후에 일반회원으로 전환시킬 회원의 아이디를 입력후 일반 버튼을 누르면 연결되는 메소드
@@ -286,17 +285,16 @@ public class AdminUserController {
 		// 일반회원 체크를 하기위한 메소드, 일반회원으로 전환 시키려는 회원의 아이디가 있는지 검사한후에 result 변수에 저장한다.
 		adminUserService.asUser(dto);
 		
-		ModelAndView mav = new ModelAndView();
+		ModelAndView mv = new ModelAndView();
 		
 		if (dto.getEmail() != null) { // 회원이 일반회원으로 전환을 성공했을시 출력되는 뷰
-			mav.setViewName("admin/index");
-			mav.addObject("message", "해당 계정이 정상적으로 일반 계정으로 전환 처리 되었습니다.");
-			
+			mv.addObject("message", "해당 계정이 정상적으로 일반 계정으로 전환 처리 되었습니다.");
+			mv.setViewName("admin/index");
 		} else {
-			mav.setViewName("admin/changeStateView");
-			mav.addObject("message", "회원 목록에 없는 회원입니다. 다시 확인해주세요.");
+			mv.addObject("message", "회원 목록에 없는 회원입니다. 다시 확인해주세요.");
+			mv.setViewName("admin/changeStateView");
 		}
-		return mav;
+		return mv;
 		
 	}
 	// 관리자로 로그인 후에 일반회원으로 전환시킬 회원의 아이디를 입력후 일반 버튼을 누르면 연결되는 메소드
@@ -310,17 +308,17 @@ public class AdminUserController {
 		// 일반회원 체크를 하기위한 메소드, 일반회원으로 전환 시키려는 회원의 아이디가 있는지 검사한후에 result 변수에 저장한다.
 		adminUserService.asManager(dto);
 		
-		ModelAndView mav = new ModelAndView();
+		ModelAndView mv = new ModelAndView();
 		
 		if (dto.getEmail() != null) { // 회원이 일반회원으로 전환을 성공했을시 출력되는 뷰
-			mav.setViewName("admin/index");
-			mav.addObject("message", "해당 계정이 정상적으로 관리자 계정으로 전환 처리 되었습니다.");
+			mv.addObject("message", "해당 계정이 정상적으로 관리자 계정으로 전환 처리 되었습니다.");
+			mv.setViewName("admin/index");
 			
 		} else {
-			mav.setViewName("admin/changeStateView");
-			mav.addObject("message", "회원 목록에 없는 회원입니다. 다시 확인해주세요.");
+			mv.addObject("message", "회원 목록에 없는 회원입니다. 다시 확인해주세요.");
+			mv.setViewName("admin/changeStateView");
 		}
-		return mav;
+		return mv;
 		
 	}
 

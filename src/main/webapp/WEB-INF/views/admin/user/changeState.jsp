@@ -12,56 +12,69 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script>
 $(document).ready(function(){
-	$("#btnDropOut").click(function(){
+	$("#btnDropOut").click(function() {
 		// 확인 대화상자	
-		if(confirm("해당 계정을 탈퇴 시키겠습니까?")){
+		if(document.form[0].value=="") {
+			alert("이메일을 입력해주세요");
+		} else if(confirm("해당 계정을 탈퇴 시키겠습니까?")) {
 			document.form.action = "${path}/admin/dropOut";
 			document.form.submit();
+			
 		}
 	});
-});
-$(document).ready(function(){
 	$("#btnSuspended").click(function(){
-		// 확인 대화상자	
-		if(confirm("해당 계정을 정지 시키겠습니까?")){
-			document.form.action = "${path}/admin/suspended";
-			document.form.submit();
+		// 확인 대화상자
+		if(document.form[0].value=="") {
+			alert("이메일을 입력해주세요");
+		} else  {
+			if(confirm("해당 계정을 정지 시키겠습니까?")){
+				document.form.action = "${path}/admin/suspended";
+				document.form.submit();
+			}
 		}
 	});
-});
-$(document).ready(function(){
 	$("#btnInactive").click(function(){
 		// 확인 대화상자	
-		if(confirm("해당 계정을 휴면전환 시키겠습니까?")){
-			document.form.action = "${path}/admin/inactive";
-			document.form.submit();
+		if(document.form[0].value=="") {
+			alert("이메일을 입력해주세요");
+		} else  {
+			if(confirm("해당 계정을 휴면전환 시키겠습니까?")){
+				document.form.action = "${path}/admin/inactive";
+				document.form.submit();
+			}
 		}
 	});
-});
-$(document).ready(function(){
 	$("#btnBackNormal").click(function(){
 		// 확인 대화상자	
-		if(confirm("해당 계정을 일반상태로 전환 시키겠습니까?")){
-			document.form.action = "${path}/admin/backNormal";
-			document.form.submit();
+		if(document.form[0].value=="") {
+			alert("이메일을 입력해주세요");
+		} else  {
+			if(confirm("해당 계정을 일반상태로 전환 시키겠습니까?")){
+				document.form.action = "${path}/admin/backNormal";
+				document.form.submit();
+			}
 		}
 	});
-});
-$(document).ready(function(){
 	$("#btnAsUser").click(function(){
 		// 확인 대화상자	
-		if(confirm("해당 계정을 일반 계정으로 전환 시키겠습니까?")){
-			document.form.action = "${path}/admin/asUser";
-			document.form.submit();
+		if(document.form[0].value=="") {
+			alert("이메일을 입력해주세요");
+		} else  {
+			if(confirm("해당 계정을 일반 계정으로 전환 시키겠습니까?")){
+				document.form.action = "${path}/admin/asUser";
+				document.form.submit();
+			}
 		}
 	});
-});
-$(document).ready(function(){
 	$("#btnAsManager").click(function(){
 		// 확인 대화상자	
-		if(confirm("해당 계정을 관리자 계정으로 전환 시키겠습니까?")){
-			document.form.action = "${path}/admin/asManager";
-			document.form.submit();
+		if(document.form[0].value=="") {
+			alert("이메일을 입력해주세요");
+		} else  {
+			if(confirm("해당 계정을 관리자 계정으로 전환 시키겠습니까?")){
+				document.form.action = "${path}/admin/asManager";
+				document.form.submit();
+			}
 		}
 	});
 });

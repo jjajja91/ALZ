@@ -16,8 +16,8 @@
 		$("#btnUpdate").click(function(){
 			// 확인 대화상자	
 			if(confirm("수정하시겠습니까?")){
-				document.form1.action = "${path}/admin/update";
-				document.form1.submit();
+				document.form.action = "${path}/admin/update";
+				document.form.submit();
 			}
 		});
 	});
@@ -25,11 +25,22 @@
 		$("#btnDelete").click(function(){
 			// 확인 대화상자 
 			if(confirm("삭제하시겠습니까?")){
-				document.form1.action = "${path}/admin/delete";
-				document.form1.submit();
+				document.form.action = "${path}/admin/delete";
+				document.form.submit();
 			}
 		});
 	}); */
+	$(function() {
+		var responseMessage = "<c:out value="${message}" />";
+		if (responseMessage != "") {
+			alert(responseMessage)
+		}
+	})
+	$(function() {
+		$("#adminListBtn").click(function() {
+			location.href = '/admin/list';
+		})
+	})
 	$(function() {
 		$("#adminHomeBtn").click(function() {
 			location.href = '/admin/index';
@@ -39,7 +50,7 @@
 </head>
 <body>
 	<h2>회원정보 상세</h2>
-	<form name="form1" method="post">
+	<form name="form" method="post">
 		<table border="1" width="400px">
 			<tr>
 				<td>이메일</td>
@@ -65,8 +76,9 @@
 				<td colspan="2" align="center">
 					<input type="button" value="수정" id="btnUpdate">
 					<!-- <input type="button" value="삭제" id="btnDelete"> -->
-					<button type="button" id=adminHomeBtn class="form-control btn btn-primary">관리자 홈으로</button><br><br>
-					<div style="color: red;">${message}</div>
+					<button type="button" id=adminListBtn class="form-control btn btn-primary">회원 목록</button><br><br>
+					<button type="button" id=adminHomeBtn class="form-control btn btn-primary">관리자 홈</button><br><br>
+					<%-- <div style="color: red;">${message}</div> --%>
 				</td>
 			</tr>
 		</table>
