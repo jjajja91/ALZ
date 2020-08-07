@@ -41,10 +41,10 @@
    </select>
    
    <select id="findByLessonId" resultType="alz.lesson.domain.LessonDTO">
-      select lesson.id id, lesson.teacher_id teacherId, category.id categoryId, category.main, category.sub, 
-            category.name categoryName, lesson.title, lessonType.type lessonType, lessonLevel.id lessonLevelId,
-            lessonLevel.lesson_level lessonLevel, lesson.min_student minStudent, lesson.max_student maxStudent, 
-            lesson.current_student currentStudent, lessonState.state state, lesson.open_at openAt, lesson.close_at closeAt, 
+      select lesson.id id, lesson.teacher_id teacherId, lesson.category_main categoryMain, lesson.category_sub categorySub, 
+            category.name categoryName, lesson.title, lesson.lesson_type lessonType, lessontype.type typeName,
+            lesson.lesson_level lessonLevel, lessonLevel.lesson_level levelName, lesson.min_student minStudent, lesson.max_student maxStudent, 
+            lesson.current_student currentStudent, lesson.state state, lesson.open_at openAt, lesson.close_at closeAt, 
             schedule.start_at startAt, schedule.end_at endAt, detail.detail detail
         from alz_lesson lesson, 
              alz_lesson_type lessonType, 
@@ -56,7 +56,8 @@
        where lesson.lesson_type = lessonType.id 
          and lesson.lesson_level = lessonLevel.id
          and lesson.state = lessonState.id
-         and lesson.category_id = category.id
+         and lesson.category_main = category.main
+         and lesson.category_sub = category.sub
          and lesson.id = schedule.lesson_id
          and lesson.id = detail.lesson_id
          and lesson.id = #{id}
@@ -64,7 +65,7 @@
    </select>
    
    <select id="findBasicByLessonId" resultType="alz.lesson.domain.LessonDTO">
-      select lesson.id id, lesson.teacher_id teacherId, lesson.category_main categoryMain, lesson.category_sub categorySub,   
+      select lesson.id id, lesson.teacher_id teacherId, lesson.category_main categoryMain, lesson.category_sub categorySub,  
             category.name categoryName, lesson.title, lesson.lesson_type lessonType, lessonType.type typeName, lessonLevel.id lessonLevel,
             lessonLevel.lesson_level levelName, lesson.min_student minStudent, lesson.max_student maxStudent, 
             lesson.current_student currentStudent, lesson.state state, lesson.open_at openAt, lesson.close_at closeAt
@@ -83,22 +84,22 @@
    </select>
 
    <select id="findAll" resultType="alz.lesson.domain.LessonDTO">
-      select lesson.id id, lesson.teacher_id teacherId, lesson.category_main categoryMain, lesson.category_sub categorySub, lesson.title,
-          lessonType.type lessonType, lessonLevel.lesson_level lessonLevel, lesson.min_student minStudent,
-          lesson.max_student maxStudent, lesson.current_student currentStudent, lessonState.state state,
-            lesson.open_at openAt, lesson.close_at closeAt, schedule.start_at startAt, schedule.end_at endAt
-      from alz_lesson lesson, 
-           alz_lesson_type lessonType, 
-           alz_lesson_level lessonLevel,
-           alz_lesson_state lessonState,
-             alz_category category,
-             alz_lesson_schedule schedule
-      where lesson.lesson_type = lessonType.id 
-        and lesson.lesson_level = lessonLevel.id
-        and lesson.state = lessonState.id
-          and lesson.category_main = category.main
-          and lesson.category_sub = category.sub
-          and lesson.id = schedule.lesson_id
+      select lesson.id id, lesson.teacher_id teacherId, lesson.category_main categoryMain, lesson.category_sub categorySub,
+      		 category.name categoryName, lesson.title, lesson.lesson_type lessonType, lessonType.type typeName, 
+      		 lessonLevel.id, lessonLevel.lesson_level levelName, lesson.min_student minStudent, lesson.max_student maxStudent, 
+          	 lesson.current_student currentStudent, lesson.state state, lesson.open_at openAt, lesson.close_at closeAt
+    	from alz_lesson lesson, 
+        	 alz_lesson_type lessonType, 
+			 alz_lesson_level lessonLevel,
+	 		 alz_lesson_state lessonState,
+			 alz_category category,
+			 alz_lesson_schedule schedule
+	   where lesson.lesson_type = lessonType.id 
+		 and lesson.lesson_level = lessonLevel.id
+		 and lesson.state = lessonState.id
+		 and lesson.category_main = category.main
+		 and lesson.category_sub = category.sub
+		 and lesson.id = schedule.lesson_id
    </select>
    
    <select id="findTeacherByUserId" resultType="alz.lesson.domain.TeacherDTO">
