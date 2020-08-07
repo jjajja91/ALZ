@@ -71,10 +71,10 @@ public class LessonApiController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(affectedRowCount);
 	}
 	
-	@PostMapping("/curriculum")
-	public ResponseEntity<?> createCurriculum(@RequestBody List<CurriculumSubjectDTO> curriculumList){
+	@PostMapping("/curriculum/{location}")
+	public ResponseEntity<?> createCurriculum(@PathVariable String location, @RequestBody List<CurriculumSubjectDTO> curriculumList){
 		int affectedRowCount = lessonService.createCurriculum(curriculumList);
-		return ResponseEntity.status(HttpStatus.CREATED).body(affectedRowCount);
+		return ResponseEntity.status(HttpStatus.CREATED).body(location);
 	}
 	
 	@PutMapping("/{id}")

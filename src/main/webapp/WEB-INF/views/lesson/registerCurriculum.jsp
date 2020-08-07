@@ -10,12 +10,13 @@
 
 <div class="container">
 	
-	<form role="form" action="/lesson/registerCurriculum" method="post">
-		<input type="text" name="lessonId" value='<c:out value="${param.lessonId }"/>'>
-		<input type="text" name="originalId" value='<c:out value="${param.originalId }"/>'>
+
+		<input type="hidden" name="originalId" value='<c:out value="${param.originalId }"/>' readonly>
 	
 		<h5><strong>커리큘럼</strong></h5>클래스를 신청하신 분들이 배우고 있는 커리큘럼입니다. 주제와 그에 따른 소주제를 작성해 주세요.
-		<br><br><br>
+		<br>
+		<br>
+		<br>
 		<br>대주제를 입력해주세요.
 		<br>
 		<br>
@@ -103,8 +104,10 @@
 		</div>
 		<input type="button" name="addSubject" value="+Add Subject"/>
 		<br><br><br>
-		<button type="submit" name="prev">＜ 이전</button>
-		<button type="submit" name="save">저장</button>
+	<form role="form" id="submitForm" action="/lesson/registerSubmit" method="post">
+		<input type="text" name="lessonId" value='<c:out value="${param.lessonId }"/>' readonly>
+		<button type="button" name="prev">＜ 이전</button>
+		<button type="button" name="save">저장</button>
 		<button type="submit" name="submit">제출</button>
 	</form>
 </div>
@@ -127,12 +130,12 @@
 	});
 	
 	// 쓰기 아직 완성안됨
-	$("button[type=submit]").click(function(e) {
-		
+	$("button[type=button]").click(function(e) {
+
 		e.preventDefault();
 		formObj = $("form[role='form']");
 
-		var name = $(this).attr("name");
+		var location = $(this).attr("name");
 		var curriculumList = [];
 
 		// 커리큘럼 목록 배열
@@ -154,28 +157,24 @@
 			curriculumList.push(curriculumObj);
 		});
 		
-	
-		$.ajax({
-				type : 'POST',
-				url : '/lessons/curriculum',
-				contentType : "application/json; charset=utf-8",
-		        dataType: 'json',
-		        data: JSON.stringify(curriculumList),
-				success:function(data){
-	                console.log("SUCESS: ", data);
-	        		if (name === 'save') {
-	                	formObj.submit();
-	        		} else if (name==='prev') {
-	    	        	self.location = "/lesson/registerDetail?lessonId="+$lessonId.val();
-	        		} else {
-	        			// 상태값 제출로 변경(안됨)
-						formObj.attr("action", "/lesson/registerSubmit?lessonId="+$lessonId.val()).attr("method", "post");
-	                	formObj.submit();
-	        		}
-	            }
-		});
+		insertCurriculum(curriculumList, location)
+			.then(function(response) {
+				if (response==='prev') {
+		    		self.location = "/lesson/registerDetail?lessonId="+$lessonId.val();
+		    	}
+			})
 		
 	});
+	
+	function insertCurriculum(curriculumList, location) {
+		
+		return $.ajax({
+					type : 'POST',
+					url : '/lessons/curriculum/'+location,
+					contentType : "application/json; charset=utf-8",
+			        data: JSON.stringify(curriculumList)
+			});
+	}
 		
 	// 주제 추가 버튼 눌렀을때 이벤트
 	$(document).on("click","input[name='addSubject']",function(e){
