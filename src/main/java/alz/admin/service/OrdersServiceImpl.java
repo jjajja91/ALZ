@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import alz.admin.domain.OrderCriteria;
 import alz.admin.mapper.OrdersMapper;
 import alz.order.domain.OrderAllDTO;
 
@@ -22,6 +23,11 @@ public class OrdersServiceImpl implements OrdersService {
 	@Override
 	public List<OrderAllDTO> orderList() {
 		return ordersMapper.orderList();
+	}
+
+	@Override
+	public List<OrderAllDTO> orderListPaging(OrderCriteria cri) {
+		return ordersMapper.orderListPaging(cri);
 	}
 	
 
