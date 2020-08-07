@@ -4,8 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -46,30 +44,30 @@ public class AdminUserController {
 
 	// 02_02 회원 등록 처리 후 ==> 회원목록으로 리다이렉트
 	// @ModelAttribute에 폼에서 입력한 데이터가 저장된다.
-	@RequestMapping("admin/insert")
+	@RequestMapping("admin/insertManager")
 	// * 폼에서 입력한 데이터를 받아오는 법 3가지
 	// public String memberInsert(HttpServlet request){
 	// public String memberInsert(String email, String password, String userName,
 	// String userEmail){
-	public String memberInsert(@ModelAttribute UserDTO dto) {
+	public String InsertManager(@ModelAttribute UserDTO dto) {
 		// 테이블에 레코드 입력
 		dto.setRole("ROLE_ADMIN");
-		adminUserService.insertUser(dto);
+		adminUserService.insertManager(dto);
 		// * (/)의 유무에 차이
 		// /admin/list : 루트 디렉토리를 기준
 		// admin/list : 현재 디렉토리를 기준
 		// member_list.jsp로 리다이렉트
 		return "redirect:/admin/list";
 	}
-	
+
 	// 02_02 회원 등록 처리 후 ==> 회원목록으로 리다이렉트
 	// @ModelAttribute에 폼에서 입력한 데이터가 저장된다.
-	@RequestMapping("admin/insert1")
+	@RequestMapping("admin/insertUser")
 	// * 폼에서 입력한 데이터를 받아오는 법 3가지
 	// public String memberInsert(HttpServlet request){
 	// public String memberInsert(String email, String password, String userName,
 	// String userEmail){
-	public String memberInsert1(@ModelAttribute UserDTO dto) {
+	public String InsertUser(@ModelAttribute UserDTO dto) {
 		// 테이블에 레코드 입력
 		dto.setRole("ROLE_USER");
 		adminUserService.insertUser(dto);
@@ -85,7 +83,7 @@ public class AdminUserController {
 	public String memberView(@RequestParam String email, Model model) {
 		// 회원 정보를 model에 저장
 		model.addAttribute("dto", adminUserService.viewUser(email));
-		 System.out.println("클릭한 아이디 확인 : "+email);
+		System.out.println("클릭한 아이디 확인 : " + email);
 //		logger.info("클릭한 아이디 : " + email);
 		// member_view.jsp로 포워드
 		return "admin/user/member_view";
@@ -172,22 +170,22 @@ public class AdminUserController {
 	}
 
 	// 관리자로 로그인 후에 회원을 강제 탈퇴시키는 페이지로 연결시키는 메소드
-	@RequestMapping("/admin/admin_member_forced_eviction_view")
+	@RequestMapping("/admin/changeStateView")
 	public String admin_member_forced_evction_view() {
 
-		return "admin/user/admin_member_forced_eviction_view";
+		return "admin/user/changeState";
 	}
 
 	// 관리자로 로그인 후에 강제 탈퇴시킬 회원의 아이디를 입력후 강제탈퇴 버튼을 누르면 연결되는 메소드
-	@RequestMapping("/admin/admin_member_forced_eviction")
-	public ModelAndView admin_member_forced_eviction(String email) throws Exception {
+	@RequestMapping("/admin/dropOut")
+	public ModelAndView dropOut(String email) throws Exception {
 
-		// 유저의 아이디를 삭제 (강제탈퇴) 시키기위해서 dto에 담는다.
+		// 유저의 아이디를 강제탈퇴 시키기위해서 dto에 담는다.
 		UserDTO dto = new UserDTO();
 		dto.setEmail(email);
 
 		// 회원탈퇴 체크를 하기위한 메소드, 탈퇴 시키려는 회원의 아이디가 있는지 검사한후에 result 변수에 저장한다.
-		adminUserService.admin_member_forced_evictionCheck(dto);
+		adminUserService.dropOut(dto);
 
 		ModelAndView mav = new ModelAndView();
 
@@ -196,10 +194,61 @@ public class AdminUserController {
 			mav.addObject("message", "회원이 정상적으로 강제탈퇴 처리 되었습니다.");
 
 		} else {
-			mav.setViewName("admin/admin_member_forced_eviction_view");
+			mav.setViewName("admin/changeStateView");
 			mav.addObject("message", "회원 목록에 없는 회원입니다. 다시 확인해주세요.");
 		}
 		return mav;
 
 	}
+
+	// 관리자로 로그인 후에 강제 정지시킬 회원의 아이디를 입력후 강제정지 버튼을 누르면 연결되는 메소드
+	@RequestMapping("/admin/suspended")
+	public ModelAndView suspended(String email) throws Exception {
+
+		// 유저의 아이디를 정지 시키기위해서 dto에 담는다.
+		UserDTO dto = new UserDTO();
+		dto.setEmail(email);
+
+		// 회원정지 체크를 하기위한 메소드, 정지 시키려는 회원의 아이디가 있는지 검사한후에 result 변수에 저장한다.
+		adminUserService.suspended(dto);
+
+		ModelAndView mav = new ModelAndView();
+
+		if (dto.getEmail() != null) { // 회원 강제정지가 성공했을시 출력되는 뷰
+			mav.setViewName("admin/index");
+			mav.addObject("message", "회원이 정상적으로 강제정지 처리 되었습니다.");
+
+		} else {
+			mav.setViewName("admin/changeStateView");
+			mav.addObject("message", "회원 목록에 없는 회원입니다. 다시 확인해주세요.");
+		}
+		return mav;
+
+	}
+
+	// 관리자로 로그인 후에 휴면전환시킬 회원의 아이디를 입력후 휴면전환 버튼을 누르면 연결되는 메소드
+	@RequestMapping("/admin/inactive")
+	public ModelAndView inactive(String email) throws Exception {
+
+		// 유저의 아이디를 휴면전환 시키기위해서 dto에 담는다.
+		UserDTO dto = new UserDTO();
+		dto.setEmail(email);
+
+		// 휴면전환 체크를 하기위한 메소드, 휴면전환 시키려는 회원의 아이디가 있는지 검사한후에 result 변수에 저장한다.
+		adminUserService.inactive(dto);
+
+		ModelAndView mav = new ModelAndView();
+
+		if (dto.getEmail() != null) { // 회원 휴면전환가 성공했을시 출력되는 뷰
+			mav.setViewName("admin/index");
+			mav.addObject("message", "회원이 정상적으로 휴면전환 처리 되었습니다.");
+
+		} else {
+			mav.setViewName("admin/changeStateView");
+			mav.addObject("message", "회원 목록에 없는 회원입니다. 다시 확인해주세요.");
+		}
+		return mav;
+
+	}
+
 }

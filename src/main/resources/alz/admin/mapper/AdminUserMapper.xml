@@ -32,7 +32,8 @@
 	</select>
 
 	<!-- 02. 회원 등록 -->
-	<insert id="insertUser" parameterType="alz.user.domain.UserDTO">
+	<insert id="insertManager"
+		parameterType="alz.user.domain.UserDTO">
 		<selectKey keyProperty="id" order="BEFORE" resultType="long">
 			SELECT alz_user_seq.nextval FROM dual
 		</selectKey>
@@ -42,7 +43,7 @@
 		#{role}, #{phoneNumber})
 	</insert>
 	<!-- 02. 회원 등록 -->
-	<insert id="insertUser1" parameterType="alz.user.domain.UserDTO">
+	<insert id="insertUser" parameterType="alz.user.domain.UserDTO">
 		<selectKey keyProperty="id" order="BEFORE" resultType="long">
 			SELECT alz_user_seq.nextval FROM dual
 		</selectKey>
@@ -56,8 +57,8 @@
 	<select id="viewUser" resultType="alz.user.domain.UserDTO">
 		SELECT
 		email, nickname, role,
-		certification_State certificationState, phone_Number
-		phoneNumber
+		certification_State certificationState,
+		phone_Number phoneNumber
 		FROM
 		alz_user
 		WHERE email = #{email}
@@ -74,10 +75,8 @@
 	</update>
 
 	<!-- 05. 회원정보 삭제 처리 -->
-	<!-- <delete id="deleteUser">
-		DELETE FROM alz_user
-		WHERE email = #{email}
-	</delete> -->
+	<!-- <delete id="deleteUser"> DELETE FROM alz_user WHERE email = #{email} 
+		</delete> -->
 
 	<!-- 06. 비밀번호 체크 -->
 	<select id="checkPw" resultType="int">
@@ -88,10 +87,23 @@
 	</select>
 
 	<!-- 회원상태변경 -->
-	<update id="admin_member_forced_evictionCheck"
-		parameterType="alz.user.domain.UserDTO">
+	<update id="dropOut" parameterType="alz.user.domain.UserDTO">
 		update alz_user
 		set enable = 0
+		where email = #{email}
+	</update>
+	<!-- 회원상태변경 -->
+	<update id="suspended" parameterType="alz.user.domain.UserDTO">
+		update alz_user
+		set enable =
+		0
+		where email = #{email}
+	</update>
+	<!-- 회원상태변경 -->
+	<update id="inactive" parameterType="alz.user.domain.UserDTO">
+		update alz_user
+		set enable =
+		0
 		where email = #{email}
 	</update>
 

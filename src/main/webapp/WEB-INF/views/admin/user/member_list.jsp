@@ -34,7 +34,7 @@ $(function() {
 			<td>${row.email}</td>
 			<!-- 회원정보 상세조회를 위해 a태그 추가 -->
 			<td><a href="${path}/admin/view?email=${row.email}">${row.nickname}</a></td>
-			<td>${row.email}</td>
+			<td>${row.phoneNumber}</td>
 		</tr>
 		</c:forEach>
 	</table>
