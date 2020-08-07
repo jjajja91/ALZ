@@ -187,12 +187,12 @@ public class LessonPageController {
 	
 	// 클래스 제출
 	@PostMapping("/registerSubmit")
-	public String registerSubmit(@RequestParam Long lessonId) {
-		System.out.println(lessonId);
+	public String registerSubmit(Long lessonId) {
+		int success=0;
 		if(lessonId!=null) {
-			lessonService.lessonSubmit(lessonId);
+			success=lessonService.lessonSubmit(lessonId);
 		}
-		
-		return "redirect:/lesson/registerCurriculum?lessonId="+lessonId;
+		System.out.println("제출" + success);
+		return "redirect:/";
 	}
 }

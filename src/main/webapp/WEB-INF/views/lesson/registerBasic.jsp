@@ -12,15 +12,14 @@
 <div class="container">
 
 	<form role="form" action="/lesson/registerBasic" method="post">
-		<input type="hidden" name="userId" value='<sec:authentication property="principal.id"/>'> 
-		<input type="hidden" name="teacherId" value='<c:out value="${param.teacherId }"/>'> 
-		<input type="hidden" name="state" class="state" value='<c:out value="${lesson.state }"/>' /> 
-		<input type="hidden" name="location" id="location" />
-		<input type="text" name="originalId" id="originalId" value='<c:out value="${param.originalId }"/>'>
+		<input type="hidden" name="userId" value='<sec:authentication property="principal.id"/>' readonly> 
+		<input type="hidden" name="teacherId" value='<c:out value="${param.teacherId }"/>' readonly> 
+		<input type="hidden" name="state" class="state" value='<c:out value="${lesson.state }"/>' readonly/> 
+		<input type="hidden" name="location" id="location" readonly/>
+		<input type="hidden" name="originalId" id="originalId" value='<c:out value="${param.originalId }"/>' readonly>
+		<input type="hidden" name="id" id="id" value='<c:out value="${lesson.id }"/>' readonly>
 
-		
 		<c:if test="${!empty oldLessons}">
-			
 			<strong>개설했던 클래스들 </strong>
 			<select name="lessonList" class="lessonList">
 				<option>클래스를 선택해주세요</option>
@@ -30,202 +29,95 @@
 				</c:forEach>
 			</select>
 		</c:if>
+		
+		<div class="lessonBasic">
+			<br>
+			<br>
+			<h5><strong>어떤 클래스인지 알려주세요</strong></h5>가르쳐보고 싶은게 있으신가요? 카테고리를 설정해봐요.
+			<div class="lessonCategoryDiv">
+				<label>카테고리 </label>
+				<c:if test="${!empty mainCategory}">
+					<select name="categoryMain" id="mainCategoryList" class="mainCategoryList">
+						<option>클래스 대분류를 선택해주세요</option>
 
-
-			<input type="text" name="id" id="id"
-				value='<c:out value="${lesson.id }"/>'>
-			<div class="lessonBasic">
-				<br>
-				<br>
-				<h5>
-					<strong>어떤 클래스인지 알려주세요</strong>
-				</h5>
-				가르쳐보고 싶은게 있으신가요? 카테고리를 설정해봐요.
-				<div class="lessonCategoryDiv">
-					<label>카테고리 </label>
-					<c:if test="${!empty mainCategory}">
-						<select name="categoryMain" id="mainCategoryList"
-							class="mainCategoryList">
-							<option>클래스 대분류를 선택해주세요</option>
-
-							<c:forEach var="mainCategoryList" items="${mainCategory}">
-								<option value="${mainCategoryList.main}" <c:if test="${lesson.categoryMain eq mainCategoryList.main}" > selected="selected"</c:if>>${mainCategoryList.name}</option>
-							</c:forEach>
-						</select>
-					</c:if>
-
-					<c:if test="${!empty subCategory}">
-						<select name="categorySub" id="subCategoryList" class="subCategoryList">
-							<option>클래스 하위분류를 선택해주세요</option>
-
-							<c:forEach var="subCategoryList" items="${subCategory}">
-								<option value="${subCategoryList.sub}"
-									<c:if test="${lesson.categorySub eq subCategoryList.sub}" > selected="selected"</c:if>>${subCategoryList.name}</option>
-							</c:forEach>
-						</select>
-					</c:if>
-				</div>
-
-				<br>
-				<br>
-				<br>
-				<h5>
-					<strong>클래스의 컨셉이 잘 드러난<br>제목과 이미지를 보여주세요
-					</strong>
-				</h5>
-				감성적이면서도 클래스를 잘 표현하는 제목과 이미지를 등록해 주세요.<br>예를 들어, 가죽공예, 어반 스케치,
-				다이어리꾸미기 이런식으로요.
-				<div class="lessonMainImgDiv">
-					<div class="lessonMainImgLeftDiv">
-						<a>사진등록</a>
-					</div>
-					<div class="lessonMainImgRightDiv">
-						<label>클래스 제목</label> <input class="form-control" name='title'
-							id="title" value='<c:out value="${lesson.title}"/>'> <small>최대
-							30자</small>
-					</div>
-				</div>
-
-				<div>
-					<label>난이도</label> 
-					<select name="lessonLevel" id=lessonLevel class="lessonLevel">
-						<c:forEach var="level" items="${levelList}">
-							<option value="${level.id}" <c:if test="${lesson.lessonLevel eq level.id}" > selected="selected"</c:if>>${level.name}</option>
+						<c:forEach var="mainCategoryList" items="${mainCategory}">
+							<option value="${mainCategoryList.main}" <c:if test="${lesson.categoryMain eq mainCategoryList.main}" > selected="selected"</c:if>>${mainCategoryList.name}</option>
 						</c:forEach>
-					</select> 
-					<br>
-					<br>
-					<br> 
-					<label>클래스 과정</label><br> <input type="radio"
-						class="lessonType" name="lessonType" id="lessonTypeOneday"
-						value="1" <c:if test="${lesson.lessonType eq 1}" > checked</c:if>>
-					<label for="lessonTypeOneday">원데이</label> <input type="radio"
-						class="lessonType" name="lessonType" id="lessonTypeRegular"
-						value="2" <c:if test="${lesson.lessonType eq 2}" > checked</c:if>>
-					<label for="lessonTypeRegular">정규</label> <br>
-					<br>
-					<br> <label>클래스 과정</label><br> <small>- 최소인원 미달
-						시 수업 2일전 자동 취소/환불 됩니다.<br>- 최소인원은 1명으로 권장합니다..
-					</small> <br> <input type="text" placeholder="최소인원" name="minStudent"
-						value='<c:out value="${lesson.minStudent}"/>'> ~ <input
-						type="text" placeholder="최대인원" name="maxStudent"
-						value='<c:out value="${lesson.maxStudent}"/>'> <br>
-					<br>
-					<br> <label>스케줄 선택</label> <br>클래스 시작일과 종료일을 입력해주세요. <br>
-					<input type="date" id="openAt" name="openAt"
-						value='<c:out value="${lesson.openAt}"/>'> ~ <input
-						type="date" id="closeAt" name="closeAt"
-						value='<c:out value="${lesson.closeAt}"/>'> <input
-						type="hidden" name='openAt'> <input type="hidden"
-						name='closeAt'>
-				</div>
+					</select>
+				</c:if>
 
-				<br>
-				<br>
-				<br>
-				<button type="submit" name="prev">＜ 이전</button>
-				<button type="submit" name="next">다음 ＞</button>
-				<br>
-				<br>
-				<br>
+				<c:if test="${!empty subCategory}">
+					<select name="categorySub" id="subCategoryList" class="subCategoryList">
+						<option>클래스 하위분류를 선택해주세요</option>
+
+						<c:forEach var="subCategoryList" items="${subCategory}">
+							<option value="${subCategoryList.sub}"
+								<c:if test="${lesson.categorySub eq subCategoryList.sub}" > selected="selected"</c:if>>${subCategoryList.name}</option>
+						</c:forEach>
+					</select>
+				</c:if>
 			</div>
 
-		<%-- <c:if test="${empty lesson}">
-			<input type="text" name="id" id="id"'>
-			<div class="lessonBasic">
-				<br>
-				<br>
-				<h5>
-					<strong>어떤 클래스인지 알려주세요</strong>
-				</h5>
-				가르쳐보고 싶은게 있으신가요? 카테고리를 설정해봐요.
-				<div class="lessonCategoryDiv">
-					<label>카테고리 </label>
-					<c:if test="${!empty mainCategory}">
-						<select name="categoryMain" id="mainCategoryList"
-							class="mainCategoryList">
-							<option>클래스 대분류를 선택해주세요</option>
-
-							<c:forEach var="mainCategoryList" items="${mainCategory}">
-								<option value="${mainCategoryList.main}">${mainCategoryList.name}</option>
-							</c:forEach>
-						</select>
-					</c:if>
-
-					<c:if test="${!empty subCategory}">
-						<select name="categorySub" id="subCategoryList"
-							class="subCategoryList">
-							<option>클래스 하위분류를 선택해주세요</option>
-
-							<c:forEach var="subCategoryList" items="${subCategory}">
-								<option value="${subCategoryList.sub}">${subCategoryList.name}</option>
-							</c:forEach>
-						</select>
-					</c:if>
+			<br>
+			<br>
+			<br>
+			<h5><strong>클래스의 컨셉이 잘 드러난<br>제목과 이미지를 보여주세요</strong></h5>
+			감성적이면서도 클래스를 잘 표현하는 제목과 이미지를 등록해 주세요.<br>예를 들어, 가죽공예, 어반 스케치,
+			다이어리꾸미기 이런식으로요.
+			<div class="lessonMainImgDiv">
+				<div class="lessonMainImgLeftDiv">
+					<a>사진등록</a>
 				</div>
-
-				<br>
-				<br>
-				<br>
-				<h5>
-					<strong>클래스의 컨셉이 잘 드러난<br>제목과 이미지를 보여주세요
-					</strong>
-				</h5>
-				감성적이면서도 클래스를 잘 표현하는 제목과 이미지를 등록해 주세요.<br>예를 들어, 가죽공예, 어반 스케치,
-				다이어리꾸미기 이런식으로요.
-				<div class="lessonMainImgDiv">
-					<div class="lessonMainImgLeftDiv">
-						<a>사진등록</a>
-					</div>
-					<div class="lessonMainImgRightDiv">
-						<label>클래스 제목</label> <input class="form-control" name='title'
-							id="title"> <small>최대 30자</small>
-					</div>
+				<div class="lessonMainImgRightDiv">
+					<label>클래스 제목</label>
+					<input class="form-control" name='title' id="title" value='<c:out value="${lesson.title}"/>'>
+					<small>최대 30자</small>
 				</div>
-
-				<div>
-					<label>난이도</label> <select class="lessonLevel" name="lessonLevel"
-						id="lessonLevel">
-						<option value="1">누구나</option>
-						<option value="2">입급</option>
-						<option value="3">초급</option>
-						<option value="4">중급</option>
-						<option value="5">전문</option>
-					</select> <br>
-					<br>
-					<br> <label>클래스 과정</label><br> <input type="radio"
-						class="lessonType" name="lessonType" id="lessonTypeOneday"
-						value="1"> <label for="lessonTypeOneday">원데이</label> <input
-						type="radio" class="lessonType" name="lessonType"
-						id="lessonTypeRegular" value="2"> <label
-						for="lessonTypeRegular">정규</label> <br>
-					<br>
-					<br> <label>클래스 과정</label><br> <small>- 최소인원 미달 시
-						수업 2일전 자동 취소/환불 됩니다.<br>- 최소인원은 1명으로 권장합니다..
-					</small> <br> <input type="text" placeholder="최소인원" name="minStudent">
-					~ <input type="text" placeholder="최대인원" name="maxStudent">
-
-					<br>
-					<br>
-					<br> <label>스케줄 선택</label> <br>클래스 시작일과 종료일을 입력해주세요. <br>
-					<input type="date" id="openAt" name="openAt"> ~ <input
-						type="date" id="closeAt" name="closeAt"> <input
-						type="hidden" name='openAt'> <input type="hidden"
-						name='closeAt'>
-				</div>
-
-				<br>
-				<br>
-				<br>
-				<button type="submit" name="prev">＜ 이전</button>
-				<button type="submit" name="next">다음 ＞</button>
-				<br>
-				<br>
-				<br>
 			</div>
-		</c:if> --%>
+
+			<div>
+				<label>난이도</label> 
+				<select name="lessonLevel" id=lessonLevel class="lessonLevel">
+					<c:forEach var="level" items="${levelList}">
+						<option value="${level.id}" <c:if test="${lesson.lessonLevel eq level.id}" > selected="selected"</c:if>>${level.name}</option>
+					</c:forEach>
+				</select> 
+				<br>
+				<br>
+				<br> 
+				<label>클래스 과정</label><br> 
+				<input type="radio" class="lessonType" name="lessonType" id="lessonTypeOneday" value="1" <c:if test="${lesson.lessonType eq 1}" > checked</c:if> />
+				<label for="lessonTypeOneday">원데이</label> 
+				<input type="radio" class="lessonType" name="lessonType" id="lessonTypeRegular" value="2" <c:if test="${lesson.lessonType eq 2}" > checked</c:if> />
+				<label for="lessonTypeRegular">정규</label> 
+				<br>
+				<br>
+				<br> 
+				<label>클래스 과정</label>
+				<br> 
+				<small>- 최소인원 미달 시 수업 2일전 자동 취소/환불 됩니다.<br>- 최소인원은 1명으로 권장합니다..</small> 
+				<br> 
+				<input type="text" placeholder="최소인원" name="minStudent" value='<c:out value="${lesson.minStudent}"/>'> ~ 
+				<input type="text" placeholder="최대인원" name="maxStudent" value='<c:out value="${lesson.maxStudent}"/>'> 
+				<br>
+				<br>
+				<br> 
+				<label>스케줄 선택</label> 
+				<br>클래스 시작일과 종료일을 입력해주세요. <br>
+				<input type="date" id="openAt" name="openAt" value='<c:out value="${lesson.openAt}"/>'> ~ 
+				<input type="date" id="closeAt" name="closeAt" value='<c:out value="${lesson.closeAt}"/>'>
+			</div>
+
+			<br>
+			<br>
+			<br>
+			<button type="submit" name="prev">＜ 이전</button>
+			<button type="submit" name="next">다음 ＞</button>
+			<br>
+			<br>
+			<br>
+		</div>
 	</form>
-
 </div>
 
 <script>
@@ -263,22 +155,13 @@
 		var name = $(this).attr("name");
 
 		if (name === 'prev') {
-			//console.log("prev");
 			$inputlocation.val("prev");
 			formObj.submit();
 		} else {
-			//console.log("next");
-			/* var dates = $("input[type=date]");
-			var openAt = dates[0].value.replace(/-/gi,"/");
-			var closeAt = dates[1].value.replace(/-/gi,"/");
-			var hiddens = $("input:hidden");
-			hiddens[0].value = openAt;
-			hiddens[1].value = closeAt; */
 			let selectedCategory = $("select[name=sub]").val();
 			$("input[name=categoryId]").val(selectedCategory);
 			$inputlocation.val("next");
 
-			//formObj.attr("action", "/lesson/registerTeacher").attr("method", "get");
 			formObj.submit();
 		}
 
@@ -374,15 +257,12 @@
 		$inputState.val(response.state);
 		$inputLessonId.val(response.id);
 		$inputOriginalId.val(response.id);
-		var openDate = new Date(response.openAt);
 		$openAt.val(moment(response.openAt).format('YYYY-MM-DD'));
 		$closeAt.val(moment(response.closeAt).format('YYYY-MM-DD'));
 
 	} // autoComplete end
 
 	function goBack() {
-		//window.history.back();
-
 		self.location = "/lesson/register";
 	}
 </script>

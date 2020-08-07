@@ -11,17 +11,21 @@
 <div class="container">
 	
 	<form role="form" action="/lesson/registerDetail" method="get">
-		<input type="text" name="lessonId" value='<c:out value="${param.lessonId }"/>'>
-		<input type="text" name="originalId" value='<c:out value="${param.originalId }"/>'>
+		<input type="hidden" name="lessonId" value='<c:out value="${param.lessonId }"/>' readonly>
+		<input type="hidden" name="originalId" value='<c:out value="${param.originalId }"/>' readonly>
 	
 		<h5><strong>수업 날짜와 시간을 입력해주세요.</strong></h5>
-		<br><br><br>
+		<br>
+		<br>
+		<br>
 		<label>스케줄 선택</label>
 		<br>클래스 시작일과 종료일을 입력해주세요.<br>
 		<input type="date" id="openAt" name="openAt" value='<c:out value="${schedule.openAt }"/>'> ~ 
 		<input type="date" id="closeAt" name="closeAt" value='<c:out value="${schedule.closeAt }"/>'>
 				
-		<br><br><br>
+		<br>
+		<br>
+		<br>
 		<strong>세부 날짜와 시간을 입력해주세요.</strong>
 		<br>
 		<div>
@@ -39,8 +43,6 @@
 			</c:if>
 			
 			<c:forEach items='${schedule.timeTable}' var='timeList' varStatus="loop">
-			
-				
 				<div id="timesetDiv">
 					<label for="lessonDate">날짜 </label>
 					<input type="date" class="lessonDate" name="lessonDate" value='<c:out value="${timeList.lessonDate }"/>'>
@@ -56,15 +58,16 @@
 				</div>
 				<br>
 			</c:forEach>
-			
-			
 		</div>
-		
 		<input type="button" id="addLesson" name="addLesson" value="+add"/>
-		<br><br><br>
-		
+		<br>
+		<br>
+		<br>
 		<button type="submit" name="prev">＜ 이전</button>
 		<button type="submit" name="next">다음 ＞</button>
+		<br>
+		<br>
+		<br>
 	</form>
 </div>
 <script>
@@ -168,7 +171,6 @@
 		  
 		  clone.appendChild(deleteBtn);
 		  timesetDiv.parentNode.appendChild(clone);
-		/* timesetDiv.appendChild(timesetDiv); */
 	});
 	
 	$(document).on("click","input[name='deleteLesson']",function(e){

@@ -11,10 +11,10 @@
 <div class="container">
 	
 	<form role="form" action="/lesson/registerDetail" method="post">
-		<input type="text" name="lessonId" value='<c:out value="${param.lessonId }"/>'>
-		<input type="text" name="originalId" value='<c:out value="${param.originalId }"/>'>
-		<input type="text" name="id" id="id" value='<c:out value="${detail.id }"/>'>
-		<input type="hidden" name="location" id="location" />
+		<input type="hidden" name="lessonId" value='<c:out value="${param.lessonId }"/>' readonly>
+		<input type="hidden" name="originalId" value='<c:out value="${param.originalId }"/>' readonly>
+		<input type="hidden" name="id" id="id" value='<c:out value="${detail.id }"/>' readonly>
+		<input type="hidden" name="location" id="location" readonly/>
 	
 		<h5><strong>클래스 소개 작성하기</strong></h5>클래스를 통해 어떤 것을 배울 수 있는지 상상해볼 수 있도록 클래스 소개를 채워주세요.
 		<br><br><br>
