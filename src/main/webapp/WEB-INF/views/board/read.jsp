@@ -33,7 +33,9 @@
 		<hr>
 		<c:if test="${board.typeId == 4}">
 			<div>
-				<lable>강의 만족도</lable>
+			<h>수강 클래스 : </h>
+		<strong><p><c:out value="${board.lessonTitle}"/></p></strong>	<br>
+						<lable>강의 만족도</lable>
 				<p id="lesson_star_rate">
 					<a href="#" id="star1">★</a> <a href="#" id="star2">★</a> <a
 						href="#" id="star3">★</a> <a href="#" id="star4">★</a> <a href="#"
@@ -167,6 +169,8 @@
 		lessonReview = $lessonReview.val();
 		teacherReview = $teacherReview.val(); 
 		
+		
+		//기존 별점 출력
 		for(var i=1; i<=lessonReview;i++){
 			 $('#lesson_star_rate').children('#star'+i).addClass("lessonOn");
 			}

@@ -106,7 +106,7 @@ public class BoardPageController {
 	@GetMapping( {"/read", "/update" })
 	public void read(@RequestParam("id") Long id, @ModelAttribute("cri") BoardCriteria cri, Model model) {
 		BoardDTO board = boardService.readById(id);
-		if(board.getTypeId()==4) {
+			if(board.getTypeId()==4) {		
 		board = boardService.readReview(board);
 		}
 		model.addAttribute("board", board);
@@ -126,7 +126,9 @@ public class BoardPageController {
 	// 작성
 	@GetMapping("/write")
 	public void write(@RequestParam("typeId") Integer typeId, Model model) {
-		model.addAttribute("reviewOpt", boardService.reviewOption(getLoginUserInfo().getId()));	
+		if(typeId==4) {
+		model.addAttribute("reviewOpt", boardService.reviewOption(getLoginUserInfo().getId()));	}
+		
 		model.addAttribute("typeId", typeId);
 	}
 	
