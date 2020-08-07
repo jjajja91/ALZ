@@ -42,7 +42,7 @@
          <tr>
             <td align="center">
       			<input name="password" type="hidden" value="${id}" readonly>
-                <input name="role" id="role" type="hidden">
+                <input name="role" id="role" type="hidden" value="${accept}">
                 <input type="submit" id="joinSubmit" value="Join"> 
                 <input type="reset" value="Cancel">
             </td>
@@ -61,9 +61,6 @@
          var $nicknameChkResult = $("#nicknameChkResult");
          var $joinSubmit = $("#joinSubmit");
          var $joinForm = $("#joinForm");
-         var $role = $("#role");
-         var $email = $("#email");
-
          
          $nickname.change(function(){
             $nicknameChkResult.val("false");
@@ -111,14 +108,6 @@
             } else if ($nicknameChkResult.val()=="false"){
                alert("닉네임 중복체크를 해주세요");
             } else {
-            	var kindOfEmail = $email.val().split('@');
-           		if(kindOfEmail[1]=='naver.com'){
-           			$role.val("ROLE_NAVER");
-           		} else if(kindOfEmail[1]=='gmail.com') {
-           			$role.val("ROLE_GOOGLE")
-           		} else {
-           			$role.val("ROLE_KAKAO")
-           		}
                joinForm.submit();
             }
          })

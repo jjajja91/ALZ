@@ -45,7 +45,6 @@
 
          <tr>
             <td align="center">
-	           <input type="hidden" name="role" value="ROLE_USER">
                <input type="submit" id="joinSubmit" value="Join"> 
                <input type="reset" value="Cancel">
             </td>

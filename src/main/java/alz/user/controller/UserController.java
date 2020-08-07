@@ -170,6 +170,14 @@ public class UserController {
 		model.addAttribute("phoneNumber", request.getParameter("phoneNumber"));
 
 		// 회원가입 메서드
+		
+		switch(user.getRole()) {
+		case "kakao": user.setRole("ROLE_KAKAO"); break;
+		case "google": user.setRole("ROLE_GOOGLE"); break;
+		case "naver": user.setRole("ROLE_NAVER"); break;
+		default: user.setRole("ROLE_USER"); break;
+		}
+		
 		userService.create(user);
 
 		return "user/anonymous/joinInfo";
@@ -238,7 +246,7 @@ public class UserController {
 		if (userService.duplicateCheck(email)) {
 			return "redirect:/socialLogin?email=" + email + "&id=" + password;
 		} else {
-			return "redirect:/socialJoin?email=" + email + "&id=" + password;
+			return "redirect:/socialJoin?email=" + email + "&id=" + password + "&accept=kakao";
 		}
 	}
 
@@ -273,7 +281,7 @@ public class UserController {
 		if (userService.duplicateCheck(email)) {
 			return "redirect:/socialLogin?email=" + email + "&id=" + password;
 		} else {
-			return "redirect:/socialJoin?email=" + email + "&id=" + password;
+			return "redirect:/socialJoin?email=" + email + "&id=" + password + "&accept=naver";
 		}
 
 	}
@@ -310,7 +318,7 @@ public class UserController {
 		if (userService.duplicateCheck(email)) {
 			return "redirect:/socialLogin?email=" + email + "&id=" + password;
 		} else {
-			return "redirect:/socialJoin?email=" + email + "&id=" + password;
+			return "redirect:/socialJoin?email=" + email + "&id=" + password + "&accept=google";
 		}
 
 	}
