@@ -18,8 +18,10 @@ import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 
 import alz.user.security.CustomLoginSuccessHandler;
+import alz.user.security.CustomLogoutSuccessHandler;
 import alz.user.service.UserServiceImpl;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j;
@@ -47,6 +49,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return handler;
     }
 
+    @Bean
+    public LogoutSuccessHandler customLogoutSuccessHandler() {
+    	return new CustomLogoutSuccessHandler();
+    }
 	
 	@Bean
 	public AuthenticationSuccessHandler loginSuccessHandler() {
@@ -88,7 +94,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         .key("remember-me-sample");
         
         http.logout()
-        .logoutSuccessUrl("/");
+//        .logoutSuccessHandler(customLogoutSuccessHandler())
+        .logoutSuccessUrl("/")
+        .invalidateHttpSession(true);
 //
         http.csrf().disable();
         
