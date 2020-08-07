@@ -1,8 +1,6 @@
 package alz.admin.service;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -54,15 +52,16 @@ public class AdminUserServiceImpl implements AdminUserService, UserDetailsServic
 		return adminUserMapper.userList();
 	}
 
-	// 02. 회원 등록(관리자)
+	// 02. 회원 등록
+	@Override
+	public void insertManager(UserDTO dto) {
+		dto.encodePassword(passwordEncoder);
+		adminUserMapper.insertManager(dto);
+	}
+
+	// 02. 회원 등록
 	@Override
 	public void insertUser(UserDTO dto) {
-		dto.encodePassword(passwordEncoder);
-		adminUserMapper.insertUser(dto);
-	}
-	// 02. 회원 등록(일반회원)
-	@Override
-	public void insertUser1(UserDTO dto) {
 		dto.encodePassword(passwordEncoder);
 		adminUserMapper.insertUser(dto);
 	}
@@ -92,7 +91,7 @@ public class AdminUserServiceImpl implements AdminUserService, UserDetailsServic
 		UserDTO user = adminUserMapper.selectByEmail(dto.getEmail());
 		boolean result = false;
 //		System.out.println(count);
-		if (passwordEncoder.matches(dto.getPassword(),user.getPassword()))
+		if (passwordEncoder.matches(dto.getPassword(), user.getPassword()))
 			result = true;
 //		Map<String, String> map = new HashMap<String, String>();
 //		System.out.println(dto.getEmail());
@@ -113,10 +112,20 @@ public class AdminUserServiceImpl implements AdminUserService, UserDetailsServic
 
 	// 회원 강제탈퇴 관련 메소드
 	@Override
-	public void admin_member_forced_evictionCheck(UserDTO dto) throws Exception {
+	public void dropOut(UserDTO dto) throws Exception {
+		adminUserMapper.dropOut(dto);
+	}
 
-		adminUserMapper.admin_member_forced_evictionCheck(dto);
+	// 회원 강제정지 관련 메소드
+	@Override
+	public void suspended(UserDTO dto) throws Exception {
+		adminUserMapper.suspended(dto);
+	}
 
+	// 회원 휴면전환 관련 메소드
+	@Override
+	public void inactive(UserDTO dto) throws Exception {
+		adminUserMapper.inactive(dto);
 	}
 
 //	@Async

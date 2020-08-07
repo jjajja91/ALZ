@@ -1,12 +1,11 @@
 package alz.admin.mapper;
 
 import java.util.List;
-import java.util.Map;
 
 import alz.user.domain.UserDTO;
 
 public interface AdminUserMapper {
-	
+
 	// 이메일로 유저 정보 가져오기
 	UserDTO selectByEmail(String email);
 
@@ -20,9 +19,10 @@ public interface AdminUserMapper {
 	public List<UserDTO> userList();
 
 	// 회원 입력(관리자)
-	public void insertUser(UserDTO dto);
+	public void insertManager(UserDTO dto);
+
 	// 회원 입력(일반회원)
-	public void insertUser1(UserDTO dto);
+	public void insertUser(UserDTO dto);
 
 	// 회원 정보 상세보기
 	public UserDTO viewUser(String email);
@@ -40,6 +40,12 @@ public interface AdminUserMapper {
 	List<UserDTO> member_info(String email) throws Exception;
 
 	// 강제탈퇴 시킬때 해당 회원이 있는지 체크하는 메소드
-	void admin_member_forced_evictionCheck(UserDTO dto) throws Exception;
+	void dropOut(UserDTO dto) throws Exception;
+
+	// 강제정지 시킬때 해당 회원이 있는지 체크하는 메소드
+	void suspended(UserDTO dto) throws Exception;
+
+	// 휴면전환 시킬때 해당 회원이 있는지 체크하는 메소드
+	void inactive(UserDTO dto) throws Exception;
 
 }
