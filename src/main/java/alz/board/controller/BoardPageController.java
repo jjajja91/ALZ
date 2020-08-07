@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.apache.struts.chain.commands.UnauthorizedActionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
@@ -29,6 +30,7 @@ import alz.board.service.BoardService;
 import alz.file.domain.BoardFileDTO;
 import alz.lesson.domain.LessonDTO;
 import alz.user.domain.UserDTO;
+import alz.user.exceptions.UnauthorizedException;
 import lombok.extern.log4j.Log4j;
 
 @Controller
@@ -61,7 +63,7 @@ public class BoardPageController {
 	public String delete(@RequestParam("id") Long id, @ModelAttribute("cri") BoardCriteria cri, RedirectAttributes rttr) {
 		// 파라미터로 받아온 식별자와 로그인한 유저의 식별자 비교
 		if(id!=getLoginUserInfo().getId()) { // 다르면
-			return "redirect:/"; // 임시 처리
+			throw new UnauthorizedException();
 		} else {
 		// 같으면
 			List<BoardFileDTO> fileList = boardService.getFileList(id); // 파일 리스트 불러오고
@@ -89,7 +91,7 @@ public class BoardPageController {
 		
 		// 글쓴 사람 식별자와 로그인한 유저의 식별자가 다를 경우
 		if(board.getWriterId()!=getLoginUserInfo().getId()) {
-			return "redirect:/"; // 임시처리
+			throw new UnauthorizedException();
 		} else {
 		// 맞으면 게시글 업데이트
 		boardService.update(board.getId(), board);
@@ -126,8 +128,27 @@ public class BoardPageController {
 	// 작성
 	@GetMapping("/write")
 	public void write(@RequestParam("typeId") Integer typeId, Model model) {
-		if(typeId==4) {
-		model.addAttribute("reviewOpt", boardService.reviewOption(getLoginUserInfo().getId()));	}
+		
+		if(getLoginUserInfo()==null) {
+			throw new UnauthorizedException();
+		}
+		switch(typeId) {
+		case 1:
+			if(!(getLoginUserInfo().getRole().equals("ADMIN"))) {
+				throw new UnauthorizedException();
+			}
+			break;
+		case 2:
+			if(!(getLoginUserInfo().getRole().equals("ADMIN"))) {
+				throw new UnauthorizedException();
+			}
+			break;
+		case 3:
+		case 4:
+			model.addAttribute("reviewOpt", boardService.reviewOption(getLoginUserInfo().getId())); break;
+		case 5:
+		}
+
 		
 		model.addAttribute("typeId", typeId);
 	}
