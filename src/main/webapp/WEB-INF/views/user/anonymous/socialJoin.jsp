@@ -42,7 +42,7 @@
          <tr>
             <td align="center">
       			<input name="password" type="hidden" value="${id}" readonly>
-                <input name="role" id="role" type="hidden" value="${accept}">
+                <input name="role" type="hidden" value="${role}" readonly>
                 <input type="submit" id="joinSubmit" value="Join"> 
                 <input type="reset" value="Cancel">
             </td>

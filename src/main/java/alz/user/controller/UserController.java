@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import alz.user.domain.UserDTO;
 import alz.user.service.UserService;
@@ -170,14 +171,6 @@ public class UserController {
 		model.addAttribute("phoneNumber", request.getParameter("phoneNumber"));
 
 		// 회원가입 메서드
-		
-		switch(user.getRole()) {
-		case "kakao": user.setRole("ROLE_KAKAO"); break;
-		case "google": user.setRole("ROLE_GOOGLE"); break;
-		case "naver": user.setRole("ROLE_NAVER"); break;
-		default: user.setRole("ROLE_USER"); break;
-		}
-		
 		userService.create(user);
 
 		return "user/anonymous/joinInfo";
@@ -204,9 +197,7 @@ public class UserController {
 
 	// 소셜회원 최초 로그인 시 가입화면
 	@GetMapping("/socialJoin")
-	public String socialJoin(String email, String id, Model model) {
-		model.addAttribute("email", email);
-		model.addAttribute("id", id);
+	public String socialJoin() {
 		return "user/anonymous/socialJoin";
 	}
 
@@ -235,7 +226,7 @@ public class UserController {
 
 	// 카카오 인증
 	@GetMapping("/kakao/oauth")
-	public String kakaoLogin(String code) {
+	public String kakaoLogin(String code, RedirectAttributes rttr) {
 		String accessToken = userService.getKakaoAccessToken(code);
 		HashMap<String, Object> userInfo = userService.getKakaoUserInfo(accessToken);
 		System.out.println("login Controller : " + userInfo);
@@ -243,10 +234,14 @@ public class UserController {
 		String email = userInfo.get("email").toString();
 		String password = userInfo.get("id").toString();
 
+		rttr.addFlashAttribute("email", email);
+		rttr.addFlashAttribute("id", password);
+		rttr.addFlashAttribute("role", "ROLE_KAKAO");
+		
 		if (userService.duplicateCheck(email)) {
-			return "redirect:/socialLogin?email=" + email + "&id=" + password;
+			return "redirect:/socialLogin";
 		} else {
-			return "redirect:/socialJoin?email=" + email + "&id=" + password + "&accept=kakao";
+			return "redirect:/socialJoin";
 		}
 	}
 
@@ -270,7 +265,7 @@ public class UserController {
 
 	// 네이버 인증
 	@GetMapping("/naver/oauth")
-	public String naverLogin(String code, String state) {
+	public String naverLogin(String code, String state, RedirectAttributes rttr) {
 		String accessToken = userService.getNaverAccessToken(code, state);
 		HashMap<String, Object> userInfo = userService.getNaverUserInfo(accessToken);
 		System.out.println("login Controller : " + userInfo);
@@ -278,10 +273,13 @@ public class UserController {
 		String email = userInfo.get("email").toString();
 		String password = userInfo.get("id").toString();
 
+		rttr.addFlashAttribute("email", email);
+		rttr.addFlashAttribute("id", password);
+		rttr.addFlashAttribute("role", "ROLE_NAVER");
 		if (userService.duplicateCheck(email)) {
-			return "redirect:/socialLogin?email=" + email + "&id=" + password;
+			return "redirect:/socialLogin";
 		} else {
-			return "redirect:/socialJoin?email=" + email + "&id=" + password + "&accept=naver";
+			return "redirect:/socialJoin";
 		}
 
 	}
@@ -307,18 +305,22 @@ public class UserController {
 
 	// 구글 인증
 	@GetMapping("/google/oauth")
-	public String googleLogin(String code) {
+	public String googleLogin(String code, RedirectAttributes rttr) {
 		String accessToken = userService.getGoogleAccessToken(code);
 		HashMap<String, Object> userInfo = userService.getGoogleUserInfo(accessToken);
 		System.out.println("login Controller : " + userInfo);
 
 		String email = userInfo.get("email").toString();
 		String password = userInfo.get("id").toString();
+		
+		rttr.addFlashAttribute("email", email);
+		rttr.addFlashAttribute("id", password);
+		rttr.addFlashAttribute("role", "ROLE_GOOGLE");
 
 		if (userService.duplicateCheck(email)) {
-			return "redirect:/socialLogin?email=" + email + "&id=" + password;
+			return "redirect:/socialLogin";
 		} else {
-			return "redirect:/socialJoin?email=" + email + "&id=" + password + "&accept=google";
+			return "redirect:/socialJoin";
 		}
 
 	}
