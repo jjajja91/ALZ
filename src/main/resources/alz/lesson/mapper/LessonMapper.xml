@@ -179,8 +179,9 @@
 		<selectKey keyProperty="id" order="BEFORE" resultType="long">
 			select alz_teacher_seq.nextval from dual
 		</selectKey>
-      insert into alz_teacher
-      values(#{id}, #{userId}, #{nickname}, #{profile}, #{snsType}, #{snsId}, #{snsUrl})
+	      insert into alz_teacher (id, user_id, nickname, profile, sns_type, sns_id, sns_url)
+	      values(#{id}, #{userId}, #{nickname}, #{profile}, #{snsType, jdbcType=VARCHAR}, 
+	      		 #{snsId, jdbcType=VARCHAR}, #{snsUrl, jdbcType=VARCHAR})
    </insert>
    
    <insert id="insertLesson" parameterType="alz.lesson.domain.LessonDTO" >
