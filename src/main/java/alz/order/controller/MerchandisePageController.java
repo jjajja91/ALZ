@@ -1,5 +1,10 @@
 package alz.order.controller;
 
+import java.util.List;
+
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,10 +14,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import alz.lesson.domain.LessonDTO;
+import alz.lesson.service.LessonService;
 import alz.order.domain.MerchandiseCriteria;
 import alz.order.domain.MerchandiseDTO;
 import alz.order.domain.MerchandisePageDTO;
 import alz.order.service.MerchandiseService;
+import alz.user.domain.UserDTO;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
 
@@ -23,9 +31,21 @@ import lombok.extern.log4j.Log4j;
 public class MerchandisePageController {
 
 	private MerchandiseService merchandiseService;
+	private LessonService lessonService;
+	
+	
+	public UserDTO getLoginUserInfo() {
+		SecurityContext context = SecurityContextHolder.getContext();
+		Authentication auth = context.getAuthentication();
+		UserDTO userInfo = (UserDTO)auth.getPrincipal();
+		return userInfo;
+	}
 
 	@GetMapping("/register")
-	public void register() {
+	public void register(Model model) {
+		LessonDTO teacher = new LessonDTO();
+		teacher.setTeacherId(getLoginUserInfo().getId()).setState(4L);
+		List<LessonDTO> lessonList = lessonService.lessonsByTeacherId(teacher);
 	}
 
 //	@GetMapping("/list")
