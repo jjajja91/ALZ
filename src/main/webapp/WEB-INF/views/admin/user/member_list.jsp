@@ -21,7 +21,7 @@ $(function() {
 </head>
 <body>
 	<h2>회원 목록</h2>
-	<input type="button" value="회원등록" onclick="location.href='${path}/admin/write'">
+	<%-- <input type="button" value="회원등록" onclick="location.href='${path}/admin/write'"> --%>
 	<button type="button" id=adminHomeBtn class="form-control btn btn-primary">관리자 홈으로</button><br><br>
 	<table border="1" width="700px">
 		<tr>

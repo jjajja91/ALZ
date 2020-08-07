@@ -42,41 +42,41 @@ public class AdminUserController {
 		return "admin/user/member_write";
 	}
 
-	// 02_02 회원 등록 처리 후 ==> 회원목록으로 리다이렉트
-	// @ModelAttribute에 폼에서 입력한 데이터가 저장된다.
-	@RequestMapping("admin/insertManager")
-	// * 폼에서 입력한 데이터를 받아오는 법 3가지
-	// public String memberInsert(HttpServlet request){
-	// public String memberInsert(String email, String password, String userName,
-	// String userEmail){
-	public String InsertManager(@ModelAttribute UserDTO dto) {
-		// 테이블에 레코드 입력
-		dto.setRole("ROLE_ADMIN");
-		adminUserService.insertManager(dto);
-		// * (/)의 유무에 차이
-		// /admin/list : 루트 디렉토리를 기준
-		// admin/list : 현재 디렉토리를 기준
-		// member_list.jsp로 리다이렉트
-		return "redirect:/admin/list";
-	}
-
-	// 02_02 회원 등록 처리 후 ==> 회원목록으로 리다이렉트
-	// @ModelAttribute에 폼에서 입력한 데이터가 저장된다.
-	@RequestMapping("admin/insertUser")
-	// * 폼에서 입력한 데이터를 받아오는 법 3가지
-	// public String memberInsert(HttpServlet request){
-	// public String memberInsert(String email, String password, String userName,
-	// String userEmail){
-	public String InsertUser(@ModelAttribute UserDTO dto) {
-		// 테이블에 레코드 입력
-		dto.setRole("ROLE_USER");
-		adminUserService.insertUser(dto);
-		// * (/)의 유무에 차이
-		// /admin/list : 루트 디렉토리를 기준
-		// admin/list : 현재 디렉토리를 기준
-		// member_list.jsp로 리다이렉트
-		return "redirect:/admin/list";
-	}
+//	// 02_02 회원 등록 처리 후 ==> 회원목록으로 리다이렉트
+//	// @ModelAttribute에 폼에서 입력한 데이터가 저장된다.
+//	@RequestMapping("admin/insertManager")
+//	// * 폼에서 입력한 데이터를 받아오는 법 3가지
+//	// public String memberInsert(HttpServlet request){
+//	// public String memberInsert(String email, String password, String userName,
+//	// String userEmail){
+//	public String InsertManager(@ModelAttribute UserDTO dto) {
+//		// 테이블에 레코드 입력
+//		dto.setRole("ROLE_ADMIN");
+//		adminUserService.insertManager(dto);
+//		// * (/)의 유무에 차이
+//		// /admin/list : 루트 디렉토리를 기준
+//		// admin/list : 현재 디렉토리를 기준
+//		// member_list.jsp로 리다이렉트
+//		return "redirect:/admin/list";
+//	}
+//
+//	// 02_02 회원 등록 처리 후 ==> 회원목록으로 리다이렉트
+//	// @ModelAttribute에 폼에서 입력한 데이터가 저장된다.
+//	@RequestMapping("admin/insertUser")
+//	// * 폼에서 입력한 데이터를 받아오는 법 3가지
+//	// public String memberInsert(HttpServlet request){
+//	// public String memberInsert(String email, String password, String userName,
+//	// String userEmail){
+//	public String InsertUser(@ModelAttribute UserDTO dto) {
+//		// 테이블에 레코드 입력
+//		dto.setRole("ROLE_USER");
+//		adminUserService.insertUser(dto);
+//		// * (/)의 유무에 차이
+//		// /admin/list : 루트 디렉토리를 기준
+//		// admin/list : 현재 디렉토리를 기준
+//		// member_list.jsp로 리다이렉트
+//		return "redirect:/admin/list";
+//	}
 
 	// 03 회원 상세정보 조회
 	@RequestMapping("admin/view")
@@ -249,6 +249,79 @@ public class AdminUserController {
 		}
 		return mav;
 
+	}
+
+	// 관리자로 로그인 후에 일반회원으로 전환시킬 회원의 아이디를 입력후 일반 버튼을 누르면 연결되는 메소드
+	@RequestMapping("/admin/backNormal")
+	public ModelAndView backNormal(String email) throws Exception {
+		
+		// 유저의 아이디를 일반회원으로 전환 시키기위해서 dto에 담는다.
+		UserDTO dto = new UserDTO();
+		dto.setEmail(email);
+		
+		// 일반회원 체크를 하기위한 메소드, 일반회원으로 전환 시키려는 회원의 아이디가 있는지 검사한후에 result 변수에 저장한다.
+		adminUserService.backNormal(dto);
+		
+		ModelAndView mav = new ModelAndView();
+		
+		if (dto.getEmail() != null) { // 회원이 일반회원으로 전환을 성공했을시 출력되는 뷰
+			mav.setViewName("admin/index");
+			mav.addObject("message", "회원이 정상적으로 일반회원으로 전환 처리 되었습니다.");
+			
+		} else {
+			mav.setViewName("admin/changeStateView");
+			mav.addObject("message", "회원 목록에 없는 회원입니다. 다시 확인해주세요.");
+		}
+		return mav;
+		
+	}
+	// 관리자로 로그인 후에 일반회원으로 전환시킬 회원의 아이디를 입력후 일반 버튼을 누르면 연결되는 메소드
+	@RequestMapping("/admin/asUser")
+	public ModelAndView asUser(String email) throws Exception {
+		
+		// 유저의 아이디를 일반회원으로 전환 시키기위해서 dto에 담는다.
+		UserDTO dto = new UserDTO();
+		dto.setEmail(email);
+		
+		// 일반회원 체크를 하기위한 메소드, 일반회원으로 전환 시키려는 회원의 아이디가 있는지 검사한후에 result 변수에 저장한다.
+		adminUserService.asUser(dto);
+		
+		ModelAndView mav = new ModelAndView();
+		
+		if (dto.getEmail() != null) { // 회원이 일반회원으로 전환을 성공했을시 출력되는 뷰
+			mav.setViewName("admin/index");
+			mav.addObject("message", "해당 계정이 정상적으로 일반 계정으로 전환 처리 되었습니다.");
+			
+		} else {
+			mav.setViewName("admin/changeStateView");
+			mav.addObject("message", "회원 목록에 없는 회원입니다. 다시 확인해주세요.");
+		}
+		return mav;
+		
+	}
+	// 관리자로 로그인 후에 일반회원으로 전환시킬 회원의 아이디를 입력후 일반 버튼을 누르면 연결되는 메소드
+	@RequestMapping("/admin/asManager")
+	public ModelAndView asManager(String email) throws Exception {
+		
+		// 유저의 아이디를 일반회원으로 전환 시키기위해서 dto에 담는다.
+		UserDTO dto = new UserDTO();
+		dto.setEmail(email);
+		
+		// 일반회원 체크를 하기위한 메소드, 일반회원으로 전환 시키려는 회원의 아이디가 있는지 검사한후에 result 변수에 저장한다.
+		adminUserService.asManager(dto);
+		
+		ModelAndView mav = new ModelAndView();
+		
+		if (dto.getEmail() != null) { // 회원이 일반회원으로 전환을 성공했을시 출력되는 뷰
+			mav.setViewName("admin/index");
+			mav.addObject("message", "해당 계정이 정상적으로 관리자 계정으로 전환 처리 되었습니다.");
+			
+		} else {
+			mav.setViewName("admin/changeStateView");
+			mav.addObject("message", "회원 목록에 없는 회원입니다. 다시 확인해주세요.");
+		}
+		return mav;
+		
 	}
 
 }

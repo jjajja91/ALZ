@@ -14,7 +14,7 @@
 $(document).ready(function(){
 	$("#btnDropOut").click(function(){
 		// 확인 대화상자	
-		if(confirm("해당 회원의 계정을 탈퇴 시키겠습니까?")){
+		if(confirm("해당 계정을 탈퇴 시키겠습니까?")){
 			document.form.action = "${path}/admin/dropOut";
 			document.form.submit();
 		}
@@ -23,7 +23,7 @@ $(document).ready(function(){
 $(document).ready(function(){
 	$("#btnSuspended").click(function(){
 		// 확인 대화상자	
-		if(confirm("해당 회원의 계정을 정지 시키겠습니까?")){
+		if(confirm("해당 계정을 정지 시키겠습니까?")){
 			document.form.action = "${path}/admin/suspended";
 			document.form.submit();
 		}
@@ -32,8 +32,35 @@ $(document).ready(function(){
 $(document).ready(function(){
 	$("#btnInactive").click(function(){
 		// 확인 대화상자	
-		if(confirm("해당 회원의 계정을 휴면전환 시키겠습니까?")){
+		if(confirm("해당 계정을 휴면전환 시키겠습니까?")){
 			document.form.action = "${path}/admin/inactive";
+			document.form.submit();
+		}
+	});
+});
+$(document).ready(function(){
+	$("#btnBackNormal").click(function(){
+		// 확인 대화상자	
+		if(confirm("해당 계정을 일반상태로 전환 시키겠습니까?")){
+			document.form.action = "${path}/admin/backNormal";
+			document.form.submit();
+		}
+	});
+});
+$(document).ready(function(){
+	$("#btnAsUser").click(function(){
+		// 확인 대화상자	
+		if(confirm("해당 계정을 일반 계정으로 전환 시키겠습니까?")){
+			document.form.action = "${path}/admin/asUser";
+			document.form.submit();
+		}
+	});
+});
+$(document).ready(function(){
+	$("#btnAsManager").click(function(){
+		// 확인 대화상자	
+		if(confirm("해당 계정을 관리자 계정으로 전환 시키겠습니까?")){
+			document.form.action = "${path}/admin/asManager";
 			document.form.submit();
 		}
 	});
@@ -51,15 +78,18 @@ $(function() {
 			<div class="card align-middle" style="width: 40rem; border-radius: 20px;">
 				<div class="card-body"><br>
 					<center>
-						<span style="color: green; font-weight: bold;">회원 상태 변환</span> <br><br>
+						<span style="color: green; font-weight: bold;">회원 상태 및 권한 변환</span> <br><br>
 						<center>
 							<form name="form" method="post">
 								<center>
 									<span style="color: black; font-weight: bold;">회원 이메일</span><br><br> 
-									<input type="text" name="email" placeholder="상태 변환 시킬 회원의 이메일을 입력 " class="form-control"> <br><br>
+									<input type="text" name="email" style="width:300px;" placeholder="상태 혹은 권한을 변환 시킬 회원의 이메일 입력 " class="form-control"> <br><br>
 									<input type="button" value="탈퇴" id="btnDropOut">
 									<input type="button" value="정지" id="btnSuspended">
-									<input type="button" value="휴면" id="btnInactive"><br><br>
+									<input type="button" value="휴면" id="btnInactive">
+									<input type="button" value="일반상태" id="btnBackNormal"><br><br>
+									<input type="button" value="일반계정" id="btnAsUser">
+									<input type="button" value="관리자계정" id="btnAsManager"><br><br>
 									<button type="button" id=adminHomeBtn class="form-control btn btn-primary">관리자 홈으로</button><br><br> <br>
 								</center>
 							</form>

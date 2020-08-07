@@ -52,19 +52,19 @@ public class AdminUserServiceImpl implements AdminUserService, UserDetailsServic
 		return adminUserMapper.userList();
 	}
 
-	// 02. 회원 등록
-	@Override
-	public void insertManager(UserDTO dto) {
-		dto.encodePassword(passwordEncoder);
-		adminUserMapper.insertManager(dto);
-	}
-
-	// 02. 회원 등록
-	@Override
-	public void insertUser(UserDTO dto) {
-		dto.encodePassword(passwordEncoder);
-		adminUserMapper.insertUser(dto);
-	}
+//	// 02. 회원 등록
+//	@Override
+//	public void insertManager(UserDTO dto) {
+//		dto.encodePassword(passwordEncoder);
+//		adminUserMapper.insertManager(dto);
+//	}
+//
+//	// 02. 회원 등록
+//	@Override
+//	public void insertUser(UserDTO dto) {
+//		dto.encodePassword(passwordEncoder);
+//		adminUserMapper.insertUser(dto);
+//	}
 
 	// 03. 회원 정보 상세 조회
 	@Override
@@ -128,6 +128,24 @@ public class AdminUserServiceImpl implements AdminUserService, UserDetailsServic
 		adminUserMapper.inactive(dto);
 	}
 
+	// 회원 일반회원으로 전환 관련 메소드
+	@Override
+	public void backNormal(UserDTO dto) throws Exception {
+		adminUserMapper.backNormal(dto);
+	}
+	
+	// 해당 계정을 일반계정으로 전환하는데 관련된 메소드
+	@Override
+	public void asUser(UserDTO dto) throws Exception {
+		adminUserMapper.asUser(dto);
+	}
+	
+	// 해당 계정을 관리자계정으로 전환하는데 관련된 메소드
+	@Override
+	public void asManager(UserDTO dto) throws Exception {
+		adminUserMapper.asManager(dto);
+	}
+	
 //	@Async
 //	@Override
 //	public void asyncService() {
