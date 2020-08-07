@@ -71,8 +71,10 @@ body {
   <a href="/myPage/commentList">내 댓글</a>
   <a href="/myPage/likeList">내 좋아요</a>
   
+  <sec:authorize access="hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')">
     <lable>내 정보 수정</lable>
   <a href="/myPage/modifyAcc">개인 정보 수정</a>
   <a href="/myPage/deleteAcc">회원 탈퇴</a>
+  </sec:authorize>
  
 </div>
