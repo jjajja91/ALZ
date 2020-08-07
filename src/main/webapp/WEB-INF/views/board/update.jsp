@@ -13,7 +13,28 @@
 	<div class="panel-body">
 
 		<form role="form" action="/board/update" method="post">
+	<c:if test="${board.typeId == 4}">
+			<div>
+			<h>수강 클래스 : </h>
+		<strong><p><c:out value="${board.lessonTitle}"/></p></strong>	<br>
+				<lable>강의 만족도</lable>
+				<p id="lesson_star_rate">
+					<a href="#" id="star1">★</a> <a href="#" id="star2">★</a> <a
+						href="#" id="star3">★</a> <a href="#" id="star4">★</a> <a href="#"
+						id="star5">★</a>
+				</p>
+				<input type='hidden' name='lessonReview'
+					value='<c:out value="${board.lessonReview}"/>'>
 
+				<lable>강사 만족도</lable>
+				<p id="teacher_star_rate">
+					<a href="#" id="star1">★</a> <a href="#" id="star2">★</a> <a
+						href="#" id="star3">★</a> <a href="#" id="star4">★</a> <a href="#"
+						id="star5">★</a>
+				</p>
+					<input type='hidden' name='teacherReview' value='<c:out value="${board.teacherReview}"/>'>
+					
+				</div></c:if>
 			<input type='hidden' name='pageNum'
 				value='<c:out value="${cri.pageNum }"/>'> <input
 				type='hidden' name='amount' value='<c:out value="${cri.amount }"/>'>
@@ -72,6 +93,10 @@
 				title: $title,
 				content: $content
 			};
+		var $lessonReview = $("input[name=lessonReview]");
+		var $teacherReview = $("input[name=teacherReview]");
+	
+		var $lessonId = $("select[name=reviewOpts]");
 		
 		// 서머노트 커스터마이징
 		$summernote.summernote({
@@ -89,6 +114,20 @@
 			          }
 			}
 		});
+		
+		//별 클릭 함수
+		 $('#lesson_star_rate a').click(function(){
+	            $(this).parent().children("a").removeClass("lessonOn");  /* 별점의 on 클래스 전부 제거 */ 
+	            $(this).addClass("lessonOn").prevAll("a").addClass("lessonOn"); /* 클릭한 별과, 그 앞 까지 별점에 on 클래스 추가 */
+	            var lesson_star_rate = $(".lessonOn").length;
+	            return $("input[type=hidden][name=lessonReview]").val(lesson_star_rate);
+	        });
+		 $('#teacher_star_rate a').click(function(){
+	            $(this).parent().children("a").removeClass("teacherOn");  /* 별점의 on 클래스 전부 제거 */ 
+	            $(this).addClass("teacherOn").prevAll("a").addClass("teacherOn"); /* 클릭한 별과, 그 앞 까지 별점에 on 클래스 추가 */
+	            var teacher_star_rate = $(".teacherOn").length;
+	            return $("input[type=hidden][name=teacherReview]").val(teacher_star_rate);
+	        });
 		
 		// 필요 없는 이미지 등록 버튼 제거
 		makeFileBtn();
@@ -249,6 +288,10 @@
 						typeId : $typeId.val(),
 						nickname : $nickname.val(),
 						writerId : $writerId.val(),
+						lessonReview : $lessonReview.val(),
+						teacherReview : $teacherReview.val(),
+						lessonId : $lessonId.val(),
+						
 						fileList: fileList
 				};
 				console.log(data);
