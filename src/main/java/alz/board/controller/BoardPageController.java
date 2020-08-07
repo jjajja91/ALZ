@@ -7,8 +7,8 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-import org.apache.struts.chain.commands.UnauthorizedActionException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -25,10 +25,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import alz.board.domain.BoardCriteria;
 import alz.board.domain.BoardDTO;
 import alz.board.domain.BoardPageDTO;
-import alz.board.domain.ReviewOptDTO;
 import alz.board.service.BoardService;
 import alz.file.domain.BoardFileDTO;
-import alz.lesson.domain.LessonDTO;
 import alz.user.domain.UserDTO;
 import alz.user.exceptions.UnauthorizedException;
 import lombok.extern.log4j.Log4j;
@@ -89,7 +87,7 @@ public class BoardPageController {
 	@PostMapping("/update")
 	public String update(@Valid BoardDTO board, @ModelAttribute("cri") BoardCriteria cri, RedirectAttributes rttr,  BindingResult result) {
 		
-		// 글쓴 사람 식별자와 로그인한 유저의 식별자가 다를 경우
+//		// 글쓴 사람 식별자와 로그인한 유저의 식별자가 다를 경우
 		if(board.getWriterId()!=getLoginUserInfo().getId()) {
 			throw new UnauthorizedException();
 		} else {

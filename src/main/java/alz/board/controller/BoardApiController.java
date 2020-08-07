@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -135,7 +136,6 @@ public class BoardApiController {
 	@PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> updateOne(@PathVariable Long id, @RequestBody @Valid BoardDTO board,
 			BindingResult result) {
-
 		if (result.hasErrors()) {
 			FieldError error = result.getFieldError();
 			if (result.getFieldError().getCode().indexOf("NotNull") != -1)
