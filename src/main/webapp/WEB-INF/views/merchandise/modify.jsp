@@ -34,48 +34,45 @@
 								<td><input type="text" id="id" name="id"
 									value="${merchandise.id}" readonly="readonly"></td>
 							</tr>
-							<tr>
+<!-- 							<tr>
 								<td>상품이미지</td>
 								<td>이미지 <br> <input type="file" id="merchandiseImage"
 									name="merchandiseImage">
 								</td>
-							</tr>
+							</tr> -->
 							<tr>
 								<td>상품명</td>
 								<td><input type="text" id="name" name="name"
-									value="${merchandise.name }"></td>
+									value="${merchandise.name }" readonly></td>
 							</tr>
 							<tr>
 								<td>상품 유형</td>
-								<td id="codeType"><input type="radio" name="codeType"
-									value="클래스"
-									<c:if test="${merchandise.codeType eq '클래스'}">checked</c:if>>
-									클래스 <input type="radio" name="codeType" value="준비물"
-									<c:if test="${merchandise.codeType eq '준비물'}">checked</c:if>>
-									준비물</td>
+								<td id="codeType">
+								<input type="text" name="codeType" value="${merchandise.codeType}" readonly>
+								</td>
 							</tr>
 							<tr>
 								<td>상품 내용</td>
 								<td><textarea id="description" name="description" row="5"
-										cols="60">${merchandise.description }</textarea></td>
+										cols="60">${merchandise.description}</textarea></td>
 							</tr>
 
 							<tr>
 								<td>상품 마감일</td>
 								<td><input type="text" id="closedAt" name="closedAt"
-									value='<fmt:formatDate pattern = "yyyy/MM/dd" value="${merchandise.closedAt }" />'></td>
+									value='<fmt:formatDate pattern = "yyyy/MM/dd" value="${merchandise.closedAt}" />'></td>
 							</tr>
 
 							<tr>
 								<td>가격</td>
 								<td><input type="text" id="originPrice" name="originPrice"
-									value='<fmt:formatNumber value="${merchandise.originPrice }" pattern="#,###"/>'></td>
+									value='<fmt:formatNumber value="${merchandise.originPrice}" pattern="#,###"/>'></td>
 							</tr>
 
 							<tr>
 								<td>할인금액</td>
 								<td><input type="text" id="salePrice" name="salePrice"
-									value='<fmt:formatNumber value="${merchandise.salePrice }" pattern="#,###"/>'></td>
+									value='<fmt:formatNumber value="${merchandise.salePrice}" pattern="#,###"/>'></td>
 							</tr>
 
 							<tr>
@@ -111,7 +108,7 @@
 							<tr>
 								<td>상품 식별자</td>
 								<td><input type="text" id="merchandiseId"
-									name="merchandiseId" value="${merchandise.merchandiseId }"></td>
+									name="merchandiseId" value="${merchandise.userId }"></td>
 							</tr>
 
 							<tr>

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import alz.lesson.domain.LessonDTO;
+import alz.lesson.domain.TeacherDTO;
 import alz.lesson.service.LessonService;
 import alz.order.domain.MerchandiseCriteria;
 import alz.order.domain.MerchandiseDTO;
@@ -43,9 +44,12 @@ public class MerchandisePageController {
 
 	@GetMapping("/register")
 	public void register(Model model) {
-		LessonDTO teacher = new LessonDTO();
-		teacher.setTeacherId(getLoginUserInfo().getId()).setState(4L);
-		List<LessonDTO> lessonList = lessonService.lessonsByTeacherId(teacher);
+		TeacherDTO teacher = lessonService.teacherByUserId(getLoginUserInfo().getId());
+		LessonDTO myLesson = new LessonDTO();
+		myLesson.setTeacherId(teacher.getId()).setState(4L);
+		List<LessonDTO> lessonList = lessonService.lessonsByTeacherId(myLesson);
+		System.out.println(lessonList);
+		model.addAttribute("lessonList", lessonList);
 	}
 
 //	@GetMapping("/list")

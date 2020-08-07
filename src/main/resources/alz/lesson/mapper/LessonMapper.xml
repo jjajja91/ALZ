@@ -249,10 +249,10 @@
       where  id = #{id}
    </update>
    
-   <update id="updateState" parameterType="Long">
+   <update id="updateState" parameterType="alz.lesson.domain.LessonDTO"> 
       update alz_lesson
-      	 set state = 2
-       where id = #{lessonId}
+      	 set state = #{state}
+       where id = #{id}
    </update>
    
    <delete id="deleteLesson">

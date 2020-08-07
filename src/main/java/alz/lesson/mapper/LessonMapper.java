@@ -46,7 +46,7 @@ public interface LessonMapper {
 	int updateLesson(LessonDTO lesson);
 	int updateTeacher(TeacherDTO teacher);
 	int updateLessonDetail(LessonDetailDTO detail);
-	int updateState(Long lessonId);
+	int updateState(LessonDTO lesson);
 
 	int deleteLesson(Long id);
 	int deleteSchedule(Long lessonId);

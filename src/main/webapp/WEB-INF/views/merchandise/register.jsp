@@ -3,6 +3,7 @@
 <%@include file="../includes/header.jsp"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -52,7 +53,7 @@
 
 						<div class="form-group">
 							<label>상품 설명</label>
-							<textarea class="form-control" rows="3" name='description' readonly></textarea>
+							<textarea class="form-control" rows="3" name='description'></textarea>
 						</div>
 
 						<div class="form-group">
@@ -84,12 +85,8 @@
 						</div>
 
 						<div class="form-group">
-							<label>상품 대상 식별자</label> <input class="form-control" type='hidden' name='refId' readonly>
-						</div>
-
-						<div class="form-group">
-							<label>상품 식별자</label> <input class="form-control"
-								name='userId' type='hidden' readonly>
+							<input class="form-control" type='hidden' name='refId' readonly>
+							<input class="form-control" name='userId' type='hidden' value="<sec:authentication property="principal.id"/>" readonly>
 						</div>
 
 						<button type="submit" class="btn btn-info">등록</button>
@@ -133,7 +130,7 @@ $(document).ready(function(e){
 			discountDeadline: $discountDeadline
 		};
 		var $refId = $("input[name=refId]");
-		var $merchandiseId = $("input[name=merchandiseId]");
+		var $userId = $("input[name=userId]");
 
 		var formObj = $("form[role='form']");
 	
@@ -150,7 +147,7 @@ $(document).ready(function(e){
 				salePrice: $salePrice.val(),
 				displayState: $displayState.val(),
 				refId: $refId.val(),
-				merchandiseId: $merchandiseId.val(),	
+				userId: $userId.val(),	
 				discountRate: $discountRate.val(),
 				discountDeadline: $discountDeadline.val()
 		};
@@ -167,19 +164,27 @@ $(document).ready(function(e){
 			var errorFocus = error.responseJSON.field;
 			inputData[errorFocus].focus();
 		});
-		
-		function merchandiseRegister(data) {
-		
-			  return $.ajax({
-			    url: "/merchandises",
-			    type: "POST",
-			    data: JSON.stringify(data),
-			    contentType: "application/json; charset=utf-8"
-			  });
-		}
-		
-		
+
 	});
+
+	function merchandiseRegister(data) {
+		
+		  return $.ajax({
+		    url: "/merchandises",
+		    type: "POST",
+		    data: JSON.stringify(data),
+		    contentType: "application/json; charset=utf-8"
+		  });
+	}
+	
+	$('.lessonList').change(function(e) {
+		console.log("변경");
+		var value = $(this).val();
+		var nameText = $(":selected") .text();
+		$refId.val(value);
+		$name.val(nameText);
+	});
+
 });
 
 	</script>

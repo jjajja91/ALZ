@@ -29,7 +29,7 @@
 		,
 		m.id, p.NAME, p.ORIGIN_PRICE
 		FROM alz_user m,
-		alz_merchandise_detail p,
+		alz_merchandise p,
 		alz_cart c
 		WHERE m.id = c.user_id
 		AND p.id =
@@ -44,7 +44,7 @@
 		SELECT NVL
 		(sum(ORIGIN_PRICE),
 		0) money
-		FROM alz_cart c, alz_merchandise_detail p
+		FROM alz_cart c, alz_merchandise p
 		WHERE
 		c.merchandise_id = p.id
 		AND c.user_id = #{userId}
@@ -69,7 +69,7 @@
 		,
 		m.id, p.NAME, p.ORIGIN_PRICE
 		FROM alz_user m,
-		alz_merchandise_detail p,
+		alz_merchandise p,
 		alz_cart c
 		WHERE m.id = c.user_id
 		AND p.id =
@@ -80,11 +80,11 @@
 	</select>
 	
 	<select id="findCartId" resultType="alz.order.domain.CartListDTO">
-		SELECT alz_cart.id, alz_cart.user_id, alz_merchandise_detail.ID, alz_merchandise_detail.NAME, alz_merchandise_detail.ORIGIN_PRICE
+		SELECT alz_cart.id, alz_cart.user_id, alz_merchandise.ID, alz_merchandise.NAME, alz_merchandise.ORIGIN_PRICE
 		FROM alz_cart
-        INNER JOIN alz_merchandise_detail
-        ON alz_cart.merchandise_id =  alz_merchandise_detail.id
-        WHERE alz_merchandise_detail.id = #{merchandiseId} and alz_cart.user_id = #{userId}
+        INNER JOIN alz_merchandise
+        ON alz_cart.merchandise_id =  alz_merchandise.id
+        WHERE alz_merchandise.id = #{merchandiseId} and alz_cart.user_id = #{userId}
 		
 	</select>
 

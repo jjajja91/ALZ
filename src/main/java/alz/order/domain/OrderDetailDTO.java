@@ -19,6 +19,7 @@ public class OrderDetailDTO {
 
 	private Long id;
 	private String orderId;
+	private Long refId;
 	private Long merchandiseId;
 	private Long amount;
 	private Long userId;

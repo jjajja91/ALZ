@@ -207,7 +207,9 @@ public class LessonServiceImpl implements LessonService {
 	}
 	
 	public int lessonSubmit(Long lessonId) {
-		int affectedRowCount = lessonMapper.updateState(lessonId);
+		LessonDTO lesson = new LessonDTO();
+		lesson.setId(lessonId).setState(2L);
+		int affectedRowCount = lessonMapper.updateState(lesson);
 		return affectedRowCount;
 	}
 

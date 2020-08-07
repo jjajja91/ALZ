@@ -111,10 +111,10 @@
     id, code_Type, name, origin_Price
   from 
       (
-      select /*+INDEX_DESC(alz_merchandise_detail pk_id) */
+      select /*+INDEX_DESC(alz_merchandise pk_id) */
         rownum rn, id, code_Type, name, origin_Price
       from 
-        alz_merchandise_detail
+        alz_merchandise
       where 
      
   ]]>
