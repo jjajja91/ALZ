@@ -22,7 +22,7 @@
 		<c:forEach items="${list}" var="lessons">
 			<div class="lessonInfoDiv">
 				<img class="lessonImg" src="../../../resources/img/classtmpimg.jpg">
-				<p><small>[<c:out value="${lessons.lessonType}" />] <c:out value="${lessons.categoryName}" /></small></p>
+				<p><small>[<c:out value="${lessons.typeName}" />] <c:out value="${lessons.categoryName}" /></small></p>
 				<a class='read' href='<c:out value="${lessons.id }"/>'><strong><c:out value="${lessons.title}" /></strong></a>
 				<p>★★★☆☆</p>
 				<p>100,000원</p>
