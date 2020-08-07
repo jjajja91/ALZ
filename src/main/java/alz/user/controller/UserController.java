@@ -234,13 +234,13 @@ public class UserController {
 		String email = userInfo.get("email").toString();
 		String password = userInfo.get("id").toString();
 
-		rttr.addAttribute("email", email);
-		rttr.addAttribute("id", password);
-		rttr.addAttribute("role", "ROLE_KAKAO");
 		
 		if (userService.duplicateCheck(email)) {
-			return "redirect:/socialLogin";
+			return "redirect:/socialLogin?email="+ email + "&id=" +password;
 		} else {
+			rttr.addFlashAttribute("email", email);
+			rttr.addFlashAttribute("id", password);
+			rttr.addFlashAttribute("role", "ROLE_KAKAO");
 			return "redirect:/socialJoin";
 		}
 	}
@@ -273,12 +273,12 @@ public class UserController {
 		String email = userInfo.get("email").toString();
 		String password = userInfo.get("id").toString();
 
-		rttr.addAttribute("email", email);
-		rttr.addAttribute("id", password);
-		rttr.addAttribute("role", "ROLE_NAVER");
 		if (userService.duplicateCheck(email)) {
-			return "redirect:/socialLogin";
+			return "redirect:/socialLogin?email="+ email + "&id=" +password;
 		} else {
+			rttr.addFlashAttribute("email", email);
+			rttr.addFlashAttribute("id", password);
+			rttr.addFlashAttribute("role", "ROLE_NAVER");
 			return "redirect:/socialJoin";
 		}
 
@@ -313,13 +313,13 @@ public class UserController {
 		String email = userInfo.get("email").toString();
 		String password = userInfo.get("id").toString();
 		
-		rttr.addAttribute("email", email);
-		rttr.addAttribute("id", password);
-		rttr.addAttribute("role", "ROLE_GOOGLE");
 
 		if (userService.duplicateCheck(email)) {
-			return "redirect:/socialLogin";
+			return "redirect:/socialLogin?email="+ email + "&id=" +password;
 		} else {
+			rttr.addFlashAttribute("email", email);
+			rttr.addFlashAttribute("id", password);
+			rttr.addFlashAttribute("role", "ROLE_GOOGLE");
 			return "redirect:/socialJoin";
 		}
 
