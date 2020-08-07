@@ -233,7 +233,6 @@ public class UserController {
 
 		String email = userInfo.get("email").toString();
 		String password = userInfo.get("id").toString();
-
 		
 		if (userService.duplicateCheck(email)) {
 			return "redirect:/socialLogin?email="+ email + "&id=" +password;
@@ -312,7 +311,6 @@ public class UserController {
 
 		String email = userInfo.get("email").toString();
 		String password = userInfo.get("id").toString();
-		
 
 		if (userService.duplicateCheck(email)) {
 			return "redirect:/socialLogin?email="+ email + "&id=" +password;

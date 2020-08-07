@@ -48,7 +48,9 @@
 			</tr>
 			<tr>
 				<td>닉네임</td>
-				<td><input name="nickname" value="${dto.nickname}"></td>
+				<td>
+					<input name="nickname" value="${dto.nickname}">
+				</td>
 			</tr>
 			<tr>
 				<td>비밀번호</td>

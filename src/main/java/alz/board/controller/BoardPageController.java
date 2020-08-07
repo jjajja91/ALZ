@@ -126,7 +126,6 @@ public class BoardPageController {
 	// 작성
 	@GetMapping("/write")
 	public void write(@RequestParam("typeId") Integer typeId, Model model) {
-		
 		if(getLoginUserInfo()==null) {
 			throw new UnauthorizedException();
 		}
@@ -146,8 +145,6 @@ public class BoardPageController {
 			model.addAttribute("reviewOpt", boardService.reviewOption(getLoginUserInfo().getId())); break;
 		case 5:
 		}
-
-		
 		model.addAttribute("typeId", typeId);
 	}
 	

@@ -82,9 +82,9 @@
 					<div class="bg-white py-2 collapse-inner rounded">
 						<h6 class="collapse-header">Custom Components:</h6>
 			            <a class="collapse-item" href="/admin/admin_member_info">회원 조회</a>
-			            <a class="collapse-item" href="/admin/admin_member_forced_eviction_view">회원 상태 변경</a>
-			            <a class="collapse-item" href="list">회원 목록</a>
-			            <a class="collapse-item" href="write">회원  등록</a>
+			            <a class="collapse-item" href="/admin/changeStateView">회원 상태 변경</a>
+			            <a class="collapse-item" href="list">회원 목록(회원 상세)</a>
+			            <!-- <a class="collapse-item" href="write">회원  등록</a> -->
 					</div>
 				</div></li>
 

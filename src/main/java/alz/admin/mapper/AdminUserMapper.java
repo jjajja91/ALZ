@@ -18,11 +18,11 @@ public interface AdminUserMapper {
 	// 회원 목록
 	public List<UserDTO> userList();
 
-	// 회원 입력(관리자)
-	public void insertManager(UserDTO dto);
-
-	// 회원 입력(일반회원)
-	public void insertUser(UserDTO dto);
+//	// 회원 입력(관리자)
+//	public void insertManager(UserDTO dto);
+//
+//	// 회원 입력(일반회원)
+//	public void insertUser(UserDTO dto);
 
 	// 회원 정보 상세보기
 	public UserDTO viewUser(String email);
@@ -47,5 +47,14 @@ public interface AdminUserMapper {
 
 	// 휴면전환 시킬때 해당 회원이 있는지 체크하는 메소드
 	void inactive(UserDTO dto) throws Exception;
+	
+	// 일반회원으로 전환 시킬때 해당 회원이 있는지 체크하는 메소드
+	void backNormal(UserDTO dto) throws Exception;
 
+	// 일반 계정으로 바꿀 때 해당 회원이 있는지 체크하는 메소드
+	void asUser(UserDTO dto) throws Exception;
+	
+	// 관리자 계정으로 바꿀 때 해당 회원이 있는지 체크하는 메소드
+	void asManager(UserDTO dto) throws Exception;
+	
 }
