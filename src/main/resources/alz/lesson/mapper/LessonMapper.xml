@@ -99,7 +99,6 @@
 		 and lesson.state = lessonState.id
 		 and lesson.category_main = category.main
 		 and lesson.category_sub = category.sub
-		 and lesson.id = schedule.lesson_id
    </select>
    
    <select id="findTeacherByUserId" resultType="alz.lesson.domain.TeacherDTO">
