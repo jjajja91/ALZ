@@ -30,12 +30,16 @@
 				<div class="panel-heading"></div>
 				<!-- /.panel-heading -->
 				<div class="panel-body">
+					<div>
+						<select name="lessonList" class="lessonList">
+							<option>클래스를 선택해주세요</option>
+							<c:forEach var="lesson" items="${lessonList}">
+							<option value="${lesson.id}">${lesson.title}</option>
+							</c:forEach>
+						</select>
+					</div>
 
 					<form role="form" action="/merchandise/register" method="post">
-						<div class="form-group">
-							<label>상품명</label> <input class="form-control" name='name'>
-						</div>
-
 						<div class="form-group">
 							<label>상품 유형</label> <label><input type="radio"
 								name="codeType" value="클래스" checked="checked"> 클래스</label> <label><input
@@ -43,8 +47,12 @@
 						</div>
 
 						<div class="form-group">
+							<label>상품명</label> <input class="form-control" name='name' readonly>
+						</div>
+
+						<div class="form-group">
 							<label>상품 설명</label>
-							<textarea class="form-control" rows="3" name='description'></textarea>
+							<textarea class="form-control" rows="3" name='description' readonly></textarea>
 						</div>
 
 						<div class="form-group">
@@ -76,12 +84,12 @@
 						</div>
 
 						<div class="form-group">
-							<label>상품 대상 식별자</label> <input class="form-control" name='refId'>
+							<label>상품 대상 식별자</label> <input class="form-control" type='hidden' name='refId' readonly>
 						</div>
 
 						<div class="form-group">
 							<label>상품 식별자</label> <input class="form-control"
-								name='merchandiseId'>
+								name='userId' type='hidden' readonly>
 						</div>
 
 						<button type="submit" class="btn btn-info">등록</button>
@@ -168,7 +176,9 @@ $(document).ready(function(e){
 			    data: JSON.stringify(data),
 			    contentType: "application/json; charset=utf-8"
 			  });
-			}
+		}
+		
+		
 	});
 });
 

@@ -50,10 +50,9 @@ public class MerchandiseDTO {
 	private Date discountDeadline;
 	@NotNull(message = "진열 여부를 입력해주세요")
 	private Integer displayState;
+	@NotNull(message = "FK 자동 입력 예정입니다.")
 	private Long userId;
 	@NotNull(message = "FK 자동 입력 예정입니다.")
 	private Long refId;
-	@NotNull(message = "FK 자동 입력 예정입니다.")
-	private Long merchandiseId;
 
 }

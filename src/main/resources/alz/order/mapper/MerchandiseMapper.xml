@@ -9,37 +9,37 @@
 	<insert id="insert"
 		parameterType="alz.order.domain.MerchandiseDTO">
 		<selectKey keyProperty="id" order="BEFORE" resultType="long">
-			SELECT alz_merchandise_detail_seq.nextval FROM dual
+			SELECT alz_merchandise_seq.nextval FROM dual
 		</selectKey>
 		INSERT INTO
-		alz_merchandise_detail(
+		alz_merchandise(
 		ID, CODE_TYPE, NAME, DESCRIPTION,
 		CLOSED_AT,
 		ORIGIN_PRICE, SALE_PRICE, DISCOUNT_RATE, DISCOUNT_DEADLINE,
-		DISPLAY_STATE, REF_ID, MERCHANDISE_ID
+		DISPLAY_STATE, REF_ID, USER_ID, STATE
 		)
 		VALUES (
 		#{id}, #{codeType},
 		#{name}, #{description}, #{closedAt},
 		#{originPrice},#{salePrice},#{discountRate}, #{discountDeadline},
-		#{displayState}, #{refId}, #{merchandiseId}
+		#{displayState}, #{refId}, #{userId}, '등록'
 		)
 	</insert>
 
 	<select id="selectById"
 		resultType="alz.order.domain.MerchandiseDTO">
-		SELECT * FROM ALZ_MERCHANDISE_DETAIL WHERE id = #{id}
+		SELECT * FROM ALZ_MERCHANDISE WHERE id = #{id}
 	</select>
 
 	<select id="selectAll"
 		resultType="alz.order.domain.MerchandiseDTO">
 
-		SELECT * FROM ALZ_MERCHANDISE_DETAIL order by id
+		SELECT * FROM ALZ_MERCHANDISE order by id
 	</select>
 
 	<update id="updateById"
 		parameterType="alz.order.domain.MerchandiseDTO">
-		UPDATE ALZ_MERCHANDISE_DETAIL
+		UPDATE ALZ_MERCHANDISE
 		SET
 		CODE_TYPE = #{codeType},
 		NAME = #{name},
@@ -60,7 +60,7 @@
 
 	<update id="update"
 		parameterType="alz.order.domain.MerchandiseDTO">
-		UPDATE ALZ_MERCHANDISE_DETAIL
+		UPDATE ALZ_MERCHANDISE
 		SET
 		CODE_TYPE = #{codeType},
 		NAME = #{name},
@@ -80,7 +80,7 @@
 	</update>
 
 	<delete id="deleteById">
-		DELETE FROM ALZ_MERCHANDISE_DETAIL WHERE id = #{id}
+		DELETE FROM ALZ_MERCHANDISE WHERE id = #{id}
 	</delete>
 
 
@@ -131,7 +131,7 @@
 
 	<select id="getTotalCount" resultType="int">
 		SELECT count(*) from
-		alz_merchandise_detail where
+		alz_merchandise where
 
 		<include refid="criteria"></include>
 		id > 0
