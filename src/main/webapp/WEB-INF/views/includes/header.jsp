@@ -143,7 +143,7 @@
 	padding-top: 10px;
 }
 .lesson-detail-nav {
-	padding: 10px;
+	padding: 20px;
 }
 .lesson-detail-nav a  {
 	padding: 10px;
@@ -201,6 +201,12 @@ pre {
     border: 1px solid #eee;
     position: sticky;
     top: 20px;
+}
+
+.lesson-detail-nav {
+    position: sticky;
+    top: 0px;
+    background-color: white;
 }
 
 .lessonMainImgDiv {

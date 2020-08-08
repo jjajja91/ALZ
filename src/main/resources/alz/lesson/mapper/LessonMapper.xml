@@ -131,14 +131,12 @@
              alz_lesson_level lessonLevel,
              alz_lesson_state lessonState,
              alz_category category,
-             alz_lesson_schedule schedule,
              alz_lesson_detail detail
        where lesson.lesson_type = lessonType.id 
          and lesson.lesson_level = lessonLevel.id
          and lesson.state = lessonState.id
          and lesson.category_main = category.main
          and lesson.category_sub = category.sub
-         and lesson.id = schedule.lesson_id
          and lesson.id = detail.lesson_id
          and lesson.id = #{id}
     order by lesson.id
@@ -214,6 +212,13 @@
       select id, lesson_id, detail
         from alz_lesson_detail
        where lesson_id = #{lessonId}
+   </select>
+   
+   <select id="findTimetableByLessonId" resultType="alz.lesson.domain.TimeTableDTO">
+      select lesson_id lessonId, lesson_date lessonDate, start_at startAt, end_at endAt
+	  from   alz_lesson_schedule
+	  where  lesson_id = #{lessonId}
+	  order  by lesson_date
    </select>
    
    <resultMap type="alz.lesson.domain.ScheduleDTO" id="timeTableMap">

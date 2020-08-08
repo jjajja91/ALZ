@@ -28,15 +28,17 @@ public interface LessonMapper {
 	int insertCurriculumDetail(CurriculumDetailDTO curriculumDetail);
 	
 	TeacherDTO findTeacherByUserId(Long userId);
-	List<LessonDTO> lessonsByTeacherId(LessonDTO lesson);
+	
+	List<LessonDTO> lessonsByTeacherId(LessonDTO lesson); // 유저별 개설 클래스
 	LessonDTO lessonByTeacherId(LessonDTO lesson);
 
 	LessonDTO findByLessonId(Long id);
 	LessonDTO findBasicByLessonId(Long id); // 기본정보
-	List<CurriculumSubjectDTO> findCurriculumByLessonId(Long id);
-	TeacherDTO findTeacherByLessonId(Long id);
-	List<QuickReviewDTO> findQuickReviewByLessonId(Long id);
-	ScheduleDTO findLessonSchedule(Long lessonId); // 스케줄 불러오기
+	List<CurriculumSubjectDTO> findCurriculumByLessonId(Long id);  // 커리큘럼
+	List<TimeTableDTO> findTimetableByLessonId(Long lessonId); // 스케줄 불러오기(읽기용)
+	TeacherDTO findTeacherByLessonId(Long id); // 강사
+	List<QuickReviewDTO> findQuickReviewByLessonId(Long id);  // 한줄평
+	ScheduleDTO findLessonSchedule(Long lessonId); // 스케줄 불러오기(등록용)
 
 	List<LessonDTO> findAll();
 	// 카테고리별 페이징한 게시글 불러오기
