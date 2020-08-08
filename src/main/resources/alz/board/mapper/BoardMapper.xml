@@ -158,10 +158,10 @@
 		select l.title title, l.id id, od.order_id orderId
 		from
 		alz_order_detail od,
-		alz_merchandise_detail md,
+		alz_merchandise md,
 		alz_lesson l
 		where
-		od.merchandise_id = md.merchandise_id
+		od.merchandise_id = md.id
 		and md.ref_id = l.id
 		and
 		od.user_id = #{id}
@@ -199,9 +199,9 @@
 	</update>
 
 	<select id="lessonChk" resultType="long">
-		select merchandise_id
+		select id
 		from
-		alz_merchandise_detail
+		alz_merchandise
 		where ref_id = #{lessonId}
 
 	</select>

@@ -1,21 +1,22 @@
 package alz.lesson.controller;
 
+import java.io.File;
+import java.util.UUID;
+
+import javax.servlet.ServletContext;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
-import alz.board.domain.BoardCriteria;
-import alz.board.domain.BoardPageDTO;
 import alz.lesson.domain.LessonCriteria;
 import alz.lesson.domain.LessonDTO;
 import alz.lesson.domain.LessonDetailDTO;
@@ -32,9 +33,12 @@ public class LessonPageController {
    
    private LessonServiceImpl lessonService;
    
+   private ServletContext servletContext;
+   
    @Autowired
-   public LessonPageController(LessonServiceImpl lessonService) {
+   public LessonPageController(LessonServiceImpl lessonService, ServletContext servletContext) {
       this.lessonService = lessonService;
+      this.servletContext = servletContext;
    }
    
    
@@ -132,9 +136,41 @@ public class LessonPageController {
    
    // 기본정보 저장
    @PostMapping("/registerBasic")
-   public String registerBasic(LessonDTO lesson) {
+   public String registerBasic(LessonDTO lesson, MultipartFile uploadFile) {
       int lessonId;
       Long originalId = lesson.getOriginalId();
+      
+      // 입출력 시작
+      String uploadFolder = servletContext.getRealPath("/resources/img/lesson/thumb");
+      File uploadPath = new File(uploadFolder, lesson.getTeacherId().toString()+lesson.getOpenAt());
+      System.out.println("upload path : " + uploadPath);
+      log.info("upload path : " + uploadPath);
+
+      if (uploadPath.exists() == false) {
+         uploadPath.mkdir();
+      }
+
+         String uploadFilename = uploadFile.getOriginalFilename();
+
+         // IE has file path
+         uploadFilename = uploadFilename.substring(uploadFilename.lastIndexOf("\\") + 1);
+
+         UUID uuid = UUID.randomUUID();
+         uploadFilename = uuid.toString() + "_" + uploadFilename;
+
+         try {
+            // 이미지 파일 path에 올리기
+            File saveFile = new File(uploadPath, uploadFilename);
+            uploadFile.transferTo(saveFile);
+
+         } catch (Exception e) {
+            log.error(e.getMessage());
+         } // end catch
+
+            lesson.setThumbnail(uploadFilename);
+            
+            // 입출력 끝
+
       
       lessonId = lessonService.createLesson(lesson);
       

@@ -41,6 +41,7 @@ public class LessonDTO {
 	private String startAt;
 	private String endAt;
 	private String detail;
+	private String thumbnail;
 	
 	private String location;
 	

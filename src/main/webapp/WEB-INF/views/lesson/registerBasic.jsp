@@ -11,7 +11,7 @@
 
 <div class="container">
 
-	<form role="form" action="/lesson/registerBasic" method="post">
+	<form role="form" action="/lesson/registerBasic" method="post" enctype="multipart/form-data">
 		<input type="hidden" name="userId" value='<sec:authentication property="principal.id"/>' readonly> 
 		<input type="hidden" name="teacherId" value='<c:out value="${param.teacherId }"/>' readonly> 
 		<input type="hidden" name="state" class="state" value='<c:out value="${lesson.state }"/>' readonly/> 
@@ -65,7 +65,9 @@
 			감성적이면서도 클래스를 잘 표현하는 제목과 이미지를 등록해 주세요.<br>예를 들어, 가죽공예, 어반 스케치,
 			다이어리꾸미기 이런식으로요.
 			<div class="lessonMainImgDiv">
+				<input type="file" id="uploadFile" name="uploadFile" accept="image/gif, image/jpeg, image/png, image/jpg">
 				<div class="lessonMainImgLeftDiv">
+					<img src="/resources/img/lesson/thumb/${lesson.teacherId}${lesson.openAt}/${lesson.thumbnail}">
 					<a>사진등록</a>
 				</div>
 				<div class="lessonMainImgRightDiv">
@@ -265,6 +267,29 @@
 	function goBack() {
 		self.location = "/lesson/register";
 	}
+	
+	inputFile = $("input[type='file']");
+    
+    inputFile.change(function(e){
+       
+       imgTarget = $(e.target);
+       
+       console.log(imgTarget);
+       console.log(imgTarget.next().find('img'));
+       
+       if(this.files){
+          let reader = new FileReader;
+
+              reader.onload = function(data) {
+            	  imgTarget.next().find('img').attr("src", data.target.result).width(100);
+               }
+               reader.readAsDataURL(this.files[0]);
+           }
+       
+     });
+    
+
+	
 </script>
 </body>
 </html>
