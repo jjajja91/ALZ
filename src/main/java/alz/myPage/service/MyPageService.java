@@ -2,14 +2,11 @@ package alz.myPage.service;
 
 import java.util.List;
 
-import org.springframework.validation.BindingResult;
-
-import alz.myPage.domain.MyPageCriteria;
-import alz.user.domain.UserDTO;
 import alz.board.domain.BoardDTO;
 import alz.board.domain.CommentDTO;
-import alz.board.domain.LikeDTO;
-import alz.file.domain.BoardFileDTO;
+import alz.lesson.domain.LessonDTO;
+import alz.myPage.domain.MyPageCriteria;
+import alz.user.domain.UserDTO;
 
 public interface MyPageService {
 	
@@ -22,9 +19,26 @@ public interface MyPageService {
 
 	List<BoardDTO> likeReadAll(MyPageCriteria cri);
 
+	List<LessonDTO> myLessonList(MyPageCriteria cri);
 	int getTotal(MyPageCriteria cri);
 	
 	boolean selectById(UserDTO user);
 
-	int DeleteAcc(Long id);
+	List<LessonDTO> finishedLessonList(MyPageCriteria cri);
+
+	List<LessonDTO> refundedLesson(MyPageCriteria cri);
+
+	int deleteAcc(UserDTO user);
+
+	List<CommentDTO> getMyCommentList(MyPageCriteria cri);
+
+	List<BoardDTO> getMyLikeList(MyPageCriteria cri);
+
+	Long getMyBoardTotal(MyPageCriteria cri);
+
+	Long getMyCommentTotal(MyPageCriteria cri);
+
+	Long getMyLikeTotal(MyPageCriteria cri);
+	
+	
 }

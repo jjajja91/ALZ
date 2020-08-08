@@ -1,49 +1,48 @@
-//package alz.order.controller;
-//
-//import java.util.List;
-//
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.http.HttpStatus;
-//import org.springframework.http.ResponseEntity;
-//import org.springframework.web.bind.annotation.DeleteMapping;
-//import org.springframework.web.bind.annotation.GetMapping;
-//import org.springframework.web.bind.annotation.PathVariable;
-//import org.springframework.web.bind.annotation.PostMapping;
-//import org.springframework.web.bind.annotation.PutMapping;
-//import org.springframework.web.bind.annotation.RequestBody;
-//import org.springframework.web.bind.annotation.RequestMapping;
-//import org.springframework.web.bind.annotation.RestController;
-//
-//import alz.order.domain.OrderDTO;
-//import alz.order.service.OrderService;
-//
-//@RestController
-//@RequestMapping("/orders")
-//public class OrderApiController {
-//
-//	private OrderService orderService;
-//
-//	@Autowired
-//	public OrderApiController(OrderService orderService) {
-//		this.orderService = orderService;
-//	}
-//
-//	@PostMapping
-//	public ResponseEntity<?> create(@RequestBody OrderDTO order) {
-//		OrderDTO registeredOrder = orderService.createOrder(order);
-//		return ResponseEntity.status(HttpStatus.CREATED).body(registeredOrder);
+package alz.order.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import alz.order.service.OrderService;
+import alz.user.domain.UserDTO;
+
+@RestController
+@RequestMapping("/orders")
+public class OrderApiController {
+
+	private OrderService orderService;
+	
+	public UserDTO getLoginUserInfo() {
+		SecurityContext context = SecurityContextHolder.getContext();
+		Authentication auth = context.getAuthentication();
+		UserDTO userInfo = (UserDTO)auth.getPrincipal();
+		return userInfo;
+	}
+
+	@Autowired
+	public OrderApiController(OrderService orderService) {
+		this.orderService = orderService;
+	}
+
+	// 새 주문 추가
+//	@PostMapping("/addNewOrder")
+//	public ResponseEntity<?> create(@RequestBody OrderDTO order) throws Exception {
+//		orderService.insertOrder(order);
+//		return ResponseEntity.status(HttpStatus.CREATED).body("");
 //	}
 //
 //	@GetMapping("/{id}")
 //	public ResponseEntity<?> readOne(@PathVariable Long id) {
-//		OrderDTO searchedOrder = orderService.
-//		return ResponseEntity.status(HttpStatus.OK).body(searchedOrder);
+//		return ResponseEntity.status(HttpStatus.OK).body("");
 //	}
 //
 //	@GetMapping
 //	public ResponseEntity<?> readAll() {
-//		List<OrderDTO> orders = orderService.readAll();
-//		return ResponseEntity.status(HttpStatus.OK).body(orders);
+//		return ResponseEntity.status(HttpStatus.OK).body("");
 //	}
 //
 //	@PutMapping("/{id}")
@@ -57,5 +56,5 @@
 //		int affectedRowCount = orderService.deleteById(id);
 //		return ResponseEntity.status(HttpStatus.OK).body(affectedRowCount);
 //	}
-//
-//}
+
+}

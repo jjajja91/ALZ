@@ -11,13 +11,15 @@
 <div class="container">
 	
 	<form role="form" action="/lesson/registerTeacher" method="post">
+		<input type="hidden" name="originalId" value='<c:out value="${param.originalId }"/>' readonly>
+		<input type="hidden" name="userId" value='<sec:authentication property="principal.id"/>' readonly>
+		<input type="hidden" name="id" value='<c:out value="${teacher.id }"/>' readonly>
+		
 		<h5><strong>본인을 소개하고<br>활동중인 SNS 채널을 알려주세요</strong></h5>
 		<div class="lessonTeacherDiv">
 			<br>
 			<label>닉네임</label> 
 			<input class="form-control" id='nickname' name='nickname' value='<c:out value="${teacher.nickname }"/>'>
-			<input type="hidden" name="userId" value='<sec:authentication property="principal.id"/>'>
-			<input type="hidden" name="id" value='<c:out value="${teacher.id }"/>'>
 			<small>최대 15자</small>
 			
 			<br><br><br>
@@ -44,14 +46,5 @@
 		
 </div>
 
-<script>
-	/* $("button[type=submit]").on("click", function(e){
-
-		e.preventDefault();
-		
-		var snsList = [];
-	
-	}); */
-</script>
 </body>
 </html>

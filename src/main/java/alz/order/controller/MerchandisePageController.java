@@ -1,5 +1,10 @@
 package alz.order.controller;
 
+import java.util.List;
+
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,10 +14,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import alz.lesson.domain.LessonDTO;
+import alz.lesson.domain.TeacherDTO;
+import alz.lesson.service.LessonService;
 import alz.order.domain.MerchandiseCriteria;
 import alz.order.domain.MerchandiseDTO;
 import alz.order.domain.MerchandisePageDTO;
 import alz.order.service.MerchandiseService;
+import alz.user.domain.UserDTO;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
 
@@ -23,9 +32,24 @@ import lombok.extern.log4j.Log4j;
 public class MerchandisePageController {
 
 	private MerchandiseService merchandiseService;
+	private LessonService lessonService;
+	
+	
+	public UserDTO getLoginUserInfo() {
+		SecurityContext context = SecurityContextHolder.getContext();
+		Authentication auth = context.getAuthentication();
+		UserDTO userInfo = (UserDTO)auth.getPrincipal();
+		return userInfo;
+	}
 
 	@GetMapping("/register")
-	public void register() {
+	public void register(Model model) {
+		TeacherDTO teacher = lessonService.teacherByUserId(getLoginUserInfo().getId());
+		LessonDTO myLesson = new LessonDTO();
+		myLesson.setTeacherId(teacher.getId()).setState(4L);
+		List<LessonDTO> lessonList = lessonService.lessonsByTeacherId(myLesson);
+		System.out.println(lessonList);
+		model.addAttribute("lessonList", lessonList);
 	}
 
 //	@GetMapping("/list")
@@ -36,6 +60,7 @@ public class MerchandisePageController {
 //
 //	}
 
+	// 목록 출력
 	@GetMapping("/list")
 	public void list(MerchandiseCriteria cri, Model model) {
 
@@ -49,6 +74,7 @@ public class MerchandisePageController {
 		model.addAttribute("pageMaker", new MerchandisePageDTO(cri, total));
 	}
 
+	// 상품 등록
 	@PostMapping("/register")
 	public String register(MerchandiseDTO merchandise, RedirectAttributes rttr) {
 
@@ -61,6 +87,7 @@ public class MerchandisePageController {
 		return "redirect:/merchandise/list";
 	}
 
+	// 상품 상세 및 수정
 	@GetMapping({ "/get", "/modify" })
 	public void get(@RequestParam("id") Long id, @ModelAttribute("cri") MerchandiseCriteria cri, Model model) {
 
@@ -68,6 +95,7 @@ public class MerchandisePageController {
 		model.addAttribute("merchandise", merchandiseService.readById(id));
 	}
 
+	// 상품 삭제
 	@PostMapping("/remove")
 	public String remove(@RequestParam("id") Long id, @ModelAttribute("cri") MerchandiseCriteria cri,
 			RedirectAttributes rttr) {
@@ -80,6 +108,7 @@ public class MerchandisePageController {
 		return "redirect:/merchandise/list" + cri.getListLink();
 	}
 
+	// 상품 삭제
 	@PostMapping("/modify")
 	public String modify(@RequestParam("id") Long id, @ModelAttribute("cri") MerchandiseCriteria cri,
 			MerchandiseDTO merchandise, RedirectAttributes rttr) {

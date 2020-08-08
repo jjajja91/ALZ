@@ -34,54 +34,51 @@
 								<td><input type="text" id="id" name="id"
 									value="${merchandise.id}" readonly="readonly"></td>
 							</tr>
-							<tr>
+<!-- 							<tr>
 								<td>상품이미지</td>
 								<td>이미지 <br> <input type="file" id="merchandiseImage"
 									name="merchandiseImage">
 								</td>
-							</tr>
+							</tr> -->
 							<tr>
 								<td>상품명</td>
 								<td><input type="text" id="name" name="name"
-									value="${merchandise.name }"></td>
+									value="${merchandise.name }" readonly></td>
 							</tr>
 							<tr>
 								<td>상품 유형</td>
-								<td id="codeType"><input type="radio" name="codeType"
-									value="클래스"
-									<c:if test="${merchandise.codeType eq '클래스'}">checked</c:if>>
-									클래스 <input type="radio" name="codeType" value="준비물"
-									<c:if test="${merchandise.codeType eq '준비물'}">checked</c:if>>
-									준비물</td>
+								<td id="codeType">
+								<input type="text" name="codeType" value="${merchandise.codeType}" readonly>
+								</td>
 							</tr>
 							<tr>
 								<td>상품 내용</td>
 								<td><textarea id="description" name="description" row="5"
-										cols="60">${merchandise.description }</textarea></td>
+										cols="60">${merchandise.description}</textarea></td>
 							</tr>
 
 							<tr>
 								<td>상품 마감일</td>
 								<td><input type="text" id="closedAt" name="closedAt"
-									value='<fmt:formatDate pattern = "yyyy/MM/dd" value="${merchandise.closedAt }" />'></td>
+									value='<fmt:formatDate pattern = "yyyy/MM/dd" value="${merchandise.closedAt}" />'></td>
 							</tr>
 
 							<tr>
-								<td>가격</td>
+								<td>상품 금액</td>
 								<td><input type="text" id="originPrice" name="originPrice"
-									value="${merchandise.originPrice }"></td>
+									value='<fmt:formatNumber value="${merchandise.originPrice}"/>'></td>
 							</tr>
 
 							<tr>
-								<td>할인금액</td>
+								<td>할인 후 금액</td>
 								<td><input type="text" id="salePrice" name="salePrice"
-									value="${merchandise.salePrice }"></td>
+									value='<fmt:formatNumber value="${merchandise.salePrice}"/>' readonly></td>
 							</tr>
 
 							<tr>
 								<td>할인율</td>
-								<td><input type="text" id="discountRate"
-									name="discountRate" value="${merchandise.discountRate }"></td>
+								<td><input type="number" id="discountRate"
+									name="discountRate" value="${merchandise.discountRate }" ></td>
 							</tr>
 
 							<tr>
@@ -111,7 +108,7 @@
 							<tr>
 								<td>상품 식별자</td>
 								<td><input type="text" id="merchandiseId"
-									name="merchandiseId" value="${merchandise.merchandiseId }"></td>
+									name="merchandiseId" value="${merchandise.userId }"></td>
 							</tr>
 
 							<tr>
@@ -120,6 +117,8 @@
 										class="btn btn-default">수정</button>
 									<button type="submit" data-oper='remove' class="btn btn-danger">삭제</button>
 									<button type="submit" data-oper='list' class="btn btn-info">목록</button>
+								</td>
+							</tr>
 						</table>
 
 						<input type='hidden' name='pageNum'
@@ -145,8 +144,20 @@
 </body>
 
 <script type="text/javascript">
-	$(document).ready(
-			function() {
+	$(document).ready(function(){
+			
+			$originPrice = $("#originPrice");
+			$discountRate = $("#discountRate");
+			$salePrice = $("#salePrice");
+			
+			$discountRate.change(function(e){
+				var originPrice = $originPrice.val();
+				var discountRate = $discountRate.val();
+				var salePrice = Math.round((originPrice-originPrice*discountRate/100)/100)*100;
+				$salePrice.val(salePrice);
+				
+			});
+			
 				var formObj = $("form");
 
 				$('button').on(
@@ -175,7 +186,6 @@
 								var keywordTag = $("input[name='keyword']")
 										.clone();
 
-
 								formObj.empty();
 
 								formObj.append(pageNumTag);
@@ -186,8 +196,8 @@
 							}
 							formObj.submit();
 
-						})
+						});
 
-			})
+			});
 </script>
 </html>

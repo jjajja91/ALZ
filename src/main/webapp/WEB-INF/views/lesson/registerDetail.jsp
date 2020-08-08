@@ -5,119 +5,52 @@
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <%@include file="../includes/header.jsp"%>
 <div class="container">
-	<h1 class="page-header">클래스 스케줄 등록</h1>
+	<h1 class="page-header">클래스 세부설명 등록</h1>
 </div>
 
 <div class="container">
 	
-	<form role="form" action="/class/registerCurriculum" method="post">
-	<input type="text" name="lessonId" value='<c:out value="${param.lessonId }"/>'>
+	<form role="form" action="/lesson/registerDetail" method="post">
+		<input type="hidden" name="lessonId" value='<c:out value="${param.lessonId }"/>' readonly>
+		<input type="hidden" name="originalId" value='<c:out value="${param.originalId }"/>' readonly>
+		<input type="hidden" name="id" id="id" value='<c:out value="${detail.id }"/>' readonly>
+		<input type="hidden" name="location" id="location" readonly/>
 	
-		<h5><strong>수업 날짜와 시간을 입력해주세요.</strong></h5>
+		<h5><strong>클래스 소개 작성하기</strong></h5>클래스를 통해 어떤 것을 배울 수 있는지 상상해볼 수 있도록 클래스 소개를 채워주세요.
 		<br><br><br>
-		<label>스케줄 선택</label>
-		<br>클래스 시작일과 종료일을 입력해주세요.
-		<br>
-		<input type="date" id="openAt" name="openAt"> ~ 
-		<input type="date" id="closeAt" name="closeAt">
+		<textarea class="form-control" id="detail" placeholder="클래스를 통해 알려주실 것과 완성할 수 있는 것들을 설명해 주세요." name="detail"><c:out value="${detail.detail }" /></textarea>
 		
-		<br><br><br>
-		<strong>세부 날짜와 시간을 입력해주세요.</strong>
-		<br>
-		<div>
-			<div id="timesetDiv">
-				<label for="lessonDate"> 날짜 </label>
-				<input type="date" class="lessonDate" name="lessonDate">
-				
-				<label for="startAt"> 수업 시작시간 </label>
-				<input type="time" class="startAt" name="startAt">
-				<label for="endAt"> 수업 종료시간 </label>
-				<input type="time" class="endAt" name="endAt">
-			</div>
-		</div>
-				<input type="button" id="addLesson" name="addLesson" value="+add"/>
-		<br><br><br>
-		
-		<button type="submit">다음 ＞</button>
-	</form>	
-		
+		<button type="submit" name="prev">＜ 이전</button>
+		<button type="submit" name="next">다음 ＞</button>
+	</form>
 </div>
 <script>
-
-	var timesetDiv;
-	var $addBtn;
-	var $startAt;
-	var $endAt;
-	var $lessonDate;
-	var $lessonId;
 	
 	$(document).ready(function(){
-		timesetDiv =document.getElementById("timesetDiv");
-		$addBtn = $("input[name=addLesson]");
-		$lessonId = $("input[name=lessonId]");
-		
+		var formObj = $("form[role='form']");
 	});
 	
+	// 다음 클릭시 지우고 저장
 	$("button[type=submit]").click(function(e){
-		/* var dates = $("input[type=date]");
-		var openAt = dates[0].value.replace(/-/gi,"/");
-		var closeAt = dates[1].value.replace(/-/gi,"/");
-		var hiddens = $("input:hidden");
-		hiddens[0].value = openAt;
-		hiddens[1].value = closeAt; */
-		e.preventDefault();
-		$lessonDate = $(".lessonDate");
-		$startAt = $(".startAt");
-		$endAt = $(".endAt");
-		
-		let timeTable = [];
-		for(let i=0; i<$startAt.length; i++) {
-			let timeTablevalues = {
-					id : $lessonId.val(),
-					lessonDate: $lessonDate[i].value,
-					startAt: $startAt[i].value,
-					endAt: $endAt[i].value
-			};
-			
-			timeTable.push(timeTablevalues);
-		}
-		
-		$ajax = {
-				type : 'POST',
-				url : '/lessons/schedule',
-				data : JSON.stringify(timeTable),
-				contentType : "application/json; charset=utf-8"
-		}
-	});
-	
-	$(document).on("click","input[name='addLesson']",function(e){
-		
-		e.preventDefault();
-		
-		  var i =0;
-		  var clone = timesetDiv.cloneNode(true); // "deep" clone
-		  clone.id = "duplicater" + ++i;
-		  
-		  clone.getElementsByTagName("input").lessonDate.value = "";
-		  clone.getElementsByTagName("input").startAt.value = "";
-		  clone.getElementsByTagName("input").endAt.value = "";
-		  
-		  var deleteBtn = document.createElement("input");
-		  deleteBtn.setAttribute("type", "button");
-		  deleteBtn.setAttribute("name", "deleteLesson");
-		  deleteBtn.setAttribute("value", "delete");
-		  
-		  clone.appendChild(deleteBtn);
-		  timesetDiv.parentNode.appendChild(clone);
-		/* timesetDiv.appendChild(timesetDiv); */
-	})
-	
-	$(document).on("click","input[name='deleteLesson']",function(e){
-		
-		e.target.parentNode.remove();
-	})
-	
 
+		var $lessonId = $("input[name=lessonId]");
+		var $originalId = $("input[name=originalId]");
+		var $inputlocation = $("#location");
+		
+		var name = $(this).attr("name");
+		
+		if (name === 'prev') {
+			
+			$inputlocation.val("prev");
+			formObj.submit();
+			
+		} else {
+			
+			$inputlocation.val("next");
+			formObj.submit();
+		}
+		
+	});
     
 </script>
 </body>

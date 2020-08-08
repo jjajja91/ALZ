@@ -1,26 +1,18 @@
 package alz.myPage.controller;
 
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.List;
-
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import alz.board.exceptions.NoUserException;
-import alz.file.domain.BoardFileDTO;
 import alz.myPage.domain.MyPageCriteria;
 import alz.myPage.domain.MyPagePageDTO;
 import alz.myPage.service.MyPageService;
@@ -32,21 +24,31 @@ import lombok.extern.log4j.Log4j;
 @RequestMapping("/myPage/*")
 public class MyPagePageController {
 
-	private MyPageService MyPageService;
+	private MyPageService myPageService;
 	private PasswordEncoder passwordEncoder;
 
 	@Autowired
-	public MyPagePageController(MyPageService MyPageService, PasswordEncoder passwordEncoder) {
-		this.MyPageService = MyPageService;
+	public MyPagePageController(MyPageService myPageService, PasswordEncoder passwordEncoder) {
+		this.myPageService = myPageService;
 		this.passwordEncoder = passwordEncoder;
+	}
+	
+	// 로그인한 유저 정보 가져오기
+	public UserDTO getLoginUserInfo() {
+		SecurityContext context = SecurityContextHolder.getContext();
+		Authentication auth = context.getAuthentication();
+		UserDTO userInfo = (UserDTO)auth.getPrincipal();
+		return userInfo;
 	}
 	
 	//회원 탈퇴
 	@PostMapping("/deleteAcc")
 	public String delete(UserDTO user, RedirectAttributes attr) {
 		String result ="";
-	    if (MyPageService.selectById(user)) {	
-	    	 int deleteAcc = MyPageService.DeleteAcc(user.getId());
+		user.setId(getLoginUserInfo().getId());
+		System.out.println(user);
+	    if (myPageService.selectById(user)) {	
+	    	 int deleteAcc = myPageService.deleteAcc(user);
 	    		 if(deleteAcc != 0) {
 	 				result = "redirect:/logout";
 	    		 } 
@@ -57,12 +59,13 @@ public class MyPagePageController {
 			}
 		return result;
 	}
-
+	
+	//내 정보 수정
 	@PostMapping("/modifyAcc")
 	public String modifyAcc(UserDTO user, RedirectAttributes attr) {
 		String result ="";
-	     if (MyPageService.selectById(user)) {	
-	    	 	result = "redirect:/modify";
+	     if (myPageService.selectById(user)) {	
+	    	 	result = "redirect:/logout";
 			}  else {
 			attr.addAttribute("verify", "no");
 			result = "redirect:/myPage/modifyAccResult";
@@ -70,27 +73,60 @@ public class MyPagePageController {
 		return result;
 	}
 	
+	//진행중인 내 클래스
+	@GetMapping(value = "/activeLesson")
+	public String activeLession(MyPageCriteria cri, Model model) {
+		cri.setId(getLoginUserInfo().getId());
+		model.addAttribute("list", myPageService.myLessonList(cri));
+        int total = myPageService.getTotal(cri);
+		model.addAttribute("pageMaker", new MyPagePageDTO(cri, total));		
+		return "myPage/myLessonList";
+	}
+	
+		//완료된 내 클래스
+		@GetMapping(value = "/finishedLesson")
+		public String finishedLesson(MyPageCriteria cri, Model model) {
+			cri.setId(getLoginUserInfo().getId());
+			model.addAttribute("list", myPageService.finishedLessonList(cri));
+	        int total = myPageService.getTotal(cri);
+			model.addAttribute("pageMaker", new MyPagePageDTO(cri, total));
+			return "myPage/finishedLessonList";
+		}
+	
+		//환불된 클래스
+		@GetMapping(value = "/refundedLesson")
+		public String refundedLesson(MyPageCriteria cri, Model model) {
+			cri.setId(getLoginUserInfo().getId());
+			model.addAttribute("list", myPageService.refundedLesson(cri));
+	        int total = myPageService.getTotal(cri);
+			model.addAttribute("pageMaker", new MyPagePageDTO(cri, total));
+			return "myPage/refundedList";
+		}
+
+	//내 게시물
 	@GetMapping("/boardList")
-	public void boardList(@RequestParam("writerId") Long writerId, MyPageCriteria cri, Model model) {
-		cri.setWriterId(writerId);
-		model.addAttribute("list", MyPageService.readAll(cri));
-        int total = MyPageService.getTotal(cri);
+	public void boardList(MyPageCriteria cri, Model model) {
+		cri.setId(getLoginUserInfo().getId());
+		model.addAttribute("list", myPageService.readAll(cri));
+		Long total = myPageService.getMyBoardTotal(cri);
 		model.addAttribute("pageMaker", new MyPagePageDTO(cri, total));
 	}
 
+	//내 댓글
 	@GetMapping("/commentList")
-	public void commentList(@RequestParam("writerId") Long writerId, MyPageCriteria cri, Model model) {
-		cri.setWriterId(writerId);
-		model.addAttribute("list", MyPageService.commentReadAll(cri));
-        int total = MyPageService.getTotal(cri);
+	public void commentList(MyPageCriteria cri, Model model) {
+		cri.setId(getLoginUserInfo().getId());
+		model.addAttribute("list", myPageService.getMyCommentList(cri));
+		Long total = myPageService.getMyCommentTotal(cri);
 		model.addAttribute("pageMaker", new MyPagePageDTO(cri, total));
 	}
 	
+	//내 좋아요
 	@GetMapping("/likeList")
-	public void likeList(@RequestParam("writerId") Long writerId, MyPageCriteria cri, Model model) {
-		cri.setWriterId(writerId);
-		model.addAttribute("list", MyPageService.likeReadAll(cri));
-        int total = MyPageService.getTotal(cri);
+	public void likeList(MyPageCriteria cri, Model model) {
+		cri.setId(getLoginUserInfo().getId());
+		model.addAttribute("list", myPageService.getMyLikeList(cri));
+		Long total = myPageService.getMyLikeTotal(cri);
 		model.addAttribute("pageMaker", new MyPagePageDTO(cri, total));
 	}
 	
@@ -117,4 +153,5 @@ public class MyPagePageController {
 		 
 	  return "myPage/pwdChk";
 	}
+
 }

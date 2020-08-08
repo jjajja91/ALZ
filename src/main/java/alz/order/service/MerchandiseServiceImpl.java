@@ -2,14 +2,14 @@ package alz.order.service;
 
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import alz.lesson.domain.LessonDTO;
-import alz.order.domain.CartDTO;
+import alz.lesson.mapper.LessonMapper;
 import alz.order.domain.MerchandiseCriteria;
 import alz.order.domain.MerchandiseDTO;
 import alz.order.mapper.MerchandiseMapper;
@@ -20,17 +20,25 @@ import lombok.extern.log4j.Log4j;
 public class MerchandiseServiceImpl implements MerchandiseService {
 
 	private MerchandiseMapper merchandiseMapper;
+	private LessonMapper lessonMapper;
 
 	SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
 	@Autowired
-	public MerchandiseServiceImpl(MerchandiseMapper merchandiseMapper) {
+	public MerchandiseServiceImpl(MerchandiseMapper merchandiseMapper, LessonMapper lessonMapper) {
 		this.merchandiseMapper = merchandiseMapper;
+		this.lessonMapper = lessonMapper;
 	}
 
+	@Transactional
 	@Override
 	public MerchandiseDTO create(MerchandiseDTO merchandise) {
 		int affectedRowCount = merchandiseMapper.insert(merchandise);
+		System.out.println(merchandise);
+		LessonDTO lesson = new LessonDTO();
+		lesson.setId(merchandise.getRefId()).setState(7L);
+		System.out.println(lesson);
+		lessonMapper.updateState(lesson);
 		MerchandiseDTO openMerchandise = merchandiseMapper.selectById(merchandise.getId());
 		return openMerchandise;
 	}

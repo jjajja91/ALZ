@@ -3,6 +3,7 @@
 <%@include file="../includes/header.jsp"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -30,16 +31,24 @@
 				<div class="panel-heading"></div>
 				<!-- /.panel-heading -->
 				<div class="panel-body">
+					<div>
+						<select name="lessonList" class="lessonList">
+							<option>클래스를 선택해주세요</option>
+							<c:forEach var="lesson" items="${lessonList}">
+							<option value="${lesson.id}">${lesson.title}</option>
+							</c:forEach>
+						</select>
+					</div>
 
 					<form role="form" action="/merchandise/register" method="post">
-						<div class="form-group">
-							<label>상품명</label> <input class="form-control" name='name'>
-						</div>
-
 						<div class="form-group">
 							<label>상품 유형</label> <label><input type="radio"
 								name="codeType" value="클래스" checked="checked"> 클래스</label> <label><input
 								type="radio" name="codeType" value="준비물"> 준비물</label>
+						</div>
+
+						<div class="form-group">
+							<label>상품명</label> <input class="form-control" name='name' readonly>
 						</div>
 
 						<div class="form-group">
@@ -52,12 +61,12 @@
 						</div>
 
 						<div class="form-group">
-							<label>상품금액</label> <input class="form-control"
+							<label>상품 금액</label> <input class="form-control"
 								name='originPrice'>
 						</div>
 
 						<div class="form-group">
-							<label>할인금액</label> <input class="form-control" name='salePrice'>
+							<label>할인 후 금액</label> <input class="form-control" name='salePrice'>
 						</div>
 
 						<div class="form-group">
@@ -76,12 +85,8 @@
 						</div>
 
 						<div class="form-group">
-							<label>상품 대상 식별자</label> <input class="form-control" name='refId'>
-						</div>
-
-						<div class="form-group">
-							<label>상품 식별자</label> <input class="form-control"
-								name='merchandiseId'>
+							<input class="form-control" type='hidden' name='refId' readonly>
+							<input class="form-control" name='userId' type='hidden' value="<sec:authentication property="principal.id"/>" readonly>
 						</div>
 
 						<button type="submit" class="btn btn-info">등록</button>
@@ -125,9 +130,17 @@ $(document).ready(function(e){
 			discountDeadline: $discountDeadline
 		};
 		var $refId = $("input[name=refId]");
-		var $merchandiseId = $("input[name=merchandiseId]");
+		var $userId = $("input[name=userId]");
 
 		var formObj = $("form[role='form']");
+		
+		$discountRate.change(function(e){
+			var originPrice = $originPrice.val();
+			var discountRate = $discountRate.val();
+			var salePrice = Math.round((originPrice-originPrice*discountRate/100)/100)*100;
+			$salePrice.val(salePrice);
+			
+		});
 	
 	$("button[type='submit']").on("click", function(e){
 		e.preventDefault();
@@ -142,7 +155,7 @@ $(document).ready(function(e){
 				salePrice: $salePrice.val(),
 				displayState: $displayState.val(),
 				refId: $refId.val(),
-				merchandiseId: $merchandiseId.val(),	
+				userId: $userId.val(),	
 				discountRate: $discountRate.val(),
 				discountDeadline: $discountDeadline.val()
 		};
@@ -159,17 +172,27 @@ $(document).ready(function(e){
 			var errorFocus = error.responseJSON.field;
 			inputData[errorFocus].focus();
 		});
-		
-		function merchandiseRegister(data) {
-		
-			  return $.ajax({
-			    url: "/merchandises",
-			    type: "POST",
-			    data: JSON.stringify(data),
-			    contentType: "application/json; charset=utf-8"
-			  });
-			}
+
 	});
+
+	function merchandiseRegister(data) {
+		
+		  return $.ajax({
+		    url: "/merchandises",
+		    type: "POST",
+		    data: JSON.stringify(data),
+		    contentType: "application/json; charset=utf-8"
+		  });
+	}
+	
+	$('.lessonList').change(function(e) {
+		console.log("변경");
+		var value = $(this).val();
+		var nameText = $(":selected") .text();
+		$refId.val(value);
+		$name.val(nameText);
+	});
+
 });
 
 	</script>

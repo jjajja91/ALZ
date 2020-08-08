@@ -4,10 +4,15 @@ import java.util.List;
 
 import alz.order.domain.OrderDTO;
 import alz.order.domain.OrderDetailDTO;
+import alz.order.domain.OrderRequestDTO;
 
 public interface OrderService {
 
-	public List<OrderDTO> listMyOrderGoods(OrderDTO OrderDTO) throws Exception;
-	public void addNewOrder(List<OrderDTO> myOrderList) throws Exception;
-	public OrderDTO findMyOrder(long id) throws Exception;
+	public void removeCart(Long userId) throws Exception;
+	
+	public List<OrderDetailDTO> orderResult(String orderId);
+	public void orderDetailInsert(OrderDetailDTO orderDetail) throws Exception;
+	public OrderDTO findOrderer(String orderId);
+	public void insertOrder(OrderRequestDTO order);
+	
 }

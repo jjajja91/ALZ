@@ -3,8 +3,6 @@
 <%@include file="../includes/header.jsp"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%@ taglib uri="http://www.springframework.org/security/tags"
-	prefix="sec"%>
 
 <!DOCTYPE html>
 <html>
@@ -13,79 +11,104 @@
 <title>ORDER</title>
 </head>
 <body>
-	<sec:authentication var="principal" property="principal" />
 	<div>
 
 		<h2>ORDER</h2>
 		<br>
-		<table>
-			<tr>
-		</table>
-
-		<!-- 구매 할 상품의 정보를 불러 온다. -->
-		<%-- 	상품명 : ${buyList.name }<br> 상품 가격 : ${buyList.originPrice } --%>
 
 	</div>
 	<br>
 	<br>
-	<br>
-	<br>
-	<table>
-		<tr>
-			<td>상품정보</td>
-			<td>판매가</td>
-		</tr>
-		<c:set var="i" value="0" />
-		<!-- 가격 총합 -->
-		<c:set var="finalTotalPrice" value="0" />
-		<c:forEach items="${buylist}" var="buyList">
+	
+	<form name="orderinfo" method="post" action="/order/payForKakao">
+		<table class="table table-striped table-bordered table-hover">
 			<tr>
-				<td class="main_list_col1">이미지</td>
-				<%-- <td class="main_list_col2">${buyList.name} 제목</td> --%>
-				<td class="main_list_col3">
-					<!-- 각 제품의 할인된가격 총합 --> <c:set var="discountPrice"
-						value="${buyList.discountPrice} " /> <strong><fmt:formatNumber
-							value="${buyList.discountPrice}" pattern="#,###" /></strong>원 <span>
-						| </span> 수량 ${buyList.name} 개
-					<div>${buyList.discountPrice * buyList.cartStock}</div>
-					<div>
-						[ ${buyListf.discountRate} %↓ + ${buyList.bookPoint}원<span>P</span>]
-					</div> <c:set var="finalTotalPrice"
-						value="${finalTotalPrice + discountPriceStock}" /> <c:set
-						var="finalTotalPoint" value="${finalTotalPoint + point}" />
-				</td>
+				<td colspan="2">상품정보</td>
+				<td>판매가</td>
 			</tr>
-			<input type="hidden" name="oDetail[${i }].productId"
-				value="${buyList.productId }">
-			<input type="hidden" name="oDetail[${i }].amount"
-				value="${buyList.cartStock }">
-			<input type="hidden" name="cartId" value="${buyList.cartId }">
-			<c:set var="i" value="${i+1}" />
-		</c:forEach>
+			<c:set var="i" value="0" />
+			<!-- 가격 총합 -->
+			<c:set var="finalTotalPrice" value="0" />
+			<c:forEach items="${buyList}" var="list">
+				<tr>
+					<td class="main_list_col1">이미지</td>
+					<td class="main_list_col2">${list.name}</td>
+					<td class="main_list_col3">
+					<fmt:formatNumber value="${list.originPrice}" pattern="#,###"/></td>
+				</tr>
 
-	</table>
-	<br>
-	<div>
+				<input type="hidden" id="cartId" name="cartId" value="${list.id }">
+				<c:set var="i" value="${i+1}" />
+				<c:set var="finalTotalPrice"
+					value="${finalTotalPrice + list.originPrice}" />
+					<input type="hidden" id="merchandiseName" name="merchandiseName" value="${list.name}">
+			</c:forEach>
 
-		<form name="orderinfo" method="post" action="/order/order">
+		</table>
+		<br>
+		<div>
 
-			<strong>연락처 정보</strong><br> 이름 <input type="text"
-				name="orderName" value="${userInfo.nickname}"><br> 휴대폰
-			<input type="text" name="orderPhone" value="${userInfo.phoneNumber}"><br>
-			<%-- <br> <strong>결제 금액</strong><br> 상품 금액 ${buyList.originPrice} <br> --%>
-			할인 금액 <br> 결제 금액 ${merchandise.originPrice } <br> <br>
-			<strong>결제 수단</strong><br>
-			<button type="button">카드 결제</button>
-			<br>
-			<button type="button">무통장 입금</button>
-			<br>
-			<button type="submit">다 음</button>
+			<div>
+				<strong>연락처 정보</strong><br> 이름 <input type="text" name="name"
+					id="name" value="${userInfo.nickname}"><br> 휴대폰 <input
+					type="text" name="phone" id="phone" value="${userInfo.phoneNumber}"><br>
+				할인 금액 <br> 결제 금액 <fmt:formatNumber value="${finalTotalPrice}" pattern="#,###"/> <br> <br>
+			</div>
 
-		</form>
-	</div>
+			<div>
+				<strong>결제 수단</strong><br>
+
+				<div>
+					<label><input type="radio" name="method" id="method"
+						value="신용카드">카드 결제</label><br> <label><input
+						type="radio" name="method" id="method" value="카카오 페이">카카오
+						페이</label>
+				</div>
+				<button id="buyBtn" type="submit">다 음</button>
+
+			</div>
+
+			<!-- 값전달 -->
+			<input type="hidden" id="merchandise" name="merchandise" value="${merchandise.id}">
+			<input type="hidden" name="state" id="state" value="결제완료"> 
+			<input type="hidden" name="totalPrice" id="totalPrice" value="${finalTotalPrice}"> 
+		</div>
+	</form>
 
 </body>
 <script type="text/javascript">
-	
+	$(document).ready(function() {
+
+		var phoneNumber = $("#phone").val();
+		var phoneNumberRegex = /^[0-9]{3}-[0-9]{4}-[0-9]{4}$/;
+
+		$("#buyBtn").click(function() {
+			if (!(checkConfirm())) {
+				return false;
+			} else {
+			/* payForKakao(); */
+			}
+		});
+
+		// 결제방법, 폰번호 체크
+		function checkConfirm() {
+			if ($('input[name="method"]:radio:checked').length < 1) {
+				alert("결제 방법을 선택하세요.");
+				event.preventDefault();
+				return false;
+			} else {
+				return true;
+			}
+			/* 	if (!phoneNumberRegex.test(phoneNumber)) {
+					alert("연락처를 다시 확인해주세요.");
+					$("#phone").val("");
+					$("#phone").focus();
+					event.preventDefault();
+					return false;
+				} */
+		}
+		
+		
+	});
 </script>
 </html>

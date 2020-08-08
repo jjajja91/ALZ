@@ -6,6 +6,19 @@
 	<select id="find_id" parameterType="String" resultType="String">
 		select email from alz_user where nickname = #{nickname} AND PHONE_NUMBER = #{phoneNumber}
 	</select>	
+	
+	<!-- 비밀번호 찾기 관련 mapper -->
+	<select id="find_password_email" parameterType="alz.user.domain.UserDTO" resultType="String">
+		select password from alz_user where nickname = #{nickname} and email = #{email}
+	</select>
+	
+	<!-- 비밀번호 변경 관련 mapper -->
+	<update id="modifyPwd">
+		UPDATE alz_user
+		SET
+		password = #{password}
+		WHERE email = #{email}
+	</update>
 
 	<!-- 이메일 중복 체크 -->
 	<select id="emailChk" resultType="Integer">
@@ -19,6 +32,12 @@
 		WHERE nickname = #{nickname}
 	</select>
 	
+	<!-- 전화번호 중복 체크 -->
+	<select id="phoneNumberChk" resultType="Integer">
+		SELECT COUNT(*) FROM alz_user
+		WHERE PHONE_NUMBER = #{phoneNumber}
+	</select>
+	
 	<select id="selectByEmail" resultType="alz.user.domain.UserDTO">
 		SELECT * FROM alz_user
 		WHERE email = #{email}
@@ -29,6 +48,11 @@
 		WHERE nickname = #{nickname}
 	</select>
 
+	<select id="selectByPhoneNumber" resultType="alz.user.domain.UserDTO">
+		SELECT * FROM alz_user
+		WHERE PHONE_NUMBER = #{phoneNumber}
+	</select>
+
 	<select id="selectAll" resultType="alz.user.domain.UserDTO">
       <![CDATA[
          SELECT
@@ -36,7 +60,7 @@
          FROM
          alz_user users LEFT OUTER JOIN alz_user_state state on
          users.id = state.id
-         WHERE users.id >= 0;
+         WHERE users.id >= 0
       ]]>
 	</select>
 
@@ -57,6 +81,18 @@
 			sysdate, #{endAt}) -->
 	</insert>
 
+	<insert id="insertState">
+		<selectKey keyProperty="id" order="BEFORE" resultType="long">
+			SELECT alz_user_state_seq.nextval FROM dual
+		</selectKey>
+		INSERT INTO ALZ_USER_STATE (ID, USER_ID, STATE, DESCRIPTION)
+		VALUES(#{id}, #{userId}, #{state}, #{description, jdbcType=VARCHAR})
+	</insert>
+	
+	<insert id="insertDetail">
+		INSERT INTO ALZ_USER_DETAIL (ID)
+		VALUES(#{id})
+	</insert>
 
 	<!-- 값을 다 넣을 때 -->
 	<!-- 
@@ -86,6 +122,7 @@
 		SELECT * FROM alz_user WHERE id = #{id}
 	</select>
 	
+	
 	<!-- 값을 다 넣을 때 -->
 	<!-- <select id="selectById" resultType="alz.user.domain.UserDTO"> 
 	SELECT * FROM alz_user WHERE id = #{id} </select> -->
@@ -111,10 +148,21 @@
 		직접 값을 넣고 싶으면 활성화 WHERE id = #{id} </update> -->
 
 	<delete id="deleteById">
-		DELETE FROM alz_user WHERE email = #{email}
+		DELETE FROM alz_user WHERE id = #{id}
 	</delete>
+	
+	<select id="findUserByEmailNickname" parameterType="alz.user.domain.UserDTO" resultType="int">
+		select count(*) from alz_user
+		where email = #{email}
+		and nickname = #{nickname}
+	</select>
 	
 	<select id="searchId" resultType="String">
 		SELECT ID FROM alz_user WHERE email = #{email}
 	</select>
+	
+	<select id="findWithdrawUser" resultType="long">
+		SELECT ID FROM alz_user_state where start_at = #{date}
+	</select>
+	
 </mapper>

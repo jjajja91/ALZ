@@ -143,7 +143,7 @@
 	padding-top: 10px;
 }
 .lesson-detail-nav {
-	padding: 10px;
+	padding: 20px;
 }
 .lesson-detail-nav a  {
 	padding: 10px;
@@ -181,11 +181,32 @@ pre {
 	color: red;
 }
 
+#lesson_star_rate a {
+	text-decoration: none;
+	color: gray;
+	font-size: 30px;
+}
+
+#teacher_star_rate a {
+	text-decoration: none;
+	color: gray;
+	font-size: 30px;
+}
+
+#teacher_star_rate a.teacherOn {
+	color: red;
+}
 .lessonSideDiv {
 	padding: 15px;
     border: 1px solid #eee;
     position: sticky;
     top: 20px;
+}
+
+.lesson-detail-nav {
+    position: sticky;
+    top: 0px;
+    background-color: white;
 }
 
 .lessonMainImgDiv {
@@ -217,6 +238,14 @@ pre {
 .subCategory{
 	width: 200px;
 	margin-left: 10px;
+}
+.imgArea{
+width: 120px;
+}
+
+.lessonMainImgLeftDiv img {
+width: 190px;
+height: 140px;
 }
 </style>
 <script

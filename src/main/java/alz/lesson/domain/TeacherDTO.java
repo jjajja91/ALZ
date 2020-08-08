@@ -16,9 +16,11 @@ import lombok.experimental.Accessors;
 @AllArgsConstructor
 @ToString
 public class TeacherDTO {
-	
+
+	private Long originalId;
 	private Long id;
 	private Long userId;
+	private Long state;
 	private String nickname;
 	private String profile;
 	private String snsType;

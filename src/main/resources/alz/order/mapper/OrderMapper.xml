@@ -5,27 +5,66 @@
 
 <mapper namespace="alz.order.mapper.OrderMapper">
 
-	<insert id="order" parameterType="alz.order.domain.OrderDTO">
+	<insert id="insertOrder"
+		parameterType="alz.order.domain.OrderDTO">
+		INSERT INTO ALZ_ORDER
+		(ID,USER_ID,NAME,PHONE,METHOD,STATE,TOTAL_PRICE)
+		VALUES
+		(#{id},
+		#{userId}, #{name}, #{phone}, #{method},#{state},#{totalPrice})
+	</insert>
+
+	<insert id="insertOrderDetail"
+		parameterType="alz.order.domain.OrderDetailDTO">
 		<selectKey keyProperty="id" order="BEFORE" resultType="long">
-			SELECT alz_order_seq.nextval FROM dual
+			SELECT alz_order_detail_seq.nextval FROM dual
 		</selectKey>
-		INSERT INTO	ALZ_ORDER
-		(ID,USER_ID,NAME,PHONE,METHOD,STATE,ORDER_AT)
-		VALUES 
-		(#{id}, #{userId}, #{name}, #{phone}, #{method},#{state}, sysdate)
+		insert into alz_order_detail
+		(id, order_id, merchandise_id, user_id)
+		values 
+		(#{id}, #{orderId}, #{merchandiseId}, #{userId})
 	</insert>
 	
-	<insert id="orderDetail" parameterType="alz.order.domain.OrderDTO">
- 		insert into alz_order_details
- 		(id, order_Id, merchandise_name, merchandise_price, merchandise_id,order_state)
-     	select alz_order_details_seq.nextval, #{orderId}, gdsNum, cartStock
-        from alz_cart   
-</insert> 
+	<insert id="linkStudentForLesson" parameterType="alz.order.domain.LessonStudentDTO">
+		<selectKey keyProperty="id" order="BEFORE" resultType="long">
+			SELECT alz_lesson_student_seq.nextval FROM dual
+		</selectKey>
+		INSERT INTO ALZ_LESSON_STUDENT
+		(ID, LESSON_ID, STUDENT_ID)
+		VALUES(#{id}, #{lessonId}, #{studentId})
+	</insert>
 
-<delete id="cartDelete">
- delete alz_cart
-     where user_Id = #{userId}
-</delete>
+	<delete id="removeCart">
+		delete alz_cart
+		where user_Id = #{userId}
+	</delete>
 
+	<select id="orderResult"
+		resultType="alz.order.domain.OrderDetailDTO">
+		select o.order_id, m.id merchandise_id, m.NAME, m.ORIGIN_PRICE
+		from alz_order_detail o, alz_merchandise m
+		where o.order_id = #{orderId}
+		and m.id = o.merchandise_id
+	</select>
+	
+	<insert id="orderDetailInsert" parameterType="alz.order.domain.OrderDetailDTO">
+		<selectKey keyProperty="id" order="BEFORE" resultType="long">
+			SELECT alz_order_detail_seq.nextval FROM dual
+		</selectKey>
+		INSERT INTO ALZ_ORDER_DETAIL
+		(ID, ORDER_ID, MERCHANDISE_ID, USER_ID)
+		VALUES
+		(#{id}, #{orderId}, #{merchandiseId}, #{userId})
+	</insert>
+	
+	<select id="findOrderer"
+		resultType="alz.order.domain.OrderDTO">
+		select name, phone
+		from alz_order
+		where id = #{id}
+	</select>
+	
+	
+	
 
 </mapper>

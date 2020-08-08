@@ -2,7 +2,8 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
+<%@ taglib uri="http://www.springframework.org/security/tags"
+	prefix="sec"%>
 
 <%@include file="../includes/header.jsp"%>
 <sec:authentication var="principal" property="principal" />
@@ -14,9 +15,9 @@
 	<div class="panel-body">
 
 		<div class="form-group">
-			<input type = 'hidden' id = 'boardId' value='${board.id }'>
-			<input type = 'hidden' id = 'userId' value='${principal.id}'>
-			<input class="form-control" name='title'
+			<input type='hidden' id='boardId' value='${board.id }'> <input
+				type='hidden' id='userId' value='${principal.id}'> <input
+				class="form-control" name='title'
 				value='<c:out value="${board.title }"/>' readonly="readonly">
 		</div>
 		<div class="form-group">
@@ -30,6 +31,32 @@
 				value='<c:out value="${board.viewCnt }"/>' readonly="readonly">
 		</div>
 		<hr>
+		<c:if test="${board.typeId == 4}">
+			<div>
+			<h>수강 클래스 : </h>
+		<strong><p><c:out value="${board.lessonTitle}"/></p></strong>	<br>
+						<lable>강의 만족도</lable>
+				<p id="lesson_star_rate">
+					<a href="#" id="star1">★</a> <a href="#" id="star2">★</a> <a
+						href="#" id="star3">★</a> <a href="#" id="star4">★</a> <a href="#"
+						id="star5">★</a>
+				</p>
+				<input type='hidden' name='lessonReview'
+					value='<c:out value="${board.lessonReview}"/>'>
+
+				<lable>강사 만족도</lable>
+				<p id="teacher_star_rate">
+					<a href="#" id="star1">★</a> <a href="#" id="star2">★</a> <a
+						href="#" id="star3">★</a> <a href="#" id="star4">★</a> <a href="#"
+						id="star5">★</a>
+				</p>
+				<input type='hidden' name='teacherReview'
+					value='<c:out value="${board.teacherReview}"/>'>
+
+
+			</div>
+
+		</c:if>
 		<div class="form-group">
 			<textarea class="form-control" id='content' rows="10" name='content'
 				readonly="readonly"><c:out value="${board.content }" />
@@ -37,16 +64,15 @@
 		</div>
 
 		<div class="form-group">
-			<input type="hidden" id="isLike" value="false">
-			<input type="hidden" id="likeCnt" value="${board.likeCnt }"/>
-			<a class='likeCnt' href='<c:out value="${board.likeCnt }"/>'>
-			♡ 좋아요 <c:out value="${board.likeCnt }" />
-			</a> 
-			<a class='commentCnt' href='<c:out value="${board.commentCnt }"/>'>댓글
+			<input type="hidden" id="isLike" value="false"> <input
+				type="hidden" id="likeCnt" value="${board.likeCnt }" /> <a
+				class='likeCnt' href='<c:out value="${board.likeCnt }"/>'> ♡ 좋아요
+				<c:out value="${board.likeCnt }" />
+			</a> <a class='commentCnt' href='<c:out value="${board.commentCnt }"/>'>댓글
 				<c:out value="${board.commentCnt }" />
 			</a>
 		</div>
-		
+
 		<%-- <div>
 
 		<div class="bigPictureWrapper">
@@ -68,12 +94,12 @@
 			</div>
 		</div> --%>
 
-	<button data-oper='write' class="btn btn-info"
-			onclick="location.href='/board/write?typeId=<c:out value="${board.typeId}"/>&id=<c:out value="${board.id}"/>&pid=<c:out value="${board.parentId}"/>&boardOrder=<c:out value="${board.boardOrder}"/>'">답글쓰기</button> 
-		
-		<c:if test="${principal.nickname eq board.nickname}">
-		<button data-oper='update' class="btn btn-default"
-			onclick="location.href='/board/update?id=<c:out value="${board.id}"/>'">수정</button>
+		<button data-oper='write' class="btn btn-info"
+			onclick="location.href='/board/write?typeId=<c:out value="${board.typeId}"/>&id=<c:out value="${board.id}"/>&pid=<c:out value="${board.parentId}"/>&boardOrder=<c:out value="${board.boardOrder}"/>'">답글쓰기</button>
+
+		<c:if test="${principal.id eq board.writerId}">
+			<button data-oper='update' class="btn btn-default"
+				onclick="location.href='/board/update?id=<c:out value="${board.id}"/>'">수정</button>
 		</c:if>
 		<button data-oper='list' class="btn btn-info"
 			onclick="location.href='/board/list?typeId='${board.typeId}">목록</button>
@@ -86,37 +112,39 @@
 			<input type='hidden' name='keyword'
 				value='<c:out value="${cri.keyword }"/>'> <input
 				type='hidden' name='type' value='<c:out value="${cri.type }"/>'>
-				<input type='hidden' name='typeId' value='<c:out value="${board.typeId }"/>'>
+			<input type='hidden' name='typeId'
+				value='<c:out value="${board.typeId }"/>'>
 		</form>
 	</div>
 
-    <!-- 댓글  -->
-    <input type='hidden' name='replyNickname' id='replyNickname' value='${principal.nickname}'>
+	<!-- 댓글  -->
+	<input type='hidden' name='replyNickname' id='replyNickname'
+		value='${principal.nickname}'>
 	<div class="container">
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<i class="fa fa-comments fa-fw"></i> 댓글
 			</div>
-			
+
 			<div class="panel-body">
-				<ul class="chat"> 
-					<li>
-						<strong class="primary-font">user00</strong>
-						<small class="pull-right text-muted">2020-07-03</small>
-						<pre>Good job!</pre>
+				<ul class="chat">
+					<li><strong class="primary-font">user00</strong> <small
+						class="pull-right text-muted">2020-07-03</small> <pre>Good job!</pre>
 					</li>
 				</ul>
-				
+
 				<!-- 댓글입력 -->
 				<div>
-					<textarea id="commentContent" name='comment' placeholder='댓글을 남겨보세요'></textarea>
+					<textarea id="commentContent" name='comment'
+						placeholder='댓글을 남겨보세요'></textarea>
 					<button id="registerCommentBtn">등록</button>
 				</div>
 			</div>
-			<input type="hidden" id="targetUser" name="targetUser" value="<sec:authentication property="principal.nickname"/>"/>
+			<input type="hidden" id="targetUser" name="targetUser"
+				value="<sec:authentication property="principal.nickname"/>" />
 		</div>
 	</div>
-	
+
 </div>
 
 <script type="text/javascript" src="/resources/js/comment.js"></script>
@@ -135,16 +163,32 @@
 				userId : $userId.val(),
 				boardId : $boardId.val()
 			};
+		var $lessonReview = $("input[name=lessonReview]");
+		var $teacherReview = $("input[name=teacherReview]");
+	   
+		lessonReview = $lessonReview.val();
+		teacherReview = $teacherReview.val(); 
 		
 		
+		//기존 별점 출력
+		for(var i=1; i<=lessonReview;i++){
+			 $('#lesson_star_rate').children('#star'+i).addClass("lessonOn");
+			}
+	    for(var i=1; i<=teacherReview;i++){
+	      $('#teacher_star_rate').children('#star'+i).addClass("teacherOn");
+	       }
+		  
 		isLike(likeData)
 		.then(function(response){
+			// 좋아요 상태 반영
 			$isLike.val(response);
 		})
 		.then(function(response){
+			// 좋아요 수 반영
 			return countLike($boardId.val());
 		})
 		.then(function(response){
+			// 좋아요 그리기(채워진/빈 하트)
 			drawLikeCnt(response);
 		})
 		.catch(function(error){
@@ -187,6 +231,7 @@
 
 		var $content = $('#content');
 		
+		//서머노트 툴바 삭제
 		$content.summernote('code', $content.val());
 		$("div[class*=toolbar]").css("display", "none");
 		$("div[class*=note-editable]").attr("contenteditable", "false");
@@ -258,7 +303,7 @@
 						str += "<hr> ";
 					} else if(list[i].deleted=='N') {
 						str += "			<strong class='primary-font'> 작성자 : "+list[i].nickname+"</strong>";
-						if(list[i].nickname == $userId.val() ) {
+						if(list[i].userId == $userId.val() ) {
 						str += "			<div class='commentDropdown'>";
 						str += "				<button class='commentDropBtn' data-toggle='dropdown'>:</button>";
 						str += "				<ul class='dropdown-menu'>";
@@ -340,10 +385,12 @@
 					$('#commentContent').val("");
 				})
 				.then(function(response){
+					// 댓글 수 구하기
 					return countComments($boardId.val());
 				})
 				.then(function(response){
 					console.log(response);
+					// 댓글 수 다시 그리기
 					drawCommentCnt(response);
 				})
 				.catch(function(error) {
@@ -356,13 +403,17 @@
 			
 		})
 		
+		// 좋아요  수
 		var $likeCnt = $(".likeCnt");
+		// 댓글 수
 		var $commentCnt = $(".commentCnt");
 		
 		$likeCnt.click(function(e){
 			e.preventDefault();
 			
+			// 좋아요 상태가 true면
 			if($isLike.val()=="true"){
+				// 좋아요 제거
 				removeLike(likeData)
 				.then(function(response){
 					return countLike($boardId.val());
@@ -374,7 +425,9 @@
 				.catch(function(error){
 					console.log(error);
 				});
+			// 좋아요 상태가 false면
 			} else {
+				// 좋아요 추가
 				addLike(likeData)
 				.then(function(response){
 					return countLike($boardId.val());
@@ -556,6 +609,7 @@
 			
 		}
 		
+		// 좋아요 추가
 		function addLike(likeData) {
 			return $.ajax({
 				type : "POST",
@@ -565,6 +619,7 @@
 			});
 		}
 		
+		// 좋아요 삭제
 		function removeLike(likeData) {
 			return $.ajax({
 				type : 'DELETE',
@@ -573,6 +628,7 @@
 			});
 		}
 		
+		// 좋아요 수
 		function countLike(id) {
 			return $.ajax({
 				type : "GET",
@@ -581,10 +637,12 @@
 			});
 		}
 		
+		// 댓글 수 갱신 반영
 		function drawCommentCnt(commentCnt){
 			$commentCnt.html("댓글 "+commentCnt);
 		}
 		
+		// 좋아요 수 갱신 반영 및 좋아요 여부 반영
 		function drawLikeCnt(likeCnt) {
 			if($isLike.val()=="true") {
 			$likeCnt.html("♥ 좋아요 "+likeCnt);
@@ -593,6 +651,7 @@
 			}
 		}
 		
+		// 댓글 수 구하기
 		function countComments(id) {
 			return $.ajax({				
 				type: 'GET',
@@ -601,6 +660,7 @@
 			});
 		}
 		
+		// 좋아요 여부 확인
 		function isLike(likeData){
 			return $.ajax({
 				type : "GET",

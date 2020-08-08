@@ -18,6 +18,9 @@
 					<td>NICKNAME</td>
 					<td>
 						<input type="text"  id="nickname" name="nickname" value="${principal.nickname}">
+						<input type="hidden" id="originNickname" value="${principal.nickname}">
+						<input type="hidden" id="originPhone" value="${principal.phoneNumber}">
+						<input type="hidden" id="description" name="description" value="">
 							<button id="nicknameChk">닉네임 중복확인</button>
 					</td>
 				
@@ -25,7 +28,7 @@
 				<tr>
 					<td>PW</td>
 					<td>
-						<input type="password" id="password" name="password" value="${principal.password}">
+						<input type="password" id="password" name="password" value="">
 					</td>
 				</tr>
 				<tr>
@@ -57,21 +60,25 @@
 		
 		<script type="text/javascript">
 		$(document).ready(function() {
+			var $id = $("#id");
 			var $email = $("#email");
 	  		var $password = $("#password");
 	  		var $nickname = $("#nickname");
 	  		var $phoneNumber = $("#phoneNumber");
 	  		var $nicknameChk = $("#nicknameChk");
+	  		var $description = $("#description");
+	  		var $originNickname = $("#originNickname");
+	  		var $originPhone = $("#originPhone");
 	  	  var $nicknameChkResult = $("#nicknameChkResult");
 	  	 $nickname.change(function(){
 	            $nicknameChkResult.val("false");
 	         });
-	  	 
-			//정보 수정 함수
+	
+		//정보 수정 함수
 			function UserUpdateApi(data) {
 				console.log(data);
 					  return $.ajax({
-		  		    url: "/users/",
+		  		    url: "/",
 		  		    type: "PUT",
 		  		    data: JSON.stringify(data),
 		  		    contentType: "application/json",
@@ -88,6 +95,7 @@
 						nickname: $nickname.val(),
 						password : $password.val(),
 						phoneNumber :$phoneNumber.val(),
+						description : $originNickname.val()+"/"+$nickname.val()+"/"+$originPhone.val()+"/"+$phoneNumber.val(),
 						};
 				 if(operation === 'update') {			
 					UserUpdateApi(data) 
@@ -123,7 +131,10 @@
 	            nicknameChk()
 	            .then(function(response){
 	               console.log(response);
-	               if(response.nickname==$nickname.val()){
+	               if($nickname.val()==$originNickname.val()){
+	            	   alert("사용 가능한 닉네임입니다");
+	            	   $nicknameChkResult.val("true");
+	               } else if(response==true){
 	                  alert("중복된 닉네임이 있습니다");
 	               } else {
 	                  alert("사용 가능한 닉네임입니다");

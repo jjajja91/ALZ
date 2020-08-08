@@ -2,17 +2,23 @@ package alz.order.mapper;
 
 import java.util.List;
 
+import alz.order.domain.LessonStudentDTO;
 import alz.order.domain.OrderDTO;
 import alz.order.domain.OrderDetailDTO;
 
 public interface OrderMapper {
+
+	public void removeCart(Long userId);
+
+	public void insertOrder(OrderDTO order);
+
+	public void insertOrderDetail(OrderDetailDTO order);
 	
-	public List<OrderDTO> listMyOrderGoods(OrderDTO orderDTO);
+	public List<OrderDetailDTO> orderResult(String orderId);
 
-	public void insertNewOrder(List<OrderDTO> myOrderList);
+	public void orderDetailInsert(OrderDetailDTO orderDetail);
 
-	public void removeGoodsFromCart(List<OrderDTO> myOrderList);
+	public OrderDTO findOrderer(String orderId);
 
-	public OrderDTO findMyOrder(long id);
-
+	public int linkStudentForLesson(LessonStudentDTO lessonStudent);
 }

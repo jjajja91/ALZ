@@ -21,25 +21,28 @@ import lombok.experimental.Accessors;
 @ToString
 public class LessonDTO {
 
+	private Long originalId;
 	private Long id;
-	@NotEmpty
 	private Long teacherId;
-	private Long categoryId;
-	private Long main;
-	private Long sub; 
+	private Long categoryMain;
+	private Long categorySub; 
 	private String categoryName;
 	private String title;
-	private String lessonType;
-	private String lessonLevelId;
-	private String lessonLevel;
+	private Long lessonType;
+	private String typeName;
+	private Long lessonLevel;
+	private String levelName;
 	private Long minStudent;
 	private Long maxStudent;
 	private Long currentStudent;
-	private String state;
+	private Long state;
 	private Date openAt;
 	private Date closeAt;
 	private String startAt;
 	private String endAt;
 	private String detail;
+	private String thumbnail;
+	
+	private String location;
 	
 }

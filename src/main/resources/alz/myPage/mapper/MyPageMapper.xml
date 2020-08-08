@@ -18,7 +18,7 @@
 					comment_cnt commentCnt, view_cnt viewCnt, board_order boardOrder, nickname, 
 					parent_id parentId, type_id typeId, writer_id writerId  
 			from alz_board 
-			where  writer_id =  #{writerId}
+			where  writer_id =  #{id}
 			
 		]]>
 	</select>
@@ -36,7 +36,7 @@
                                      like_cnt likeCnt, comment_cnt commentCnt, view_cnt viewCnt,
                                      board_order boardOrder, nickname, parent_id parentId, type_id typeId, writer_id writerId 
                                from alz_board
-                         where writer_id = #{writerId}
+                         where writer_id = #{id}
                            order by id desc)
                      where rownum <= #{pageNum} * #{amount} )
 			)
@@ -48,16 +48,32 @@
 
 	<select id="commentSelectWithPaging"
 		resultType="alz.board.domain.CommentDTO">
-		select id, content, written_at
-		writtenAt, updated_at
-		updatedAt, like_cnt likeCnt,
-		comment_cnt commentCnt, comment_code
-		commentCode, board_id boardId, nickname,
-		depth, deleted, user_id userId
-		from alz_comment
-		where user_id = #{writerId}
-		order by comment_code
+		<![CDATA[
+		select * from(
+		select rownum rn, id, content, written_at, updated_at, like_cnt, comment_cnt, comment_code, board_id, nickname, depth, deleted, user_id
+		from( select * from alz_comment
+		where user_id = #{id}
+		order by written_at desc))
+		where rn <= #{pageNum} * #{amount}
+		and rn > (#{pageNum}-1) * #{amount}
+		]]>
 	</select>
+
+	<select id="likeSelectWithPaging"
+		resultType="alz.board.domain.BoardDTO">
+		<![CDATA[	
+		select * from(
+		select rownum rn, id, title, content, written_at, comment_cnt, view_cnt, nickname
+		from (select b.id, b.title, b.content, b.written_at, b.comment_cnt, b.view_cnt, b.nickname 
+		from alz_board b, alz_link_like_board l
+		where b.id = l.board_id
+		and l.user_id = #{id}
+		order by written_at desc))
+		where rn <= #{pageNum} * #{amount}
+		and rn > (#{pageNum}-1) * #{amount}
+		]]>
+	</select>
+	
 
 	<select id="likeSelectAll"
 		resultType="alz.board.domain.BoardDTO">
@@ -67,12 +83,49 @@
 		(select *
 		from
 		alz_link_like_board
-		where user_id = #{writerId}
+		where user_id = #{id}
 		order by id desc )l
 		on
 		b.id=l.board_id
 	</select>
 
+     <select id="myLessonList" resultType="alz.lesson.domain.LessonDTO">
+      select l.id id, l.title title, l.thumbnail thumbnail,  l.close_at closeAt, l.state state
+      from
+        alz_order_detail od,
+        alz_merchandise md,
+        alz_lesson l
+        where od.merchandise_id = md.id
+        and md.ref_id = l.id
+        and l.state = 9
+        and od.user_id =#{id}     
+     </select>
+     
+         <select id="finishedLessonList" resultType="alz.lesson.domain.LessonDTO">
+      select l.id id, l.title title, l.thumbnail thumbnail, l.close_at closeAt, l.state state
+      from
+        alz_order_detail od,
+        alz_merchandise md,
+        alz_lesson l
+        where od.merchandise_id = md.id
+        and md.ref_id = l.id
+        and l.state = 10
+        and od.user_id =#{id}     
+     </select>
+     
+      <select id="refundedLesson" resultType="alz.lesson.domain.LessonDTO">
+         select  l.id id, l.title title, l.thumbnail thumbnail,  l.close_at closeAt, l.state state 
+         from
+        alz_order o,
+        alz_order_detail od,
+        alz_merchandise md,
+        alz_lesson l
+        where od.merchandise_id = md.id
+        and o.id = od.order_id
+        and md.ref_id = l.id
+        and o.state = '취소완료'
+        and od.user_id =#{id}  
+     </select>
 
 	<select id="selectById" resultType="alz.board.domain.BoardDTO">
 		select id, title, content,
@@ -99,7 +152,22 @@
 		alz_board where id = #{id}
 	</select>
 
-	<select id="getLikeCnt" resultType="long">
+	<select id="myLikeCnt" resultType="long">
+		select count(*) from alz_link_like_board
+		where user_id = #{id}
+	</select>
+	
+	<select id="myBoardCnt" resultType="long">
+		select board_cnt from alz_user_detail
+		where id = #{id}
+	</select>
+	
+	<select id="myCommentCnt" resultType="long">
+		select comment_cnt from alz_user_detail
+		where id = #{id}
+	</select>
+
+	<select id="getLikeCnt">
 		select like_cnt from
 		alz_board where id = #{id}
 	</select>
@@ -111,8 +179,10 @@
 	</select>
 
    <insert id="deleteAcc">
-       insert into alz_user_state (id, state) values (#{id}, '탈퇴')
-   
+   		<selectKey keyProperty="id" order="BEFORE" resultType="long">
+			SELECT alz_user_state_seq.nextval FROM dual
+		</selectKey>
+       insert into alz_user_state (id, user_id, state, description) values (#{id}, #{userId}, '탈퇴', #{description})
    </insert>
 
 	<update id="updateEnable" parameterType="alz.user.domain.UserDTO">

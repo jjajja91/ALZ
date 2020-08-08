@@ -18,8 +18,10 @@ import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 
 import alz.user.security.CustomLoginSuccessHandler;
+import alz.user.security.CustomLogoutSuccessHandler;
 import alz.user.service.UserServiceImpl;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j;
@@ -28,9 +30,9 @@ import lombok.extern.log4j.Log4j;
 @EnableWebSecurity
 @Log4j
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-	
+   
     @Autowired
-    UserServiceImpl userService;
+    UserServiceImpl userServiceImpl;
 
 	@Bean
 	public PasswordEncoder passwordEncoder() {
@@ -47,6 +49,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return handler;
     }
 
+    @Bean
+    public LogoutSuccessHandler customLogoutSuccessHandler() {
+    	return new CustomLogoutSuccessHandler();
+    }
 	
 	@Bean
 	public AuthenticationSuccessHandler loginSuccessHandler() {
@@ -72,7 +78,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	public void configure(HttpSecurity http) throws Exception {
 //		http.addFilterBefore(new LoggingFilter(), WebAsyncManagerIntegrationFilter.class);
 
-		http.authorizeRequests().antMatchers("/", "/users/**", "/resources/**", "/join", "/create", "/find_id_form", "/find_id").permitAll()
+		http.authorizeRequests()
+		.antMatchers("/", "/users/**", "/socialJoin", "/socialLogin", "/google/*", "/naver/*","/kakao/*", "/resources/**", "/join", "/create", "/find_id_form", "/find_id",
+					 "/findPwd", "/find_password_email", "/modifyPwd").permitAll()
 		.anyRequest().authenticated()
         .expressionHandler(expressionHandler());
 
@@ -82,11 +90,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.httpBasic();
 		
         http.rememberMe()
-        .userDetailsService(userService)
+        .userDetailsService(userServiceImpl)
         .key("remember-me-sample");
         
         http.logout()
-        .logoutSuccessUrl("/");
+//        .logoutSuccessHandler(customLogoutSuccessHandler())
+        .logoutSuccessUrl("/")
+        .invalidateHttpSession(true);
 //
         http.csrf().disable();
         
@@ -105,7 +115,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.userDetailsService(userService)
+		auth.userDetailsService(userServiceImpl)
 			.passwordEncoder(passwordEncoder());	
 	}
 

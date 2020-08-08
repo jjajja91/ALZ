@@ -18,10 +18,9 @@ import lombok.experimental.Accessors;
 @AllArgsConstructor
 public class ReviewDTO {
 
-	private Long id;
-	private Long classReview;
+	private Long lessonReview;
 	private Long teacherReview;
-	private Long classId;
+	private Long lessonId;
 	private Long boardId;
 	private Long reviewerId;
 	
