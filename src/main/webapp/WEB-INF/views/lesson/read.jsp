@@ -16,14 +16,15 @@
 		</div>
 		<div class="lesson-detail">
 			<div class="lesson-detail-nav">
-				<a>클래스소개</a>
-				<a>커리큘럼</a>
-				<a>강사소개</a>
-				<a>후기</a>
-				<a>환불정책</a>
+				<a href="#detailDiv">클래스소개</a>
+				<a href="#scheduleDiv">시간표</a>
+				<a href="#curriculumDiv">커리큘럼</a>
+				<a href="#teacherDiv">강사소개</a>
+				<a href="shortReview">후기</a>
+				<a href="refundTerm">환불정책</a>
 			</div>
 			
-			<div class="detailDiv">
+			<div class="detailDiv" id="detailDiv">
 				<h3><strong>이런 걸 배울 거예요</strong></h3>
 				<ul>
 					<li>
@@ -47,16 +48,30 @@
 				</ul>
 				
 				<br><br>
-				<h3><c:out value="${lesson.lessonLevel}" />자들을 위한
+				<h3><strong><c:out value="${lesson.levelName}" />자</strong>들을 위한
 				<br><c:out value="${lesson.categoryName}" /> 클래스입니다.</h3>
 				
 				<br><br>
 				<pre class="pre"><c:out value="${lesson.detail}"></c:out></pre>
 			</div>
 			
-			<div class="curriculumDiv">
+			<div class="scheduleDiv" id="scheduleDiv">
+				<br>
+				<br>
+				<h3><strong>세부 스케줄</strong></h3>
+				<br>
+				<c:forEach items="${schedule }" var="schedule">
+					<strong><c:out value="${schedule.lessonDate }"/></strong>
+					<c:out value="${schedule.startAt }"/> ~ <c:out value="${schedule.endAt }"/>
+					<br>
+				</c:forEach>
+				<br>
+				<br>
+			</div>
+			
+			<div class="curriculumDiv" id="curriculumDiv">
 				<br><br>
-				<h3>커리큘럼</h3>
+				<h3><strong>커리큘럼</strong></h3>
 				
 				<c:forEach items='${curriculum}' var='list'>
 					<h4><c:out value="${list.subject}" /></h4>
@@ -68,9 +83,9 @@
 				</c:forEach>
 			</div>
 			
-			<div class="teacherDiv">
+			<div class="teacherDiv" id="teacherDiv">
 				<br><br>
-				<h3>강사 소개</h3>
+				<h3><strong>강사 소개</strong></h3>
 				<br>
 				<h4><c:out value="${teacher.nickname}" /></h4>
 				<c:out value="${teacher.snsType}" /> - <c:out value="${teacher.snsId}" />
@@ -78,11 +93,23 @@
 				<h5><c:out value="${teacher.profile}" /></h5>
 			</div>
 			
-			<div class="shortReview">
+			<div class="shortReview" id="shortReview">
 				<input type='hidden' name='lessonRate'>
+			</div>
+			
+			<div id="refundTerm">
+				<br>
+				<br>
+				<h4><strong>환불정책</strong></h4>
+				환불은 1주일 전까지 해드립니다.
+				<br>
+				수강 후에는 수업1회당 20% 차감 환불.
+				<br>
+				<br>
 			</div>
 		</div>
 	</div>
+	
 
 	
 	<div class="lesson-info">
@@ -109,7 +136,7 @@
         });
 		
 		var str="";
-		str += "<br><br><h3>한줄평</h3><br>";
+		str += "<br><br><h3><strong>한줄평</strong></h3><br>";
 		<c:forEach items='${quickReview}' var='review'>
 			str += "<c:out value='${review.nickname}' />";
 			str += "<p id='lesson_star_rate'>";

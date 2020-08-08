@@ -128,7 +128,7 @@ public class LessonServiceImpl implements LessonService {
 
 	// 클래스 세부
 	public LessonDTO readByLessonId(Long id) {
-		LessonDTO searchedLessons = lessonMapper.findByLessonId(id);
+		LessonDTO searchedLessons = lessonMapper.findBasicByLessonId(id);
 		return searchedLessons;
 	}
 
@@ -143,6 +143,13 @@ public class LessonServiceImpl implements LessonService {
 	public List<CurriculumSubjectDTO> curriculumByLessonId(Long id) {
 		List<CurriculumSubjectDTO> curriculumSubject = lessonMapper.findCurriculumByLessonId(id);
 		return curriculumSubject;
+	}
+	
+	// 상세 페이지에서 보여지는 수업 스케줄
+	@Override
+	public List<TimeTableDTO> timeTableByLessonId(Long lessonId) {
+		List<TimeTableDTO> timeTable = lessonMapper.findTimetableByLessonId(lessonId);
+		return timeTable;
 	}
 	
 	// 강사
@@ -227,6 +234,8 @@ public class LessonServiceImpl implements LessonService {
 		int total = lessonMapper.getTotalCount(cri);
 		return total;
 	}
+
+	
 
 
 }

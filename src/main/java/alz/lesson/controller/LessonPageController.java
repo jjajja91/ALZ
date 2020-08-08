@@ -61,7 +61,6 @@ public class LessonPageController {
 			cri.setCategorySub(sub.intValue());
 		}
 		cri.setState(7);
-		System.out.println(cri);
 		model.addAttribute("list", lessonService.readAll(cri));
 		int total = lessonService.getTotal(cri);
 	  
@@ -76,6 +75,7 @@ public class LessonPageController {
    public void get(@RequestParam Long id, Model model) {
       model.addAttribute("lesson", lessonService.readByLessonId(id));
       model.addAttribute("curriculum", lessonService.curriculumByLessonId(id));
+      model.addAttribute("schedule", lessonService.timeTableByLessonId(id));
       model.addAttribute("teacher", lessonService.teacherByLessonId(id));
       model.addAttribute("quickReview", lessonService.quickReviewByLessonId(id));
    }
