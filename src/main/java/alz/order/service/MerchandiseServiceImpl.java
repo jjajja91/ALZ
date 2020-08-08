@@ -36,7 +36,7 @@ public class MerchandiseServiceImpl implements MerchandiseService {
 		int affectedRowCount = merchandiseMapper.insert(merchandise);
 		System.out.println(merchandise);
 		LessonDTO lesson = new LessonDTO();
-		lesson.setId(merchandise.getRefId()).setState(6L);
+		lesson.setId(merchandise.getRefId()).setState(7L);
 		System.out.println(lesson);
 		lessonMapper.updateState(lesson);
 		MerchandiseDTO openMerchandise = merchandiseMapper.selectById(merchandise.getId());

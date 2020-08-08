@@ -35,17 +35,12 @@ public class OrderServiceImpl implements OrderService {
 		.setTotalPrice(orderRequest.getTotalPrice());
 		orderMapper.insertOrder(order);
 		
-		System.out.println("오더완료");
-		
 		OrderDetailDTO orderDetail = new OrderDetailDTO();
 		orderDetail.setOrderId(orderRequest.getId()).setAmount(orderRequest.getAmount())
 		.setUserId(orderRequest.getUserId());
 		
 		LessonStudentDTO lessonStudent = new LessonStudentDTO();
 		lessonStudent.setStudentId(orderRequest.getUserId());
-		
-		System.out.println("사이즈는 " + orderRequest.getMerchandiseId().size());
-		System.out.println(orderRequest.getMerchandiseId());
 		
 		for(int i = 0; i<orderRequest.getMerchandiseId().size(); i++) {
 			System.out.println(i + "회차");
