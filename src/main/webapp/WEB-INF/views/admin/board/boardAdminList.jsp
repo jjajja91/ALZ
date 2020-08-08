@@ -271,7 +271,7 @@
 									end="${pageMaker.endPage }">
 									<li
 										class="paginate_button ${pageMaker.cri.pageNum == num? 'active':'' }"><a
-										href="${num }">${num }</a></li>
+										href="${num }" class="paging">${num }</a></li>
 								</c:forEach>
 
 								<c:if test="${pageMaker.next }">
@@ -357,57 +357,57 @@
 	<script
 		src="/resources/vendor/datatables/js/dataTables.bootstrap4.min.js"></script>
  -->
-<!-- Page level custom scripts --><!-- 
+<!-- Page level custom scripts -->
+<!-- 
 <script src="/resources/js/demo/datatables-demo.js"></script> -->
 
 <script type="text/javascript">
 	$(document).ready(function() {
-		var $pageNum = $("#pageNum");
-		var $amount = $("#amount");
-	
-		var $table = $("#table");
 		
-		var totalCnt;
-		var data;
-		
-		//체크박스 전체 체크
-		$(function(){ //전체선택 체크박스 클릭
+		 //전체선택 체크박스 클릭
 			$("#checkAll").click(function(){ 
-				console.log("나와?")
 				//만약 전체 선택 체크박스가 체크된상태일경우
 				if($("#checkAll").prop("checked")) { 
 					$("input[type=checkbox]").prop("checked",true); 
 			} else { 
-						$("input[type=checkbox]").prop("checked",false); } }) });
-
-		$(function(){
+						$("input[type=checkbox]").prop("checked",false); } });
+		
+		 //삭제버튼 클릭시
 		$("#delete").click(function(){
-			console.log("드렁와?");
-			$("input[name=checkOne]:checked").each(function() {
-				var test = $(this).val();
-				console.log(test);
+			var boardId = getChecked();
+			boardDeleteApi(boardId)			
+				
 			});
-			boardDeleteApi(data) 
-				.then(function(response){
-				   self.location = "/admin/board/boardAdminList;
-				});
-			
+		
+		//체크된것 값 가져오기                                                             
+		function getChecked(){ 
+			var tdArr = new Array();
+			var checkbox = $("input[name=checkOne]:checked");
+				// 체크된 체크박스 값을 가져온다
+			checkbox.each(function(i) {
+			var tr = checkbox.parent().parent().eq(i);
+			var td = tr.children();
+			var no = td.eq(1).text();
+			tdArr.push(no);				
 		});
-						});
-		//체크된것
-			
-		function boardDeleteApi(data) {
+			return tdArr;
+		};
+		
+		//삭제
+		function boardDeleteApi(data){
   		  return $.ajax({
-  		    url: "/admin/board"+$id.val(),
+  		    url: "/admin/board",
   		    type: "Delete",
   		    data: JSON.stringify(data),
   		    contentType: "application/json",
-  		  });
+  		    success : 
+  		    	location.href = "/admin/board/boardAdminList"
+  		  	  });
   		}
 
-		var actionForm = $("#actionForm");
 		
-		// 첫 페이지 paging
+		
+		/* // 첫 페이지 paging
 		$(".paginate_button a").on("click", function(e) {
 			e.preventDefault();
 			
@@ -424,7 +424,7 @@
 			actionForm.find("input[name='pageNum']").val($(this).attr("href"));
 			actionForm.submit();
 		});
-		
+		 */
 		// 읽기 이벤트 추가
 		$(".read").on("click", function(e) {
 			e.preventDefault();
@@ -434,82 +434,67 @@
 		});
 		
 		
-		 
-		var pageFooter = $(".page-footer");
 		
-		// 페이지 번호 출력
-		function showPage(totalCnt) {
-			
-			pageFooter.empty();
-			
-			var endNum = Math.ceil(data.pageNum / 10.0) * 10;
-			var startNum = endNum - 9;
-			
-			var prev = startNum != 1;
-			var next = false;
-			
-			if(endNum * 10 >= totalCnt) {
-				endNum = Math.ceil(totalCnt/10.0);
-			}
-			
-			if(endNum * 10 < totalCnt) {
-				next = true;
-			}
+		
+		$pageBtn = $(".paging");
+		$tbody = $("tbody");
 
-			var str = "<ul class='pagination pull-right'>";
-			
-			if(prev) {
-				str += "<li class='page-item'><a class='page-link' href='"+(startNum -1)+"'>Privious</a></li>";
-			}
-			
-			for(var i=startNum; i<=endNum; i++) {
-				var active = data.pageNum ==i? "active":"";
-				str += "<li class='page-item"+active+" '><a class='page-link' href='"+i+"'>"+i+"</a></li>";
-			}
-			
-			if(next) {
-				str += "<li class='page-item'><a class='page-link' href='"+(endNum +1)+"'>Next</a></li>";
-			}
-			
-			str += "</ul></div>";
-			
-			pageFooter.html(str);
-		}
-		
-		// 페이지 번호 클릭 이벤트
-		pageFooter.on("click", "li a", function(e) {
+		$pageBtn.on().click(function(e){
+			// active 관련은 나중에 없앨 수도 있음
+			$pageBtn.parent().removeClass("active")
 			e.preventDefault();
-			var targetPageNum = $(this).attr("href");
-			data.pageNum = targetPageNum;
-			
-			// 글 목록 출력
-			getList(data, pageNum);
+			var $target = e.target
+			console.log($target);
+			$target.parentNode.setAttribute("class", "active");
+			var pageNum = $target.text;
+			getBoardList(pageNum)
+			.then(function(response){
+				console.log(response);
+				drawMyBoardList(response);
+			})
+			.catch(function(error){
+				console.log(error);
+			});
 		});
 		
-		// 글목록
-		function getList(data) {
-			console.log(data);
-			
-			// 글 검색 결과
-			boardSearch(data)
-				.then(function(response) {
-					// 글 검색결과 출력
-					return printBoardList(response);
-				})
-				.then(function(response) {
-					// 읽기 이벤트 추가
-					$(".read").on("click", function(e) {
-						e.preventDefault();
-						actionForm.append("<input type='hidden' name='id' value='"+$(this).attr("href")+"'>");
-						actionForm.attr("action", "/board/read");
-						actionForm.submit();
-					});
-					
-				})
-				.catch(function(error) {
-					console.log(error);
-				});
-		}
+		function getBoardList(pageNum){
+				return $.ajax({
+				type : "GET",
+				url : "/admin/board/"+pageNum,
+				contentType : "application/json"
+			});
+		};
+		
+		function drawMyBoardList(boardList){
+			console.log(boardList);
+			$tbody.html("");
+			var fragment = document.createDocumentFragment();
+			for(var i = 0; i<boardList.length; i++){
+				var board = boardList[i];
+				var str = "";
+				var tr = document.createElement("tr");
+				str += "<td>"+board.id+"</td>";
+				str += "<td><a class='read' href='/board/read?id="+board.boardId+"'>"+board.title+"</a></td>";
+				str += "<td>"+board.nickname+"</td>"
+				var writtenAt = board.writtenAt
+				var date = new Date(writtenAt);
+				str += "<td>"+formatDate(date)+"</td>"
+			tr.innerHTML += str;
+			fragment.appendChild(tr);	
+			}
+			$tbody.append($(fragment));
+		};
+		
+	      function formatDate(date) { 
+	          var d = new Date(date), month = '' + (d.getMonth() + 1), day = '' + d.getDate(), year = d.getFullYear(); 
+	          if (month.length < 2) month = '0' + month; 
+	          if (day.length < 2) day = '0' + day; 
+	          return [year, month, day].join('-'); };
+	
+		
+/* 		 
+		var pageFooter = $(".page-footer");
+		
 		
 		// 글 검색 결과
 	function boardSearch(data) {
@@ -567,8 +552,9 @@
 			
 			$table.append($(frag));
 		}
-		
+		 */
 	});
+	
 </script>
 
 

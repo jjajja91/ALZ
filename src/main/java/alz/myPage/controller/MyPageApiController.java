@@ -41,7 +41,7 @@ public class MyPageApiController {
 	}
 	
 	// 검색 결과 글목록
-	@GetMapping(value = {"/{pageNum}/{amount}" }, produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+	@GetMapping(value = "/{pageNum}/{amount}" , produces =MediaType.APPLICATION_JSON_UTF8_VALUE)
 		public ResponseEntity<?> boardList(@PathVariable Integer pageNum, @PathVariable Integer amount) 
 	{		System.out.println("여기 들어옴?");
 	MyPageCriteria cri = new MyPageCriteria();
@@ -53,6 +53,7 @@ public class MyPageApiController {
 	
 	@GetMapping(value = "/commentList/{pageNum}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> myCommentList(@PathVariable Integer pageNum){
+		System.out.println("이거임?");
 		MyPageCriteria cri = new MyPageCriteria(pageNum, 10, getLoginUserInfo().getId());
 		List<CommentDTO> commentList = myPageService.getMyCommentList(cri);
 		return ResponseEntity.status(HttpStatus.OK).body(commentList);
