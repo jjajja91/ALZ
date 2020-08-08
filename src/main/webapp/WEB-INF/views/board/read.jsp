@@ -97,7 +97,7 @@
 		<button data-oper='write' class="btn btn-info"
 			onclick="location.href='/board/write?typeId=<c:out value="${board.typeId}"/>&id=<c:out value="${board.id}"/>&pid=<c:out value="${board.parentId}"/>&boardOrder=<c:out value="${board.boardOrder}"/>'">답글쓰기</button>
 
-		<c:if test="${principal.nickname eq board.nickname}">
+		<c:if test="${principal.id eq board.writerId}">
 			<button data-oper='update' class="btn btn-default"
 				onclick="location.href='/board/update?id=<c:out value="${board.id}"/>'">수정</button>
 		</c:if>
@@ -303,7 +303,7 @@
 						str += "<hr> ";
 					} else if(list[i].deleted=='N') {
 						str += "			<strong class='primary-font'> 작성자 : "+list[i].nickname+"</strong>";
-						if(list[i].nickname == $userId.val() ) {
+						if(list[i].userId == $userId.val() ) {
 						str += "			<div class='commentDropdown'>";
 						str += "				<button class='commentDropBtn' data-toggle='dropdown'>:</button>";
 						str += "				<ul class='dropdown-menu'>";
