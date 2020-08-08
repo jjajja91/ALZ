@@ -59,19 +59,17 @@ body {
   <lable>학생메뉴</lable>
   <a href="/myPage/activeLesson">수강중인 클래스</a>
   <a href="/myPage/finishedLesson">수강했던 클래스</a>
+  <a href="/myPage/refundedLesson">취소/환불</a>
   
+  <sec:authorize access="hasRole('ROLE_TEACHER') or hasRole('ROLE_ADMIN')">
   <label>선생님메뉴</label>
   <a href="/myPage/teachingLesson">강의중인 클래스</a>
   <a href="/myPage/teachedLesson">강의했던 클래스</a>
-  
-  <lable>결제 내역</lable>
-  <a href="/myPage/orderedLesson">주문한 클래스</a>
-  <a href="/myPage/refundedLesson">취소/환불</a>
-  
+    </sec:authorize>
+
   <lable>관심 클래스</lable>
   <a href="#about">찜 클래스</a>
   <a href="#services">좋아요 클래스</a>
-
   
   <lable>내가 쓴 글</lable>
   <a href="/myPage/boardList">내 게시글</a>
