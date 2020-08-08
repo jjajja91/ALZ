@@ -21,7 +21,12 @@
 	<div class="lessonRowDiv">
 		<c:forEach items="${list}" var="lesson">
 			<div class="lessonInfoDiv">
+				<c:if test= "${empty lesson.thumbnail}">
 				<img class="lessonImg" src="../../../resources/img/classtmpimg.jpg">
+				</c:if>
+				<c:if test= "${!empty lesson.thumbnail}">
+				<img class="lessonImg" src="/resources/img/lesson/thumb/${lesson.teacherId}${lesson.openAt}/${lesson.thumbnail}">
+				</c:if>
 				<p><small>[<c:out value="${lesson.typeName}" />] <c:out value="${lesson.categoryName}" /></small></p>
 				<a class='read' href='<c:out value="${lesson.id }"/>'><strong><c:out value="${lesson.title}" /></strong></a>
 				<p>★★★☆☆</p>

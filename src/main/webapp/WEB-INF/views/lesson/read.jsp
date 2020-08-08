@@ -12,7 +12,12 @@
 
 	<div class="lesson-main">
 		<div class="lessonDetailImgDiv">
-			<img class="lessonDetailImg" src="../../../resources/img/javaclass.jpg">
+				<c:if test= "${empty lesson.thumbnail}">
+				<img class="lessonImg" src="../../../resources/img/javaclass.jpg">
+				</c:if>
+				<c:if test= "${!empty lesson.thumbnail}">
+				<img class="lessonImg" src="/resources/img/lesson/thumb/${lesson.teacherId}${lesson.openAt}/${lesson.thumbnail}">
+				</c:if>
 		</div>
 		<div class="lesson-detail">
 			<div class="lesson-detail-nav">

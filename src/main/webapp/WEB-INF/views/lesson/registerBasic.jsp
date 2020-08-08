@@ -68,7 +68,6 @@
 				<input type="file" id="uploadFile" name="uploadFile" accept="image/gif, image/jpeg, image/png, image/jpg">
 				<div class="lessonMainImgLeftDiv">
 					<img src="/resources/img/lesson/thumb/${lesson.teacherId}${lesson.openAt}/${lesson.thumbnail}">
-					<a>사진등록</a>
 				</div>
 				<div class="lessonMainImgRightDiv">
 					<label>클래스 제목</label>

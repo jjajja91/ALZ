@@ -23,8 +23,14 @@
 				<c:forEach items="${list}" var="myLessonList">
 
 					<tr>
-						<td rowspan="2"><img class="lessonImg"
-							src="/resources/img/classtmpimg.jpg"></td>
+						<td rowspan="2">
+						<c:if test= "${empty myLessonList.thumbnail}">
+						<img class="lessonImg" src="../../../resources/img/classtmpimg.jpg">
+						</c:if>
+						<c:if test= "${!empty myLessonList.thumbnail}">
+						<img class="lessonImg" src="/resources/img/lesson/thumb/${myLessonList.teacherId}${myLessonList.openAt}/${myLessonList.thumbnail}">
+						</c:if>
+						</td>
 						<td><c:out value="${myLessonList.title }" /></td>
 					</tr>
 					<tr>

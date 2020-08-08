@@ -141,6 +141,9 @@ public class LessonPageController {
       Long originalId = lesson.getOriginalId();
       
       // 입출력 시작
+    	  
+
+      if(uploadFile!=null) {
       String uploadFolder = servletContext.getRealPath("/resources/img/lesson/thumb");
       File uploadPath = new File(uploadFolder, lesson.getTeacherId().toString()+lesson.getOpenAt());
       System.out.println("upload path : " + uploadPath);
@@ -168,6 +171,8 @@ public class LessonPageController {
          } // end catch
 
             lesson.setThumbnail(uploadFilename);
+            
+      }
             
             // 입출력 끝
 

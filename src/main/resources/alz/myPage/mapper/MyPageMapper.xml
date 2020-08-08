@@ -90,7 +90,7 @@
 	</select>
 
      <select id="myLessonList" resultType="alz.lesson.domain.LessonDTO">
-      select l.id id, l.title title,  l.close_at closeAt, l.state state
+      select l.id id, l.title title, l.thumbnail thumbnail,  l.close_at closeAt, l.state state
       from
         alz_order_detail od,
         alz_merchandise md,
@@ -102,7 +102,7 @@
      </select>
      
          <select id="finishedLessonList" resultType="alz.lesson.domain.LessonDTO">
-      select l.id id, l.title title, l.close_at closeAt, l.state state
+      select l.id id, l.title title, l.thumbnail thumbnail, l.close_at closeAt, l.state state
       from
         alz_order_detail od,
         alz_merchandise md,
@@ -114,7 +114,7 @@
      </select>
      
       <select id="refundedLesson" resultType="alz.lesson.domain.LessonDTO">
-         select  l.id id, l.title title,  l.close_at closeAt, l.state state 
+         select  l.id id, l.title title, l.thumbnail thumbnail,  l.close_at closeAt, l.state state 
          from
         alz_order o,
         alz_order_detail od,
