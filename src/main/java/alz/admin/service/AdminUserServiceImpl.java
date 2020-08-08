@@ -8,15 +8,19 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import alz.admin.mapper.AdminUserMapper;
 import alz.user.domain.UserDTO;
+import alz.user.domain.UserStateDTO;
+import alz.user.mapper.UserMapper;
 
 @Service
 public class AdminUserServiceImpl implements AdminUserService, UserDetailsService {
 
 	// mapper 가져와서 사용
 	private AdminUserMapper adminUserMapper;
+//	private UserMapper userMapper;
 
 	private PasswordEncoder passwordEncoder;
 
@@ -52,19 +56,19 @@ public class AdminUserServiceImpl implements AdminUserService, UserDetailsServic
 		return adminUserMapper.userList();
 	}
 
-	// 02. 회원 등록
-	@Override
-	public void insertManager(UserDTO dto) {
-		dto.encodePassword(passwordEncoder);
-		adminUserMapper.insertManager(dto);
-	}
-
-	// 02. 회원 등록
-	@Override
-	public void insertUser(UserDTO dto) {
-		dto.encodePassword(passwordEncoder);
-		adminUserMapper.insertUser(dto);
-	}
+//	// 02. 회원 등록
+//	@Override
+//	public void insertManager(UserDTO dto) {
+//		dto.encodePassword(passwordEncoder);
+//		adminUserMapper.insertManager(dto);
+//	}
+//
+//	// 02. 회원 등록
+//	@Override
+//	public void insertUser(UserDTO dto) {
+//		dto.encodePassword(passwordEncoder);
+//		adminUserMapper.insertUser(dto);
+//	}
 
 	// 03. 회원 정보 상세 조회
 	@Override
@@ -111,23 +115,58 @@ public class AdminUserServiceImpl implements AdminUserService, UserDetailsServic
 	}
 
 	// 회원 강제탈퇴 관련 메소드
+	@Transactional //전부 실행 되야만 실행되는 어노테이션
 	@Override
 	public void dropOut(UserDTO dto) throws Exception {
+		
+		UserDTO user = adminUserMapper.selectByEmail(dto.getEmail());
+//		System.out.println(dto);
+		adminUserMapper.dropOutStateChange(user);
 		adminUserMapper.dropOut(dto);
 	}
 
 	// 회원 강제정지 관련 메소드
+	@Transactional //전부 실행 되야만 실행되는 어노테이션
 	@Override
 	public void suspended(UserDTO dto) throws Exception {
+		UserDTO user = adminUserMapper.selectByEmail(dto.getEmail());
+//		System.out.println(dto);
+		adminUserMapper.suspendedStateChange(user);
 		adminUserMapper.suspended(dto);
 	}
 
 	// 회원 휴면전환 관련 메소드
+	@Transactional //전부 실행 되야만 실행되는 어노테이션
 	@Override
 	public void inactive(UserDTO dto) throws Exception {
+		UserDTO user = adminUserMapper.selectByEmail(dto.getEmail());
+//		System.out.println(dto);
+		adminUserMapper.inactiveStateChange(user);
 		adminUserMapper.inactive(dto);
 	}
 
+	// 회원 일반회원으로 전환 관련 메소드
+	@Transactional //전부 실행 되야만 실행되는 어노테이션
+	@Override
+	public void backNormal(UserDTO dto) throws Exception {
+		UserDTO user = adminUserMapper.selectByEmail(dto.getEmail());
+//		System.out.println(dto);
+		adminUserMapper.backNormalStateChange(user);
+		adminUserMapper.backNormal(dto);
+	}
+	
+	// 해당 계정을 일반계정으로 전환하는데 관련된 메소드
+	@Override
+	public void asUser(UserDTO dto) throws Exception {
+		adminUserMapper.asUser(dto);
+	}
+	
+	// 해당 계정을 관리자계정으로 전환하는데 관련된 메소드
+	@Override
+	public void asManager(UserDTO dto) throws Exception {
+		adminUserMapper.asManager(dto);
+	}
+	
 //	@Async
 //	@Override
 //	public void asyncService() {

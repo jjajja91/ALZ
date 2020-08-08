@@ -60,7 +60,7 @@
          FROM
          alz_user users LEFT OUTER JOIN alz_user_state state on
          users.id = state.id
-         WHERE users.id >= 0;
+         WHERE users.id >= 0
       ]]>
 	</select>
 

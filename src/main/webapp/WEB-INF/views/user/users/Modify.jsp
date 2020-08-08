@@ -78,7 +78,7 @@
 			function UserUpdateApi(data) {
 				console.log(data);
 					  return $.ajax({
-		  		    url: "/users/",
+		  		    url: "/",
 		  		    type: "PUT",
 		  		    data: JSON.stringify(data),
 		  		    contentType: "application/json",
