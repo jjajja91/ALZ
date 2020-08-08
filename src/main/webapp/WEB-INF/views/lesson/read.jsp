@@ -20,11 +20,15 @@
 				<a href="#scheduleDiv">시간표</a>
 				<a href="#curriculumDiv">커리큘럼</a>
 				<a href="#teacherDiv">강사소개</a>
-				<a href="shortReview">후기</a>
-				<a href="refundTerm">환불정책</a>
+				<a href="#shortReview">후기</a>
+				<a href="#refundTerm">환불정책</a>
 			</div>
 			
 			<div class="detailDiv" id="detailDiv">
+				<br>
+				<br>
+				<br>
+				<br>
 				<h3><strong>이런 걸 배울 거예요</strong></h3>
 				<ul>
 					<li>
@@ -48,7 +52,7 @@
 				</ul>
 				
 				<br><br>
-				<h3><strong><c:out value="${lesson.levelName}" />자</strong>들을 위한
+				<h3><strong><c:out value="${lesson.levelName}" /><c:if test="${lesson.levelName != '누구나'}">자들</c:if></strong>을 위한
 				<br><c:out value="${lesson.categoryName}" /> 클래스입니다.</h3>
 				
 				<br><br>
@@ -56,6 +60,8 @@
 			</div>
 			
 			<div class="scheduleDiv" id="scheduleDiv">
+				<br>
+				<br>
 				<br>
 				<br>
 				<h3><strong>세부 스케줄</strong></h3>
@@ -71,6 +77,8 @@
 			
 			<div class="curriculumDiv" id="curriculumDiv">
 				<br><br>
+				<br>
+				<br>
 				<h3><strong>커리큘럼</strong></h3>
 				
 				<c:forEach items='${curriculum}' var='list'>
@@ -85,6 +93,8 @@
 			
 			<div class="teacherDiv" id="teacherDiv">
 				<br><br>
+				<br>
+				<br>
 				<h3><strong>강사 소개</strong></h3>
 				<br>
 				<h4><c:out value="${teacher.nickname}" /></h4>
@@ -93,11 +103,25 @@
 				<h5><c:out value="${teacher.profile}" /></h5>
 			</div>
 			
+			
+		    <br><br>
+			<br>
+			<br><h3><strong>한줄평</strong></h3><br>
+			<p id="lesson_star_rate">
+				<a href="#" id="star1">★</a> <a href="#" id="star2">★</a> <a
+					href="#" id="star3">★</a> <a href="#" id="star4">★</a> <a
+					href="#" id="star5">★</a>
+			</p>
+			<input type='hidden' name='lessonReview'>
+			+ <input type="text" id="quickReviewText" placeholder="한줄평을 입력해주세요">
+			<button type="submit">입력</button>
 			<div class="shortReview" id="shortReview">
 				<input type='hidden' name='lessonRate'>
 			</div>
 			
 			<div id="refundTerm">
+				<br>
+				<br>
 				<br>
 				<br>
 				<h4><strong>환불정책</strong></h4>
@@ -136,7 +160,6 @@
         });
 		
 		var str="";
-		str += "<br><br><h3><strong>한줄평</strong></h3><br>";
 		<c:forEach items='${quickReview}' var='review'>
 			str += "<c:out value='${review.nickname}' />";
 			str += "<p id='lesson_star_rate'>";
@@ -151,6 +174,13 @@
 			str += "<br>";
 		</c:forEach>
 		$('.shortReview').html(str);
+		
+		$('#lesson_star_rate a').click(function(){
+            $(this).parent().children("a").removeClass("lessonOn");  /* 별점의 on 클래스 전부 제거 */ 
+            $(this).addClass("lessonOn").prevAll("a").addClass("lessonOn"); /* 클릭한 별과, 그 앞 까지 별점에 on 클래스 추가 */
+            var lesson_star_rate = $(".lessonOn").length;
+            return $("input[type=hidden][name=lessonReview]").val(lesson_star_rate);
+        });
 		
 	});
 
