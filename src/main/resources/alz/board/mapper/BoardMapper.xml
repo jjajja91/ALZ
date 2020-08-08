@@ -42,32 +42,33 @@
 
 	<![CDATA[
           select id, title, content, writtenAt, updatedAt, likeCnt, commentCnt, viewCnt,
-               boardOrder, nickname, parentId, typeId, writerId  
-            from (select rownum, rn, id, title, content, writtenAt, updatedAt, likeCnt, commentCnt, 
-                         viewCnt, boardOrder, nickname, parentId, typeId, writerId 
-                 from (select rownum rn, id, title, content, writtenAt, updatedAt, likeCnt, commentCnt, 
-                            viewCnt, boardOrder, nickname, parentId, typeId, writerId
-                        from (select id, title, content, written_at writtenAt, updated_at updatedAt, 
-                                     like_cnt likeCnt, comment_cnt commentCnt, view_cnt viewCnt,
-                                     board_order boardOrder, nickname, parent_id parentId, type_id typeId, writer_id writerId 
-                               from alz_board
-                         where type_id = #{typeId}
-                         start with parent_id = 0
-                         connect by prior id = parent_id
-                              order siblings by boardOrder desc)
-                     where rownum <= #{pageNum} * #{amount} )
-			)
-		where 		
+                 boardOrder, nickname, parentId, typeId, writerId  
+          from (select rownum, rn, id, title, content, writtenAt, updatedAt, likeCnt, commentCnt, 
+                       viewCnt, boardOrder, nickname, parentId, typeId, writerId 
+                from (select rownum rn, id, title, content, writtenAt, updatedAt, likeCnt, commentCnt, 
+                             viewCnt, boardOrder, nickname, parentId, typeId, writerId
+                      from (select id, title, content, written_at writtenAt, updated_at updatedAt, 
+                                   like_cnt likeCnt, comment_cnt commentCnt, view_cnt viewCnt,
+                                   board_order boardOrder, nickname, parent_id parentId, type_id typeId, writer_id writerId 
+                            from alz_board
+                            where type_id = #{typeId}
+                            start with parent_id = 0
+                            connect by prior id = parent_id
+                            order siblings by boardOrder desc
+                            )
+                      where rownum <= #{pageNum} * #{amount} 
+                      )
+			     )
+		   where 		
 		   	]]>
 		<include refid="boardCriteria"></include>
        <![CDATA[ 
-                      rn > (#{pageNum} -1) * #{amount}
-		start with parentId = 0
-		connect by prior id = parentId
-		order siblings by boardOrder desc
+                  rn > (#{pageNum} -1) * #{amount}
+		   start with parentId = 0
+		   connect by prior id = parentId
+		   order siblings by boardOrder desc
 	
 		]]>
-
 	</select>
 
 	<select id="selectById" resultType="alz.board.domain.BoardDTO">

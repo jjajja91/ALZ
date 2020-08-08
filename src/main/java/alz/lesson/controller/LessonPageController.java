@@ -14,8 +14,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import alz.board.domain.BoardCriteria;
+import alz.board.domain.BoardPageDTO;
+import alz.lesson.domain.LessonCriteria;
 import alz.lesson.domain.LessonDTO;
 import alz.lesson.domain.LessonDetailDTO;
+import alz.lesson.domain.LessonPageDTO;
 import alz.lesson.domain.TeacherDTO;
 import alz.lesson.service.LessonServiceImpl;
 import alz.user.domain.UserDTO;
@@ -41,11 +45,31 @@ public class LessonPageController {
       return userInfo;
    }
    
-   @GetMapping("/list")
-   public void list(Model model){
-      model.addAttribute("list", lessonService.readAll());
-   }
+	
+//	@GetMapping("/list") 
+//	public void list(Model model){
+//		model.addAttribute("list", lessonService.readAll()); 
+//	}
+	 
    
+	// 리스트
+	@GetMapping("/list") 
+	public void list(@RequestParam(required=false) Long main, 
+					 @RequestParam(required=false) Long sub, Model model) {
+		LessonCriteria cri = new LessonCriteria();
+		System.out.println("categoryMain = " + main + ", categorySub=" +sub);
+		cri.setCategoryMain(main.intValue());
+		cri.setCategorySub(sub.intValue());
+		cri.setState(7);
+		model.addAttribute("list", lessonService.readAll(cri));
+		int total = lessonService.getTotal(cri);
+	  
+		// 페이징 
+		model.addAttribute("pageMaker", new LessonPageDTO(cri, total));
+	  
+	}
+	 
+  
    // 클래스 상세
    @GetMapping("/read")
    public void get(@RequestParam Long id, Model model) {
