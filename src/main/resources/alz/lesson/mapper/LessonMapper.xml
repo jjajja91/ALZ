@@ -5,44 +5,27 @@
 
 <mapper namespace="alz.lesson.mapper.LessonMapper">
 
-	<sql id="lessonCriteria2">
-		<trim prefix="AND (" suffix=")" prefixOverrides="OR">
-			<choose>
-			    <when test="keyword != null">
-			      title like '%'||#{keyword}||'%'
-			    </when>
-			    <when test="categoryMain != null and categorySub == null">
-			      category_main =  #{categoryMain}
-			    </when>
-			    <when test="categorySub != null and categorySub != null">
-			      category_main = #{categoryMain} 
-			      AND category_sub = #{categorySub}
-				</when>
-			</choose>
-		</trim>
-	</sql>
-
 	<select id="getTotalCount" resultType="int">
 		select count(*)
-		from alz_lesson
-		where id > 0
-		<include refid="lessonCriteria2"></include>	
-		and state = ${state}
+		from alz_lesson lesson
+		where lesson.id > 0
+		<include refid="lessonCriteria"></include>	
+		and lesson.state = ${state}
 	</select>
 
 	<sql id="lessonCriteria">
 		<trim prefix="AND (" suffix=")" prefixOverrides="OR">
 			<choose>
-			    <when test="keyword != null">
+			    <when test="(categoryMain != null and categoryMain!=0) and categorySub == null">
+			      lesson.category_main =  #{categoryMain}
+			    </when>
+			    <when test="(categoryMain != null and categoryMain!=0) and categorySub != null">
+			      lesson.category_main = #{categoryMain} 
+			      and lesson.category_sub = #{categorySub}
+				</when>
+				<when test="keyword != null">
 			      title like '%'||#{keyword}||'%'
 			    </when>
-			    <when test="categoryMain != null and categorySub == null">
-			      categoryMain =  #{categoryMain}
-			    </when>
-			    <when test="categorySub != null and categorySub != null">
-			      categoryMain = #{categoryMain} 
-			      AND categorySub = #{categorySub}
-				</when>
 			</choose>
 		</trim>
 	</sql>
@@ -90,6 +73,9 @@
                              and lesson.category_main = category.main
                              and lesson.category_sub = category.sub
                              and lesson.state = #{state}
+		   ]]>
+		<include refid="lessonCriteria"></include>
+		<![CDATA[
                             order by lesson.id 
                             )
                       where rownum <= #{pageNum} * #{amount}
@@ -97,7 +83,6 @@
 			     )
 		   where rn > (#{pageNum} -1) * #{amount}
 		   ]]>
-		<include refid="lessonCriteria"></include>
    </select>
 
    <resultMap type="alz.lesson.domain.CurriculumSubjectDTO" id="subjectMap">

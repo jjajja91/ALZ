@@ -55,12 +55,13 @@ public class LessonPageController {
 	// 리스트
 	@GetMapping("/list") 
 	public void list(@RequestParam(required=false) Long main, 
-					 @RequestParam(required=false) Long sub, Model model) {
-		LessonCriteria cri = new LessonCriteria();
-		System.out.println("categoryMain = " + main + ", categorySub=" +sub);
-		cri.setCategoryMain(main.intValue());
-		cri.setCategorySub(sub.intValue());
+					 @RequestParam(required=false) Long sub, LessonCriteria cri, Model model) {
+		if(main!=null) {
+			cri.setCategoryMain(main.intValue());
+			cri.setCategorySub(sub.intValue());
+		}
 		cri.setState(7);
+		System.out.println(cri);
 		model.addAttribute("list", lessonService.readAll(cri));
 		int total = lessonService.getTotal(cri);
 	  

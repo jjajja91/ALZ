@@ -401,9 +401,8 @@ body {
 			<ul class="info">
 				<li class="info1">
 					<div class="middle">
-						<form class="search-box" action="index.html" method="post">
-							<input type="text" class="searchInput" name="searchInput"
-								value="">
+						<form class="search-box" action="/lesson/list" method="get">
+							<input type="text" class="searchInput" name="keyword" value="" >
 							<button type="button" class="searchBtn" name="searchBtn"></button>
 						</form>
 					</div>
@@ -530,7 +529,11 @@ body {
 				if ($searchBtn.attr("class") !== "searchBtn close") {
 					$searchInput.val("");
 				}
+				
 			});
+			
+			
+			
 		});
 	</script>
 </body>

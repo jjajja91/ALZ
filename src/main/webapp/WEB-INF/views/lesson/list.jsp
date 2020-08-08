@@ -19,34 +19,65 @@
 	</div>
 	
 	<div class="lessonRowDiv">
-		<c:forEach items="${list}" var="lessons">
+		<c:forEach items="${list}" var="lesson">
 			<div class="lessonInfoDiv">
 				<img class="lessonImg" src="../../../resources/img/classtmpimg.jpg">
-				<p><small>[<c:out value="${lessons.typeName}" />] <c:out value="${lessons.categoryName}" /></small></p>
-				<a class='read' href='<c:out value="${lessons.id }"/>'><strong><c:out value="${lessons.title}" /></strong></a>
+				<p><small>[<c:out value="${lesson.typeName}" />] <c:out value="${lesson.categoryName}" /></small></p>
+				<a class='read' href='<c:out value="${lesson.id }"/>'><strong><c:out value="${lesson.title}" /></strong></a>
 				<p>★★★☆☆</p>
 				<p>100,000원</p>
 			</div>
 		</c:forEach>
 	</div>
 	
+	<!-- paging -->
+	
+	<div class="page-footer" id="pagingDiv">
+		<ul class="pagination pull-right">
+			<c:if test="${pageMaker.prev }">
+				<li class="paginate_button previous"><a href="${pageMaker.startPage -1 }">Previous</a></li>
+			</c:if>
+			
+			<c:forEach var="num" begin="${pageMaker.startPage }" end="${pageMaker.endPage }">
+				<li class="paginate_button ${pageMaker.cri.pageNum == num? 'active':'' }"><a href="${num }">${num }</a></li>
+			</c:forEach>
+			
+			<c:if test="${pageMaker.next }">
+				<li class="paginate_button next"><a href="${pageMaker.endPage +1 }">Next</a></li>
+			</c:if>
+		</ul>
+	</div>
+	
+	
 	<form id='actionForm' action="/lesson/list" method='get'>
+		<input type='hidden' name='pageNum' value='${pageMaker.cri.pageNum}'>
+		<input type='hidden' name='amount' value='${pageMaker.cri.amount}'>
+		<input type='hidden' name='keyword' value='<c:out value="${pageMaker.cri.keyword}"/>' />
+		<input type='hidden' name='categoryMain' value='<c:out value="${pageMaker.cri.categoryMain}"/>' />
+		<input type='hidden' name='categorySub' value='<c:out value="${pageMaker.cri.categorySub}"/>' />
 	</form>
 	
-	<%-- <table class="classTable">
-		<tr>
-			<th>클래스이름</th>
-			<th>클래스설명</th>
-			<th>클래스날짜</th>
-			<th>클래스시간</th>
-			<th>학생수</th>
-			<th>좋아요수</th>
-			<th>찜수</th>
-			<th>평점</th>
-		<tr>
-			<c:forEach items="${list}" var="classes">
-				<tr>
-					<td><a href="get?id=${classes.id}"><c:out value="${classes.name}" /></a></td>
+	<%-- <table class="lessonTable">
+		<thead id="table-header">
+			<tr>
+				<th>클래스</th>
+				<th>클래스</th>
+				<th>클래스</th>
+				<th>클래스</th>
+				<th>클래스</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+			<c:forEach items="${list}" var="lesson">
+					<td>
+						<img class="lessonImg" src="../../../resources/img/classtmpimg.jpg">
+						<p><small>[<c:out value="${lesson.typeName}" />] <c:out value="${lesson.categoryName}" /></small></p>
+						<a class='read' href='<c:out value="${lesson.id }"/>'><strong><c:out value="${lesson.title}" /></strong></a>
+						<p>★★★☆☆</p>
+						<p>100,000원</p>
+					</td>
+					<td><a href="get?id=${lesson.id}"><c:out value="${lesson.name}" /></a></td>
 					<td><c:out value="${classes.description}" /></td>
 					<td><fmt:formatDate pattern="yyyy/MM/dd"
 							value="${classes.openAt}" />~<fmt:formatDate pattern="yyyy/MM/dd"
@@ -57,8 +88,9 @@
 					<td><c:out value="${classes.likeCnt}" /></td>
 					<td><c:out value="${classes.reservCnt}" /></td>
 					<td><c:out value="${classes.rate}" /></td>
-				</tr>
 			</c:forEach>
+				</tr>
+		</tbody>
 	</table> --%>
 	
 </div>
@@ -74,6 +106,14 @@
 			actionForm.attr("action", "/lesson/read");
 			actionForm.submit();
 		})
+		
+		//페이지 번호 이동
+		$('#pagingDiv a').click(function(e){
+			e.preventDefault();
+			actionForm.find("input[name='pageNum']").val($(this).attr("href"));
+			actionForm.submit();
+			
+		});
 		
 	});
 	
