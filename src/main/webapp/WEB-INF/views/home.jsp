@@ -370,26 +370,26 @@ body {
 					</ul></li>
 				<li class="menu2"><a href=""><span>취미</span> </a>
 					<ul class="sub">
-						<li><a href="/merchandise/list">미술</a></li>
-						<li><a href="">공예</a></li>
-						<li><a href="">디지털드로잉</a></li>
-						<li><a href="">사진/영상</a></li>
-						<li><a href="">라이프스타일</a></li>
-						<li><a href="">뷰티</a></li>
-						<li><a href="">요리/음료</a></li>
-						<li><a href="">음악</a></li>
-						<li><a href="">운동</a></li>
-						<li><a href="">댄스</a></li>
+						<li><a href="/lesson/list?main=1&sub=0">미술</a></li>
+						<li><a href="/lesson/list?main=1&sub=1">공예</a></li>
+						<li><a href="/lesson/list?main=1&sub=2">디지털드로잉</a></li>
+						<li><a href="/lesson/list?main=1&sub=3">사진/영상</a></li>
+						<li><a href="/lesson/list?main=1&sub=4">라이프스타일</a></li>
+						<li><a href="/lesson/list?main=1&sub=5">뷰티</a></li>
+						<li><a href="/lesson/list?main=1&sub=6">요리/음료</a></li>
+						<li><a href="/lesson/list?main=1&sub=7">음악</a></li>
+						<li><a href="/lesson/list?main=1&sub=8">운동</a></li>
+						<li><a href="/lesson/list?main=1&sub=9">댄스</a></li>
 					</ul></li>
 				<li class="menu3"><a href=""><span>자기계발</span> </a>
 					<ul class="sub">
-						<li><a href="">언어</a></li>
-						<li><a href="">직무/커리어</a></li>
-						<li><a href="">개발</a></li>
-						<li><a href="">디자인</a></li>
-						<li><a href="">부업/창업</a></li>
-						<li><a href="">자격증</a></li>
-						<li><a href="">심리상담</a></li>
+						<li><a href="/lesson/list?main=2&sub=0">언어</a></li>
+						<li><a href="/lesson/list?main=2&sub=1">직무/커리어</a></li>
+						<li><a href="/lesson/list?main=2&sub=2">개발</a></li>
+						<li><a href="/lesson/list?main=2&sub=3">디자인</a></li>
+						<li><a href="/lesson/list?main=2&sub=4">부업/창업</a></li>
+						<li><a href="/lesson/list?main=2&sub=5">자격증</a></li>
+						<li><a href="/lesson/list?main=2&sub=6">심리상담</a></li>
 					</ul></li>
 				<li class="menu4"><a href=""><span>커뮤니티</span> </a>
 					<ul class="sub">
@@ -401,9 +401,8 @@ body {
 			<ul class="info">
 				<li class="info1">
 					<div class="middle">
-						<form class="search-box" action="index.html" method="post">
-							<input type="text" class="searchInput" name="searchInput"
-								value="">
+						<form class="search-box" action="/lesson/list" method="get">
+							<input type="text" class="searchInput" name="keyword" value="" >
 							<button type="button" class="searchBtn" name="searchBtn"></button>
 						</form>
 					</div>
@@ -530,7 +529,11 @@ body {
 				if ($searchBtn.attr("class") !== "searchBtn close") {
 					$searchInput.val("");
 				}
+				
 			});
+			
+			
+			
 		});
 	</script>
 </body>

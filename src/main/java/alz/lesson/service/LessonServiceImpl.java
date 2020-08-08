@@ -6,9 +6,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import alz.board.domain.BoardCriteria;
 import alz.lesson.domain.CategoryDTO;
 import alz.lesson.domain.CurriculumDetailDTO;
 import alz.lesson.domain.CurriculumSubjectDTO;
+import alz.lesson.domain.LessonCriteria;
 import alz.lesson.domain.LessonDTO;
 import alz.lesson.domain.LessonDetailDTO;
 import alz.lesson.domain.LessonScheduleDTO;
@@ -171,12 +173,19 @@ public class LessonServiceImpl implements LessonService {
 	public List<CategoryDTO> lessonLevel () {
 		List<CategoryDTO> findLessonLevel = lessonMapper.findLessonLevel();
 		return findLessonLevel;
-	}	
+	}
 
 	public List<LessonDTO> readAll() {
 		List<LessonDTO> lessons = lessonMapper.findAll();
 		return lessons;
 	}
+	
+	// 카테고리별 페이징한 목록
+	public List<LessonDTO> readAll(LessonCriteria cri) {
+		List<LessonDTO> lessons = lessonMapper.findWithPaging(cri);
+		return lessons;
+	}
+	
 	
 	// 스케줄
 	public ScheduleDTO scheduleByLessonId(Long lessonId) {
@@ -211,6 +220,12 @@ public class LessonServiceImpl implements LessonService {
 		lesson.setId(lessonId).setState(2L);
 		int affectedRowCount = lessonMapper.updateState(lesson);
 		return affectedRowCount;
+	}
+	
+	@Override
+	public int getTotal(LessonCriteria cri) {
+		int total = lessonMapper.getTotalCount(cri);
+		return total;
 	}
 
 

@@ -2,8 +2,10 @@ package alz.lesson.service;
 
 import java.util.List;
 
+import alz.board.domain.BoardCriteria;
 import alz.lesson.domain.CategoryDTO;
 import alz.lesson.domain.CurriculumSubjectDTO;
+import alz.lesson.domain.LessonCriteria;
 import alz.lesson.domain.LessonDTO;
 import alz.lesson.domain.LessonDetailDTO;
 import alz.lesson.domain.LessonScheduleDTO;
@@ -39,6 +41,10 @@ public interface LessonService {
 	List<CategoryDTO> lessonLevel();
 	
 	List<LessonDTO> readAll();
+	List<LessonDTO> readAll(LessonCriteria cri);
+	
+	// 페이징 된 리스트의 게시글 수
+	int getTotal(LessonCriteria cri);
 
 	TeacherDTO updateTeacher(TeacherDTO teacher);
 	int updateLessonDetail(LessonDetailDTO detail);
