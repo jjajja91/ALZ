@@ -16,17 +16,22 @@
 
 	<insert id="insertOrderDetail"
 		parameterType="alz.order.domain.OrderDetailDTO">
-		insert into
-		alz_order_detail
-		(id, order_id,
-		merchandise_id, user_id)
-		select
-		alz_order_detail_seq.nextval,
-		#{orderId}, merchandise_id, user_id
-		from
-		alz_cart
-		where user_id =
-		#{userId}
+		<selectKey keyProperty="id" order="BEFORE" resultType="long">
+			SELECT alz_order_detail_seq.nextval FROM dual
+		</selectKey>
+		insert into alz_order_detail
+		(id, order_id, merchandise_id, user_id)
+		values 
+		(#{id}, #{orderId}, #{merchandiseId}, #{userId})
+	</insert>
+	
+	<insert id="linkStudentForLesson" parameterType="alz.order.domain.LessonStudentDTO">
+		<selectKey keyProperty="id" order="BEFORE" resultType="long">
+			SELECT alz_lesson_student_seq.nextval FROM dual
+		</selectKey>
+		INSERT INTO ALZ_LESSON_STUDENT
+		(ID, LESSON_ID, STUDENT_ID)
+		VALUES(#{id}, #{lessonId}, #{studentId})
 	</insert>
 
 	<delete id="removeCart">

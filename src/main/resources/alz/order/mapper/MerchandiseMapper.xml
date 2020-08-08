@@ -25,6 +25,10 @@
 		#{displayState}, #{refId}, #{userId}, '등록'
 		)
 	</insert>
+	
+	<select id="selectLessonById" resultType="long">
+		SELECT REF_ID FROM ALZ_MERCHANDISE WHERE id = #{id}
+	</select>
 
 	<select id="selectById"
 		resultType="alz.order.domain.MerchandiseDTO">

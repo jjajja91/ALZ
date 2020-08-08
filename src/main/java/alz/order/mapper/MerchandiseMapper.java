@@ -25,5 +25,7 @@ public interface MerchandiseMapper {
 	List<MerchandiseDTO> getListWithPaging(MerchandiseCriteria cri);
 
 	int getTotalCount(MerchandiseCriteria cri);
+	
+	Long selectLessonById(Long id);
 
 }

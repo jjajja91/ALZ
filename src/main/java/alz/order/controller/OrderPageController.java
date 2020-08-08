@@ -19,6 +19,7 @@ import alz.order.domain.CartListDTO;
 import alz.order.domain.MerchandiseDTO;
 import alz.order.domain.OrderDTO;
 import alz.order.domain.OrderDetailDTO;
+import alz.order.domain.OrderRequestDTO;
 import alz.order.service.CartService;
 import alz.order.service.MerchandiseService;
 import alz.order.service.OrderService;
@@ -153,26 +154,13 @@ public class OrderPageController {
 
 	@PostMapping("/addNewOrder")
 	@ResponseBody
-	public String orderInsert(@RequestBody OrderDTO order, OrderDetailDTO orderDetail, Model model) throws Exception {
+	public String orderInsert(@RequestBody OrderRequestDTO order, Model model) throws Exception {
 
-		System.out.println("addNewOrder");
+		System.out.println("addNewOrder: " + order);
 
 		long userId = getLoginUserInfo().getId();
 
 		model.addAttribute("userInfo", userService.userInfo(userId));
-
-//		// 주문번호 생성 -> 자바스크립트로 대체함
-//		Calendar cal = Calendar.getInstance();
-//		int year = cal.get(Calendar.YEAR);
-//		String ym = year + new DecimalFormat("00").format(cal.get(Calendar.MONTH) + 1);
-//		String ymd = ym + new DecimalFormat("00").format(cal.get(Calendar.DATE));
-//		String subNum = "";
-//
-//		for (int i = 1; i <= 6; i++) {
-//			subNum += (int) (Math.random() * 10);
-//		}
-//
-//		String orderId = ymd + "_" + subNum; // ex) 20200730_179708
 
 		System.out.println(order.getId());
 		// 주문에 유저 아이디와 생성된 주문번호 추가
@@ -180,28 +168,11 @@ public class OrderPageController {
 		// 주문등록
 		orderService.insertOrder(order);
 		System.out.println("orderInsert Complete");
-		//
-		orderDetail.setOrderId(order.getId());
-		orderDetail.setUserId(userId);
-		// 주문 상세 등록
-//		orderService.insertOrderDetail(orderDetail);
-//		System.out.println("orderDetailInsert Complete");
+
 
 		return "redirect:/order/buy";
 
 	}
 
-	@PostMapping("/orderDetailInsert")
-	@ResponseBody
-	public void orderDetailInsert(@RequestBody OrderDetailDTO orderDetail, Model model) throws Exception {
-
-		System.out.println("orderDetailInsert");
-
-		long userId = getLoginUserInfo().getId();
-		
-		// 주문에 유저 아이디와 생성된 주문번호 추가
-		orderDetail.setUserId(userId);
-		orderService.orderDetailInsert(orderDetail);
-	}
 
 }

@@ -11,8 +11,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<script type="text/javascript"
-	src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
 <script type="text/javascript"
 	src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
 </head>
@@ -36,11 +35,11 @@
 	
 	var buyList = [
 		  <c:forEach items="${buyList}" var="list">
-		                 {merchandiseId: "${list.merchandiseId}"},
+		                 "${list.merchandiseId}",
 		  </c:forEach>
 		             ];
-
-	  console.log(buyList);
+	
+	console.log(buyList);
 	  
 	  function one() {
 		  if (merchandises === 0) {
@@ -67,7 +66,7 @@
 			}, function(rsp) {
 				if (rsp.success) {
 					//[1] 서버단에서 결제정보 조회를 위해 jQuery ajax로 imp_uid 전달하기
-					jQuery.ajax({
+					$.ajax({
 						url : "/payments/complete", //cross-domain error가 발생하지 않도록 주의해주세요
 						type : 'POST',
 						dataType : 'json',
@@ -107,40 +106,36 @@
 	  // 결제 완료 후 실행됨
 	  function orderComplete() {
 			// 1. 오더 테이블 등록
-			addNewOrder()
-			
-			// 2. 오더 상세 테이블 등록
-			.then(function(){
-				// 단독 구매시
 				if (merchandises === 0) {
-					orderDetail(itemId);
-					console.log("A");
+					addNewOrder(itemId)
+					.then(function(response){
+						console.log(response)
+						location.href = "/order/buy?orderId="+orderId; 
+					})
+					.catch(function(error){
+						console.log(response)
+						var msg = '결제에 실패하였습니다.';
+						location.href = "/merchandise/cart";
+						alert(msg);
+					});
 				} else {  // 장바구니 구매시
-					console.log("B");
-					for(var i=0; i<buyList.length; i++) {
-						console.log(buyList[i].merchandiseId);
-						orderDetail(buyList[i].merchandiseId);
-					}
+						addNewOrder(buyList)
+						.then(function(response){
+							console.log(response)
+							location.href = "/order/buy?orderId="+orderId; 
+						})
+						.catch(function(error){
+							console.log(response)
+							var msg = '결제에 실패하였습니다.';
+							location.href = "/merchandise/cart";
+							alert(msg);
+						});
 				}
-				  
-				  
-				// 주문 완료 화면으로 이동
-			}).then(function(){
-				
-				setTimeout(function(){
-			
-				// 주문완료 페이지로 넘어가기 
-					location.href = "/order/buy?orderId="+orderId; 
-				
-				});
-			});
-			
-			
-	  }
+		}
 	  
 	  
 	  // 주문 등록
-	  function addNewOrder() {
+	  function addNewOrder(merchandiseId) {
 		  
 		  // 주문 번호 생성
 		  var date = new Date(); 
@@ -165,56 +160,26 @@
 		  console.log(orderId);   // ex) 20200804_615664
 		  
 		  
-		  var Data = {
-					
+		  var orderData = {
 				  	id : orderId,
 					name: name,
 					phone: phone,
 					totalPrice: totalPrice,
 					method: "카카오 페이",
-					state : "결제완료"
-						
+					state : "결제완료",
+					merchandiseId : merchandiseId
 				};
 				
 				
 				return $.ajax({
 					url: "/order/addNewOrder",
 					type: "POST",
-					data: JSON.stringify(Data),
-					contentType: "application/json",
-					success : function(){console.log("주문 등록 성공")
-						/* location.href = "/order/buy?orderId="+orderId; */
-					},
-					error : function(){
-						msg = '결제에 실패하였습니다.';
-						//실패시 이동할 페이지
-						location.href = "/merchandise/cart";
-						alert(msg);
-						}
-					
+					data: JSON.stringify(orderData),
+					contentType: "application/json"
 				});
 	  }
-	  
-	  // 주문 상세 등록
-	  function orderDetail(merchandiseId) {
-		  console.log("orderDetail");
-		  console.log(orderId);
-		  
-		  var orderDetailData = {
-					orderId : orderId,
-					merchandiseId : merchandiseId
-				}
-		  
-		  return $.ajax({
-				url: "/order/orderDetailInsert",
-				type: "POST",
-				data: JSON.stringify(orderDetailData),
-				contentType: "application/json",
-				error : function(){console.log("오더디테일 실패")},
-			    success : function(){console.log("오더디테일 성공")}
-			}); 
-		  
-	  }
+
+
 	</script>
 
 </body>

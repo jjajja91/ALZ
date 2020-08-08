@@ -2,6 +2,7 @@ package alz.order.mapper;
 
 import java.util.List;
 
+import alz.order.domain.LessonStudentDTO;
 import alz.order.domain.OrderDTO;
 import alz.order.domain.OrderDetailDTO;
 
@@ -18,4 +19,6 @@ public interface OrderMapper {
 	public void orderDetailInsert(OrderDetailDTO orderDetail);
 
 	public OrderDTO findOrderer(String orderId);
+
+	public int linkStudentForLesson(LessonStudentDTO lessonStudent);
 }
