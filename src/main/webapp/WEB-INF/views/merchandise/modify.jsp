@@ -64,21 +64,21 @@
 							</tr>
 
 							<tr>
-								<td>가격</td>
+								<td>상품 금액</td>
 								<td><input type="text" id="originPrice" name="originPrice"
-									value='<fmt:formatNumber value="${merchandise.originPrice}" pattern="#,###"/>'></td>
+									value='<fmt:formatNumber value="${merchandise.originPrice}"/>'></td>
 							</tr>
 
 							<tr>
-								<td>할인금액</td>
+								<td>할인 후 금액</td>
 								<td><input type="text" id="salePrice" name="salePrice"
-									value='<fmt:formatNumber value="${merchandise.salePrice}" pattern="#,###"/>'></td>
+									value='<fmt:formatNumber value="${merchandise.salePrice}"/>' readonly></td>
 							</tr>
 
 							<tr>
 								<td>할인율</td>
-								<td><input type="text" id="discountRate"
-									name="discountRate" value="${merchandise.discountRate }"></td>
+								<td><input type="number" id="discountRate"
+									name="discountRate" value="${merchandise.discountRate }" ></td>
 							</tr>
 
 							<tr>
@@ -144,8 +144,20 @@
 </body>
 
 <script type="text/javascript">
-	$(document).ready(
-			function() {
+	$(document).ready(function(){
+			
+			$originPrice = $("#originPrice");
+			$discountRate = $("#discountRate");
+			$salePrice = $("#salePrice");
+			
+			$discountRate.change(function(e){
+				var originPrice = $originPrice.val();
+				var discountRate = $discountRate.val();
+				var salePrice = Math.round((originPrice-originPrice*discountRate/100)/100)*100;
+				$salePrice.val(salePrice);
+				
+			});
+			
 				var formObj = $("form");
 
 				$('button').on(
@@ -184,8 +196,8 @@
 							}
 							formObj.submit();
 
-						})
+						});
 
-			})
+			});
 </script>
 </html>

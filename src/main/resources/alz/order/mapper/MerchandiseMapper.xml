@@ -112,11 +112,11 @@
 		resultType="alz.order.domain.MerchandiseDTO">
 	<![CDATA[
   select 
-    id, code_Type, name, origin_Price
+    id, code_Type, name, sale_Price
   from 
       (
       select /*+INDEX_DESC(alz_merchandise pk_id) */
-        rownum rn, id, code_Type, name, origin_Price
+        rownum rn, id, code_Type, name, sale_Price
       from 
         alz_merchandise
       where 

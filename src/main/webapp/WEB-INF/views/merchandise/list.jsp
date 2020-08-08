@@ -51,7 +51,7 @@
 									href='<c:out value="${merchandise.id }"/>'>
 								<c:out value="${merchandise.name }" /></a><br> 
 								</td>
-								<td><fmt:formatNumber value="${merchandise.originPrice }" pattern="#,###"/></td>
+								<td><fmt:formatNumber value="${merchandise.salePrice}" pattern="#,###"/></td>
 								<td><a class='modify'
 									href='<c:out value="${merchandise.id }"/>'>상품 편집</a></td>
 							</tr>

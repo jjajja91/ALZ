@@ -61,12 +61,12 @@
 						</div>
 
 						<div class="form-group">
-							<label>상품금액</label> <input class="form-control"
+							<label>상품 금액</label> <input class="form-control"
 								name='originPrice'>
 						</div>
 
 						<div class="form-group">
-							<label>할인금액</label> <input class="form-control" name='salePrice'>
+							<label>할인 후 금액</label> <input class="form-control" name='salePrice'>
 						</div>
 
 						<div class="form-group">
@@ -133,6 +133,14 @@ $(document).ready(function(e){
 		var $userId = $("input[name=userId]");
 
 		var formObj = $("form[role='form']");
+		
+		$discountRate.change(function(e){
+			var originPrice = $originPrice.val();
+			var discountRate = $discountRate.val();
+			var salePrice = Math.round((originPrice-originPrice*discountRate/100)/100)*100;
+			$salePrice.val(salePrice);
+			
+		});
 	
 	$("button[type='submit']").on("click", function(e){
 		e.preventDefault();
