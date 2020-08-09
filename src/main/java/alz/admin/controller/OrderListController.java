@@ -6,8 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import alz.admin.domain.OrderCriteria;
 import alz.admin.domain.OrderPageDTO;
@@ -39,8 +43,13 @@ public class OrderListController {
 	
 	@GetMapping("/order/orderMain")
 	public void orderMain(OrderCriteria cri, Model model) {
+		System.out.println("list: " + cri);
 		model.addAttribute("list", ordersService.orderListPaging(cri));
-		model.addAttribute("pageMaker", new OrderPageDTO(cri, 123));
+//		model.addAttribute("pageMaker", new OrderPageDTO(cri, 123));
+		
+		int total = ordersService.getTotal(cri);
+		System.out.println("total: " + total);
+		model.addAttribute("pageMaker", new OrderPageDTO(cri, total));
 	}
 
 	@GetMapping("/order/orderCanceled")
@@ -48,7 +57,7 @@ public class OrderListController {
 	}
 
 	@GetMapping("/order/orderDetail")
-	public void orderDetail(@RequestParam("id") String id, Model model) {
+	public void orderDetail(@RequestParam("id") String id, @ModelAttribute("cri") OrderCriteria cri, Model model) {
 		// 모델에 유저 정보 추가
 		model.addAttribute("orderId", id);
 
@@ -59,9 +68,12 @@ public class OrderListController {
 		model.addAttribute("orderer", order);
 	}
 	
-	@GetMapping("/order/tables")
-	public void tables(Model model) {
-		model.addAttribute("list", ordersService.orderList());
+	@PostMapping("/order/stateChange")
+	@ResponseBody
+	public void stateChange(@RequestBody OrderDTO order, Model model) {
+		
+		ordersService.stateChange(order);
+		
 	}
 	
 }
