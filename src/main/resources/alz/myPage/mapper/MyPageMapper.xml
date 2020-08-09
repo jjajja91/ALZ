@@ -90,15 +90,17 @@
 	</select>
 
      <select id="myLessonList" resultType="alz.lesson.domain.LessonDTO">
-      select l.id id, l.title title, l.thumbnail thumbnail,  l.close_at closeAt, l.state state
+     select l.id id, l.title title, l.thumbnail thumbnail,  l.close_at closeAt, l.state state
       from
+      	alz_order o,
         alz_order_detail od,
         alz_merchandise md,
         alz_lesson l
         where od.merchandise_id = md.id
+        and o.id = od.order_id
         and md.ref_id = l.id
-        and l.state = 9
-        and od.user_id =#{id}     
+        and o.state = '결제완료'
+        and od.user_id = #{id}; 
      </select>
      
          <select id="finishedLessonList" resultType="alz.lesson.domain.LessonDTO">
