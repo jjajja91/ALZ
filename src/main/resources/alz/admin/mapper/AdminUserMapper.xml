@@ -24,12 +24,12 @@
 	<!-- 01. 회원목록 -->
 	<select id="userList" resultType="alz.user.domain.UserDTO">
 		<![CDATA[
-         SELECT
-         users.id, email, nickname, password, role, certification_State certificationState, phone_Number phoneNumber, state, start_At startAt, end_At endAt 
-         FROM
-         alz_user users LEFT OUTER JOIN alz_user_state state on
-         users.id = state.user_id
-         WHERE users.id >= 0
+			select 
+			u.id, email, nickname, password, role, certification_State certificationState, phone_Number phoneNumber, enable, state, start_At startAt, end_At endAt, description
+			from 
+			alz_user u LEFT OUTER JOIN alz_user_state s on 
+			u.id = s.user_id
+			WHERE u.id >= 0
       ]]>
 	</select>
 
