@@ -1,87 +1,126 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>회원정보 상세 페이지</title>
-<!-- jstl 코어 태그 -->
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<!-- jstl 시간 출력 태그 -->
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@include file="../../includes/admin_header.jsp"%>
 <!-- context 경로 -->
-<c:set var="path" value="${pageContext.request.contextPath}"/>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-<script>
-	$(document).ready(function(){
-		$("#btnUpdate").click(function(){
-			// 확인 대화상자	
-			if(confirm("수정하시겠습니까?")){
-				document.form.action = "${path}/admin/update";
-				document.form.submit();
-			}
+<c:set var="path" value="${pageContext.request.contextPath}" />
+<!-- Content Wrapper -->
+<div id="content-wrapper" class="d-flex flex-column">
+
+	<!-- Main Content -->
+	<div id="content">
+		<div class="container-fluid">
+			<div class="card shadow mb-4">
+				<div class="card shadow mb-4">
+					<div class="card-body">
+						<div class="table-responsive">
+							<div>
+								<br>회원정보 상세<br> <br>
+								<h2>회원정보 상세</h2>
+								<form name="form" method="post">
+									<table class="table table-bordered" id="dataTable" width="100%"
+										cellspacing="0">
+										<thead>
+											<tr>
+												<td>이메일</td>
+												<!-- id는 수정이 불가능하도록 readonly속성 추가 -->
+												<td>
+													<div class="col-lg-5">
+														<input name="email" value="${dto.email}"
+															readonly="readonly">
+													</div>
+												</td>
+											</tr>
+										</thead>
+										<thead>
+											<tr>
+												<td>닉네임</td>
+												<td>
+													<div class="col-lg-3">
+														<input name="nickname" value="${dto.nickname}">
+													</div>
+												</td>
+											</tr>
+										</thead>
+										<thead>
+											<tr>
+												<td>비밀번호</td>
+												<td>
+													<div class="col-lg-3">
+														<input type="password" name="password">
+													</div>
+												</td>
+											</tr>
+											<!-- 누락된 부분 -->
+										</thead>
+										<thead>
+											<tr>
+												<td>전화번호</td>
+												<td>
+													<div class="col-lg-3">
+														<input name="phoneNumber" id="phoneNumber"
+															value="${dto.phoneNumber}" type="text"
+															placeholder="'-'없이 번호만 입력하세요" maxlength="11"
+															autocomplete="off">
+													</div>
+												</td>
+											</tr>
+										</thead>
+										<thead>
+											<tr>
+												<td colspan="2" align="center"><input type="button"
+													value="수정" id="btnUpdate"> <!-- <input type="button" value="삭제" id="btnDelete"> -->
+													<button type="button" id=adminListBtn
+														class="btn btn-primary btn-sm">회원 목록</button> <br> <br>
+													<br>
+													<button type="button" id=adminHomeBtn
+														class="btn btn-primary btn-sm">관리자 홈으로</button> <br>
+													<br> <%-- <div style="color: red;">${message}</div> --%>
+												</td>
+											</tr>
+										</thead>
+									</table>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script>
+		$(document).ready(function() {
+			$("#btnUpdate").click(function() {
+				// 확인 대화상자	
+				if (confirm("수정하시겠습니까?")) {
+					document.form.action = "${path}/admin/update";
+					document.form.submit();
+				}
+			});
 		});
-	});
-	/* $(document).ready(function(){
-		$("#btnDelete").click(function(){
-			// 확인 대화상자 
-			if(confirm("삭제하시겠습니까?")){
-				document.form.action = "${path}/admin/delete";
-				document.form.submit();
+		/* $(document).ready(function(){
+			$("#btnDelete").click(function(){
+				// 확인 대화상자 
+				if(confirm("삭제하시겠습니까?")){
+					document.form.action = "${path}/admin/delete";
+					document.form.submit();
+				}
+			});
+		}); */
+		$(function() {
+			var responseMessage = "<c:out value="${message}" />";
+			if (responseMessage != "") {
+				alert(responseMessage)
 			}
-		});
-	}); */
-	$(function() {
-		var responseMessage = "<c:out value="${message}" />";
-		if (responseMessage != "") {
-			alert(responseMessage)
-		}
-	})
-	$(function() {
-		$("#adminListBtn").click(function() {
-			location.href = '/admin/list';
 		})
-	})
-	$(function() {
-		$("#adminHomeBtn").click(function() {
-			location.href = '/admin/index';
+		$(function() {
+			$("#adminListBtn").click(function() {
+				location.href = '/admin/list';
+			})
 		})
-	})
-</script>
-</head>
-<body>
-	<h2>회원정보 상세</h2>
-	<form name="form" method="post">
-		<table border="1" width="400px">
-			<tr>
-				<td>이메일</td>
-				 <!-- id는 수정이 불가능하도록 readonly속성 추가 -->
-				<td><input name="email" value="${dto.email}" readonly="readonly"></td>
-			</tr>
-			<tr>
-				<td>닉네임</td>
-				<td>
-					<input name="nickname" value="${dto.nickname}">
-				</td>
-			</tr>
-			<tr>
-				<td>비밀번호</td>
-				<td><input type="password" name="password"></td>
-			</tr>
-			<!-- 누락된 부분 -->
-			<tr>
-				<td>전화번호</td>
-	            <td><input name="phoneNumber" id="phoneNumber" value="${dto.phoneNumber}" type="text" placeholder="'-'없이 번호만 입력하세요" maxlength="11" autocomplete="off"></td>
-			</tr>
-			<tr>
-				<td colspan="2" align="center">
-					<input type="button" value="수정" id="btnUpdate">
-					<!-- <input type="button" value="삭제" id="btnDelete"> -->
-					<button type="button" id=adminListBtn class="form-control btn btn-primary">회원 목록</button><br><br>
-					<button type="button" id=adminHomeBtn class="form-control btn btn-primary">관리자 홈</button><br><br>
-					<%-- <div style="color: red;">${message}</div> --%>
-				</td>
-			</tr>
-		</table>
-	</form>
-</body>
-</html>
+		$(function() {
+			$("#adminHomeBtn").click(function() {
+				location.href = '/admin/index';
+			})
+		})
+	</script>
+	<%@include file="../../includes/admin_footer.jsp"%>
