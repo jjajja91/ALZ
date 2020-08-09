@@ -8,12 +8,15 @@ import lombok.ToString;
 @Getter
 @ToString
 public class OrderCriteria {
-	
+
 	private int pageNum;
 	private int amount;
-	
+
+	private String type;
+	private String keyword;
+
 	public OrderCriteria() {
-		this(1,10);
+		this(1, 10);
 	}
 
 	public OrderCriteria(int pageNum, int amount) {
@@ -21,4 +24,8 @@ public class OrderCriteria {
 		this.amount = amount;
 	}
 
+	public String[] getTypeArr() {
+
+		return type == null ? new String[] {} : type.split("");
+	}
 }
