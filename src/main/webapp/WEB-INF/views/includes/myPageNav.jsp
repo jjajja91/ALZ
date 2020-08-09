@@ -63,6 +63,7 @@ body {
   
   <sec:authorize access="hasRole('ROLE_TEACHER') or hasRole('ROLE_ADMIN')">
   <label>선생님메뉴</label>
+  <a href="/merchandise/list">강의 등록</a>
   <a href="/myPage/teachingLesson">강의중인 클래스</a>
   <a href="/myPage/teachedLesson">강의했던 클래스</a>
     </sec:authorize>

@@ -17,7 +17,7 @@ import alz.lesson.domain.ScheduleDTO;
 import alz.lesson.domain.TeacherDTO;
 import alz.lesson.domain.TimeTableDTO;
 import alz.lesson.mapper.LessonMapper;
-import alz.user.domain.UserDTO;
+import alz.user.mapper.UserMapper;
 
 @Service
 public class LessonServiceImpl implements LessonService {
@@ -26,8 +26,9 @@ public class LessonServiceImpl implements LessonService {
 	private UserMapper userMapper;
 	
 	@Autowired
-	public LessonServiceImpl(LessonMapper lessonMapper) {
+	public LessonServiceImpl(LessonMapper lessonMapper, UserMapper userMapper) {
 		this.lessonMapper = lessonMapper;
+		this.userMapper = userMapper;
 	}
 	
 	// 강사등록
