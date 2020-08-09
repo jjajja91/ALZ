@@ -72,4 +72,6 @@ public interface UserMapper {
 
 	int checkUser(String email);
 
+	void changeTeacher(Long userId);
+
 }

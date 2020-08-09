@@ -256,7 +256,8 @@ public class LessonPageController {
 	public String registerSubmit(Long lessonId) {
 		int success=0;
 		if(lessonId!=null) {
-			success=lessonService.lessonSubmit(lessonId);
+			Long userId = getLoginUserInfo().getId();
+			success=lessonService.lessonSubmit(lessonId, userId);
 		}
 		System.out.println("제출" + success);
 		return "redirect:/";

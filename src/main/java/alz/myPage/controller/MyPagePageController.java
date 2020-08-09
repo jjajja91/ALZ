@@ -65,7 +65,7 @@ public class MyPagePageController {
 	public String modifyAcc(UserDTO user, RedirectAttributes attr) {
 		String result ="";
 	     if (myPageService.selectById(user)) {	
-	    	 	result = "redirect:/logout";
+	    	 	result = "redirect:/modify";
 			}  else {
 			attr.addAttribute("verify", "no");
 			result = "redirect:/myPage/modifyAccResult";
