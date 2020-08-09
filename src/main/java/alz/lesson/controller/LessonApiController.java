@@ -5,6 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,8 +20,10 @@ import org.springframework.web.bind.annotation.RestController;
 import alz.lesson.domain.CategoryDTO;
 import alz.lesson.domain.CurriculumSubjectDTO;
 import alz.lesson.domain.LessonDTO;
+import alz.lesson.domain.QuickReviewDTO;
 import alz.lesson.domain.ScheduleDTO;
 import alz.lesson.service.LessonServiceImpl;
+import alz.user.domain.UserDTO;
 
 @RestController
 @RequestMapping("/lessons")
@@ -31,6 +36,13 @@ public class LessonApiController {
 		this.lessonService = lessonService;
 	}
 	
+	public UserDTO getLoginUserInfo() {
+		SecurityContext context = SecurityContextHolder.getContext();
+		Authentication auth = context.getAuthentication();
+		UserDTO userInfo = (UserDTO)auth.getPrincipal();
+		return userInfo;
+	}
+   
 	@PostMapping
 	public ResponseEntity<?> create(@RequestBody LessonDTO classes){
 //		LessonDTO openedClass = lessonService.create(classes);
@@ -75,6 +87,22 @@ public class LessonApiController {
 	public ResponseEntity<?> createCurriculum(@PathVariable String location, @RequestBody List<CurriculumSubjectDTO> curriculumList){
 		int affectedRowCount = lessonService.createCurriculum(curriculumList);
 		return ResponseEntity.status(HttpStatus.CREATED).body(location);
+	}
+	
+	// 한줄평 목록
+	@GetMapping("/quickReview/{lessonId}")
+	public ResponseEntity<?> getLessonQuickReview(@PathVariable Long lessonId){
+		List<QuickReviewDTO> list = lessonService.quickReviewByLessonId(lessonId);
+		return ResponseEntity.status(HttpStatus.OK).body(list);
+	}
+	
+	// 한줄평 등록
+	@PostMapping("/quickReview")
+	public ResponseEntity<?> createQuickReview(@RequestBody QuickReviewDTO quickReview){
+		UserDTO user = getLoginUserInfo();
+		quickReview.setUserId(user.getId());
+		int affectedRowCount = lessonService.createQuickReview(quickReview);
+		return ResponseEntity.status(HttpStatus.CREATED).body(affectedRowCount);
 	}
 	
 	@PutMapping("/{id}")

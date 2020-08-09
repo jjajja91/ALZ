@@ -118,6 +118,7 @@
         from alz_lesson_quickreview, alz_user
        where alz_lesson_quickreview.user_id = alz_user.id
          and alz_lesson_quickreview.lesson_id = #{id}
+    order by alz_lesson_quickreview.id desc
    </select>
    
    <select id="findByLessonId" resultType="alz.lesson.domain.LessonDTO">
@@ -284,6 +285,11 @@
    <insert id="insertCurriculumDetail" parameterType="alz.lesson.domain.CurriculumDetailDTO" >
       insert into alz_curriculum_detail (id, curriculum_id, lesson_id, curriculum_detail_order, detail)
       values (alz_curriculum_detail_seq.nextval, #{curriculumId}, #{lessonId}, #{detailOrder}, #{detail})
+   </insert>
+   
+   <insert id="insertQuickReview" parameterType="alz.lesson.domain.QuickReviewDTO" >
+      insert into alz_lesson_quickreview (id, lesson_id, rate, content, user_id)
+      values (alz_lesson_quickreview_seq.nextval, #{lessonId}, #{rate}, #{content}, #{userId})
    </insert>
    
    <update id="updateLesson" parameterType="alz.lesson.domain.LessonDTO">

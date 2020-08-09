@@ -12,9 +12,8 @@
 
 	<!-- 검색 -->
 	<div>
-		<div>
+		<form id='actionForm' action="/board/list" method='get'>
 			<select id='type' name='type'>
-				<option value="" <c:out value="${pageMaker.cri.type == null? 'selected':'' }"/>>--</option>
 				<option value="T" <c:out value="${pageMaker.cri.type == 'T'? 'selected':'' }"/>>제목</option>
 				<option value="C" <c:out value="${pageMaker.cri.type == 'C'? 'selected':'' }"/>>내용</option>
 				<option value="W" <c:out value="${pageMaker.cri.type == 'W'? 'selected':'' }"/>>작성자</option>
@@ -28,7 +27,7 @@
 			<input type='hidden' id='typeId' name='typeId' value='<c:out value="${pageMaker.cri.typeId }"/>' />
 			<button class='writeBtn' id='searchBtn' >Search</button>
 			<button class='writeBtn' id='writeBtn' type="button">글쓰기</button>
-		</div>
+		</form>
 	</div>
 	
 	<!-- 글목록 -->
@@ -58,7 +57,7 @@
 	</table>
 	 
 	<!-- paging -->
-	<div class="page-footer">
+	<div class="page-footer" id="pagingDiv">
 		<ul class="pagination pull-right">
 			<c:if test="${pageMaker.prev }">
 				<li class="paginate_button previous"><a href="${pageMaker.startPage -1 }">Previous</a></li>
@@ -73,14 +72,6 @@
 			</c:if>
 		</ul>
 	</div>
-	
-		<form id='actionForm' action="/board/list" method='get'>
-			<input type='hidden' name='pageNum' value='${pageMaker.cri.pageNum}'>
-			<input type='hidden' name='amount' value='${pageMaker.cri.amount}'>
-			<input type='hidden' name='type' value='<c:out value="${pageMaker.cri.type}"/>' />
-			<input type='hidden' name='keyword' value='<c:out value="${pageMaker.cri.keyword}"/>' />
-			<input type='hidden' name='typeId' value='<c:out value="${pageMaker.cri.typeId}"/>' />
-		</form>
 
 </div>
 
@@ -103,9 +94,25 @@
 			self.location = "/board/write?typeId="+$typeId.val();
 		});
 		
+		// 읽기 이벤트 추가
+		$(".read").on("click", function(e) {
+			e.preventDefault();
+			actionForm.append("<input type='hidden' name='id' value='"+$(this).attr("href")+"'>");
+			actionForm.attr("action", "/board/read");
+			actionForm.submit();
+		});
 		var actionForm = $("#actionForm");
 		
-		// 첫 페이지 paging
+		//페이지 번호 이동
+		$('#pagingDiv a').click(function(e){
+			e.preventDefault();
+			actionForm.find("input[name='pageNum']").val($(this).attr("href"));
+			actionForm.submit();
+			
+		});
+		
+		
+		/* // 첫 페이지 paging
 		$(".paginate_button a").on("click", function(e) {
 			e.preventDefault();
 			
@@ -126,13 +133,7 @@
 		    actionForm.submit();
 		});
 		
-		// 읽기 이벤트 추가
-		$(".read").on("click", function(e) {
-			e.preventDefault();
-			actionForm.append("<input type='hidden' name='id' value='"+$(this).attr("href")+"'>");
-			actionForm.attr("action", "/board/read");
-			actionForm.submit();
-		});
+		
 		
 		// 검색버튼 이벤트
 		$("#searchBtn").on("click", function(e) {
@@ -168,10 +169,10 @@
 			
 			// 검색어가 없을때 
 			if(data.keyword=="") {
-				url = "/boards/typeId/" + data.typeId + "/type/" + data.type;
+				url = "/boards/total/" + data.typeId + "/" + data.type;
 			// 있을때
 			} else {
-				url = "/boards/typeId/" + data.typeId + "/type/" + data.type + "/keyword/" + data.keyword;
+				url = "/boards/total/" + data.typeId + "/" + data.type + "/" + data.keyword;
 			} 
 			
 			return $.ajax({
@@ -262,10 +263,10 @@
 				url : "/boards/" +data.typeId + "/" + data.pageNum + "/" + data.amount,
 				contentType : "application/json; charset=utf-8"
 			});
-		}
+		} */
 		
 		
-		// 글목록 출력
+		/* // 글목록 출력
 		function printBoardList(boards, page) {
 			if(page == -1) {
 				pageNum = Math.ceil(totalCnt/10.0);
@@ -310,7 +311,7 @@
 			}
 			
 			$table.append($(frag));
-		}
+		} */
 		
 	});
 </script>
