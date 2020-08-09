@@ -36,7 +36,7 @@
 		alz_order_detail d on
 		o.id = d.order_id
 		inner join
-		alz_merchandise_detail m on m.id =
+		alz_merchandise m on m.id =
 		d.merchandise_id
 		where
 		d.order_id =
@@ -74,7 +74,7 @@
 		FROM
 		alz_order o
 		INNER JOIN alz_order_detail d ON o.id = d.order_id
-		INNER JOIN alz_merchandise_detail m ON m.id = d.merchandise_id
+		INNER JOIN alz_merchandise m ON m.id = d.merchandise_id
 		WHERE
 		d.order_id = o.id and o.user_id = d.user_id)
 		group by order_at,id,user_id, name,phone, total_price, state)) a, 
@@ -126,7 +126,7 @@
 		inner join
 		alz_order_detail d on o.id = d.order_id
 		inner join
-		alz_merchandise_detail m on m.id = d.merchandise_id
+		alz_merchandise m on m.id = d.merchandise_id
 		where d.order_id =
 		o.id and o.user_id = d.user_id)
 		group by order_at,id, name,phone,
@@ -177,7 +177,7 @@
 		inner join
 		alz_order_detail d on o.id = d.order_id
 		inner join
-		alz_merchandise_detail m on m.id = d.merchandise_id
+		alz_merchandise m on m.id = d.merchandise_id
 		where d.order_id =
 		o.id and o.user_id = d.user_id)
 		group by order_at,id, name,phone,
