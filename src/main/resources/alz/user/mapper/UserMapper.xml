@@ -11,6 +11,12 @@
 	<select id="find_password_email" parameterType="alz.user.domain.UserDTO" resultType="String">
 		select password from alz_user where nickname = #{nickname} and email = #{email}
 	</select>
+
+	<select id="checkUser" resultType="Integer">
+		select * from alz_user
+		where email = #{email}
+		and role != 'ROLE_USER';
+	</select>
 	
 	<!-- 비밀번호 변경 관련 mapper -->
 	<update id="modifyPwd">
@@ -155,6 +161,7 @@
 		select count(*) from alz_user
 		where email = #{email}
 		and nickname = #{nickname}
+		and role = 'ROLE_USER'
 	</select>
 	
 	<select id="searchId" resultType="String">

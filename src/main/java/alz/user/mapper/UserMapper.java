@@ -70,4 +70,6 @@ public interface UserMapper {
 
 	int insertDetail(UserDTO user);
 
+	String checkUser(String email);
+
 }

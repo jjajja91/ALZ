@@ -331,7 +331,9 @@ public class UserController {
 		if (nickname == null && phoneNumber == null) {
 			System.out.println("일치하는 회원 정보가 없습니다.");
 			return "user/users/find_id_form";
-		}
+		} else 
+		
+		
 		md.addAttribute("email", userService.find_id(nickname, phoneNumber, response));
 		return "user/users/find_id";
 	}
