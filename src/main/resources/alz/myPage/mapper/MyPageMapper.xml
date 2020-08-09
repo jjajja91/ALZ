@@ -100,7 +100,7 @@
         and o.id = od.order_id
         and md.ref_id = l.id
         and o.state = '결제완료'
-        and od.user_id = #{id}; 
+        and od.user_id = #{id}
      </select>
      
          <select id="finishedLessonList" resultType="alz.lesson.domain.LessonDTO">
