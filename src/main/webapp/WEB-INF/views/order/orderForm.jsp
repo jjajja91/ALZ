@@ -24,23 +24,27 @@
 		<table class="table table-striped table-bordered table-hover">
 			<tr>
 				<td colspan="2">상품정보</td>
-				<td>판매가</td>
+				<td>상품 금액</td>
 			</tr>
 			<c:set var="i" value="0" />
 			<!-- 가격 총합 -->
 			<c:set var="finalTotalPrice" value="0" />
+			<!-- 할인 총합 -->
+			<c:set var="salePrice" value="0" />
 			<c:forEach items="${buyList}" var="list">
 				<tr>
 					<td class="main_list_col1">이미지</td>
 					<td class="main_list_col2">${list.name}</td>
 					<td class="main_list_col3">
-					<fmt:formatNumber value="${list.originPrice}" pattern="#,###"/></td>
+					<fmt:formatNumber value="${list.salePrice }" pattern="#,###" /> 원<br><del><fmt:formatNumber value="${list.originPrice }" pattern="#,###" /> 원</del></td>
 				</tr>
 
 				<input type="hidden" id="cartId" name="cartId" value="${list.id }">
 				<c:set var="i" value="${i+1}" />
 				<c:set var="finalTotalPrice"
-					value="${finalTotalPrice + list.originPrice}" />
+					value="${finalTotalPrice + list.salePrice}" />
+				<c:set var="salePrice"
+					value="${salePrice + list.originPrice - list.salePrice}" />
 					<input type="hidden" id="merchandiseName" name="merchandiseName" value="${list.name}">
 			</c:forEach>
 
@@ -49,10 +53,14 @@
 		<div>
 
 			<div>
-				<strong>연락처 정보</strong><br> 이름 <input type="text" name="name"
-					id="name" value="${userInfo.nickname}"><br> 휴대폰 <input
+				<strong>연락처 정보</strong><br> 
+				이름 <input type="text" name="name"
+					id="name" value="${userInfo.nickname}"><br> 
+				휴대폰 <input
 					type="text" name="phone" id="phone" value="${userInfo.phoneNumber}"><br>
-				할인 금액 <br> 결제 금액 <fmt:formatNumber value="${finalTotalPrice}" pattern="#,###"/> <br> <br>
+				주문 금액 <fmt:formatNumber value="${finalTotalPrice+salePrice}" pattern="#,###"/> 원<br> 
+				할인 금액 <fmt:formatNumber value="${salePrice}" pattern="#,###"/> 원<br> 
+				최종 결제 금액 <strong><fmt:formatNumber value="${finalTotalPrice}" pattern="#,###"/> 원</strong><br> <br>
 			</div>
 
 			<div>
@@ -72,6 +80,7 @@
 			<input type="hidden" id="merchandise" name="merchandise" value="${merchandise.id}">
 			<input type="hidden" name="state" id="state" value="결제완료"> 
 			<input type="hidden" name="totalPrice" id="totalPrice" value="${finalTotalPrice}"> 
+			<input type="hidden" name="salePrice" id="salePrice" value="${salePrice}"> 
 		</div>
 	</form>
 

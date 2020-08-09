@@ -115,6 +115,7 @@ public class MerchandisePageController {
 	public String modify(@RequestParam("id") Long id, @ModelAttribute("cri") MerchandiseCriteria cri,
 			MerchandiseDTO merchandise, RedirectAttributes rttr) {
 		log.info("modify:" + merchandise);
+		System.out.println(merchandise);
 
 		if (merchandiseService.updateById(id, merchandise) != null) {
 			rttr.addFlashAttribute("result", "success");
