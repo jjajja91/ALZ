@@ -132,24 +132,24 @@ body{
         <h3>가입하기</h3>
 
         <div class="txtb">
-          <input type="text" name="emial" autocomplete="off">
+          <input type="text" name="email" id="email" autocomplete="off">
           <span data-placeholder="이메일"></span>
           <button id="emailChk" class="joinBtns">이메일 중복 체크</button>
         </div>
         
         <div class="txtb">
-          <input type="text" name="nickname" autocomplete="off">
+          <input type="text" name="nickname" id="nickname" autocomplete="off">
           <span data-placeholder="닉네임"></span>
 		  <button id="nicknameChk" class="joinBtns">닉네임 중복 체크</button>
         </div>
         
         <div class="txtb">
-          <input type="text" name="phoneNumber" maxlength="11" autocomplete="off">
+          <input type="text" name="phoneNumber" id="phoneNumber" maxlength="11" autocomplete="off">
           <span data-placeholder="핸드폰 번호: -없이 번호만 입력해주세요"></span>
         </div>
         
         <div class="txtb">
-          <input type="password" name="password" autocomplete="off" onkeypress="if (event.keyCode==13) login()">
+          <input type="password" name="password" id="password" autocomplete="off" onkeypress="if (event.keyCode==13) login()">
           <span data-placeholder="비밀번호"></span>
         </div>
 		<input type="hidden" name="role" value="ROLE_USER">
