@@ -176,7 +176,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 			out.println("</script>");
 			out.close();
 			return null;
-		} else if(userMapper.checkUser(email)==null) {
+		} else if(userMapper.checkUser(email)==0) {
 			out.println("<script>");
 			out.println("alert('소셜유저입니다 소셜로그인 해주세요.');");
 			out.println("history.go(-1);");

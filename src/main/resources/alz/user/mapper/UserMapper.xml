@@ -13,7 +13,7 @@
 	</select>
 
 	<select id="checkUser" resultType="Integer">
-		select * from alz_user
+		select count(*) from alz_user
 		where email = #{email}
 		and role != 'ROLE_USER';
 	</select>
