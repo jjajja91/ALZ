@@ -132,12 +132,12 @@ public class BoardPageController {
 		}
 		switch(typeId) {
 		case 1:
-			if(!(getLoginUserInfo().getRole().equals("ADMIN"))) {
+			if(!(getLoginUserInfo().getRole().equals("ROLE_ADMIN"))) {
 				throw new UnauthorizedException();
 			}
 			break;
 		case 2:
-			if(!(getLoginUserInfo().getRole().equals("ADMIN"))) {
+			if(!(getLoginUserInfo().getRole().equals("ROLE_ADMIN"))) {
 				throw new UnauthorizedException();
 			}
 			break;
