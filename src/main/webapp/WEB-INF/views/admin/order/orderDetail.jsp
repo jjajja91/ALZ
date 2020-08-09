@@ -72,7 +72,7 @@
 									<tbody>
 										<tr>
 											<td>연락처</td>
-											<td>0${orderer.phone}</td>
+											<td>${orderer.phone}</td>
 										</tr>
 									</tbody>
 								</table>
