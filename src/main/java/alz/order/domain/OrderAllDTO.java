@@ -33,6 +33,8 @@ public class OrderAllDTO {
 	private Long amount;
 	// 유저 아이디
 	private Long userId;
+	// 유저 이메일
+	private String email;
 	// 주문자 이름
 	private String name;
 	// 주문자 번호
