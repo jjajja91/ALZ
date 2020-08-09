@@ -28,6 +28,7 @@ public class CartListDTO {
 	private Long num;
 	private String name;
 	private Long originPrice;
+	private Long salePrice;
 	private String Thumb;
 	
 	

@@ -25,6 +25,7 @@ public class OrderDetailDTO {
 	private Long userId;
 	private String name;
 	private Long originPrice;
+	private Long salePrice;
 	
 	
 }

@@ -33,11 +33,11 @@
 					<tr>
 						<td>이미지</td>
 						<td>${list.name }<br>
-						<fmt:formatNumber value="${list.originPrice}" pattern="#,###"/>원</td>
+						<fmt:formatNumber value="${list.salePrice}" pattern="#,###"/> 원</td>
 						<td>결제 완료</td>
 					</tr>
 					<c:set var="finalTotalPrice"
-						value="${finalTotalPrice + list.originPrice}" />
+						value="${finalTotalPrice + list.salePrice}" />
 				</c:forEach>
 			</table>
 		</div>
@@ -52,7 +52,7 @@
 				</tr>
 				<tr>
 					<td>연락처</td>
-					<td>${orderer.phone}</td>
+					<td>0${orderer.phone}</td>
 				</tr>
 			</table>
 		</div>
@@ -67,7 +67,7 @@
 				</tr>
 				<tr>
 					<td>결제 금액</td>
-					<td><fmt:formatNumber value="${finalTotalPrice}" pattern="#,###"/></td>
+					<td><fmt:formatNumber value="${finalTotalPrice}" pattern="#,###"/> 원</td>
 				</tr>
 			</table>
 		</div>

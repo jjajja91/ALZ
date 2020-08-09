@@ -35,6 +35,8 @@
 				<c:set var="i" value="0" />
 				<!-- totalPrice 초기화 -->
 				<c:set var="totalPrice" value="0" />
+				<!-- salePrice 초기화 -->
+				<c:set var="salePrice" value="0" />
 
 				<!-- 카트 리스트 출력 -->
 				<c:forEach var="row" items="${map.list}">
@@ -43,14 +45,16 @@
 							class="chkBox" data-cartId="${row.id }"> <input
 							type="hidden" id="id${i}" name="id" value="${row.id }"></td>
 						<td>${row.name }</td>
-						<td><fmt:formatNumber value="${row.originPrice }" pattern="#,###" /></td>
+						<td><fmt:formatNumber value="${row.salePrice }" pattern="#,###" /> 원<br><del><fmt:formatNumber value="${row.originPrice }" pattern="#,###" /> 원</del></td>
 						<td><a class="delete" href="/merchandise/delete?id=${row.id }">X</a></td>
 					</tr>
 
 					<input type="hidden" id="totalPrice${i}" value="${row.originPrice }">
+					<input type="hidden" id="salePrice${i}" value="${row.originPrice - row.salePrice }">
 
 					<c:set var="i" value="${i+1}"></c:set>
-					<c:set var="totalPrice" value="${totalPrice + row.originPrice}" />
+					<c:set var="totalPrice" value="${totalPrice + row.salePrice}" />
+					<c:set var="salePrice" value="${salePrice + row.originPrice - row.salePrice}" />
 
 				</c:forEach>
 			</table>
@@ -82,10 +86,10 @@
 						<h1><span id="totalPrice"></span> 원</h1>
 					</td>
 					<td><img width="25" alt="" src="/resources/img/minus.jpg"></td>
-					<td></td>
+					<td><h1><span id="final_saleTotal"></span> 원</h1></td>
 					<td><img width="25" alt="" src="/resources/img/equal.jpg"></td>
 					<td id="result_info_total">
-						<h1><span id="final_total"></span>원</h1>
+						<h1><span id="final_total"></span> 원</h1>
 					</td>
 				</tr>
 			</tbody>
@@ -106,6 +110,8 @@
 		var totalCount = $('.chkBox').length;
 		//가격총합
 		var totalPrice = 0;
+		//세일총합
+		var salePrice = 0;
 		//총가격(제품)
 		var total = 0;
 		//cartlist번호 값을 가진 input생성
@@ -116,12 +122,16 @@
 				// 체크 될 때마다
 				totalPrice = parseInt(totalPrice)
 						+ parseInt($("#totalPrice" + i).val());
+				salePrice = parseInt(salePrice)
+						+ parseInt($("#salePrice" + i).val());
 				str += "<input type='hidden' id='cartId' name='cartId' value='"+id+"'>";
 			}
 		}
 
 		$("#totalPrice").html(totalPrice.toLocaleString());
-		total = totalPrice;
+		saleTotal = salePrice;
+		$("#final_saleTotal").html(saleTotal.toLocaleString());
+		total = totalPrice-saleTotal;
 		$("#final_total").html(total.toLocaleString());
 		$("#result_info_hidden").html(str);
 	}
@@ -154,23 +164,28 @@
 				var totalCount = $('.chkBox').length;
 				//가격총합
 				var totalPrice = 0;
+				//세일총합
+				var salePrice = 0;
 				//총가격(제품)
 				var total = 0;
-				// 히든값 담을 str
+				//cartlist번호 값을 가진 input생성
 				var str = "";
 				for (var i = 0; i < totalCount; i++) {
-					// 체크 될 때마다
 					if ($("#chkBox" + i).is(":checked")) {
 						var id = $('#id' + i).val();
-						// totalPrice값을 누적하고
-						totalPrice = parseInt(totalPrice)+ parseInt($("#totalPrice" + i).val());
-						//cartlist번호 값을 가진 hidden input생성
+						// 체크 될 때마다
+						totalPrice = parseInt(totalPrice)
+								+ parseInt($("#totalPrice" + i).val());
+						salePrice = parseInt(salePrice)
+								+ parseInt($("#salePrice" + i).val());
 						str += "<input type='hidden' id='cartId' name='cartId' value='"+id+"'>";
 					}
 				}
 
 				$("#totalPrice").html(totalPrice.toLocaleString());
-				total = totalPrice;
+				saleTotal = salePrice;
+				$("#final_saleTotal").html(saleTotal.toLocaleString());
+				total = totalPrice-saleTotal;
 				$("#final_total").html(total.toLocaleString());
 				$("#result_info_hidden").html(str);
 			});

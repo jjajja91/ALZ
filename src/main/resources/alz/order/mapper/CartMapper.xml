@@ -27,7 +27,7 @@
 		SELECT c.id, c.user_id,
 		p.ID
 		,
-		m.id, p.NAME, p.ORIGIN_PRICE
+		m.id, p.NAME, p.ORIGIN_PRICE, p.SALE_PRICE
 		FROM alz_user m,
 		alz_merchandise p,
 		alz_cart c
@@ -67,7 +67,7 @@
 			SELECT c.id, c.user_id,
 		p.ID merchandise_id
 		,
-		m.id, p.NAME, p.ORIGIN_PRICE
+		m.id, p.NAME, p.ORIGIN_PRICE, p.SALE_PRICE
 		FROM alz_user m,
 		alz_merchandise p,
 		alz_cart c
