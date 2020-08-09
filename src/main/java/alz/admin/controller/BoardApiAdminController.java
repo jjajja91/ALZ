@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import alz.admin.domain.BoardCriteriaAdmin;
 import alz.admin.service.BoardServiceAdmin;
-import alz.admin.service.ClassService;
+import alz.admin.service.LessonServiceAdmin;
 import alz.admin.service.MemberService;
 import alz.admin.service.OrdersService;
 import alz.board.domain.BoardDTO;
@@ -28,14 +28,14 @@ import alz.myPage.domain.MyPageCriteria;
 @RequestMapping("/admin/board")
 public class BoardApiAdminController {
 
-	private ClassService classService;
+	private LessonServiceAdmin classService;
 	private MemberService memberService;
 	private OrdersService orderService;
 	private BoardServiceAdmin boardService;
 	
 
 	@Autowired
-	public BoardApiAdminController(ClassService classService, MemberService memberService, OrdersService orderService, BoardServiceAdmin boardService) {
+	public BoardApiAdminController(LessonServiceAdmin classService, MemberService memberService, OrdersService orderService, BoardServiceAdmin boardService) {
 		this.memberService = memberService;
 		this.classService = classService;
 		this.orderService = orderService;
