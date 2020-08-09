@@ -460,7 +460,7 @@
 		function getBoardList(pageNum){
 				return $.ajax({
 				type : "GET",
-				url : "/admin/board/"+pageNum,
+				url : "/admin/board/pageNum/"+pageNum,
 				contentType : "application/json"
 			});
 		};
