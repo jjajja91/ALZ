@@ -45,8 +45,10 @@ public class MerchandisePageController {
 	@GetMapping("/register")
 	public void register(Model model) {
 		TeacherDTO teacher = lessonService.teacherByUserId(getLoginUserInfo().getId());
+		System.out.println("teacher : " + teacher);
 		LessonDTO myLesson = new LessonDTO();
 		myLesson.setTeacherId(teacher.getId()).setState(4L);
+		System.out.println("myLesson : " + myLesson);
 		List<LessonDTO> lessonList = lessonService.lessonsByTeacherId(myLesson);
 		System.out.println(lessonList);
 		model.addAttribute("lessonList", lessonList);

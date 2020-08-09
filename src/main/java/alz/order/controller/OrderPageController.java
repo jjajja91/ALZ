@@ -120,7 +120,7 @@ public class OrderPageController {
 			@RequestParam("merchandiseName") String[] merchandiseName, @RequestParam("totalPrice") long totalPrice) {
 
 		System.out.println("카카오페이");
-		System.out.println(id);
+		System.out.println("상품아이디 : " + id);
 		long userId = getLoginUserInfo().getId();
 
 		int merchandises = cartId.length - 1;
@@ -134,7 +134,7 @@ public class OrderPageController {
 		model.addAttribute("merchandises", merchandises);
 
 		List<CartListDTO> list = new ArrayList<CartListDTO>();
-		System.out.println(cartId.length);
+		System.out.println("장바구니 상품 개수 :" +cartId.length);
 		// 장바구니 목록중 선택한것 가져오기
 		for (int i = 0; i < cartId.length; i++) {
 			long no = 0;
@@ -146,9 +146,9 @@ public class OrderPageController {
 
 		if (!list.isEmpty()) {
 			model.addAttribute("buyList", list);
-		}
+		} 
 
-		System.out.println(list);
+		System.out.println("list : " + list);
 
 	}
 

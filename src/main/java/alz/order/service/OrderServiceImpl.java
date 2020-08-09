@@ -35,6 +35,10 @@ public class OrderServiceImpl implements OrderService {
 		.setTotalPrice(orderRequest.getTotalPrice());
 		orderMapper.insertOrder(order);
 		
+		System.out.println("order: " +order);
+		System.out.println("orderRequest: " +orderRequest);
+		System.out.println("insertOrder Ok");
+		
 		OrderDetailDTO orderDetail = new OrderDetailDTO();
 		orderDetail.setOrderId(orderRequest.getId()).setAmount(orderRequest.getAmount())
 		.setUserId(orderRequest.getUserId());
