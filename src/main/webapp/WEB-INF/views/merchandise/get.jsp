@@ -42,8 +42,7 @@
 									</tr>
 									<tr align="center">
 										<td>가격</td>
-										<td><fmt:formatNumber value="${merchandise.originPrice }"
-												pattern="#,###" /></td>
+										<td><fmt:formatNumber value="${merchandise.salePrice }" pattern="#,###" /> 원<br><del><fmt:formatNumber value="${merchandise.originPrice }" pattern="#,###" /> 원</del></td>
 									</tr>
 									<tr align="center">
 										<td colspan="2">
