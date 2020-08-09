@@ -92,45 +92,47 @@ public class BoardApiController {
 		List<BoardDTO> boards = boardService.readAll();
 		return ResponseEntity.status(HttpStatus.OK).body(boards);
 	}
-
-	// 페이징 글목록
-	@GetMapping(value = "/{typeId}/{pageNum}")
-	public ResponseEntity<?> getListByPage(@PathVariable Integer typeId, @PathVariable Integer pageNum) {
-		BoardCriteria cri = new BoardCriteria(pageNum, 10, typeId);
-		List<BoardDTO> boardList = boardService.readAll(cri);
-		return ResponseEntity.status(HttpStatus.OK).body(boardList);
-	}
-	
-	
-	// 검색 결과 글목록
-	@GetMapping(value = { "{typeId}/{pageNum}/{amount}/{type}/{keyword}",
-			"{typeId}/{pageNum}/{amount}/{type}" }, produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
-	public ResponseEntity<?> searchList(@PathVariable Integer typeId, @PathVariable String type,
-			@PathVariable(name = "keyword", required = false) String keyword, @PathVariable Integer pageNum,
-			@PathVariable Integer amount) {
-
-		BoardCriteria cri = new BoardCriteria();
-		cri.setKeyword(keyword).setType(type).setPageNum(pageNum).setAmount(amount).setTypeId(typeId);
-		List<BoardDTO> boards = boardService.readAll(cri);
-
-		return ResponseEntity.status(HttpStatus.OK).body(boards);
-	}
-
-	// 글 수 카운트
-	@GetMapping(value = { "typeId/{typeId}/type/{type}/keyword/{keyword}", "typeId/{typeId}/type/{type}" }, produces = {
-			MediaType.APPLICATION_JSON_UTF8_VALUE })
-	public int totalNumber(@PathVariable String type, @PathVariable Integer typeId,
-			@PathVariable(name = "keyword", required = false) String keyword) {
-		BoardCriteria cri = new BoardCriteria();
-
-		if (keyword != null) {
-			cri.setKeyword(keyword).setType(type).setTypeId(typeId);
-		}
-
-		int total = boardService.getTotal(cri);
-
-		return total;
-	}
+//
+//	// 페이징 글목록
+//	@GetMapping(value = "/{typeId}/{pageNum}")
+//	public ResponseEntity<?> getListByPage(@PathVariable Integer typeId, @PathVariable Integer pageNum) {
+//		BoardCriteria cri = new BoardCriteria(pageNum, 10, typeId);
+//		List<BoardDTO> boardList = boardService.readAll(cri);
+//		return ResponseEntity.status(HttpStatus.OK).body(boardList);
+//	}
+//	
+//	
+//	// 검색 결과 글목록
+//	@GetMapping(value = { "/{typeId}/{pageNum}/{amount}/{type}/{keyword}",
+//			"/{typeId}/{pageNum}/{amount}/{type}" }, produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+//	public ResponseEntity<?> searchList(@PathVariable Integer typeId, @PathVariable String type,
+//			@PathVariable(name = "keyword", required = false) String keyword, @PathVariable Integer pageNum,
+//			@PathVariable Integer amount) {
+//
+//		BoardCriteria cri = new BoardCriteria();
+//		cri.setKeyword(keyword).setType(type).setPageNum(pageNum).setAmount(amount).setTypeId(typeId);
+//		List<BoardDTO> boards = boardService.readAll(cri);
+//
+//		return ResponseEntity.status(HttpStatus.OK).body(boards);
+//	}
+//
+//	// 글 수 카운트
+//	@GetMapping(value = {"/total/{typeId}/{type}", "/total/{typeId}/{type}/{keyword}"}, produces = {
+//			MediaType.APPLICATION_JSON_UTF8_VALUE })
+//	public int totalNumber(@PathVariable Integer typeId, @PathVariable String type, 
+//			@PathVariable(required = false) String keyword) {
+//		BoardCriteria cri = new BoardCriteria();
+//System.out.println("keyword = " +keyword);
+//System.out.println(keyword != null);
+//		if (keyword != null) {
+//			cri.setKeyword(keyword).setType(type).setTypeId(typeId);
+//			System.out.println(cri);
+//		}
+//
+//		int total = boardService.getTotal(cri);
+//
+//		return total;
+//	}
 
 	// 하나 수정
 	@PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)

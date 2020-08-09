@@ -12,12 +12,12 @@
 
 	<div class="lesson-main">
 		<div class="lessonDetailImgDiv">
-				<c:if test= "${empty lesson.thumbnail}">
+			<c:if test= "${empty lesson.thumbnail}">
 				<img class="lessonImg" src="../../../resources/img/javaclass.jpg">
-				</c:if>
-				<c:if test= "${!empty lesson.thumbnail}">
+			</c:if>
+			<c:if test= "${!empty lesson.thumbnail}">
 				<img class="lessonImg" src="/resources/img/lesson/thumb/${lesson.teacherId}${lesson.openAt}/${lesson.thumbnail}">
-				</c:if>
+			</c:if>
 		</div>
 		<div class="lesson-detail">
 			<div class="lesson-detail-nav">
@@ -112,16 +112,19 @@
 		    <br><br>
 			<br>
 			<br><h3><strong>한줄평</strong></h3><br>
-			<p id="lesson_star_rate">
+			<p id="lesson_star_rate_quickReivew">
 				<a href="#" id="star1">★</a> <a href="#" id="star2">★</a> <a
 					href="#" id="star3">★</a> <a href="#" id="star4">★</a> <a
 					href="#" id="star5">★</a>
 			</p>
-			<input type='hidden' name='lessonReview'>
-			+ <input type="text" id="quickReviewText" placeholder="한줄평을 입력해주세요">
-			<button type="submit">입력</button>
+			
+			<input type='hidden' name='rate' id="rate">
+			<input type='hidden' name='lessonId' id="lessonId" value='<c:out value="${lesson.id}" />'>
+			+ <input type="text" class="quickReviewText" name="content" id="content" placeholder="별점과 한줄평을 입력해주세요">
+			<button id="submitQuickReview">입력</button>
+			
 			<div class="shortReview" id="shortReview">
-				<input type='hidden' name='lessonRate'>
+				
 			</div>
 			
 			<div id="refundTerm">
@@ -152,19 +155,18 @@
 
 </div>
 <script type="text/javascript">
+
+	var $shortReviewDiv;
+	var $lessonId = $("#lessonId");
+	var $rate = $("#rate");
+	var $content = $("#content");
 	
 	$(document).ready(function() {
 		
-		$('#lesson_star_rate a').click(function(){
-			
-            $(this).parent().children("a").removeClass("lessonOn");  /* 별점의 on 클래스 전부 제거 */ 
-            $(this).addClass("lessonOn").prevAll("a").addClass("lessonOn"); /* 클릭한 별과, 그 앞 까지 별점에 on 클래스 추가 */
-            var lesson_star_rate = $(".lessonOn").length;
-            return $("input[type=hidden][name=lessonRate]").val(lesson_star_rate);
-            
-        });
+		$shortReviewDiv = $('.shortReview');
+		$lessonId = $("#lessonId");
 		
-		var str="";
+		let str="";
 		<c:forEach items='${quickReview}' var='review'>
 			str += "<c:out value='${review.nickname}' />";
 			str += "<p id='lesson_star_rate'>";
@@ -178,18 +180,85 @@
 			str += "<p><c:out value='${review.content}' /></p>";
 			str += "<br>";
 		</c:forEach>
-		$('.shortReview').html(str);
-		
-		$('#lesson_star_rate a').click(function(){
-            $(this).parent().children("a").removeClass("lessonOn");  /* 별점의 on 클래스 전부 제거 */ 
-            $(this).addClass("lessonOn").prevAll("a").addClass("lessonOn"); /* 클릭한 별과, 그 앞 까지 별점에 on 클래스 추가 */
-            var lesson_star_rate = $(".lessonOn").length;
-            return $("input[type=hidden][name=lessonReview]").val(lesson_star_rate);
-        });
+		$shortReviewDiv.html(str);
 		
 	});
+	
+	// 별점 설정 부분
+	$('#lesson_star_rate_quickReivew a').click(function(e){
+		e.preventDefault();
+        $(this).parent().children("a").removeClass("lessonOnQuickReview");  /* 별점의 on 클래스 전부 제거 */ 
+        $(this).addClass("lessonOnQuickReview").prevAll("a").addClass("lessonOnQuickReview"); /* 클릭한 별과, 그 앞 까지 별점에 on 클래스 추가 */
+        var lesson_star_rate = $(".lessonOnQuickReview").length;
+        $("input[type=hidden][name=rate]").val(lesson_star_rate);
 
+    });
+	
+	// 한줄평 리스트 가져오기
+	function getquickReviewList() {
+		
+		return $.getJSON("/lessons/quickReview/" + $lessonId.val());
+		
+	}
+	
+	function quickReviewList() {
+		
+		getquickReviewList()
+			.then(function(response) {
+				let str="";
+				
+				if(response==null || response.length==0) {
+					$shortReviewDiv.html("");
+					return;
+				}
+				
+				for(let i=0; i<response.length; i++) {
+					str += "<h5>"+response[i].nickname+"</h5>";
+					str += "<p id='lesson_star_rate'>";
+					for(var j=0; j<response[i].rate; j++) {
+						str += "<a class='lessonOn'>★</a>"
+					}
+					for(var k=0; k<(5-response[i].rate); k++) {
+						str += "<a>★</a>"
+					}
+					str += "</p>";
+					str += "<p>"+response[i].content+"</p>";
+					str += "<br>";
+				}
+				$shortReviewDiv.html(str);
+				$content.val("");
+				$("#lesson_star_rate_quickReivew a").removeClass();
+			});
+	}
+	
+	// 한줄평 등록버튼 이벤트
+	$("#submitQuickReview").click(function(e) {
 
+		$rate = $("#rate");
+		$content = $("#content");
+		
+		var quickReview = {
+				lessonId : $lessonId.val(),
+				rate : $rate.val(),
+				content : $content.val()
+		}
+		
+		addQuickReview(quickReview)
+			.then(function(response) {
+				// 한줄평 리스트 다시그려줌
+				quickReviewList();
+			});
+	});
+
+	// 한줄평 추가
+	function addQuickReview(quickReview) {
+		return $.ajax({
+			type: 'POST',
+			url: '/lessons/quickReview',
+			data: JSON.stringify(quickReview),
+			contentType : "application/json; charset=utf-8"
+		});
+	};
 </script>
 </body>
 </html>

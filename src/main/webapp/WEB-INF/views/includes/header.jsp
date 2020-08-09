@@ -177,6 +177,20 @@ pre {
 	font-size: 13px;
 }
 
+#lesson_star_rate_quickReivew a.lessonOnQuickReview {
+	color: red;
+}
+
+.quickReviewText {
+	width: 70%;
+}
+
+#lesson_star_rate_quickReivew a {
+	text-decoration: none;
+	color: gray;
+	font-size: 13px;
+}
+
 #lesson_star_rate a.lessonOn {
 	color: red;
 }
