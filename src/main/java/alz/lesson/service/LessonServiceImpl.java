@@ -17,7 +17,7 @@ import alz.lesson.domain.ScheduleDTO;
 import alz.lesson.domain.TeacherDTO;
 import alz.lesson.domain.TimeTableDTO;
 import alz.lesson.mapper.LessonMapper;
-import alz.user.domain.UserDTO;
+import alz.user.mapper.UserMapper;
 
 @Service
 public class LessonServiceImpl implements LessonService {
