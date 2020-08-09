@@ -15,7 +15,7 @@
 	<select id="checkUser" resultType="Integer">
 		select count(*) from alz_user
 		where email = #{email}
-		and role != 'ROLE_USER';
+		and role != 'ROLE_USER'
 	</select>
 	
 	<!-- 비밀번호 변경 관련 mapper -->
