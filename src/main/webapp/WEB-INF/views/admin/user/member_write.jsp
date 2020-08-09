@@ -69,7 +69,7 @@ $(function() {
 					<input type="button" value="관리자" id="btnManager">
 					<input type="button" value="일반" id="btnUser">
 					<input type="reset" value="취소"><br><br>
-					<button type="button" id=adminHomeBtn class="form-control btn btn-primary">관리자 홈으로</button>
+					<br><button type="button" id=adminHomeBtn class="btn btn-primary btn-sm">관리자 홈으로</button><br><br>
 				</td>
 			</tr>
 		</table>

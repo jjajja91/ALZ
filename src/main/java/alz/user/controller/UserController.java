@@ -173,7 +173,7 @@ public class UserController {
 		// 회원가입 메서드
 		userService.create(user);
 
-		return "user/anonymous/joinInfo";
+		return "home";
 	}
 
 	// ModelAndView는 스프링에서 제공하는 자체 객체로서 데이터랑 view의 이름을 같이 전달함.
