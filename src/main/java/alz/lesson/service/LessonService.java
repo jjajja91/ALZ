@@ -50,6 +50,6 @@ public interface LessonService {
 
 	TeacherDTO updateTeacher(TeacherDTO teacher);
 	int updateLessonDetail(LessonDetailDTO detail);
-	int lessonSubmit(Long lessonId); // 상태변경 제출
+	int lessonSubmit(Long lessonId, Long userId); // 상태변경 제출
 	
 }

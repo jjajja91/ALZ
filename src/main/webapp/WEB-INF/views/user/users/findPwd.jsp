@@ -53,7 +53,7 @@
 					if(response==true){
 						return sendEmail($emailInput.val());				
 					} else {
-						alert("해당하는 유저가 없습니다.");
+						alert("해당하는 유저가 없습니다. 소셜회원은 해당 서비스에서 찾아주세요");
 						return false;
 					}
 				})

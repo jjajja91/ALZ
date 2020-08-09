@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import alz.admin.domain.OrderCriteria;
 import alz.admin.mapper.OrdersMapper;
 import alz.order.domain.OrderAllDTO;
+import alz.order.domain.OrderDTO;
 
 @Service
 public class OrdersServiceImpl implements OrdersService {
@@ -28,6 +29,16 @@ public class OrdersServiceImpl implements OrdersService {
 	@Override
 	public List<OrderAllDTO> orderListPaging(OrderCriteria cri) {
 		return ordersMapper.orderListPaging(cri);
+	}
+
+	@Override
+	public int getTotal(OrderCriteria cri) {
+		return ordersMapper.getTotalCount(cri);
+	}
+
+	@Override
+	public void stateChange(OrderDTO order) {
+		ordersMapper.stateChange(order);
 	}
 	
 

@@ -70,4 +70,8 @@ public interface UserMapper {
 
 	int insertDetail(UserDTO user);
 
+	int checkUser(String email);
+
+	void changeTeacher(Long userId);
+
 }

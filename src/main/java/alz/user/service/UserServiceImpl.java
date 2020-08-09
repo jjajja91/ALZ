@@ -93,18 +93,18 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 	@Override
 	public UserDTO readByPhoneNumber(String phoneNumber) {
 		UserDTO searchedUser = userMapper.selectByPhoneNumber(phoneNumber);
-		
+
 		return searchedUser;
 	}
-	
+
 	@Override
 	public boolean emailChk(String email) {
-		return userMapper.emailChk(email)==1;
+		return userMapper.emailChk(email) == 1;
 	}
 
 	@Override
 	public boolean nicknameChk(String nickname) {
-		return userMapper.nicknameChk(nickname)==1;
+		return userMapper.nicknameChk(nickname) == 1;
 	}
 
 	@Override
@@ -133,7 +133,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 		UserStateDTO userState = new UserStateDTO();
 		userState.setUserId(user.getId()).setState("수정").setDescription(user.getDescription());
 		userMapper.insertState(userState);
-		
+
 		if (affectedRowCount == 0) {
 			System.out.println("Modify Fail!!");
 		} else {
@@ -176,6 +176,13 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 			out.println("</script>");
 			out.close();
 			return null;
+		} else if(userMapper.checkUser(email)==1) {
+			out.println("<script>");
+			out.println("alert('소셜유저입니다 소셜로그인 해주세요.');");
+			out.println("history.go(-1);");
+			out.println("</script>");
+			out.close();
+			return null;
 		} else {
 			return email;
 		}
@@ -191,10 +198,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 	@Override
 	public boolean modifyPwd(UserDTO user) {
 		user.encodePassword(passwordEncoder);
-		return userMapper.modifyPwd(user)==1;
+		return userMapper.modifyPwd(user) == 1;
 	}
 
-	
 	public String getKakaoAccessToken(String authorizeCode) {
 		String access_Token = "";
 		String refresh_Token = "";
@@ -353,7 +359,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 			URL url = new URL(reqURL);
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 			conn.setRequestMethod("POST");
-      
+
 			conn.setRequestProperty("Authorization", "Bearer " + accessToken);
 
 			int responseCode = conn.getResponseCode();
@@ -377,7 +383,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 			String id = response.getAsJsonObject().get("id").getAsString();
 			String email = response.getAsJsonObject().get("email").getAsString();
 
-			userInfo.put("id", id);	
+			userInfo.put("id", id);
 			userInfo.put("email", email);
 
 		} catch (IOException e) {
@@ -387,111 +393,109 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
 		return userInfo;
 	}
-      
+
 	@Override
 	public String getGoogleAccessToken(String code) {
 		String access_Token = "";
-        String reqURL = "https://oauth2.googleapis.com/token";
-        
-        try {
-            URL url = new URL(reqURL);
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            
-            conn.setRequestMethod("POST");
-            conn.setDoOutput(true);
-            
-            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
-            StringBuilder sb = new StringBuilder();
-            sb.append("grant_type=authorization_code");
-            sb.append("&client_id=316214908433-1li7s1krvf7l2m5t5c832b1uol43p6pc.apps.googleusercontent.com");
-            sb.append("&client_secret=2oy4Y2EhS4Wz9YoiptdI8WIU");
-            sb.append("&code=" + code);
-            sb.append("&redirect_uri=http://localhost:8080/google/oauth");
-            
-            bw.write(sb.toString());
-            bw.flush();
-            
-            int responseCode = conn.getResponseCode();
-            System.out.println("responseCode : " + responseCode);
- 
-            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-            String line = "";
-            String result = "";
-            
-            while ((line = br.readLine()) != null) {
-                result += line;
-            }
-            System.out.println("response body : " + result);
-            
-            JsonParser parser = new JsonParser();
-            JsonElement element = parser.parse(result);
-            
-            access_Token = element.getAsJsonObject().get("id_token").getAsString();
-            
-            System.out.println("access_token : " + access_Token);
-            
-            br.close();
-            bw.close();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } 
-        
-        return access_Token;
+		String reqURL = "https://oauth2.googleapis.com/token";
+
+		try {
+			URL url = new URL(reqURL);
+			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+
+			conn.setRequestMethod("POST");
+			conn.setDoOutput(true);
+
+			BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
+			StringBuilder sb = new StringBuilder();
+			sb.append("grant_type=authorization_code");
+			sb.append("&client_id=316214908433-1li7s1krvf7l2m5t5c832b1uol43p6pc.apps.googleusercontent.com");
+			sb.append("&client_secret=2oy4Y2EhS4Wz9YoiptdI8WIU");
+			sb.append("&code=" + code);
+			sb.append("&redirect_uri=http://localhost:8080/google/oauth");
+
+			bw.write(sb.toString());
+			bw.flush();
+
+			int responseCode = conn.getResponseCode();
+			System.out.println("responseCode : " + responseCode);
+
+			BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+			String line = "";
+			String result = "";
+
+			while ((line = br.readLine()) != null) {
+				result += line;
+			}
+			System.out.println("response body : " + result);
+
+			JsonParser parser = new JsonParser();
+			JsonElement element = parser.parse(result);
+
+			access_Token = element.getAsJsonObject().get("id_token").getAsString();
+
+			System.out.println("access_token : " + access_Token);
+
+			br.close();
+			bw.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return access_Token;
 	}
 
 	@Override
 	public HashMap<String, Object> getGoogleUserInfo(String accessToken) {
 
-	    HashMap<String, Object> userInfo = new HashMap<>();
-	    
-	    
-	    String reqURL = "https://oauth2.googleapis.com/tokeninfo";
-        
-        try {
-            URL url = new URL(reqURL);
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            
-            conn.setRequestMethod("POST");
-            conn.setDoOutput(true);
-            
-            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
-            StringBuilder sb = new StringBuilder();
-            sb.append("id_token="+accessToken);
+		HashMap<String, Object> userInfo = new HashMap<>();
 
-            
-            bw.write(sb.toString());
-            bw.flush();
-            
-            int responseCode = conn.getResponseCode();
-            System.out.println("responseCode : " + responseCode);
- 
-            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-            String line = "";
-            String result = "";
-            
-            while ((line = br.readLine()) != null) {
-                result += line;
-            }
-            System.out.println("response body : " + result);
-            
-            JsonParser parser = new JsonParser();
-            JsonElement element = parser.parse(result);
-            
-            String id = element.getAsJsonObject().get("kid").getAsString();
-            String email = element.getAsJsonObject().get("email").getAsString();
-            
-	        userInfo.put("id", id);
-	        userInfo.put("email", email);
-            
-            br.close();
-            bw.close();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } 
-		
-	    return userInfo;
+		String reqURL = "https://oauth2.googleapis.com/tokeninfo";
+
+		try {
+			URL url = new URL(reqURL);
+			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+
+			conn.setRequestMethod("POST");
+			conn.setDoOutput(true);
+
+			BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
+			StringBuilder sb = new StringBuilder();
+			sb.append("id_token=" + accessToken);
+
+			bw.write(sb.toString());
+			bw.flush();
+
+			int responseCode = conn.getResponseCode();
+			System.out.println("responseCode : " + responseCode);
+
+			BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+			String line = "";
+			String result = "";
+
+			while ((line = br.readLine()) != null) {
+				result += line;
+			}
+			System.out.println("response body : " + result);
+
+			JsonParser parser = new JsonParser();
+			JsonElement element = parser.parse(result);
+
+			String id = element.getAsJsonObject().get("kid").getAsString();
+			String email = element.getAsJsonObject().get("email").getAsString();
+
+			userInfo.put("id", id);
+			userInfo.put("email", email);
+
+			br.close();
+			bw.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return userInfo;
 
 	}
 
@@ -502,9 +506,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
 	@Override
 	public boolean findUserByEmailNickname(UserDTO user) {
-		return userMapper.findUserByEmailNickname(user)==1;
+		return userMapper.findUserByEmailNickname(user) == 1;
 	}
-
 
 //	@Async
 //	@Override
