@@ -1,29 +1,29 @@
 package alz.lesson.service;
 
-import java.sql.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import alz.board.domain.BoardCriteria;
 import alz.lesson.domain.CategoryDTO;
 import alz.lesson.domain.CurriculumDetailDTO;
 import alz.lesson.domain.CurriculumSubjectDTO;
 import alz.lesson.domain.LessonCriteria;
 import alz.lesson.domain.LessonDTO;
 import alz.lesson.domain.LessonDetailDTO;
-import alz.lesson.domain.LessonScheduleDTO;
 import alz.lesson.domain.QuickReviewDTO;
 import alz.lesson.domain.ScheduleDTO;
 import alz.lesson.domain.TeacherDTO;
 import alz.lesson.domain.TimeTableDTO;
 import alz.lesson.mapper.LessonMapper;
+import alz.user.mapper.UserMapper;
 
 @Service
 public class LessonServiceImpl implements LessonService {
 
 	private LessonMapper lessonMapper;
+	private UserMapper userMapper;
 	
 	@Autowired
 	public LessonServiceImpl(LessonMapper lessonMapper) {
@@ -222,10 +222,12 @@ public class LessonServiceImpl implements LessonService {
 		return affectedRowCount;
 	}
 	
-	public int lessonSubmit(Long lessonId) {
+	@Transactional
+	public int lessonSubmit(Long lessonId, Long userId) {
 		LessonDTO lesson = new LessonDTO();
 		lesson.setId(lessonId).setState(2L);
 		int affectedRowCount = lessonMapper.updateState(lesson);
+		userMapper.changeTeacher(userId);
 		return affectedRowCount;
 	}
 	

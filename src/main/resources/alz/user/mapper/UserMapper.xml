@@ -69,6 +69,10 @@
          WHERE users.id >= 0
       ]]>
 	</select>
+	
+	<update id="changeTeacher">
+		UPDATE alz_user SET ROLE='ROLE_TEACHER' WHERE id = #{userId}
+	</update>
 
 	<insert id="insert" parameterType="alz.user.domain.UserDTO">
 		<selectKey keyProperty="id" order="BEFORE" resultType="long">
