@@ -53,7 +53,6 @@ public class MyPageApiController {
 	
 	@GetMapping(value = "/commentList/{pageNum}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> myCommentList(@PathVariable Integer pageNum){
-		System.out.println("이거임?");
 		MyPageCriteria cri = new MyPageCriteria(pageNum, 10, getLoginUserInfo().getId());
 		List<CommentDTO> commentList = myPageService.getMyCommentList(cri);
 		return ResponseEntity.status(HttpStatus.OK).body(commentList);
