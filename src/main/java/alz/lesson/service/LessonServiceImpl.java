@@ -26,8 +26,9 @@ public class LessonServiceImpl implements LessonService {
 	private UserMapper userMapper;
 	
 	@Autowired
-	public LessonServiceImpl(LessonMapper lessonMapper) {
+	public LessonServiceImpl(LessonMapper lessonMapper, UserMapper userMapper) {
 		this.lessonMapper = lessonMapper;
+		this.userMapper = userMapper;
 	}
 	
 	// 강사등록
