@@ -19,6 +19,7 @@ import alz.lesson.domain.ScheduleDTO;
 import alz.lesson.domain.TeacherDTO;
 import alz.lesson.domain.TimeTableDTO;
 import alz.lesson.mapper.LessonMapper;
+import alz.user.domain.UserDTO;
 
 @Service
 public class LessonServiceImpl implements LessonService {
@@ -105,6 +106,12 @@ public class LessonServiceImpl implements LessonService {
 			}
 		}
 		
+		return affectedRowCount;
+	}
+	
+	// 한줄평 등록
+	public int createQuickReview(QuickReviewDTO quickReview) {
+		int affectedRowCount = lessonMapper.insertQuickReview(quickReview);
 		return affectedRowCount;
 	}
 		

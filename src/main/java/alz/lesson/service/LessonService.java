@@ -21,6 +21,7 @@ public interface LessonService {
 	int createSchedule(ScheduleDTO schedule);
 	int createLessonDetail(LessonDetailDTO detail);
 	int createCurriculum(List<CurriculumSubjectDTO> curriculumList);
+	int createQuickReview(QuickReviewDTO quickReview);
 
 	TeacherDTO teacherByUserId(Long userId);
 	List<LessonDTO> lessonsByTeacherId(LessonDTO lesson);
