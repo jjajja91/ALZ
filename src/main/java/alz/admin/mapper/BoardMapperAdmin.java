@@ -12,4 +12,6 @@ public interface BoardMapperAdmin {
 	
 	// 페이징을 위한 count(검섹/페이징/게시판타입)
 		int getTotalCount(BoardCriteriaAdmin cri);
+
+		void deleteById(Long id);
 }

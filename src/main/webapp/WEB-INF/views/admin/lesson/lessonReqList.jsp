@@ -234,31 +234,41 @@
 							<thead>
 								<tr>
 									<th><input type="checkbox" id="checkAll"></th>
-									<th>번호</th>
-									<th>제목</th>
-									<th>작성자</th>
-									<th>작성일</th>
-									<th>조회수</th>
+									<th>클래스 번호</th>
+									<th class="imgArea"></th>
+									<th></th>
+									<th>클래스 상태</th>
+
 								</tr>
 							</thead>
 
 							<tbody>
-								<c:forEach items="${list }" var="board">
+								<c:forEach items="${list}" var="LessonReqList">
 									<tr>
 										<td><input type="checkbox" id="checkOne" name="checkOne"></td>
-										<td><c:out value="${board.id }" /><input type="hidden"
-											value='<c:out value="${board.id }" />' /></td>
-										<td><a class='read' href='<c:out value="${board.id }"/>'><c:out
-													value="${board.title }" /> (<c:out
-													value="${board.commentCnt}" />)</a></td>
-										<td><c:out value="${board.nickname }" /></td>
-										<td><fmt:formatDate pattern="yyyy-MM-dd"
-												value="${board.writtenAt }" /></td>
-										<td><c:out value="${board.viewCnt }" /></td>
+										<th><c:out value="${LessonReqList.id }" /></th>
+										<td><img class="lessonImg"
+											src="/resources/img/classtmpimg.jpg"></td>
+										<td><c:out value="${LessonReqList.title }" />
+										<br>
+										<br>
+											<c:out value="${LessonReqList.openAt }" />  -  <c:out
+												value="${LessonReqList.closeAt }" /></td>
+										<td><c:out value="${LessonReqList.state }" /></td>
 									</tr>
+
 								</c:forEach>
 							</tbody>
 						</table>
+						<select name='state'>
+						<option>상태 변경</option>
+						<option value='3'>심사 중</option>
+						<option value='4'>심사 통과</option>
+						<option value='5'>심사 미통과</option>
+						
+						
+						</select>
+						<input type='button' name='changeState' id='changeState' value="변경">
 						<!-- paging -->
 						<div class="page-footer">
 							<ul class="pagination pull-right">
@@ -281,14 +291,14 @@
 							</ul>
 						</div>
 
-						<form id='actionForm' action="/admin/board/boardAdimList"
+						<form id='actionForm' action="/admin/lesson/lessonReqList"
 							method='get'>
 							<input type='hidden' name='pageNum'
 								value='${pageMaker.cri.pageNum}'> <input type='hidden'
 								name='amount' value='${pageMaker.cri.amount}'>
 
 						</form>
-						<input type='button' name='delete' id='delete' value="delete">
+						
 					</div>
 				</div>
 			</div>
@@ -372,13 +382,18 @@
 			} else { 
 						$("input[type=checkbox]").prop("checked",false); } });
 		
-		 //삭제버튼 클릭시
-		$("#delete").click(function(){
-			var boardId = getChecked();
-			boardDeleteApi(boardId)			
-				
-			});
+		 //변경버튼 클릭시
+		$("#changeState").click(function(){
+			var lessonId = getChecked();
+			var state = $("select[name=state]").val();
+			var data = {
+				lessonId,
+				state
+			};
+			changeLessonStateApi(data)			
+		});
 		
+		 
 		//체크된것 값 가져오기                                                             
 		function getChecked(){ 
 			var tdArr = new Array();
@@ -393,15 +408,18 @@
 			return tdArr;
 		};
 		
-		//삭제
-		function boardDeleteApi(data){
+		
+	
+	
+		//state change
+		function changeLessonStateApi(data){
   		  return $.ajax({
-  		    url: "/admin/board",
-  		    type: "Delete",
+  		    url: "/admin/lesson",
+  		    type: "Put",
   		    data: JSON.stringify(data),
   		    contentType: "application/json",
   		    success : 
-  		    	location.href = "/admin/board/boardAdminList"
+  		    	location.href = "/admin/lesson/lessonReqList"
   		  	  });
   		}
 

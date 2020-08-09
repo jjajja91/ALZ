@@ -118,7 +118,7 @@
 						<h6 class="collapse-header">게시판 관리</h6>
 						<a class="collapse-item" href="/admin/board/boardAdminList">게시판
 							관리</a> <a class="collapse-item" href="cards.html">삭제된 글 리스트</a>
-					</div>
+						</div>
 				</div></li>
 				
 			<!-- Nav Item - Pages Collapse Menu -->
@@ -130,8 +130,8 @@
 				<div id="collapsePages" class="collapse"
 					aria-labelledby="headingPages" data-parent="#accordionSidebar">
 					<div class="bg-white py-2 collapse-inner rounded">
-						<h6 class="collapse-header">Login Screens:</h6>
-						<a class="collapse-item" href="login.html">Login</a> <a
+						<h6 class="collapse-header">클래스 관리</h6>
+						<a class="collapse-item" href="/admin/lesson/lessonReqList">심사요청 클래스</a> <a
 							class="collapse-item" href="register.html">Register</a> <a
 							class="collapse-item" href="forgot-password.html">Forgot
 							Password</a>

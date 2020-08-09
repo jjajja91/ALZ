@@ -36,12 +36,14 @@ public class BoardDTO {
 	private String content;
 	private Date writtenAt;
 	private Date updatedAt;
+	//대부모 id
 	private Long boardOrder;
 	private Long likeCnt;
 	private Long commentCnt;
 	private Long viewCnt;
 	@NotNull(message = "서버 오류입니다")
 	private String nickname;
+	//내가 답글단 글의 id
 	private Long parentId;
 	@NotNull(message = "서버 오류입니다")
 	private Integer typeId;

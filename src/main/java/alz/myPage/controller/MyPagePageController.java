@@ -1,5 +1,7 @@
 package alz.myPage.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import alz.board.domain.CommentDTO;
 import alz.myPage.domain.MyPageCriteria;
 import alz.myPage.domain.MyPagePageDTO;
 import alz.myPage.service.MyPageService;
@@ -116,7 +119,8 @@ public class MyPagePageController {
 	@GetMapping("/commentList")
 	public void commentList(MyPageCriteria cri, Model model) {
 		cri.setId(getLoginUserInfo().getId());
-		model.addAttribute("list", myPageService.getMyCommentList(cri));
+		List<CommentDTO> LiLi = myPageService.getMyCommentList(cri);
+	    model.addAttribute("list", myPageService.getMyCommentList(cri));
 		Long total = myPageService.getMyCommentTotal(cri);
 		model.addAttribute("pageMaker", new MyPagePageDTO(cri, total));
 	}

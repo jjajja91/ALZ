@@ -34,5 +34,13 @@ public class BoardServiceImplAdmin implements BoardServiceAdmin {
 		int total = boardMapper.getTotalCount(cri);
 		return total;
 	}
+
+
+	@Override
+	public void deletebyId(List<Long> boardId) {
+		for(int i=0; i<boardId.size();i++) {
+		boardMapper.deleteById(boardId.get(i));}
+		
+	}
 	
 }
