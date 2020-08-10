@@ -284,7 +284,7 @@
 								name='amount' value='${pageMaker.cri.amount}'>
 
 						</form>
-						<input type='button' name='delete' id='delete' value="delete">
+					<!-- <input type='button' name='delete' id='delete' value="delete"> -->
 					</div>
 				</div>
 			</div>
