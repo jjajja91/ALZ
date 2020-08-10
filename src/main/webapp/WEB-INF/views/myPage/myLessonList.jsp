@@ -35,7 +35,7 @@
 						<img class="lessonImg" src="/resources/img/lesson/thumb/${myLessonList.teacherId}${myLessonList.openAt}/${myLessonList.thumbnail}">
 						</c:if>
 						</td>
-					<td><c:out value="${myLessonList.title }" /></td>
+					<td><a href="/classroom/enter?lessonId=${myLessonList.id}"><c:out value="${myLessonList.title }" /></a></td>
 					</tr>
 					<tr>
 					<td><c:out value="${myLessonList.closeAt }" />/ 클래스 진행중</td>
