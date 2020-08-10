@@ -132,7 +132,7 @@ body{
         <h3>소셜 가입하기</h3>
 
         <div class="txtb">
-          <input type="text" name="email" id="email" autocomplete="off" readonly>
+          <input type="text" name="email" id="email" autocomplete="off" value="${email}" readonly>
           <span data-placeholder="이메일"></span>
         </div>
         
@@ -181,7 +181,7 @@ body{
             nicknameChk()
             .then(function(response){
                console.log(response);
-               if(response.nickname==$nickname.val()){
+               if(response==true){
                   alert("중복된 닉네임이 있습니다");
                } else {
                   alert("사용 가능한 닉네임입니다");
