@@ -119,7 +119,7 @@
 					<div class="bg-white py-2 collapse-inner rounded">
 						<h6 class="collapse-header">게시판 관리</h6>
 						<a class="collapse-item" href="/admin/board/boardAdminList">게시판
-							관리</a> <a class="collapse-item" href="cards.html">삭제된 글 리스트</a>
+							관리</a> <a class="collapse-item" href="/admin/board/boardDeletedListAdmin">삭제된 글 리스트</a>
 						</div>
 				</div></li>
 				

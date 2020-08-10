@@ -42,5 +42,13 @@ public class BoardServiceImplAdmin implements BoardServiceAdmin {
 		boardMapper.deleteById(boardId.get(i));}
 		
 	}
+
+
+	@Override
+	public List<BoardDTO> readDeletedAll(BoardCriteriaAdmin cri) {
+		List<BoardDTO> list = boardMapper.printDeletedBoard(cri);
+		return list;
+	}
+	
 	
 }

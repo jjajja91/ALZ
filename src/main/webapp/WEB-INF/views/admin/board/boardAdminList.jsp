@@ -212,19 +212,16 @@
 		<div class="container-fluid">
 
 			<!-- Page Heading -->
-			<h1 class="h3 mb-2 text-gray-800">Tables</h1>
+			<h1 class="h3 mb-2 text-gray-800">삭제된 게시물</h1>
 			<p class="mb-4">
-				DataTables is a third party plugin that is used to generate the demo
-				table below. For more information about DataTables, please visit the
-				<a target="_blank" href="https://datatables.net">official
-					DataTables documentation</a>.
+				
 			</p>
 
 			<!-- DataTales Example -->
 			<div class="card shadow mb-4">
 				<div class="card-header py-3">
-					<h6 class="m-0 font-weight-bold text-primary">DataTables
-						Example</h6>
+					<h6 class="m-0 font-weight-bold text-primary">Deleted Post
+						</h6>
 				</div>
 
 				<div class="card-body">
@@ -288,7 +285,7 @@
 								name='amount' value='${pageMaker.cri.amount}'>
 
 						</form>
-						<input type='button' name='delete' id='delete' value="delete">
+						<!-- <input type='button' name='delete' id='delete' value="delete"> -->
 					</div>
 				</div>
 			</div>
@@ -473,12 +470,14 @@
 				var board = boardList[i];
 				var str = "";
 				var tr = document.createElement("tr");
+				str += "<td><input type='checkbox' id='checkOne' name='checkOne'></td>"
 				str += "<td>"+board.id+"</td>";
 				str += "<td><a class='read' href='/board/read?id="+board.boardId+"'>"+board.title+"</a></td>";
 				str += "<td>"+board.nickname+"</td>"
 				var writtenAt = board.writtenAt
 				var date = new Date(writtenAt);
 				str += "<td>"+formatDate(date)+"</td>"
+				str += "<td>"+board.viewCnt+"</td>"
 			tr.innerHTML += str;
 			fragment.appendChild(tr);	
 			}
