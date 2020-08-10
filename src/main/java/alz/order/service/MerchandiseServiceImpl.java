@@ -101,4 +101,14 @@ public class MerchandiseServiceImpl implements MerchandiseService {
 		return merchandiseMapper.getTotalCount(cri);
 	}
 
+	@Override
+	public MerchandiseDTO readByrefId(long lessonId) {
+		return merchandiseMapper.readByrefId(lessonId);
+	}
+
+	@Override
+	public Long findMerchandiseId(long id) {
+		return merchandiseMapper.findMerchandiseId(id);
+	}
+
 }
