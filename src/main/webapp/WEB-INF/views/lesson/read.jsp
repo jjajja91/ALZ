@@ -173,14 +173,14 @@
 			<form name="orderform" method="get" action="/order/orderForm">
 
 				<input type="hidden" id="id" name="id"
-					value='<c:out value="${merchandise.id }"/>'> <input
+					value='<c:out value="${lesson.id}"/>'> <input
 					type="hidden" id="name" name="name"
 					value='<c:out value="${merchandise.name }"/>'> <input
 					type="hidden" id="originPrice" name="originPrice"
 					value='<c:out value="${merchandise.originPrice }"/>'> <input
 					type="hidden" id="userId" name="userId" value="${principal.id }">
 				<input type='hidden' id='cartId' name='cartId'
-					value="${merchandise.id }">
+					value="${lesson.id }">
 
 				<button type="submit" class="buy">구매하기</button>
 			</form>
@@ -295,6 +295,46 @@
 			contentType : "application/json; charset=utf-8"
 		});
 	};
+	
+	// 장바구니 담기
+	$(".addCart").click(function() {
+		var userId = $("#userId").val();
+		var id = $("#id").val();
+		console.log(userId);
+		console.log(id);
+		var data = {
+			userId : userId,
+			id : id
+		};
+
+		$.ajax({
+			type : "post",
+			async : true, //false인 경우 동기식으로 처리한다. 문제 발생.
+			url : "/merchandise/cartInsert",
+			data : data,
+			success : function(result) {
+				if (result == "true") {
+					if (confirm("장바구니에 추가하였습니다. 장바구니로 이동하시겠습니까?"))
+						location.href = "/merchandise/cart";
+					else
+						return false;
+				} else {
+					/* alert("이미 카트에 등록된 상품입니다."); */
+					if (confirm("이미 카트에 등록된 상품입니다. 장바구니로 이동하시겠습니까?"))
+						location.href = "/merchandise/cart";
+					else
+						return false;
+				}
+
+			},
+			error : function(data, textStatus) {
+				alert("에러가 발생했습니다." + data);
+			},
+			complete : function(data, textStatus) {
+				//alert("작업을완료 했습니다");
+			}
+		}); //end ajax	
+	});
 </script>
 </body>
 </html>

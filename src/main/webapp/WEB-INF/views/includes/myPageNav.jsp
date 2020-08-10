@@ -57,7 +57,6 @@ body {
 
 <div class="sidenav">
   <lable>학생메뉴</lable>
-  <a href="/myPage/list">수강하러 가기</a>
   <a href="/myPage/activeLesson">수강중인 클래스</a>
   <a href="/myPage/finishedLesson">수강했던 클래스</a>
   <a href="/myPage/refundedLesson">취소/환불</a>

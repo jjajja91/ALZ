@@ -18,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import alz.order.domain.CartDTO;
 import alz.order.service.CartService;
+import alz.order.service.MerchandiseService;
 import alz.user.domain.UserDTO;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
@@ -29,6 +30,7 @@ import lombok.extern.log4j.Log4j;
 public class CartController {
 
 	private CartService cartService;
+	private MerchandiseService merchandiseService;
 
 	// 장바구니 페이지 연결
 //	@GetMapping("/cartList")
@@ -39,24 +41,26 @@ public class CartController {
 	public UserDTO getLoginUserInfo() {
 		SecurityContext context = SecurityContextHolder.getContext();
 		Authentication auth = context.getAuthentication();
-		UserDTO userInfo = (UserDTO)auth.getPrincipal();
+		UserDTO userInfo = (UserDTO) auth.getPrincipal();
 		return userInfo;
 	}
-	
-	
+
 	// 장바구니 추가
 	@PostMapping("/cartInsert")
 	@ResponseBody
 	public String addCart(@ModelAttribute CartDTO cart, @RequestParam("id") long id) {
 
-		long userId = getLoginUserInfo().getId();
+		System.out.println(id);
 
+		long merchandiseId = merchandiseService.findMerchandiseId(id);
+		long userId = getLoginUserInfo().getId();
+		System.out.println(merchandiseId);
 		cart.setUserId(userId);
 
 		String result = "false";
 		// 카트에 닉네임, 상품 저장
 		cart.setUserId(userId);
-		cart.setMerchandiseId(id);
+		cart.setMerchandiseId(merchandiseId);
 		// 장바구니에 기존 상품이 있는지 검사
 		int count = cartService.countCart(cart.getMerchandiseId(), userId);
 		if (count == 0) {
@@ -103,8 +107,7 @@ public class CartController {
 	// 장바구니 삭제(체크박스)
 	@PostMapping("delete")
 	@ResponseBody
-	public String deleteCart(@RequestParam(value = "chkbox[]") List<String> chArr, CartDTO cart)
-			throws Exception {
+	public String deleteCart(@RequestParam(value = "chkbox[]") List<String> chArr, CartDTO cart) throws Exception {
 		log.info("delete cart");
 
 		UserDTO user = getLoginUserInfo();
@@ -123,7 +126,7 @@ public class CartController {
 			}
 			result = "1";
 		}
-		
+
 		log.info(id);
 		return result;
 

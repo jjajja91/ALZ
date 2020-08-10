@@ -160,17 +160,5 @@ public class MyPagePageController {
 	  return "myPage/pwdChk";
 	}
 	 
-	 @GetMapping("/list")
-		public void list(MerchandiseCriteria cri, Model model) {
-
-			log.info("list: " + cri);
-			model.addAttribute("list", merchandiseService.readAll(cri));
-
-			int total = merchandiseService.getTotal(cri);
-
-			log.info("total: " + total);
-
-			model.addAttribute("pageMaker", new MerchandisePageDTO(cri, total));
-		}
 
 }
