@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import alz.admin.domain.BoardCriteriaAdmin;
 import alz.admin.domain.BoardPageDTOAdmin;
@@ -32,6 +33,12 @@ public class LessonAdminController {
 			model.addAttribute("pageMaker", new BoardPageDTOAdmin(cri, total));
 	}
 	
-
-
+	// 클래스 상세
+   @GetMapping("/lessonReqRead")
+   public void get(@RequestParam Long id, Model model) {
+      model.addAttribute("lesson", lessonService.readByLessonId(id));
+      model.addAttribute("curriculum", lessonService.curriculumByLessonId(id));
+      model.addAttribute("schedule", lessonService.timeTableByLessonId(id));
+      model.addAttribute("teacher", lessonService.teacherByLessonId(id));
+   }
 }
