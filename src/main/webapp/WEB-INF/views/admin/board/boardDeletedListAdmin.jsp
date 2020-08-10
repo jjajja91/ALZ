@@ -212,14 +212,15 @@
 		<div class="container-fluid">
 
 			<!-- Page Heading -->
-			<h1 class="h3 mb-2 text-gray-800">Tables</h1>
-			<p class="mb-4">심사 요청 클래스
+			<h1 class="h3 mb-2 text-gray-800">삭제된 게시물</h1>
+			<p class="mb-4">
+			
 			</p>
 
 			<!-- DataTales Example -->
 			<div class="card shadow mb-4">
 				<div class="card-header py-3">
-					<h6 class="m-0 font-weight-bold text-primary">Decision in Progress</h6>
+					<h6 class="m-0 font-weight-bold text-primary">Deleted Post
 				</div>
 
 				<div class="card-body">
@@ -228,40 +229,32 @@
 							cellspacing="0">
 							<thead>
 								<tr>
-									<th><input type="checkbox" id="checkAll"></th>
+									
 									<th>번호</th>
-									<th class="imgArea" style="width:180px">썸네일</th>
-									<th>클래스 설명</th>
-									<th>클래스 상태</th>
-
+									<th>제목</th>
+									<th>작성자</th>
+									<th>작성일</th>
+									<th>조회수</th>
 								</tr>
 							</thead>
 
 							<tbody>
-								<c:forEach items="${list}" var="LessonReqList">
+								<c:forEach items="${list }" var="board">
 									<tr>
-										<td><input type="checkbox" id="checkOne" name="checkOne"></td>
-										<th><c:out value="${LessonReqList.id }" /></th>
-										<td><img class="lessonImg"
-											src="/resources/img/classtmpimg.jpg"></td>
-										<td><a class='read'  href="<c:out value="${LessonReqList.id }"/>"><c:out value="${LessonReqList.title }" />
-										<br>
-											<c:out value="${LessonReqList.openAt }" />  -  <c:out
-												value="${LessonReqList.closeAt }" /></a></td>
-										<td><c:out value="${LessonReqList.state }" /></td>
+										
+										<td><c:out value="${board.id }" /><input type="hidden"
+											value='<c:out value="${board.id }" />' /></td>
+										<td><a class='read' href='<c:out value="${board.id }"/>'><c:out
+													value="${board.title }" /> (<c:out
+													value="${board.commentCnt}" />)</a></td>
+										<td><c:out value="${board.nickname }" /></td>
+										<td><fmt:formatDate pattern="yyyy-MM-dd"
+												value="${board.writtenAt }" /></td>
+										<td><c:out value="${board.viewCnt }" /></td>
 									</tr>
-
 								</c:forEach>
 							</tbody>
 						</table>
-						<select name='state'>
-							<option>상태 변경</option>
-							<option value='3'>심사 중</option>
-							<option value='4'>심사 통과</option>
-							<option value='5'>심사 미통과</option>						
-						</select>
-						<input type='button' name='changeState' id='changeState' value="변경">
-						
 						<!-- paging -->
 						<div class="page-footer">
 							<ul class="pagination pull-right">
@@ -284,11 +277,14 @@
 							</ul>
 						</div>
 
-						<form id='actionForm' action="/admin/lesson/lessonReqList" method='get'>
-							<input type='hidden' name='pageNum' value='${pageMaker.cri.pageNum}'> 
-							<input type='hidden' name='amount' value='${pageMaker.cri.amount}'>
+						<form id='actionForm' action="/admin/board/boardAdimList"
+							method='get'>
+							<input type='hidden' name='pageNum'
+								value='${pageMaker.cri.pageNum}'> <input type='hidden'
+								name='amount' value='${pageMaker.cri.amount}'>
+
 						</form>
-						
+					<!-- <input type='button' name='delete' id='delete' value="delete"> -->
 					</div>
 				</div>
 			</div>
@@ -316,8 +312,8 @@
 <!-- End of Page Wrapper -->
 
 <!-- Scroll to Top Button-->
-<a class="scroll-to-top rounded" href="#page-top"> 
-	<i class="fas fa-angle-up"></i>
+<a class="scroll-to-top rounded" href="#page-top"> <i
+	class="fas fa-angle-up"></i>
 </a>
 
 <!-- Logout Modal-->
@@ -362,35 +358,23 @@
 <script src="/resources/js/demo/datatables-demo.js"></script> -->
 
 <script type="text/javascript">
-
-	var actionForm;
-	
 	$(document).ready(function() {
-
-		actionForm = $("#actionForm");
 		
-		//전체선택 체크박스 클릭
-		$("#checkAll").click(function(){ 
-			//만약 전체 선택 체크박스가 체크된상태일경우
-			if($("#checkAll").prop("checked")) { 
-				$("input[type=checkbox]").prop("checked",true); 
+		 //전체선택 체크박스 클릭
+			$("#checkAll").click(function(){ 
+				//만약 전체 선택 체크박스가 체크된상태일경우
+				if($("#checkAll").prop("checked")) { 
+					$("input[type=checkbox]").prop("checked",true); 
 			} else { 
-				$("input[type=checkbox]").prop("checked",false); 
-			} 
-		});
+						$("input[type=checkbox]").prop("checked",false); } });
 		
-		 //변경버튼 클릭시
-		$("#changeState").click(function(){
-			var lessonId = getChecked();
-			var state = $("select[name=state]").val();
-			var data = {
-				lessonId,
-				state
-			};
-			changeLessonStateApi(data)			
-		});
+		 //삭제버튼 클릭시
+		$("#delete").click(function(){
+			var boardId = getChecked();
+			boardDeleteApi(boardId)			
+				
+			});
 		
-		 
 		//체크된것 값 가져오기                                                             
 		function getChecked(){ 
 			var tdArr = new Array();
@@ -405,17 +389,30 @@
 			return tdArr;
 		};
 		
-		//state change
-		function changeLessonStateApi(data){
+		//삭제
+		function boardDeleteApi(data){
   		  return $.ajax({
-  		    url: "/admin/lesson",
-  		    type: "Put",
+  		    url: "/admin/board",
+  		    type: "Delete",
   		    data: JSON.stringify(data),
   		    contentType: "application/json",
   		    success : 
-  		    	location.href = "/admin/lesson/lessonReqList"
+  		    	location.href = "/admin/board/boardAdminList"
   		  	  });
   		}
+
+		
+		
+		// 읽기 이벤트 추가
+		$(".read").on("click", function(e) {
+			e.preventDefault();
+			actionForm.append("<input type='hidden' name='id' value='"+$(this).attr("href")+"'>");
+			actionForm.attr("action", "/board/read");
+			actionForm.submit();
+		});
+		
+		
+		
 		
 		$pageBtn = $(".paging");
 		$tbody = $("tbody");
@@ -460,30 +457,48 @@
 				var writtenAt = board.writtenAt
 				var date = new Date(writtenAt);
 				str += "<td>"+formatDate(date)+"</td>"
+				str += "<td>"+board.viewCnt+"</td>"
 			tr.innerHTML += str;
 			fragment.appendChild(tr);	
 			}
 			$tbody.append($(fragment));
 		};
 		
-		function formatDate(date) { 
-			var d = new Date(date), month = '' + (d.getMonth() + 1), day = '' + d.getDate(), year = d.getFullYear(); 
-			if (month.length < 2) month = '0' + month; 
-			if (day.length < 2) day = '0' + day; 
-			return [year, month, day].join('-'); 
-		};
+	      function formatDate(date) { 
+	          var d = new Date(date), month = '' + (d.getMonth() + 1), day = '' + d.getDate(), year = d.getFullYear(); 
+	          if (month.length < 2) month = '0' + month; 
+	          if (day.length < 2) day = '0' + day; 
+	          return [year, month, day].join('-'); };
+	
+		
+/* 		 
+		var pageFooter = $(".page-footer");
+		
+		
+		// 글 검색 결과
+	function boardSearch(data) {
+			return $.ajax({
+				type : "GET",
+				url : "/myPage/" + data.pageNum + "/" + data.amount+ "/" + ".json",
+				contentType : "application/json; charset=utf-8"
+			});
+		} 
+		
+		
+		// 글목록 출력
+		function printBoardList(boards, page) {
+			if(page == -1) {
+				pageNum = Math.ceil(totalCnt/10.0);
+				printBoardList(boards, pageNum);
+				return;
+			}
 
 	});
 	
-	// 읽기 이벤트 추가
-	$(".read").on("click", function(e) {
-		e.preventDefault();
-		actionForm.append("<input type='hidden' name='id' value='"+$(this).attr("href")+"'>");
-		actionForm.attr("action", "/admin/lesson/lessonReqRead");
-		actionForm.submit();
-	});
-	
 </script>
+
+
+
 
 </body>
 

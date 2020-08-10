@@ -32,7 +32,7 @@
 
    <select id="findAll" resultType="alz.lesson.domain.LessonDTO">
       select lesson.id id, lesson.teacher_id teacherId, lesson.category_main categoryMain, lesson.category_sub categorySub,
-      		 category.name categoryName, lesson.title, lesson.lesson_type lessonType, lessonType.type typeName, 
+      		 category.name categoryName, category.total categoryTotal, lesson.title, lesson.lesson_type lessonType, lessonType.type typeName, 
       		 lessonLevel.id, lessonLevel.lesson_level levelName, lesson.min_student minStudent, lesson.max_student maxStudent, 
           	 lesson.current_student currentStudent, lesson.state state, lesson.open_at openAt, lesson.close_at closeAt, lesson.thumbnail
     	from alz_lesson lesson, 

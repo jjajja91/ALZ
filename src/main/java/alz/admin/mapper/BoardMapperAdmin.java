@@ -14,4 +14,7 @@ public interface BoardMapperAdmin {
 		int getTotalCount(BoardCriteriaAdmin cri);
 
 		void deleteById(Long id);
+
+		//삭제된 글 목록 불러오기
+		List<BoardDTO> printDeletedBoard(BoardCriteriaAdmin cri);
 }

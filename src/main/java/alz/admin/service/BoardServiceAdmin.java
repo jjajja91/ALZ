@@ -13,4 +13,6 @@ public interface BoardServiceAdmin {
 	int getTotal(BoardCriteriaAdmin cri);
 
 	void deletebyId(List<Long> boardId);
+
+	List<BoardDTO> readDeletedAll(BoardCriteriaAdmin cri);
 }

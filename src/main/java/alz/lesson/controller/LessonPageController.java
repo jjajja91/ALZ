@@ -41,7 +41,6 @@ public class LessonPageController {
       this.servletContext = servletContext;
    }
    
-   
    public UserDTO getLoginUserInfo() {
       SecurityContext context = SecurityContextHolder.getContext();
       Authentication auth = context.getAuthentication();

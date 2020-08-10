@@ -57,12 +57,11 @@ public class BoardApiAdminController {
 		return ResponseEntity.status(HttpStatus.OK).body("");
 	}
 	
-	@GetMapping(value ="/{pageNum}", produces = MediaType.APPLICATION_JSON_VALUE)
+
+	@GetMapping(value ="/pageNum/{pageNum}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> boardList(@PathVariable Integer pageNum){
 		BoardCriteriaAdmin cri = new BoardCriteriaAdmin(pageNum, 10);
-		System.out.println("여기옴?"+ cri);
 		List<BoardDTO> list = boardService.readAll(cri);
-		System.out.println("그럼 여기는"+ list);
 		return ResponseEntity.status(HttpStatus.OK).body(list);
 	}
 

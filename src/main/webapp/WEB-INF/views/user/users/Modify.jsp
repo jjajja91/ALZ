@@ -35,7 +35,7 @@
 					<td>PHONENUMBER</td>
 					<td>
 						<input type="text" id="phoneNumber" name="phoneNumber" value="${principal.phoneNumber}">
-						<button>실명인증</button>
+						<!-- <button>실명인증</button> -->
 					</td>
 				</tr>
 				<%-- <tr>

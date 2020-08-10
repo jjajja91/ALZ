@@ -119,7 +119,7 @@
 					<div class="bg-white py-2 collapse-inner rounded">
 						<h6 class="collapse-header">게시판 관리</h6>
 						<a class="collapse-item" href="/admin/board/boardAdminList">게시판
-							관리</a> <a class="collapse-item" href="cards.html">삭제된 글 리스트</a>
+							관리</a> <a class="collapse-item" href="/admin/board/boardDeletedListAdmin">삭제된 글 리스트</a>
 						</div>
 				</div></li>
 				
@@ -133,14 +133,14 @@
 					aria-labelledby="headingPages" data-parent="#accordionSidebar">
 					<div class="bg-white py-2 collapse-inner rounded">
 						<h6 class="collapse-header">클래스 관리</h6>
-						<a class="collapse-item" href="/admin/lesson/lessonReqList">심사요청 클래스</a> <a
+						<a class="collapse-item" href="/admin/lesson/lessonReqList">심사요청 클래스</a> <!-- <a
 							class="collapse-item" href="register.html">Register</a> <a
 							class="collapse-item" href="forgot-password.html">Forgot
 							Password</a>
 						<div class="collapse-divider"></div>
 						<h6 class="collapse-header">Other Pages:</h6>
 						<a class="collapse-item" href="404.html">404 Page</a> <a
-							class="collapse-item" href="blank.html">Blank Page</a>
+							class="collapse-item" href="blank.html">Blank Page</a> -->
 					</div>
 				</div></li>
 
