@@ -38,7 +38,7 @@ public class ClassroomController {
 	}
 	
 	
-	@GetMapping("/enter")
+	@GetMapping("/student")
 	public void classroom (Long lessonId, Model model) {
 		Long userId = getLoginUserInfo().getId();
 		if (classroomService.checkStudent(lessonId, userId)) {
