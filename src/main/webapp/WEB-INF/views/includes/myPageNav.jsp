@@ -56,7 +56,7 @@ body {
 <body>
 
 <div class="sidenav">
-  <lable>학생메뉴</lable>
+  <label>학생메뉴</label>
   <a href="/myPage/activeLesson">수강중인 클래스</a>
   <a href="/myPage/finishedLesson">수강했던 클래스</a>
   <a href="/myPage/refundedLesson">취소/환불</a>
@@ -68,17 +68,17 @@ body {
   <a href="/myPage/teachedLesson">강의했던 클래스</a>
     </sec:authorize>
 
-  <lable>관심 클래스</lable>
+  <label>관심 클래스</label>
   <a href="#about">찜 클래스</a>
   <a href="#services">좋아요 클래스</a>
   
-  <lable>내가 쓴 글</lable>
+  <label>내가 쓴 글</label>
   <a href="/myPage/boardList">내 게시글</a>
   <a href="/myPage/commentList">내 댓글</a>
   <a href="/myPage/likeList">내 좋아요</a>
   
   <sec:authorize access="hasRole('ROLE_USER') or hasRole('ROLE_ADMIN') or hasRole('ROLE_TEACHER')">
-  <lable>내 정보 수정</lable>
+  <label>내 정보 수정</label>
   <a href="/myPage/modifyAcc">개인 정보 수정</a>
   <a href="/myPage/deleteAcc">회원 탈퇴</a>
   </sec:authorize>
