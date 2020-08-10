@@ -212,7 +212,7 @@
 		<div class="container-fluid">
 
 			<!-- Page Heading -->
-			<h1 class="h3 mb-2 text-gray-800">전체 게시물</h1>
+			<h1 class="h3 mb-2 text-gray-800">삭제된 게시물</h1>
 			<p class="mb-4">
 			
 			</p>
@@ -220,7 +220,7 @@
 			<!-- DataTales Example -->
 			<div class="card shadow mb-4">
 				<div class="card-header py-3">
-					<h6 class="m-0 font-weight-bold text-primary">Total Post
+					<h6 class="m-0 font-weight-bold text-primary">Deleted Post
 				</div>
 
 				<div class="card-body">
@@ -229,7 +229,7 @@
 							cellspacing="0">
 							<thead>
 								<tr>
-									<th><input type="checkbox" id="checkAll"></th>
+									
 									<th>번호</th>
 									<th>제목</th>
 									<th>작성자</th>
@@ -241,7 +241,7 @@
 							<tbody>
 								<c:forEach items="${list }" var="board">
 									<tr>
-										<td><input type="checkbox" id="checkOne" name="checkOne"></td>
+										
 										<td><c:out value="${board.id }" /><input type="hidden"
 											value='<c:out value="${board.id }" />' /></td>
 										<td><a class='read' href='<c:out value="${board.id }"/>'><c:out
@@ -403,24 +403,6 @@
 
 		
 		
-		/* // 첫 페이지 paging
-		$(".paginate_button a").on("click", function(e) {
-			e.preventDefault();
-			
-			data = {
-					pageNum : $pageNum.val(),
-					amount : $amount.val()
-				};
-			
-			var targetPageNum = $(this).attr("href");
-			data.pageNum = targetPageNum;
-			
-			// 글 목록 출력
-			getList(data, pageNum);
-			actionForm.find("input[name='pageNum']").val($(this).attr("href"));
-			actionForm.submit();
-		});
-		 */
 		// 읽기 이벤트 추가
 		$(".read").on("click", function(e) {
 			e.preventDefault();
@@ -469,7 +451,6 @@
 				var board = boardList[i];
 				var str = "";
 				var tr = document.createElement("tr");
-				str += "<td><input type='checkbox' id='checkOne' name='checkOne'></td>"
 				str += "<td>"+board.id+"</td>";
 				str += "<td><a class='read' href='/board/read?id="+board.boardId+"'>"+board.title+"</a></td>";
 				str += "<td>"+board.nickname+"</td>"
@@ -511,46 +492,7 @@
 				printBoardList(boards, pageNum);
 				return;
 			}
-			
-			var $tableHeader = $table.find("#table-header").clone();
-			$table.empty();
-			$table.append($tableHeader);
-			
-			var frag = document.createDocumentFragment();
-			for(var i=0; i<boards.length; i++) {
-				var board= boards[i];
-				
-				var tr = document.createElement("tr");
-				var id = document.createElement("td");
-				id.textContent = board.id;
-				tr.appendChild(id);
-				
-				var title = document.createElement("td");
-				var titleA = document.createElement("a");
-				titleA.setAttribute("class", "read");
-				titleA.setAttribute("href", board.id);
-				titleA.textContent = board.title;
-				
-				title.appendChild(titleA);
-				tr.appendChild(title);
-				var nickname = document.createElement("td");
-				nickname.textContent = board.nickname;
-				tr.appendChild(nickname);
-				
-				var writtenAt = document.createElement("td");
-				writtenAt.textContent = moment(board.writtenAt).format('YYYY-MM-DD'); 
-				tr.appendChild(writtenAt);
-				
-				var viewCnt = document.createElement("td");
-				viewCnt.textContent = board.viewCnt;
-				tr.appendChild(viewCnt);
-				
-				frag.appendChild(tr);
-			}
-			
-			$table.append($(frag));
-		}
-		 */
+
 	});
 	
 </script>
