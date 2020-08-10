@@ -28,4 +28,8 @@ public interface MerchandiseMapper {
 	
 	Long selectLessonById(Long id);
 
+	MerchandiseDTO readByrefId(long lessonId);
+
+	Long findMerchandiseId(long id);
+
 }

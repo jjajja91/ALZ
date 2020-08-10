@@ -244,6 +244,7 @@
 				actionForm.submit();
 			});
 
+			// 주문 상세로 이동
 			$(".move").on("click",function(e) {
 
 				e.preventDefault();
@@ -255,6 +256,7 @@
 
 			});
 
+			// 검색창
 			var searchForm = $("#searchForm");
 
 			$("#searchForm button").on("click",function(e) {
@@ -279,6 +281,7 @@
 			});
 			
 			
+			// 상태 변경
 			$("#stateBtn").click(function() {
 
 				var confirm_val = confirm("선택된 항목을 변경하시겠습니까?");
@@ -301,6 +304,7 @@
 					rowData.push(tr.text());
 				
 					// td.eq(0)은 체크박스 이므로  td.eq(1)의 값부터 가져온다.
+					// var no = td.eq(1).text();
 					var orderId = td.eq(3).text().trim();
 				
 					// 가져온 값을 배열에 담는다.
@@ -308,12 +312,14 @@
 
 			    });
 				
+				// 배열로 돌려서 상태변경 처리
 				for(var i=0; i<orderIdArr.length; i++) {
 					
 					console.log(orderIdArr[i]);
 					stateChange(orderIdArr[i]);
 				}
 				
+				// 상태변경 함수
 				function stateChange(orderId) {
 					  
 					  var data = {

@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +18,9 @@ import alz.board.domain.CommentDTO;
 import alz.myPage.domain.MyPageCriteria;
 import alz.myPage.domain.MyPagePageDTO;
 import alz.myPage.service.MyPageService;
+import alz.order.domain.MerchandiseCriteria;
+import alz.order.domain.MerchandisePageDTO;
+import alz.order.service.MerchandiseService;
 import alz.user.domain.UserDTO;
 import lombok.extern.log4j.Log4j;
 
@@ -28,12 +30,12 @@ import lombok.extern.log4j.Log4j;
 public class MyPagePageController {
 
 	private MyPageService myPageService;
-	private PasswordEncoder passwordEncoder;
+	private MerchandiseService merchandiseService ;
 
 	@Autowired
-	public MyPagePageController(MyPageService myPageService, PasswordEncoder passwordEncoder) {
+	public MyPagePageController(MyPageService myPageService, MerchandiseService merchandiseService) {
 		this.myPageService = myPageService;
-		this.passwordEncoder = passwordEncoder;
+		this.merchandiseService = merchandiseService;
 	}
 	
 	// 로그인한 유저 정보 가져오기
@@ -157,5 +159,6 @@ public class MyPagePageController {
 		 
 	  return "myPage/pwdChk";
 	}
+	 
 
 }
