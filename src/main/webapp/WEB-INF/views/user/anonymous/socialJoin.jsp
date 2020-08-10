@@ -166,6 +166,16 @@ body{
          var $joinSubmit = $("#joinSubmit");
          var $joinForm = $("#joinForm");
          
+         
+ 		$(".txtb input").on("focus",function(){
+ 			$(this).addClass("focus");
+ 		});
+
+ 		$(".txtb input").on("blur",function(){
+ 			if($(this).val() == "")
+ 			$(this).removeClass("focus");
+ 		});
+         
          $nickname.change(function(){
             $nicknameChkResult.val("false");
          });
