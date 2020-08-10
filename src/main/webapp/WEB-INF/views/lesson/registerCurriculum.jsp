@@ -105,7 +105,7 @@
 		<input type="button" name="addSubject" value="+Add Subject"/>
 		<br><br><br>
 	<form role="form" id="submitForm" action="/lesson/registerSubmit" method="post">
-		<input type="text" name="lessonId" value='<c:out value="${param.lessonId }"/>' readonly>
+		<input type="hidden" name="lessonId" value='<c:out value="${param.lessonId }"/>' readonly>
 		<button type="button" name="prev">＜ 이전</button>
 		<button type="button" name="save">저장</button>
 		<button type="submit" name="submit">제출</button>
@@ -161,6 +161,8 @@
 			.then(function(response) {
 				if (response==='prev') {
 		    		self.location = "/lesson/registerDetail?lessonId="+$lessonId.val();
+		    	} else if(response==='submit') {
+		    		
 		    	}
 			})
 		

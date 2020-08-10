@@ -57,8 +57,10 @@ public class BoardApiAdminController {
 		return ResponseEntity.status(HttpStatus.OK).body("");
 	}
 	
-	@GetMapping(value ="/{pageNum}", produces = MediaType.APPLICATION_JSON_VALUE)
+
+	@GetMapping(value ="/pageNum/{pageNum}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> boardList(@PathVariable Integer pageNum){
+	    System.out.println("들어오냐고ㅠ");
 		BoardCriteriaAdmin cri = new BoardCriteriaAdmin(pageNum, 10);
 		System.out.println("여기옴?"+ cri);
 		List<BoardDTO> list = boardService.readAll(cri);
