@@ -139,7 +139,7 @@
 		.main_wrap section ul li:last-child {margin-right: 0;}
 		.main_wrap section ul li .img {height: 200px; background: #000;}
 		.main_wrap section ul li h3 {font-size: 18px; text-align: center; margin-top: 10px;}
-		footer {background: #1e222b; color: #fff; padding: 30px 0;}
+		footer {background: #004a88; color: #fff; padding: 30px 0;}
 	
 	.bot {
 	position: fixed;

@@ -63,11 +63,11 @@ public class MerchandiseApiController {
 		return ResponseEntity.status(HttpStatus.OK).body(searchedMerchandise);
 	}
 	
-	@GetMapping()
-	public ResponseEntity<?> readAll() {
-		List<MerchandiseDTO> merchandises = merchandiseService.readAll();
-		return ResponseEntity.status(HttpStatus.OK).body(merchandises);
-	}
+//	@GetMapping()
+//	public ResponseEntity<?> readAll() {
+//		List<MerchandiseDTO> merchandises = merchandiseService.readAll();
+//		return ResponseEntity.status(HttpStatus.OK).body(merchandises);
+//	}
 	
 	@PutMapping("/{id}")
 	public ResponseEntity<?> updateOne(@PathVariable Long id, @RequestBody MerchandiseDTO merchandise) {
