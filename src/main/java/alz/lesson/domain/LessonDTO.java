@@ -27,6 +27,7 @@ public class LessonDTO {
 	private Long categoryMain;
 	private Long categorySub; 
 	private String categoryName;
+	private String categoryTotal;
 	private String title;
 	private Long lessonType;
 	private String typeName;
