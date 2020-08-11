@@ -20,7 +20,7 @@
 	<br>
 	<br>
 	
-	<form name="orderinfo" method="post" action="/order/payForKakao">
+	<form name="orderinfo" method="post" action="/order/payForInicis">
 		<table class="table table-striped table-bordered table-hover">
 			<tr>
 				<td colspan="2">상품정보</td>
@@ -66,12 +66,11 @@
 			<div>
 				<strong>결제 수단</strong><br>
 
-				<div>
-					<label><input type="radio" name="method" id="method"
-						value="신용카드">카드 결제</label><br> <label><input
-						type="radio" name="method" id="method" value="카카오 페이">카카오
-						페이</label>
+				<div class="payMethod">
+					<label><input type="radio" name="pay" value="카드 결제">카드 결제</label><br> 
+					<label><input type="radio" name="pay" value="카카오 페이">카카오 페이</label>
 				</div>
+				<div  id="pay_hidden"></div>
 				<button id="buyBtn" type="submit">다 음</button>
 
 			</div>
@@ -80,28 +79,48 @@
 			<input type="hidden" id="merchandise" name="merchandise" value="${merchandise.id}">
 			<input type="hidden" name="state" id="state" value="결제완료"> 
 			<input type="hidden" name="totalPrice" id="totalPrice" value="${finalTotalPrice}"> 
+			<input type="hidden" name="totalPrice" id="totalPrice" value="${finalTotalPrice}"> 
 			<input type="hidden" name="salePrice" id="salePrice" value="${salePrice}"> 
 		</div>
 	</form>
 
 </body>
 <script type="text/javascript">
-	$(document).ready(function() {
-
+		
 		var phoneNumber = $("#phone").val();
 		var phoneNumberRegex = /^[0-9]{3}-[0-9]{4}-[0-9]{4}$/;
 
-		$("#buyBtn").click(function() {
+		var formObj = $("form");
+		
+		var str = "";
+		
+		$('#buyBtn').on("click",function(e) {
+			e.preventDefault();
 			if (!(checkConfirm())) {
 				return false;
 			} else {
 			/* payForKakao(); */
 			}
+			
+			var method = $('input:radio[name="pay"]:checked').val();
+			
+			console.log(method);
+			
+			if (method === "카카오 페이") {
+				formObj.attr("action", "/order/payForKakao");
+				str += "<input type='hidden' id='method' name='method' value='"+method+"'>";
+				$("#pay_hidden").html(str);
+			} else {
+				str += "<input type='hidden' id='method' name='method' value='"+method+"'>";
+				$("#pay_hidden").html(str);
+			}
+			formObj.submit();
+			
 		});
 
 		// 결제방법, 폰번호 체크
 		function checkConfirm() {
-			if ($('input[name="method"]:radio:checked').length < 1) {
+			if ($('input:radio[name="pay"]:checked').length < 1) {
 				alert("결제 방법을 선택하세요.");
 				event.preventDefault();
 				return false;
@@ -118,6 +137,5 @@
 		}
 		
 		
-	});
 </script>
 </html>
