@@ -49,6 +49,12 @@ public interface MyPageMapper {
 
 	Long myLikeCnt(MyPageCriteria cri);
 
+	int getActiveLessonTotal(MyPageCriteria cri);
+
+	int getFinishedLessonTotal(MyPageCriteria cri);
+
+	int getRefundedLessonTotal(MyPageCriteria cri);
+
 
 
 }

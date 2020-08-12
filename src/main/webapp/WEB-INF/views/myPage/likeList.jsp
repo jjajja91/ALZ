@@ -6,6 +6,8 @@
 	prefix="sec"%>
 <%@include file="../includes/myPageNav.jsp"%>
 <%@include file="../includes/header.jsp"%>
+
+
 	<div class="container">
 		<h1 class="page-header">내 좋아요</h1>
 	</div>
@@ -79,10 +81,9 @@
 		$pageBtn.on().click(function(e){
 			$pageBtn.parent().removeClass("active")
 			e.preventDefault();
-			var $target = e.target
-			console.log($target);
-			$target.parentNode.setAttribute("class", "active");
-			var pageNum = $target.text;
+			var $target = $(e.target)
+			$target.parent().addClass("active");
+			var pageNum = $target.text();
 			getMyLikeList(pageNum)
 			.then(function(response){
 				drawMyLikeList(response);
