@@ -6,10 +6,99 @@
 	prefix="sec"%>
 <%@include file="../includes/myPageNav.jsp"%>
 <%@include file="../includes/header.jsp"%>
+<head>
+<style>
+.container {
+	position: relative;
+	margin-top: 200px;
+}
+
+.container h1 {
+	text-align: center;
+	font-size: 2em;
+	color: #335492;
+}
+
+.table-container {
+	position: absolute;
+	top: 90px;
+	right: 15%;
+}
+
+.content-table {
+  border-collapse: collapse;
+  font-size: 0.8em;
+  min-width: 400px;
+  width: 700px;
+  border-radius: 5px 5px 0 0;
+  overflow: hidden;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+.content-table thead tr {
+  background-color: #335492;
+  color: #ffffff;
+  text-align: left;
+}
+
+.content-table th {
+padding: 13px 15px
+}
+.content-table td {
+  padding: 8px 15px;
+}
+
+.content-table td a {
+  text-decoration: none;
+  color: #335492;
+}
+
+.content-table tbody tr {
+  border-bottom: 1px solid #dddddd;
+}
+
+.content-table tbody tr:nth-of-type(even) {
+  background-color: #f3f3f3;
+}
+
+.content-table tbody tr:last-of-type {
+  border-bottom: 2px solid #335492;
+}
+
+.content-table tbody tr.active-row {
+  font-weight: bold;
+  color: #335492;
+}
+
+.page-footer{
+	right: 0%;
+	bottom: 0%;
+	margin-top: 20px;
+}
+
+.page-footer li{
+	float: left;
+}
+
+.paginate_button a {
+	text-decoration: none;
+	background-color: #eee;
+	padding: 5px 10px;
+	color: #335492;
+}
+
+.active a{
+	color: #eee;
+	background-color: #335492;
+}
+</style>
+</head>
+<body>
+
+
 
 	<div class="container">
 		<h1 class="page-header">내 게시글</h1>
-	</div>
 
 	<div class="table-container">
 
@@ -39,7 +128,6 @@
 				</c:forEach>
 			</tbody>
 		</table>
-		</div>
 		<!-- paging -->
 		<div class="page-footer">
 			<ul class="pagination pull-right">
@@ -60,6 +148,7 @@
 						href="${pageMaker.endPage +1 }">Next</a></li>
 				</c:if>
 			</ul>
+		</div>
 		</div>
 
 

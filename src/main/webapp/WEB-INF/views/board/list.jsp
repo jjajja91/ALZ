@@ -3,6 +3,88 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@include file="../includes/header.jsp"%>
+<head>
+<style>
+.container {
+	position: relative;
+}
+
+.table-container {
+	position: absolute;
+	top: 30%;
+	left: 20%;
+}
+
+.content-table {
+  border-collapse: collapse;
+  font-size: 0.9em;
+  min-width: 400px;
+  width: 700px;
+  border-radius: 5px 5px 0 0;
+  overflow: hidden;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+.content-table thead tr {
+  background-color: #335492;
+  color: #ffffff;
+  text-align: left;
+}
+
+.content-table th {
+padding: 13px 15px
+}
+.content-table td {
+  padding: 8px 15px;
+}
+
+.content-table td a {
+  text-decoration: none;
+  color: #335492;
+}
+
+.content-table tbody tr {
+  border-bottom: 1px solid #dddddd;
+}
+
+.content-table tbody tr:nth-of-type(even) {
+  background-color: #f3f3f3;
+}
+
+.content-table tbody tr:last-of-type {
+  border-bottom: 2px solid #335492;
+}
+
+.content-table tbody tr.active-row {
+  font-weight: bold;
+  color: #335492;
+}
+
+.page-footer{
+	
+	right: 0%;
+	bottom: 0%;
+	margin-top: 20px;
+}
+
+.page-footer li{
+	float: left;
+}
+
+.paginate_button a {
+	text-decoration: none;
+	background-color: #eee;
+	padding: 5px 10px;
+	color: #335492;
+}
+
+.active a{
+	color: #eee;
+	background-color: #335492;
+}
+</style>
+</head>
+<body>
 
 <div class="container">
    <h1 class="page-header">Board</h1>

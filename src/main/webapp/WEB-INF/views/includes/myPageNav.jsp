@@ -22,7 +22,7 @@
 .mypageMiddle{
   position: absolute;
   top: 60%;
-  left: 20%;
+  left: 17%;
   transform: translate(-50%,-50%);
 }
 .mypageMenu{

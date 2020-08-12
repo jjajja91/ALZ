@@ -17,82 +17,6 @@
   crossorigin="anonymous"></script>
 <style>
 
-.container {
-	position: relative;
-}
-
-.write-container {
-	position: absolute;
-	top: 200px;
-	left: 15%;
-}
-
-.table-container {
-	position: absolute;
-	top: 44%;
-	right: 15%;
-}
-
-.content-table {
-  border-collapse: collapse;
-  font-size: 0.9em;
-  min-width: 400px;
-  width: 700px;
-  border-radius: 5px 5px 0 0;
-  overflow: hidden;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
-}
-
-.content-table thead tr {
-  background-color: #335492;
-  color: #ffffff;
-  text-align: left;
-}
-
-.content-table th {
-padding: 13px 15px
-}
-.content-table td {
-  padding: 8px 15px;
-}
-
-.content-table td a {
-  text-decoration: none;
-  color: #335492;
-}
-
-.content-table tbody tr {
-  border-bottom: 1px solid #dddddd;
-}
-
-.content-table tbody tr:nth-of-type(even) {
-  background-color: #f3f3f3;
-}
-
-.content-table tbody tr:last-of-type {
-  border-bottom: 2px solid #335492;
-}
-
-.content-table tbody tr.active-row {
-  font-weight: bold;
-  color: #335492;
-}
-
-.page-footer{
-	position: absolute;
-	right: 15%;
-	top: 58%;
-	margin-top: 10px;
-}
-
-.paginate_button a {
-	text-decoration: none;
-	background-color: lightgray;
-	padding: 5px 10px;
-	color: #335492;
-}
-
-
 		body * {font-family: 'Open Sans', 'Noto Sans KR', sans-serif;}
 		.inner {
 			max-width: 1200px;
@@ -175,7 +99,7 @@ padding: 13px 15px
 <sec:authentication var="principal" property="principal" />
 		<header>
 			<div class="inner">
-				<div class="logo"><a href=""><img src="/resources/img/로고.png" alt="알랴쥼"></a></div>
+				<div class="logo"><a href="/"><img src="/resources/img/로고.png" alt="알랴쥼"></a></div>
 				<div class="bottom_line">
 					<nav>
 						<ul>
@@ -231,7 +155,7 @@ padding: 13px 15px
 						<ul><li><a href="" class="m_menu"><i class="xi-user-o"></i></a>
 							<sec:authorize access="isAuthenticated()">
 							<ul class="s_nav">
-								<li><a href="myPage/activeLesson">마이페이지</a></li>
+								<li><a href="/myPage/boardList">마이페이지</a></li>
 								<li><a href="/lesson/register">클래스등록</a></li>
 								<c:if test="${principal.role eq 'ROLE_ADMIN'}">
 								<li><a href="/admin/index">관리자</a></li>
