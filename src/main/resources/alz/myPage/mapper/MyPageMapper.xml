@@ -225,6 +225,46 @@
 		select like_cnt from
 		alz_board where id = #{id}
 	</select>
+	
+	<select id="getActiveLessonTotal" resultType="Integer">
+		select count(*)
+      	from
+      	alz_order o,
+        alz_order_detail od,
+        alz_merchandise md,
+        alz_lesson l
+        where od.merchandise_id = md.id
+        and o.id = od.order_id
+        and md.ref_id = l.id
+        and o.state = '결제완료'
+        and od.user_id = #{id}
+	</select>
+	
+	<select id="getFinishedLessonTotal" resultType="Integer">
+		select count(*)
+      	from
+        alz_order_detail od,
+        alz_merchandise md,
+        alz_lesson l
+        where od.merchandise_id = md.id
+        and md.ref_id = l.id
+        and l.state = 10
+        and od.user_id = #{id}
+	</select>
+	
+	<select id="getRefundedLessonTotal" resultType="Integer">
+		select count(*)
+      	from
+      	alz_order o,
+        alz_order_detail od,
+        alz_merchandise md,
+        alz_lesson l
+        where od.merchandise_id = md.id
+        and o.id = od.order_id
+        and md.ref_id = l.id
+        and o.state = '취소완료'
+        and od.user_id = #{id}
+	</select>
 
 	<select id="selectByUserId" resultType="alz.user.domain.UserDTO">
 		select *

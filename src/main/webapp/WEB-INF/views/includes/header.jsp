@@ -172,6 +172,9 @@
 						</li>
 						</ul>
 						</div>
+						<div class="cart">
+							<a href="#null" class="cart_btn"><i class="xi-cart-o"></i></a>
+						</div>
 					</div>
 				</div>
 			</div>
