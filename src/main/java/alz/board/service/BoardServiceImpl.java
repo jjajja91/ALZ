@@ -192,4 +192,9 @@ public class BoardServiceImpl implements BoardService {
 		return board;
 	}
 
+	@Override
+	public String getBoardName(Long id) {
+		return boardMapper.getBoardName(id);
+	}
+
 }
