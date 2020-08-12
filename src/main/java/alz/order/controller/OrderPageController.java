@@ -58,7 +58,6 @@ public class OrderPageController {
 
 		MerchandiseDTO merchandise = new MerchandiseDTO();
 
-//		merchandise = merchandiseService.readById(merchandiseId);
 		merchandise = merchandiseService.readByrefId(merchandiseId);
 
 		list.add(merchandise);
@@ -118,9 +117,47 @@ public class OrderPageController {
 
 	@PostMapping("/payForKakao")
 	public void payForKakao(@RequestParam("name") String name,@RequestParam("phone") String phone, @RequestParam("cartId") long[] cartId, Model model, @RequestParam("merchandise") String id,
-			@RequestParam("merchandiseName") String[] merchandiseName, @RequestParam("totalPrice") long totalPrice) {
+			@RequestParam("merchandiseName") String[] merchandiseName, @RequestParam("totalPrice") long totalPrice, @RequestParam("method") String method) {
 
-		System.out.println("카카오페이");
+		System.out.println("method: "+method);
+		System.out.println("상품아이디 : " + id);
+		long userId = getLoginUserInfo().getId();
+
+		int merchandises = cartId.length - 1;
+
+		model.addAttribute("userInfo", userService.userInfo(userId));
+		model.addAttribute("orderer", name);
+		model.addAttribute("orderPhone", phone);
+		model.addAttribute("merchandiseName", merchandiseName[0]);
+		model.addAttribute("merchandise", id);
+		model.addAttribute("totalPrice", totalPrice);
+		model.addAttribute("merchandises", merchandises);
+		model.addAttribute("method", method);
+
+		List<CartListDTO> list = new ArrayList<CartListDTO>();
+		System.out.println("장바구니 상품 개수 :" +cartId.length);
+		// 장바구니 목록중 선택한것 가져오기
+		for (int i = 0; i < cartId.length; i++) {
+			long no = 0;
+			CartListDTO cartList = new CartListDTO();
+			no = cartId[i];
+			cartList = cartService.buyList(no);
+			list.add(cartList);
+		}
+
+		if (!list.isEmpty()) {
+			model.addAttribute("buyList", list);
+		} 
+
+		System.out.println("list : " + list);
+
+	}
+	
+	@PostMapping("/payForInicis")
+	public void payForInicis(@RequestParam("name") String name,@RequestParam("phone") String phone, @RequestParam("cartId") long[] cartId, Model model, @RequestParam("merchandise") String id,
+			@RequestParam("merchandiseName") String[] merchandiseName, @RequestParam("totalPrice") long totalPrice, @RequestParam("method") String method) {
+
+		System.out.println(method);
 		System.out.println("상품아이디 : " + id);
 		long userId = getLoginUserInfo().getId();
 

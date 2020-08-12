@@ -50,11 +50,11 @@ public class CartController {
 	@ResponseBody
 	public String addCart(@ModelAttribute CartDTO cart, @RequestParam("id") long id) {
 
-		System.out.println(id);
+		System.out.println("id: "+id);
 
 		long merchandiseId = merchandiseService.findMerchandiseId(id);
 		long userId = getLoginUserInfo().getId();
-		System.out.println(merchandiseId);
+		System.out.println("merchandiseId: "+ merchandiseId);
 		cart.setUserId(userId);
 
 		String result = "false";

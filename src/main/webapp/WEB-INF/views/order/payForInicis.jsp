@@ -75,7 +75,7 @@
 			
 
 				IMP.request_pay({
-				pg : 'kakaopay',
+				pg : 'html5_inicis',
 				pay_method : 'card',
 				merchant_uid : 'merchant_' + new Date().getTime(),
 				name : one(),
@@ -171,7 +171,7 @@
 					name: name,
 					phone: phone,
 					totalPrice: totalPrice,
-					method: method,
+					method: "카카오 페이",
 					state : "결제완료",
 					merchandiseId : merchandiseId
 				};
@@ -215,7 +215,7 @@
 					name: name,
 					phone: phone,
 					totalPrice: totalPrice,
-					method: method,
+					method: "카카오 페이",
 					state : "결제완료",
 					merchandiseId : itemId
 				};
