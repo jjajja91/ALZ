@@ -114,8 +114,9 @@ public class BoardPageController {
 	
 	// 리스트
 	@GetMapping("/list")
-	public void list(Long typeId, BoardCriteria cri, Model model) {
+	public void list(Integer typeId, BoardCriteria cri, Model model) {
 		
+		cri.setTypeId(typeId);
 		model.addAttribute("boardName", boardService.getBoardName(typeId));
         model.addAttribute("list", boardService.readAll(cri));
 

@@ -73,5 +73,5 @@ public interface BoardMapper {
 		//리뷰값 수정
 		Long updateReview(BoardDTO Board);
 
-		String getBoardName(Long id);
+		String getBoardName(Integer id);
 }
