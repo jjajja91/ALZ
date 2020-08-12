@@ -58,7 +58,6 @@ public class OrderPageController {
 
 		MerchandiseDTO merchandise = new MerchandiseDTO();
 
-//		merchandise = merchandiseService.readById(merchandiseId);
 		merchandise = merchandiseService.readByrefId(merchandiseId);
 
 		list.add(merchandise);
