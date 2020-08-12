@@ -6,21 +6,109 @@
 	prefix="sec"%>
 <%@include file="../includes/myPageNav.jsp"%>
 <%@include file="../includes/header.jsp"%>
+<head>
+<style>
+.container {
+	position: relative;
+	margin-top: 200px;
+}
+
+.container h1 {
+	text-align: center;
+	font-size: 2em;
+	color: #335492;
+}
+
+.table-container {
+	position: absolute;
+	top: 90px;
+	right: 15%;
+}
+
+.content-table {
+  border-collapse: collapse;
+  font-size: 0.8em;
+  min-width: 400px;
+  width: 700px;
+  border-radius: 5px 5px 0 0;
+  overflow: hidden;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+.content-table thead tr {
+  background-color: #335492;
+  color: #ffffff;
+  text-align: left;
+}
+
+.content-table th {
+padding: 13px 15px
+}
+.content-table td {
+  padding: 8px 15px;
+}
+
+.content-table td a {
+  text-decoration: none;
+  color: #335492;
+}
+
+.content-table tbody tr {
+  border-bottom: 1px solid #dddddd;
+}
+
+.content-table tbody tr:nth-of-type(even) {
+  background-color: #f3f3f3;
+}
+
+.content-table tbody tr:last-of-type {
+  border-bottom: 2px solid #335492;
+}
+
+.content-table tbody tr.active-row {
+  font-weight: bold;
+  color: #335492;
+}
+
+.page-footer{
+	right: 0%;
+	bottom: 0%;
+	margin-top: 20px;
+}
+
+.page-footer li{
+	float: left;
+}
+
+.paginate_button a {
+	text-decoration: none;
+	background-color: #eee;
+	padding: 5px 10px;
+	color: #335492;
+}
+
+.active a{
+	color: #eee;
+	background-color: #335492;
+}
+</style>
+</head>
+<body>
+
+
 	<div class="container">
 		<h1 class="page-header">내 댓글</h1>
-	</div>
 
-	<div class="container">
+	<div class="table-container">
 
 		
-		<table class="table table-striped" id="table">
-			<thead id="table-header">
+		<table class="content-table" id="table">
+			<thead>
 				<tr>
 					<th>번호</th>
 					<th>댓글</th>
 					<th>작성자</th>
 					<th>작성일</th>
-					
 				</tr>
 			</thead>
 			<tbody>
@@ -37,7 +125,6 @@
 				</c:forEach>
 			</tbody>
 		</table>
-
 		<!-- paging -->
 		<div class="page-footer">
 			<ul class="pagination pull-right">
@@ -59,14 +146,11 @@
 				</c:if>
 			</ul>
 		</div>
+		</div>
+		</div>
 
 
-		<form id='actionForm' action="/myPage/commentList" method='get'>
-			<input type='hidden' id='pageNum' name='pageNum' value='<c:out value="${pageMaker.cri.pageNum }"/>' />
-			<input type='hidden' id='amount' name='amount' value='<c:out value="${pageMaker.cri.amount }"/>' />
-			</form>
 
-	</div>
 
 	<script type="text/javascript">
 	$(document).ready(function() {
@@ -78,12 +162,12 @@
 			// active 관련은 나중에 없앨 수도 있음
 			$pageBtn.parent().removeClass("active")
 			e.preventDefault();
-			var $target = e.target
-			console.log($target);
-			$target.parentNode.setAttribute("class", "active");
-			var pageNum = $target.text;
+			var $target = $(e.target)
+			$target.parent().addClass("active");
+			var pageNum = $target.text();
 			getMyCommentList(pageNum)
 			.then(function(response){
+				console.log(response);
 				drawMyCommentList(response);
 			})
 			.catch(function(error){
