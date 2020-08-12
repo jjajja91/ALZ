@@ -73,7 +73,6 @@
 		and rn > (#{pageNum}-1) * #{amount}
 		]]>
 	</select>
-	
 
 	<select id="likeSelectAll"
 		resultType="alz.board.domain.BoardDTO">
@@ -88,10 +87,45 @@
 		on
 		b.id=l.board_id
 	</select>
+	
+	<select id="teachedLessonList" resultType="alz.lesson.domain.LessonDTO">
+     <![CDATA[
+        select * from
+        (select rownum rn, id, title, thumbnail, open_at, close_at from
+        (select l.id, l.title, l.thumbnail, l.open_at, l.close_at
+        from
+        alz_lesson l,
+        alz_teacher t
+        where l.teacher_id = t.id
+        and t.user_id = #{id}
+        and l.state = 10))
+        where rn <= #{pageNum} * #{amount}
+        and rn > (#{pageNum}-1) * #{amount}
+     ]]>
+     </select>
+	
+	<select id="teachingLessonList" resultType="alz.lesson.domain.LessonDTO">
+     <![CDATA[
+        select * from
+        (select rownum rn, id, title, thumbnail, open_at, close_at from
+        (select l.id, l.title, l.thumbnail, l.open_at, l.close_at
+        from
+        alz_lesson l,
+        alz_teacher t
+        where l.teacher_id = t.id
+        and t.user_id = #{id}
+        and l.state = 9))
+        where rn <= #{pageNum} * #{amount}
+        and rn > (#{pageNum}-1) * #{amount}
+     ]]>
+     </select>
 
      <select id="myLessonList" resultType="alz.lesson.domain.LessonDTO">
-     select l.id id, l.title title, l.thumbnail thumbnail,  l.close_at closeAt, l.state state
-      from
+     <![CDATA[
+    	select * from 
+    	(select rownum rn, id, title, thumbnail, open_at, close_at from
+    	(select l.id, l.title, l.thumbnail, l.open_at, l.close_at
+      	from
       	alz_order o,
         alz_order_detail od,
         alz_merchandise md,
@@ -101,24 +135,38 @@
         and md.ref_id = l.id
         and o.state = '결제완료'
         and od.user_id = #{id}
+        order by l.open_at desc))
+        where rn <= #{pageNum} * #{amount}
+        and rn > (#{pageNum}-1) * #{amount}
+     ]]>
      </select>
      
-         <select id="finishedLessonList" resultType="alz.lesson.domain.LessonDTO">
-      select l.id id, l.title title, l.thumbnail thumbnail, l.close_at closeAt, l.state state
-      from
+     <select id="finishedLessonList" resultType="alz.lesson.domain.LessonDTO">
+     <![CDATA[
+        select * from 
+    	(select rownum rn, id, title, thumbnail, open_at, close_at from
+    	(select l.id, l.title, l.thumbnail, l.open_at, l.close_at
+      	from
         alz_order_detail od,
         alz_merchandise md,
         alz_lesson l
         where od.merchandise_id = md.id
         and md.ref_id = l.id
         and l.state = 10
-        and od.user_id =#{id}     
+        and od.user_id = #{id}
+        order by l.open_at desc))
+        where rn <= #{pageNum} * #{amount}
+        and rn > (#{pageNum}-1) * #{amount} 
+     ]]>
      </select>
      
       <select id="refundedLesson" resultType="alz.lesson.domain.LessonDTO">
-         select  l.id id, l.title title, l.thumbnail thumbnail,  l.close_at closeAt, l.state state 
-         from
-        alz_order o,
+     <![CDATA[
+    	select * from 
+    	(select rownum rn, id, title, thumbnail, open_at, close_at from
+    	(select l.id, l.title, l.thumbnail, l.open_at, l.close_at
+      	from
+      	alz_order o,
         alz_order_detail od,
         alz_merchandise md,
         alz_lesson l
@@ -126,7 +174,11 @@
         and o.id = od.order_id
         and md.ref_id = l.id
         and o.state = '취소완료'
-        and od.user_id =#{id}  
+        and od.user_id = #{id}
+        order by l.open_at desc))
+        where rn <= #{pageNum} * #{amount}
+        and rn > (#{pageNum}-1) * #{amount}
+     ]]>
      </select>
 
 	<select id="selectById" resultType="alz.board.domain.BoardDTO">

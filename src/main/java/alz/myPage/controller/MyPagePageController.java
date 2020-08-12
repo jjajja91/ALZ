@@ -78,35 +78,55 @@ public class MyPagePageController {
 		return result;
 	}
 	
-	//진행중인 내 클래스
-	@GetMapping(value = "/activeLesson")
-	public String activeLession(MyPageCriteria cri, Model model) {
-		cri.setId(getLoginUserInfo().getId());
-		model.addAttribute("list", myPageService.myLessonList(cri));
-        int total = myPageService.getTotal(cri);
-		model.addAttribute("pageMaker", new MyPagePageDTO(cri, total));		
-		return "myPage/myLessonList";
-	}
-	
-		//완료된 내 클래스
-		@GetMapping(value = "/finishedLesson")
-		public String finishedLesson(MyPageCriteria cri, Model model) {
-			cri.setId(getLoginUserInfo().getId());
-			model.addAttribute("list", myPageService.finishedLessonList(cri));
-	        int total = myPageService.getTotal(cri);
-			model.addAttribute("pageMaker", new MyPagePageDTO(cri, total));
-			return "myPage/finishedLessonList";
-		}
+//	//진행중인 내 클래스
+//	@GetMapping(value = "/activeLesson")
+//	public String activeLession(MyPageCriteria cri, Model model) {
+//		cri.setId(getLoginUserInfo().getId());
+//		model.addAttribute("list", myPageService.myLessonList(cri));
+//        int total = myPageService.getActiveLessonTotal(cri);
+//		model.addAttribute("pageMaker", new MyPagePageDTO(cri, total));		
+//		return "myPage/myLessonList";
+//	}
+//	
+//		//완료된 내 클래스
+//		@GetMapping(value = "/finishedLesson")
+//		public String finishedLesson(MyPageCriteria cri, Model model) {
+//			cri.setId(getLoginUserInfo().getId());
+//			model.addAttribute("list", myPageService.finishedLessonList(cri));
+//	        int total = myPageService.getFinishedLessonTotal(cri);
+//			model.addAttribute("pageMaker", new MyPagePageDTO(cri, total));
+//			return "myPage/finishedLessonList";
+//		}
+		
+//		// 강의중인 클래스
+//		@GetMapping(value = "/teachingLesson")
+//		public String teachingLesson(MyPageCriteria cri, Model model) {
+//			cri.setId(getLoginUserInfo().getId());
+//			model.addAttribute("list", myPageService.teachingLessonList(cri));
+//	        int total = myPageService.getTeachingLessonTotal(cri);
+//			model.addAttribute("pageMaker", new MyPagePageDTO(cri, total));
+//			return "myPage/finishedLessonList";
+//		}
+//		
+//		// 강의했던 클래스
+//		@GetMapping(value = "/teachedLesson")
+//		public String teachedLesson(MyPageCriteria cri, Model model) {
+//			cri.setId(getLoginUserInfo().getId());
+//			model.addAttribute("list", myPageService.teachedLessonList(cri));
+//	        int total = myPageService.getTeachedLessonTotal(cri);
+//			model.addAttribute("pageMaker", new MyPagePageDTO(cri, total));
+//			return "myPage/finishedLessonList";
+//		}
 	
 		//환불된 클래스
-		@GetMapping(value = "/refundedLesson")
-		public String refundedLesson(MyPageCriteria cri, Model model) {
-			cri.setId(getLoginUserInfo().getId());
-			model.addAttribute("list", myPageService.refundedLesson(cri));
-	        int total = myPageService.getTotal(cri);
-			model.addAttribute("pageMaker", new MyPagePageDTO(cri, total));
-			return "myPage/refundedList";
-		}
+//		@GetMapping(value = "/refundedLesson")
+//		public String refundedLesson(MyPageCriteria cri, Model model) {
+//			cri.setId(getLoginUserInfo().getId());
+//			model.addAttribute("list", myPageService.refundedLesson(cri));
+//	        int total = myPageService.getRefundedLessonTotal(cri);
+//			model.addAttribute("pageMaker", new MyPagePageDTO(cri, total));
+//			return "myPage/refundedList";
+//		}
 
 	//내 게시물
 	@GetMapping("/boardList")
@@ -121,7 +141,6 @@ public class MyPagePageController {
 	@GetMapping("/commentList")
 	public void commentList(MyPageCriteria cri, Model model) {
 		cri.setId(getLoginUserInfo().getId());
-		List<CommentDTO> LiLi = myPageService.getMyCommentList(cri);
 	    model.addAttribute("list", myPageService.getMyCommentList(cri));
 		Long total = myPageService.getMyCommentTotal(cri);
 		model.addAttribute("pageMaker", new MyPagePageDTO(cri, total));

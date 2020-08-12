@@ -8,7 +8,7 @@
    <h1 class="page-header">Board</h1>
 </div>
 
-<div class="container">     
+<div class="table-container">
 
 	<!-- 검색 -->
 	<div>
@@ -31,7 +31,7 @@
 	</div>
 	
 	<!-- 글목록 -->
-	<table class="table table-striped" id="table" >
+	<table class="content-table" id="table" >
 		<thead id="table-header">
 			<tr>
 				<th>번호</th>

@@ -6,15 +6,16 @@
 	prefix="sec"%>
 <%@include file="../includes/myPageNav.jsp"%>
 <%@include file="../includes/header.jsp"%>
+
 	<div class="container">
 		<h1 class="page-header">내 게시글</h1>
 	</div>
 
-	<div class="container">
+	<div class="table-container">
 
 		
-		<table class="table table-striped" id="table">
-			<thead id="table-header">
+		<table class="content-table" id="table">
+			<thead>
 				<tr>
 					<th>번호</th>
 					<th>제목</th>
@@ -38,7 +39,7 @@
 				</c:forEach>
 			</tbody>
 		</table>
-
+		</div>
 		<!-- paging -->
 		<div class="page-footer">
 			<ul class="pagination pull-right">
