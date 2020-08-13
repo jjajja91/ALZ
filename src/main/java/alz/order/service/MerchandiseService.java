@@ -24,7 +24,7 @@ public interface MerchandiseService {
 
 	int getTotal(MerchandiseCriteria cri);
 
-	MerchandiseDTO readByrefId(long lessonId);
+	MerchandiseDTO readByrefId(Long lessonId);
 
 	Long findMerchandiseId(long id);
 

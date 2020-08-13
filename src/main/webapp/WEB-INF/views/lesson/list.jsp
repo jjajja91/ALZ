@@ -22,15 +22,20 @@
 		<c:forEach items="${list}" var="lesson">
 			<div class="lessonInfoDiv">
 				<c:if test= "${empty lesson.thumbnail}">
-				<img class="lessonImg" src="../../../resources/img/classtmpimg.jpg">
+					<img class="lessonImg" src="../../../resources/img/classtmpimg.jpg">
 				</c:if>
 				<c:if test= "${!empty lesson.thumbnail}">
-				<img class="lessonImg" src="/resources/img/lesson/thumb/${lesson.teacherId}${lesson.openAt}/${lesson.thumbnail}">
+					<img class="lessonImg" src="/resources/img/lesson/thumb/${lesson.teacherId}${lesson.openAt}/${lesson.thumbnail}">
 				</c:if>
-				<p><small>[<c:out value="${lesson.typeName}" />] <c:out value="${lesson.categoryName}" /></small></p>
-				<a class='read' href='<c:out value="${lesson.id }"/>'><strong><c:out value="${lesson.title}" /></strong></a>
-				<p>★★★☆☆</p>
-				<p>100,000원</p>
+				<p>[<c:out value="${lesson.typeName}" />] <c:out value="${lesson.categoryName}" /></p>
+				<a class='read' href='<c:out value="${lesson.id }"/>'><c:out value="${lesson.title}" /></a>
+				<br>
+				<fmt:formatNumber type="number" var="originPrice" maxFractionDigits="3" value="${lesson.originPrice}" />
+				<fmt:parseNumber var= "discountRate" integerOnly= "true" value= "${lesson.discountRate }" />
+				<del><c:out value="${originPrice }"/></del>원 <c:out value="${discountRate}" />%
+				<fmt:formatNumber type="number" var="salePrice" maxFractionDigits="3" value="${lesson.salePrice}" />
+				<br>
+				<c:out value="${salePrice}" />원
 			</div>
 		</c:forEach>
 	</div>

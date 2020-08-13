@@ -3,6 +3,7 @@ package alz.lesson.domain;
 import java.sql.Date;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -43,6 +44,10 @@ public class LessonDTO {
 	private String endAt;
 	private String detail;
 	private String thumbnail;
+	
+	private Long originPrice;
+	private Long salePrice;
+	private Double discountRate;
 	
 	private String location;
 	

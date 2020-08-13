@@ -28,7 +28,7 @@ public interface MerchandiseMapper {
 	
 	Long selectLessonById(Long id);
 
-	MerchandiseDTO readByrefId(long lessonId);
+	MerchandiseDTO readByrefId(Long lessonId);
 
 	Long findMerchandiseId(long id);
 

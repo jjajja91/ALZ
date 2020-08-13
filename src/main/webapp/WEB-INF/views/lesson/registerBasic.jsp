@@ -18,7 +18,16 @@
 		<input type="hidden" name="location" id="location" readonly/>
 		<input type="hidden" name="originalId" id="originalId" value='<c:out value="${param.originalId }"/>' readonly>
 		<input type="hidden" name="id" id="id" value='<c:out value="${lesson.id }"/>' readonly>
-
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
 		<c:if test="${!empty oldLessons}">
 			<strong>개설했던 클래스들 </strong>
 			<select name="lessonList" class="lessonList">
@@ -147,7 +156,58 @@
 	$(document).ready(function() {
 
 		formObj = $("form[role='form']");
-		lessonBasicDiv = $(".lessonBasic");
+		lessonBasicDiv = $(".lessonBasic");		
+		
+		// 메인 카테고리 불러오기
+		getMainCategory().then(function(main) {
+			mainCategory = main;
+		});
+
+		// 서브 카테고리 불러오기
+		getSubCategory().then(function(sub) {
+			subCategory = sub;
+			
+			$subCategory.children().remove(); //기존 리스트 삭제
+		    $subCategory.append("<option value=''>클래스 하위분류를 선택해주세요</option>");
+			for(var i=0;i<subCategory.length;i++){
+				if($mainCategory.val() == subCategory[i].main){
+					let str= "";
+					if("${lesson.categorySub}"==subCategory[i].sub) {
+						str= " selected='selected'";
+					}
+					$subCategory.append("<option value='"+subCategory[i].sub+"'"+str+">"+subCategory[i].name+"</option>");
+				}
+			}
+		});
+		
+		for(var i=0;i<mainCategory.length;i++){
+			$mainCategory.append("<option value='"+mainCategory[i].main+"'>"+mainCategory[i].name+"</option>");
+	    }
+		
+		//*********** 1depth카테고리 선택 후 2depth 생성 START ***********
+	    $(document).on("change","select[name='categoryMain']",function(){
+	        
+	        //두번째 셀렉트 박스를 삭제 시킨다.
+	        var $subCategory = $("select[name='categorySub']");
+	        $subCategory.children().remove(); //기존 리스트 삭제
+	        
+	        //선택한 첫번째 박스의 값을 가져와 일치하는 값을 두번째 셀렉트 박스에 넣는다.
+	        $("option:selected", this).each(function(){
+	            var selectValue = $(this).val(); //main category 에서 선택한 값
+	            $subCategory.append("<option value=''>클래스 하위분류를 선택해주세요</option>");
+	            for(var i=0;i<subCategory.length;i++){
+	                if(selectValue == subCategory[i].main){
+	                    
+	                	$subCategory.append("<option value='"+subCategory[i].sub+"'>"+subCategory[i].name+"</option>");
+	                    
+	                }
+	            }
+	        });
+	        
+	    });
+	    //*********** 1depth카테고리 선택 후 2depth 생성 END ***********
+	    
+	    
 
 	});
 
@@ -200,15 +260,7 @@
 		return $.getJSON("/lessons/lessonLevel.json");
 	}
 
-	// 메인 카테고리 불러오기
-	getMainCategory().then(function(main) {
-		mainCategory = main;
-	});
-
-	// 서브 카테고리 불러오기
-	getSubCategory().then(function(sub) {
-		subCategory = sub;
-	});
+	
 
 	// 난이도 불러오기
 	getLessonLevel().then(function(level) {
@@ -286,6 +338,7 @@
            }
        
      });
+    
     
 
 	
