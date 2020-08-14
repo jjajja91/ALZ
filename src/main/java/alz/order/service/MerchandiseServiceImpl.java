@@ -1,6 +1,5 @@
 package alz.order.service;
 
-
 import java.text.SimpleDateFormat;
 import java.util.List;
 
@@ -9,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import alz.lesson.domain.LessonDTO;
+import alz.lesson.domain.TeacherDTO;
 import alz.lesson.mapper.LessonMapper;
 import alz.order.domain.MerchandiseCriteria;
 import alz.order.domain.MerchandiseDTO;
@@ -48,18 +48,16 @@ public class MerchandiseServiceImpl implements MerchandiseService {
 		MerchandiseDTO searchedMerchandise = merchandiseMapper.selectById(id);
 		return searchedMerchandise;
 	}
-	
-	@Override
-	public List<MerchandiseDTO> readAll() {
-		List<MerchandiseDTO> merchandises = merchandiseMapper.selectAll();
-		System.out.println(merchandises);
-		return merchandises;
-	}
+
+//	@Override
+//	public List<MerchandiseDTO> readAll() {
+//		List<MerchandiseDTO> merchandises = merchandiseMapper.selectAll();
+//		return merchandises;
+//	}
 
 	@Override
 	public List<MerchandiseDTO> readAll(MerchandiseCriteria cri) {
 		List<MerchandiseDTO> merchandises = merchandiseMapper.getListWithPaging(cri);
-		System.out.println(merchandises);
 		return merchandises;
 	}
 
@@ -81,7 +79,7 @@ public class MerchandiseServiceImpl implements MerchandiseService {
 		int affectedRowCount = merchandiseMapper.deleteById(id);
 		return affectedRowCount;
 	}
-	
+
 	@Override
 	public MerchandiseDTO update(MerchandiseDTO merchandise) {
 		MerchandiseDTO searchedMerchandise = merchandiseMapper.selectById(merchandise.getId());
@@ -97,18 +95,31 @@ public class MerchandiseServiceImpl implements MerchandiseService {
 	@Override
 	public int getTotal(MerchandiseCriteria cri) {
 		log.info("get total count");
-		
+
 		return merchandiseMapper.getTotalCount(cri);
 	}
 
 	@Override
-	public MerchandiseDTO readByrefId(long lessonId) {
+	public MerchandiseDTO readByrefId(Long lessonId) {
 		return merchandiseMapper.readByrefId(lessonId);
 	}
 
 	@Override
 	public Long findMerchandiseId(long id) {
 		return merchandiseMapper.findMerchandiseId(id);
+	}
+
+	@Override
+	public List<MerchandiseDTO> readMyLesson(MerchandiseCriteria cri) {
+		List<MerchandiseDTO> merchandises = merchandiseMapper.getMyListWithPaging(cri);
+		return merchandises;
+	}
+
+	@Override
+	public int getCount(MerchandiseCriteria cri) {
+		log.info("get total count");
+
+		return merchandiseMapper.getCount(cri);
 	}
 
 }

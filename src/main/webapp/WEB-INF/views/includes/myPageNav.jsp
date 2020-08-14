@@ -9,78 +9,136 @@
 <!-- <link rel="stylesheet" type="text/css" href="resources/css/common.css" /> -->
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
-</head>
-
-
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">
 <style>
-body {
-  font-family: "Lato", sans-serif;
-}
-
-.sidenav {
-  width: 150px;
-  position: fixed;
-  z-index: 1;
-  top: 20px;
-  left: 10px;
-  background: #eee;
-  overflow-x: hidden;
-  padding: 8px 0;
-}
-
-.sidenav a {
-  padding: 6px 8px 6px 16px;
+*{
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+  list-style: none;
   text-decoration: none;
-  font-size: 15px;
-  color: #2196F3;
+}
+
+.mypageMiddle{
+  position: absolute;
+  top: 60%;
+  left: 17%;
+  transform: translate(-50%,-50%);
+}
+.mypageMenu{
+  width: 200px;
+  border-radius: 8px;
+  overflow: hidden;
+}
+.mypageItem{
+  border-top: 1px solid #2980b9;
+  overflow: hidden;
+}
+.mypageBtn{
   display: block;
+  padding: 16px 20px;
+  background: #335492;
+  color: white;
+  position: relative;
+}
+.mypageBtn:before{
+  content: "";
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  background:#335492;
+  left: 20px;
+  bottom: -7px;
+  transform: rotate(45deg);
+}
+.mypageBtn i{
+  margin-right: 10px;
+}
+.smenu{
+  background: #eee;
+  overflow: hidden;
+  transition: max-height 0.3s;
+  max-height: 0;
+}
+.smenu a{
+  display: block;
+  padding: 16px 26px;
+  color: gray;
+  font-size: 14px;
+  margin: 4px 0;
+  position: relative;
+}
+.smenu a:before{
+  content: "";
+  position: absolute;
+  width: 6px;
+  height: 100%;
+  background: #335492;
+  left: 0;
+  top: 0;
+  transition: 0.3s;
+  opacity: 0;
+}
+.smenu a:hover:before{
+  opacity: 1;
+}
+.mypageItem:target .smenu{
+  max-height: 20em;
 }
 
-.sidenav a:hover {
-  color: #064579;
-}
-
-.main {
-  margin-left: 140px; /* Same width as the sidebar + left position in px */
-  font-size: 28px; /* Increased text to enable scrolling */
-  padding: 0px 10px;
-}
-
-@media screen and (max-height: 450px) {
-  .sidenav {padding-top: 15px;}
-  .sidenav a {font-size: 13px;}
-}
 </style>
 </head>
 <body>
 
-<div class="sidenav">
-  <label>학생메뉴</label>
-  <a href="/myPage/activeLesson">수강중인 클래스</a>
-  <a href="/myPage/finishedLesson">수강했던 클래스</a>
-  <a href="/myPage/refundedLesson">취소/환불</a>
-  
-  <sec:authorize access="hasRole('ROLE_TEACHER') or hasRole('ROLE_ADMIN')">
-  <label>선생님메뉴</label>
-  <a href="/merchandise/list">강의 등록</a>
-  <a href="/myPage/teachingLesson">강의중인 클래스</a>
-  <a href="/myPage/teachedLesson">강의했던 클래스</a>
-    </sec:authorize>
-
-  <label>관심 클래스</label>
-  <a href="#about">찜 클래스</a>
-  <a href="#services">좋아요 클래스</a>
-  
-  <label>내가 쓴 글</label>
-  <a href="/myPage/boardList">내 게시글</a>
-  <a href="/myPage/commentList">내 댓글</a>
-  <a href="/myPage/likeList">내 좋아요</a>
-  
-  <sec:authorize access="hasRole('ROLE_USER') or hasRole('ROLE_ADMIN') or hasRole('ROLE_TEACHER')">
-  <label>내 정보 수정</label>
-  <a href="/myPage/modifyAcc">개인 정보 수정</a>
-  <a href="/myPage/deleteAcc">회원 탈퇴</a>
-  </sec:authorize>
- 
-</div>
+    <div class="mypageMiddle">
+      <div class="mypageMenu">
+        <li class="mypageItem" id='student'>
+          <a href="#student" class="mypageBtn">학생메뉴</a>
+          <div class="smenu">
+  			<a href="/myPage/activeLesson">수강 중 클래스</a>
+  			<a href="/myPage/finishedLesson">수강완료 클래스</a>
+  			<a href="#">개설대기 클래스</a>
+          </div>
+        </li>
+		<sec:authorize access="hasRole('ROLE_TEACHER') or hasRole('ROLE_ADMIN')">
+        <li class="mypageItem" id="teacher">
+          <a href="#teacher" class="mypageBtn">선생님메뉴</a>
+          <div class="smenu">
+  			<a href="/merchandise/list">강의 등록</a>
+  			<a href="/myPage/teachingLesson">강의 중 클래스</a>
+  			<a href="#">모집 중 클래스</a>
+  			<a href="/myPage/teachedLesson">강의종료 클래스</a>
+          </div>
+        </li>
+    	</sec:authorize>
+    	<li class="mypageItem" id="paymentList">
+          <a href="#paymentList" class="mypageBtn">결제정보</a>
+          <div class="smenu">
+  			<a href="/myPage/refundedLesson">취소/환불</a>
+  			<a href="#">결제 내역</a>
+          </div>
+        </li>
+        <li class="mypageItem" id="myList">
+          <a href="#myList" class="mypageBtn">내 관심 목록</a>
+          <div class="smenu">
+ 			<a href="#about">찜 클래스</a>
+  			<a href="#services">좋아요 클래스</a>
+  			<a href="/myPage/boardList">내 게시글</a>
+  			<a href="/myPage/commentList">내 댓글</a>
+  			<a href="/myPage/likeList">내 좋아요</a>
+          </div>
+        </li>
+  		<sec:authorize access="hasRole('ROLE_USER') or hasRole('ROLE_ADMIN') or hasRole('ROLE_TEACHER')">        
+        <li class="mypageItem" id="userInfo">
+          <a href="#userInfo" class="mypageBtn">내 정보</a>
+          <div class="smenu">
+  			<a href="/myPage/modifyAcc">개인 정보 수정</a>
+  			<a href="/myPage/deleteAcc">회원 탈퇴</a>
+          </div>
+        </li>
+  		</sec:authorize>
+        <li class="mypageItem">
+          <a class="mypageBtn" href="#">마이페이지</a>
+        </li>
+      </div>
+    </div>

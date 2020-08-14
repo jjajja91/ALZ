@@ -159,28 +159,27 @@
 		<div class="lessonSideDiv">
 			<strong><c:out value="${teacher.nickname}" /></strong>
 			<h4>
-				[
-				<c:out value="${lesson.categoryName}" />
-				]
-				<c:out value="${lesson.title}" />
+				[<c:out value="${lesson.categoryName}" />]<c:out value="${lesson.title}" />
 			</h4>
-			<h4>100,000원</h4>
+			
+				<fmt:formatNumber type="number" var="originPrice" maxFractionDigits="3" value="${merchandise.originPrice}" />
+				<small><del><c:out value="${originPrice }"/></del>원</small>
+				<br>
+				<fmt:parseNumber var= "discountRate" integerOnly= "true" value= "${merchandise.discountRate }" />
+				<c:out value="${discountRate}" />%
+			
+			<br>
+			<fmt:formatNumber type="number" var="salePrice" maxFractionDigits="3" value="${merchandise.salePrice}" />
+			<c:out value="${salePrice }"/>원
 			<p>
-				수강대상[
-				<c:out value="${lesson.lessonLevel}" />
-				]
+				수강대상[<c:out value="${lesson.levelName}" />]
 			</p>
 			<form name="orderform" method="get" action="/order/orderForm">
-
-				<input type="hidden" id="id" name="id"
-					value='<c:out value="${lesson.id}"/>'> <input
-					type="hidden" id="name" name="name"
-					value='<c:out value="${merchandise.name }"/>'> <input
-					type="hidden" id="originPrice" name="originPrice"
-					value='<c:out value="${merchandise.originPrice }"/>'> <input
-					type="hidden" id="userId" name="userId" value="${principal.id }">
-				<input type='hidden' id='cartId' name='cartId'
-					value="${lesson.id }">
+				<input type="hidden" id="id" name="id" value='<c:out value="${lesson.id}"/>'> 
+				<input type="hidden" id="name" name="name" value='<c:out value="${merchandise.name }"/>'> 
+				<input type="hidden" id="originPrice" name="originPrice" value='<c:out value="${merchandise.originPrice }"/>'> 
+				<input type="hidden" id="userId" name="userId" value="${principal.id }">
+				<input type='hidden' id='cartId' name='cartId' value="${lesson.id }">
 
 				<button type="submit" class="buy">구매하기</button>
 			</form>

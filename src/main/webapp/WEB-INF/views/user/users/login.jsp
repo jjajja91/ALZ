@@ -42,7 +42,7 @@ body * {font-family: 'Open Sans', 'Noto Sans KR', sans-serif;}
 
 body{
   min-height: 100vh;
-  background-color: #1e222b;
+  background-color: #eee;
 }
 
 .login-form{
@@ -55,6 +55,12 @@ body{
   left: 50%;
   top: 50%;
   transform: translate(-50%,-50%);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+.login-form a{
+	text-decoration: none;
+	color: #335492;
 }
 
 .login-form h1{
@@ -97,7 +103,7 @@ body{
   left:0px;
   top:40px;
   height: 2px;
-  background-color: #1e222b;
+  background-color: #335492;
   transition: .5s;
 }
 
@@ -113,12 +119,13 @@ body{
   width: 100%;
   height: 50px;
   border: none;
-  background: linear-gradient(120deg,#1e222b,#8e44ad,#1e222b);
+  background: linear-gradient(120deg,#335492,#264785,#335492);
   background-size: 200%;
   color: #fff;
   outline: none;
   cursor: pointer;
   transition: .5s;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15); 
 }
 
 .logbtn:hover{
@@ -130,6 +137,13 @@ body{
   text-align: center;
   font-size: 13px;
 }
+
+.bottom-text img{
+  border-radius: 50%;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15); 
+}
+
+
 </style>
 </head>
 <body>

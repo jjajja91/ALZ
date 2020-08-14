@@ -64,6 +64,43 @@ public class MyPageApiController {
 		List<BoardDTO> likeList = myPageService.getMyLikeList(cri);
 		return ResponseEntity.status(HttpStatus.OK).body(likeList);
 	}
+	
+	@GetMapping(value = "/activeLessionList/{pageNum}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<?> activeLessionList(@PathVariable Integer pageNum){
+		MyPageCriteria cri = new MyPageCriteria(pageNum, 10, getLoginUserInfo().getId());
+		List<LessonDTO> activeLessionList = myPageService.myLessonList(cri);
+		return ResponseEntity.status(HttpStatus.OK).body(activeLessionList);
+	}
+	
+	@GetMapping(value = "/finishedLessonList/{pageNum}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<?> finishedLessonList(@PathVariable Integer pageNum){
+		MyPageCriteria cri = new MyPageCriteria(pageNum, 10, getLoginUserInfo().getId());
+		List<LessonDTO> finishedLessonList = myPageService.finishedLessonList(cri);
+		return ResponseEntity.status(HttpStatus.OK).body(finishedLessonList);
+	}
+	
+	@GetMapping(value = "/refundedLessonList/{pageNum}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<?> refundedLessonList(@PathVariable Integer pageNum){
+		MyPageCriteria cri = new MyPageCriteria(pageNum, 10, getLoginUserInfo().getId());
+		List<LessonDTO> refundedLessonList = myPageService.refundedLesson(cri);
+		return ResponseEntity.status(HttpStatus.OK).body(refundedLessonList);
+	}
+	
+//	@GetMapping(value = "/teachingLessonList/{pageNum}", produces = MediaType.APPLICATION_JSON_VALUE)
+//	public ResponseEntity<?> teachingLessonList(@PathVariable Integer pageNum){
+//		MyPageCriteria cri = new MyPageCriteria(pageNum, 10, getLoginUserInfo().getId());
+//		List<LessonDTO> teachingLessonList = myPageService.teachingLessonList(cri);
+//		return ResponseEntity.status(HttpStatus.OK).body(teachingLessonList);
+//	}
+//	
+//	@GetMapping(value = "/teachedLessonList/{pageNum}", produces = MediaType.APPLICATION_JSON_VALUE)
+//	public ResponseEntity<?> teachedLessonList(@PathVariable Integer pageNum){
+//		MyPageCriteria cri = new MyPageCriteria(pageNum, 10, getLoginUserInfo().getId());
+//		List<LessonDTO> teachedLessonList = myPageService.teachedLessonList(cri);
+//		return ResponseEntity.status(HttpStatus.OK).body(teachedLessonList);
+//	}
+	
+	
 
 	// 글 수 카운트
 //	@GetMapping(value = { "typeId/{typeId}/type/{type}/keyword/{keyword}", "typeId/{typeId}/type/{type}" }, produces = {

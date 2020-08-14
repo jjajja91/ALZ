@@ -143,6 +143,24 @@ public class MyPageServiceImpl implements MyPageService {
 		return myPageMapper.myLikeCnt(cri);
 	}
 
+
+	@Override
+	public int getActiveLessonTotal(MyPageCriteria cri) {
+		return myPageMapper.getActiveLessonTotal(cri);
+	}
+
+
+	@Override
+	public int getFinishedLessonTotal(MyPageCriteria cri) {
+		return myPageMapper.getFinishedLessonTotal(cri);
+	}
+
+
+	@Override
+	public int getRefundedLessonTotal(MyPageCriteria cri) {
+		return myPageMapper.getRefundedLessonTotal(cri);
+	}
+
 	
 
 
