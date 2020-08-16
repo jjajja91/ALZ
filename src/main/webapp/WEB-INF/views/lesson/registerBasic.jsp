@@ -5,29 +5,35 @@
 <%@ taglib uri="http://www.springframework.org/security/tags"
 	prefix="sec"%>
 <%@include file="../includes/header.jsp"%>
+<head>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+</head>
+<style>
+.container {
+	margin-top: 200px;
+	margin-left: 600px;
+	min-height: 100%;
+	position: relative;
+}
+</style>
+<body>
 <div class="container">
 	<h1 class="page-header">클래스 기본정보 등록</h1>
-</div>
+	<form role="form" action="/lesson/registerBasic" method="post"
+		enctype="multipart/form-data">
+		<input type="hidden" name="userId"
+			value='<sec:authentication property="principal.id"/>' readonly>
+		<input type="hidden" name="teacherId"
+			value='<c:out value="${param.teacherId }"/>' readonly> <input
+			type="hidden" name="state" class="state"
+			value='<c:out value="${lesson.state }"/>' readonly /> <input
+			type="hidden" name="location" id="location" readonly /> <input
+			type="hidden" name="originalId" id="originalId"
+			value='<c:out value="${param.originalId }"/>' readonly> <input
+			type="hidden" name="id" id="id"
+			value='<c:out value="${lesson.id }"/>' readonly>
 
-<div class="container">
-
-	<form role="form" action="/lesson/registerBasic" method="post" enctype="multipart/form-data">
-		<input type="hidden" name="userId" value='<sec:authentication property="principal.id"/>' readonly> 
-		<input type="hidden" name="teacherId" value='<c:out value="${param.teacherId }"/>' readonly> 
-		<input type="hidden" name="state" class="state" value='<c:out value="${lesson.state }"/>' readonly/> 
-		<input type="hidden" name="location" id="location" readonly/>
-		<input type="hidden" name="originalId" id="originalId" value='<c:out value="${param.originalId }"/>' readonly>
-		<input type="hidden" name="id" id="id" value='<c:out value="${lesson.id }"/>' readonly>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
 		<c:if test="${!empty oldLessons}">
 			<strong>개설했던 클래스들 </strong>
 			<select name="lessonList" class="lessonList">
@@ -38,25 +44,30 @@
 				</c:forEach>
 			</select>
 		</c:if>
-		
+
 		<div class="lessonBasic">
-			<br>
-			<br>
-			<h5><strong>어떤 클래스인지 알려주세요</strong></h5>가르쳐보고 싶은게 있으신가요? 카테고리를 설정해봐요.
+			<br> <br>
+			<h5>
+				<strong>어떤 클래스인지 알려주세요</strong>
+			</h5>
+			가르쳐보고 싶은게 있으신가요? 카테고리를 설정해봐요.
 			<div class="lessonCategoryDiv">
 				<label>카테고리 </label>
 				<c:if test="${!empty mainCategory}">
-					<select name="categoryMain" id="mainCategoryList" class="mainCategoryList">
+					<select name="categoryMain" id="mainCategoryList"
+						class="mainCategoryList">
 						<option>클래스 대분류를 선택해주세요</option>
 
 						<c:forEach var="mainCategoryList" items="${mainCategory}">
-							<option value="${mainCategoryList.main}" <c:if test="${lesson.categoryMain eq mainCategoryList.main}" > selected="selected"</c:if>>${mainCategoryList.name}</option>
+							<option value="${mainCategoryList.main}"
+								<c:if test="${lesson.categoryMain eq mainCategoryList.main}" > selected="selected"</c:if>>${mainCategoryList.name}</option>
 						</c:forEach>
 					</select>
 				</c:if>
 
 				<c:if test="${!empty subCategory}">
-					<select name="categorySub" id="subCategoryList" class="subCategoryList">
+					<select name="categorySub" id="subCategoryList"
+						class="subCategoryList">
 						<option>클래스 하위분류를 선택해주세요</option>
 
 						<c:forEach var="subCategoryList" items="${subCategory}">
@@ -67,65 +78,59 @@
 				</c:if>
 			</div>
 
-			<br>
-			<br>
-			<br>
-			<h5><strong>클래스의 컨셉이 잘 드러난<br>제목과 이미지를 보여주세요</strong></h5>
+			<br> <br> <br>
+			<h5>
+				<strong>클래스의 컨셉이 잘 드러난<br>제목과 이미지를 보여주세요
+				</strong>
+			</h5>
 			감성적이면서도 클래스를 잘 표현하는 제목과 이미지를 등록해 주세요.<br>예를 들어, 가죽공예, 어반 스케치,
 			다이어리꾸미기 이런식으로요.
 			<div class="lessonMainImgDiv">
-				<input type="file" id="uploadFile" name="uploadFile" accept="image/gif, image/jpeg, image/png, image/jpg">
+				<input type="file" id="uploadFile" name="uploadFile"
+					accept="image/gif, image/jpeg, image/png, image/jpg">
 				<div class="lessonMainImgLeftDiv">
-					<img src="/resources/img/lesson/thumb/${lesson.teacherId}${lesson.openAt}/${lesson.thumbnail}">
+					<img
+						src="/resources/img/lesson/thumb/${lesson.teacherId}${lesson.openAt}/${lesson.thumbnail}">
 				</div>
 				<div class="lessonMainImgRightDiv">
-					<label>클래스 제목</label>
-					<input class="form-control" name='title' id="title" value='<c:out value="${lesson.title}"/>'>
-					<small>최대 30자</small>
+					<label>클래스 제목</label> <input class="form-control" name='title'
+						id="title" value='<c:out value="${lesson.title}"/>'> <small>최대
+						30자</small>
 				</div>
 			</div>
 
 			<div>
-				<label>난이도</label> 
-				<select name="lessonLevel" id=lessonLevel class="lessonLevel">
+				<label>난이도</label> <select name="lessonLevel" id=lessonLevel
+					class="lessonLevel">
 					<c:forEach var="level" items="${levelList}">
-						<option value="${level.id}" <c:if test="${lesson.lessonLevel eq level.id}" > selected="selected"</c:if>>${level.name}</option>
+						<option value="${level.id}"
+							<c:if test="${lesson.lessonLevel eq level.id}" > selected="selected"</c:if>>${level.name}</option>
 					</c:forEach>
-				</select> 
-				<br>
-				<br>
-				<br> 
-				<label>클래스 과정</label><br> 
-				<input type="radio" class="lessonType" name="lessonType" id="lessonTypeOneday" value="1" <c:if test="${lesson.lessonType eq 1}" > checked</c:if> />
-				<label for="lessonTypeOneday">원데이</label> 
-				<input type="radio" class="lessonType" name="lessonType" id="lessonTypeRegular" value="2" <c:if test="${lesson.lessonType eq 2}" > checked</c:if> />
-				<label for="lessonTypeRegular">정규</label> 
-				<br>
-				<br>
-				<br> 
-				<label>클래스 과정</label>
-				<br> 
-				<small>- 최소인원 미달 시 수업 2일전 자동 취소/환불 됩니다.<br>- 최소인원은 1명으로 권장합니다..</small> 
-				<br> 
-				<input type="text" placeholder="최소인원" name="minStudent" value='<c:out value="${lesson.minStudent}"/>'> ~ 
-				<input type="text" placeholder="최대인원" name="maxStudent" value='<c:out value="${lesson.maxStudent}"/>'> 
-				<br>
-				<br>
-				<br> 
-				<label>스케줄 선택</label> 
-				<br>클래스 시작일과 종료일을 입력해주세요. <br>
-				<input type="date" id="openAt" name="openAt" value='<c:out value="${lesson.openAt}"/>'> ~ 
-				<input type="date" id="closeAt" name="closeAt" value='<c:out value="${lesson.closeAt}"/>'>
+				</select> <br> <br> <br> <label>클래스 과정</label><br> <input
+					type="radio" class="lessonType" name="lessonType"
+					id="lessonTypeOneday" value="1"
+					<c:if test="${lesson.lessonType eq 1}" > checked</c:if> /> <label
+					for="lessonTypeOneday">원데이</label> <input type="radio"
+					class="lessonType" name="lessonType" id="lessonTypeRegular"
+					value="2" <c:if test="${lesson.lessonType eq 2}" > checked</c:if> />
+				<label for="lessonTypeRegular">정규</label> <br> <br> <br>
+				<label>클래스 과정</label> <br> <small>- 최소인원 미달 시 수업 2일전 자동
+					취소/환불 됩니다.<br>- 최소인원은 1명으로 권장합니다..
+				</small> <br> <input type="text" placeholder="최소인원" name="minStudent"
+					value='<c:out value="${lesson.minStudent}"/>'> ~ <input
+					type="text" placeholder="최대인원" name="maxStudent"
+					value='<c:out value="${lesson.maxStudent}"/>'> <br> <br>
+				<br> <label>스케줄 선택</label> <br>클래스 시작일과 종료일을 입력해주세요. <br>
+				<input type="date" id="openAt" name="openAt"
+					value='<c:out value="${lesson.openAt}"/>'> ~ <input
+					type="date" id="closeAt" name="closeAt"
+					value='<c:out value="${lesson.closeAt}"/>'>
 			</div>
 
-			<br>
-			<br>
-			<br>
+			<br> <br> <br>
 			<button type="submit" name="prev">＜ 이전</button>
 			<button type="submit" name="next">다음 ＞</button>
-			<br>
-			<br>
-			<br>
+			<br> <br> <br>
 		</div>
 	</form>
 </div>
@@ -219,6 +224,7 @@
 
 	// 개설했던 클래스 선택
 	$('.lessonList').change(function(e) {
+
 		var value = $(this).val();
 		// 선택한 클래스 자동완성
 		selectLesson(value).then(function(response) {
@@ -314,7 +320,7 @@
 	function goBack() {
 		self.location = "/lesson/register";
 	}
-	
+
 	inputFile = $("input[type='file']");
     
     inputFile.change(function(e){
@@ -335,9 +341,6 @@
        
      });
     
-    
-
-	
 </script>
 </body>
 </html>

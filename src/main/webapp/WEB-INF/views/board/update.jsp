@@ -2,85 +2,103 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
+<%@ taglib uri="http://www.springframework.org/security/tags"
+	prefix="sec"%>
 <%@include file="../includes/header.jsp"%>
+<head>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+</head>
+<style>
+.container {
+	margin-top: 200px;
+	margin-left: 600px;
+	min-height: 100%;
+	position: relative;
+}
+</style>
+<body>
+	<div class="container">
+		<h1 class="page-header">Board</h1>
+		<div class="panel-body">
 
-<div class="container">
-	<h1 class="page-header">Board</h1>
-</div>
+			<form role="form" action="/board/update" method="post">
+				<c:if test="${board.typeId == 4}">
+					<div>
+						<h>수강 클래스 : </h>
+						<strong><p>
+								<c:out value="${board.lessonTitle}" />
+							</p></strong> <br>
+						<lable>강의 만족도</lable>
+						<p id="lesson_star_rate">
+							<a href="#" id="star1">★</a> <a href="#" id="star2">★</a> <a
+								href="#" id="star3">★</a> <a href="#" id="star4">★</a> <a
+								href="#" id="star5">★</a>
+						</p>
+						<input type='hidden' name='lessonReview'
+							value='<c:out value="${board.lessonReview}"/>'>
 
-<div class="container">
-	<div class="panel-body">
+						<lable>강사 만족도</lable>
+						<p id="teacher_star_rate">
+							<a href="#" id="star1">★</a> <a href="#" id="star2">★</a> <a
+								href="#" id="star3">★</a> <a href="#" id="star4">★</a> <a
+								href="#" id="star5">★</a>
+						</p>
+						<input type='hidden' name='teacherReview'
+							value='<c:out value="${board.teacherReview}"/>'>
 
-		<form role="form" action="/board/update" method="post">
-	<c:if test="${board.typeId == 4}">
-			<div>
-			<h>수강 클래스 : </h>
-		<strong><p><c:out value="${board.lessonTitle}"/></p></strong>	<br>
-				<lable>강의 만족도</lable>
-				<p id="lesson_star_rate">
-					<a href="#" id="star1">★</a> <a href="#" id="star2">★</a> <a
-						href="#" id="star3">★</a> <a href="#" id="star4">★</a> <a href="#"
-						id="star5">★</a>
-				</p>
-				<input type='hidden' name='lessonReview'
-					value='<c:out value="${board.lessonReview}"/>'>
+					</div>
+				</c:if>
+				<input type='hidden' name='pageNum'
+					value='<c:out value="${cri.pageNum }"/>'> <input
+					type='hidden' name='amount' value='<c:out value="${cri.amount }"/>'>
+				<input type='hidden' name='keyword'
+					value='<c:out value="${cri.keyword }"/>'> <input
+					type='hidden' name='type' value='<c:out value="${cri.type }"/>'>
+				<input type='hidden' name='typeId' id='typeId'
+					value='<c:out value="${board.typeId }"/>'> <input
+					type='hidden' id='id' name='id'
+					value='<c:out value="${board.id }"/>'> <input type='hidden'
+					id='writerId' name='writerId'
+					value='<sec:authentication property="principal.id"/>'>
 
-				<lable>강사 만족도</lable>
-				<p id="teacher_star_rate">
-					<a href="#" id="star1">★</a> <a href="#" id="star2">★</a> <a
-						href="#" id="star3">★</a> <a href="#" id="star4">★</a> <a href="#"
-						id="star5">★</a>
-				</p>
-					<input type='hidden' name='teacherReview' value='<c:out value="${board.teacherReview}"/>'>
-					
-				</div></c:if>
-			<input type='hidden' name='pageNum'
-				value='<c:out value="${cri.pageNum }"/>'> <input
-				type='hidden' name='amount' value='<c:out value="${cri.amount }"/>'>
-			<input type='hidden' name='keyword'
-				value='<c:out value="${cri.keyword }"/>'> <input
-				type='hidden' name='type' value='<c:out value="${cri.type }"/>'>
-			<input type='hidden' name='typeId' id='typeId' value='<c:out value="${board.typeId }"/>'>
-
-			<input type='hidden' id='id' name='id' value='<c:out value="${board.id }"/>'>
-			<input type='hidden' id='writerId' name='writerId' value='<sec:authentication property="principal.id"/>'>
-
-			<div class="form-group">
-				<label>제 목</label> <input class="form-control" id='title' name='title'
-					value='<c:out value="${board.title }"/>'>
-			</div>
-			<div class="form-group">
-				<textarea id="summernote" class="form-control content" rows="10" name='content'><c:out value="${board.content }" />
+				<div class="form-group">
+					<label>제 목</label> <input class="form-control" id='title'
+						name='title' value='<c:out value="${board.title }"/>'>
+				</div>
+				<div class="form-group">
+					<textarea id="summernote" class="form-control content" rows="10"
+						name='content'><c:out value="${board.content }" />
 				</textarea>
-			</div>
+				</div>
 
-			<div class="row">
-				<div class="col-lg-12">
-					<div class="panel panel-defualt">
-						<div class="panel-heading">Files</div>
-						<div class="panel-body">
-							<div class='uploadResult'>
-								<ul>
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="panel panel-defualt">
+							<div class="panel-heading">Files</div>
+							<div class="panel-body">
+								<div class='uploadResult'>
+									<ul>
 
-								</ul>
+									</ul>
+								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-			</div>
 
-			<button type="submit" data-oper='update' class="btn btn-default">수정</button>
-			<button type="submit" data-oper='delete' class="btn btn-danger">삭제</button>
-			<button type="submit" data-oper='list' class="btn btn-info">목록</button>
+				<button type="submit" data-oper='update' class="btn btn-default">수정</button>
+				<button type="submit" data-oper='delete' class="btn btn-danger">삭제</button>
+				<button type="submit" data-oper='list' class="btn btn-info">목록</button>
 
-		</form>
-		<input type="hidden" name="nickname" id="nickname" value='<sec:authentication property="principal.nickname"/>'/>
+			</form>
+			<input type="hidden" name="nickname" id="nickname"
+				value='<sec:authentication property="principal.nickname"/>' />
+		</div>
+
 	</div>
 
-</div>
-
-<script type="text/javascript">
+	<script type="text/javascript">
 	$(document).ready(function() {
 		var $summernote = $('#summernote');
   		var $id = $("#id");
