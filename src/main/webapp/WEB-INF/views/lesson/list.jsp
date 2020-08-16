@@ -4,13 +4,21 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 
 <%@include file="../includes/header.jsp"%>
-
-<div class="container">
-   <h1 class="page-header">클래스 목록</h1>
-</div>
+<head>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+</head>
+<style>
+.container {
+	position: absolute;
+	margin-top: 200px;
+	margin-left: 600px;
+}
+</style>
+<body>
 
 <div class="container">     
-	
+	<h1 class="page-header">클래스 목록</h1>
 	<div class="lessonSortDiv">
 		<select name="sort" id="lessonListSort">
 		    <option value="newest">최신순</option>

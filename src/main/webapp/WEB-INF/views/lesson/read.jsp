@@ -4,155 +4,160 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 
 <%@include file="../includes/header.jsp"%>
+<head>
+<style>
+.container {
+	margin-top: 200px;
+}
+
+.lesson-info {
+	  float: left;
+}
+</style>
+</head>
 <div class="container">
 	<h1 class="page-header">클래스 상세보기</h1>
-</div>
 
-<div class="lesson-container">
 
-	<div class="lesson-main">
-		<div class="lessonDetailImgDiv">
-			<c:if test="${empty lesson.thumbnail}">
-				<img class="lessonImg" src="../../../resources/img/javaclass.jpg">
-			</c:if>
-			<c:if test="${!empty lesson.thumbnail}">
-				<img class="lessonImg"
-					src="/resources/img/lesson/thumb/${lesson.teacherId}${lesson.openAt}/${lesson.thumbnail}">
-			</c:if>
-		</div>
-		<div class="lesson-detail">
-			<div class="lesson-detail-nav">
-				<a href="#detailDiv">클래스소개</a> <a href="#scheduleDiv">시간표</a> <a
-					href="#curriculumDiv">커리큘럼</a> <a href="#teacherDiv">강사소개</a> <a
-					href="#shortReview">후기</a> <a href="#refundTerm">환불정책</a>
+	<div class="lesson-container">
+
+		<div class="lesson-main">
+			<div class="lessonDetailImgDiv">
+				<c:if test="${empty lesson.thumbnail}">
+					<img class="lessonImg" src="../../../resources/img/javaclass.jpg">
+				</c:if>
+				<c:if test="${!empty lesson.thumbnail}">
+					<img class="lessonImg"
+						src="/resources/img/lesson/thumb/${lesson.teacherId}${lesson.openAt}/${lesson.thumbnail}">
+				</c:if>
 			</div>
+			<div class="lesson-detail">
+				<div class="lesson-detail-nav">
+					<a href="#detailDiv">클래스소개</a> <a href="#scheduleDiv">시간표</a> <a
+						href="#curriculumDiv">커리큘럼</a> <a href="#teacherDiv">강사소개</a> <a
+						href="#shortReview">후기</a> <a href="#refundTerm">환불정책</a>
+				</div>
 
-			<div class="detailDiv" id="detailDiv">
-				<br> <br> <br> <br>
-				<h3>
-					<strong>이런 걸 배울 거예요</strong>
-				</h3>
-				<ul>
-					<li><span> <img class="lessonImg"
-							src="../../../resources/img/classtmpimg.jpg">
-							<p>for문으로 별찍기</p>
-					</span></li>
-					<li><span> <img class="lessonImg"
-							src="../../../resources/img/classtmpimg.jpg">
-							<p>for문으로 별찍기</p>
-					</span></li>
-					<li><span> <img class="lessonImg"
-							src="../../../resources/img/classtmpimg.jpg">
-							<p>for문으로 별찍기</p>
-					</span></li>
-				</ul>
+				<div class="detailDiv" id="detailDiv">
+					<br> <br> <br> <br>
+					<h3>
+						<strong>이런 걸 배울 거예요</strong>
+					</h3>
+					<ul>
+						<li><span> <img class="lessonImg"
+								src="../../../resources/img/classtmpimg.jpg">
+								<p>for문으로 별찍기</p>
+						</span></li>
+						<li><span> <img class="lessonImg"
+								src="../../../resources/img/classtmpimg.jpg">
+								<p>for문으로 별찍기</p>
+						</span></li>
+						<li><span> <img class="lessonImg"
+								src="../../../resources/img/classtmpimg.jpg">
+								<p>for문으로 별찍기</p>
+						</span></li>
+					</ul>
 
-				<br>
-				<br>
-				<h3>
-					<strong><c:out value="${lesson.levelName}" />
-						<c:if test="${lesson.levelName != '누구나'}">자들</c:if></strong>을 위한 <br>
-					<c:out value="${lesson.categoryName}" />
-					클래스입니다.
-				</h3>
+					<br> <br>
+					<h3>
+						<strong><c:out value="${lesson.levelName}" /> <c:if
+								test="${lesson.levelName != '누구나'}">자들</c:if></strong>을 위한 <br>
+						<c:out value="${lesson.categoryName}" />
+						클래스입니다.
+					</h3>
 
-				<br>
-				<br>
-				<pre class="pre">
+					<br> <br>
+					<pre class="pre">
 					<c:out value="${lesson.detail}"></c:out>
 				</pre>
-			</div>
+				</div>
 
-			<div class="scheduleDiv" id="scheduleDiv">
-				<br> <br> <br> <br>
-				<h3>
-					<strong>세부 스케줄</strong>
-				</h3>
-				<br>
-				<c:forEach items="${schedule }" var="schedule">
-					<strong><c:out value="${schedule.lessonDate }" /></strong>
-					<c:out value="${schedule.startAt }" /> ~ <c:out
-						value="${schedule.endAt }" />
+				<div class="scheduleDiv" id="scheduleDiv">
+					<br> <br> <br> <br>
+					<h3>
+						<strong>세부 스케줄</strong>
+					</h3>
 					<br>
-				</c:forEach>
-				<br> <br>
-			</div>
-
-			<div class="curriculumDiv" id="curriculumDiv">
-				<br>
-				<br> <br> <br>
-				<h3>
-					<strong>커리큘럼</strong>
-				</h3>
-
-				<c:forEach items='${curriculum}' var='list'>
-					<h4>
-						<c:out value="${list.subject}" />
-					</h4>
-
-					<c:forEach items='${list.detailList}' var='detail'>
-						<h5>
-							<c:out value="${detail.detailOrder}" />
-							.
-							<c:out value="${detail.detail}" />
-						</h5>
+					<c:forEach items="${schedule }" var="schedule">
+						<strong><c:out value="${schedule.lessonDate }" /></strong>
+						<c:out value="${schedule.startAt }" /> ~ <c:out
+							value="${schedule.endAt }" />
+						<br>
 					</c:forEach>
-					<br>
-				</c:forEach>
-			</div>
+					<br> <br>
+				</div>
 
-			<div class="teacherDiv" id="teacherDiv">
-				<br>
-				<br> <br> <br>
+				<div class="curriculumDiv" id="curriculumDiv">
+					<br> <br> <br> <br>
+					<h3>
+						<strong>커리큘럼</strong>
+					</h3>
+
+					<c:forEach items='${curriculum}' var='list'>
+						<h4>
+							<c:out value="${list.subject}" />
+						</h4>
+
+						<c:forEach items='${list.detailList}' var='detail'>
+							<h5>
+								<c:out value="${detail.detailOrder}" />
+								.
+								<c:out value="${detail.detail}" />
+							</h5>
+						</c:forEach>
+						<br>
+					</c:forEach>
+				</div>
+
+				<div class="teacherDiv" id="teacherDiv">
+					<br> <br> <br> <br>
+					<h3>
+						<strong>강사 소개</strong>
+					</h3>
+					<br>
+					<h4>
+						<c:out value="${teacher.nickname}" />
+					</h4>
+					<c:out value="${teacher.snsType}" />
+					-
+					<c:out value="${teacher.snsId}" />
+					<br> <br>
+					<h5>
+						<c:out value="${teacher.profile}" />
+					</h5>
+				</div>
+
+
+				<br> <br> <br> <br>
 				<h3>
-					<strong>강사 소개</strong>
+					<strong>한줄평</strong>
 				</h3>
 				<br>
-				<h4>
-					<c:out value="${teacher.nickname}" />
-				</h4>
-				<c:out value="${teacher.snsType}" />
-				-
-				<c:out value="${teacher.snsId}" />
-				<br>
-				<br>
-				<h5>
-					<c:out value="${teacher.profile}" />
-				</h5>
-			</div>
+				<p id="lesson_star_rate_quickReivew">
+					<a href="#" id="star1">★</a> <a href="#" id="star2">★</a> <a
+						href="#" id="star3">★</a> <a href="#" id="star4">★</a> <a href="#"
+						id="star5">★</a>
+				</p>
 
+				<input type='hidden' name='rate' id="rate"> <input
+					type='hidden' name='lessonId' id="lessonId"
+					value='<c:out value="${lesson.id}" />'> + <input
+					type="text" class="quickReviewText" name="content" id="content"
+					placeholder="별점과 한줄평을 입력해주세요">
+				<button id="submitQuickReview">입력</button>
 
-			<br>
-			<br> <br> <br>
-			<h3>
-				<strong>한줄평</strong>
-			</h3>
-			<br>
-			<p id="lesson_star_rate_quickReivew">
-				<a href="#" id="star1">★</a> <a href="#" id="star2">★</a> <a
-					href="#" id="star3">★</a> <a href="#" id="star4">★</a> <a href="#"
-					id="star5">★</a>
-			</p>
+				<div class="shortReview" id="shortReview"></div>
 
-			<input type='hidden' name='rate' id="rate"> <input
-				type='hidden' name='lessonId' id="lessonId"
-				value='<c:out value="${lesson.id}" />'> + <input type="text"
-				class="quickReviewText" name="content" id="content"
-				placeholder="별점과 한줄평을 입력해주세요">
-			<button id="submitQuickReview">입력</button>
-
-			<div class="shortReview" id="shortReview"></div>
-
-			<div id="refundTerm">
-				<br> <br> <br> <br>
-				<h4>
-					<strong>환불정책</strong>
-				</h4>
-				환불은 1주일 전까지 해드립니다. <br> 수강 후에는 수업1회당 20% 차감 환불. <br> <br>
+				<div id="refundTerm">
+					<br> <br> <br> <br>
+					<h4>
+						<strong>환불정책</strong>
+					</h4>
+					환불은 1주일 전까지 해드립니다. <br> 수강 후에는 수업1회당 20% 차감 환불. <br> <br>
+				</div>
 			</div>
 		</div>
 	</div>
-
 
 
 	<div class="lesson-info">
@@ -173,14 +178,12 @@
 			<form name="orderform" method="get" action="/order/orderForm">
 
 				<input type="hidden" id="id" name="id"
-					value='<c:out value="${lesson.id}"/>'> <input
-					type="hidden" id="name" name="name"
-					value='<c:out value="${merchandise.name }"/>'> <input
-					type="hidden" id="originPrice" name="originPrice"
+					value='<c:out value="${lesson.id}"/>'> <input type="hidden"
+					id="name" name="name" value='<c:out value="${merchandise.name }"/>'>
+				<input type="hidden" id="originPrice" name="originPrice"
 					value='<c:out value="${merchandise.originPrice }"/>'> <input
 					type="hidden" id="userId" name="userId" value="${principal.id }">
-				<input type='hidden' id='cartId' name='cartId'
-					value="${lesson.id }">
+				<input type='hidden' id='cartId' name='cartId' value="${lesson.id }">
 
 				<button type="submit" class="buy">구매하기</button>
 			</form>
@@ -188,6 +191,7 @@
 			<button class="addCart">장바구니 담기</button>
 		</div>
 	</div>
+
 
 </div>
 <script type="text/javascript">
@@ -295,7 +299,7 @@
 			contentType : "application/json; charset=utf-8"
 		});
 	};
-	
+
 	// 장바구니 담기
 	$(".addCart").click(function() {
 		var userId = $("#userId").val();
