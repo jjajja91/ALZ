@@ -16,6 +16,7 @@
 	margin-left: 600px;
 	min-height: 100%;
 	position: relative;
+	
 }
 
 .table-container {
