@@ -4,74 +4,206 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://www.springframework.org/security/tags"
 	prefix="sec"%>
-<%@include file="../includes/header.jsp"%>
+<%-- <%@include file="../includes/header.jsp"%> --%>
 <head>
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
 </head>
 <style>
+
 .container {
-	margin-top: 200px;
-	margin-left: 600px;
+	margin-top: 70px;
+	margin-left: 10%;
 	min-height: 100%;
 	position: relative;
 }
+
+.lessonHeaderDiv {
+	width:100%;
+	height:30px;    
+	border-bottom: solid 1px;
+	padding-right:20px;
+}
+
+.lessonHeaderLeft {
+	padding-left: 2%;
+}
+.lessonHeaderRight {
+    position: absolute;
+    right: 20;
+}
+.pageTitle {
+    font-size: 30px;
+    font-weight: 600;
+    padding-right:10px;
+    color: #335492;
+    
+}
+
+.lessonText {
+	color: #585858;
+	font-weight: bold;
+	font-size: 16px;
+    margin-bottom: 20px;
+}
+
+.lessonForm {
+	font-size: 14px;
+	color: #585858;
+    line-height: 30px;
+    margin-top: 20px;
+}
+
+.lessonForm button {
+    position: absolute;
+    right: 55%;
+    background: #335492;
+    color: white;
+    height: 35px;
+    width: 70px;
+    border-radius: 3px;
+    border: none;
+    font-weight: bold;
+}
+
+.lessonForm button[name="prev"] {
+    right: 57%;
+}
+.lessonForm button[name="next"] {
+    right: 51%;
+}
+
+.form-control {
+	width:80%;
+	height: 30px;
+	padding: 5px;
+    margin: 5px;
+}
+
+#nickname {
+	width: 30%;
+}
+
+.teacherTextarea {
+	height: 200px;
+}
+
+.titleDiv {
+	border-bottom: solid;
+    border-color: #335492;
+    padding-bottom: 15px;
+    width: 85%;
+}
+
+.lessonList {
+	width: 70%;
+}
+
+.mainCategoryList, .subCategoryList{
+	width:220px;
+}
+.lessonMainImgDiv {
+	display: flex;
+    margin-bottom: 30px;
+}
+.lessonMainImgLeftDiv {
+    display: table-cell;
+    border: solid #335492;
+    border-style: dashed;
+    border-radius: 5px;
+    text-align: center;
+    height: 200px;
+    vertical-align: middle;
+}
+.lessonMainImgRightDiv {
+    width: 50%;
+    padding: 15px;
+}
+
+.lessonTitleInput {
+	width:100%;
+}
+.studentAmount {
+	width:10%;
+}
+
+.dateInput, .lessonDate {
+	width: 130px;
+}
+
+.startAt, .endAt {
+	width: 100px;
+}
+
+input[type="button"] {
+    position: absolute;
+    background: #335492;
+    color: white;
+    height: 30px;
+    width: 80px;
+    border-radius: 3px;
+    border: none;
+    margin-top: 5px;
+}
 </style>
 <body>
+	<div class="lessonHeaderDiv">
+		<span class="lessonHeaderLeft">클래스 등록 > 3. 스케줄 등록</span>
+		<span class="lessonHeaderRight"><a href="/">HOME</a></span>
+	</div>
 	<div class="container">
-		<h1 class="page-header">클래스 스케줄 등록</h1>
-		<form role="form" action="/lesson/registerDetail" method="get">
-			<input type="hidden" name="lessonId"
-				value='<c:out value="${param.lessonId }"/>' readonly> <input
-				type="hidden" name="originalId"
-				value='<c:out value="${param.originalId }"/>' readonly>
+		<div class="titleDiv">
+			<span class="pageTitle">스케줄</span>(3/5)
+		</div>
+		<form class="lessonForm" role="form" action="/lesson/registerDetail" method="get">
+			<input type="hidden" name="lessonId" value='<c:out value="${param.lessonId }"/>' readonly> 
+			<input type="hidden" name="originalId" value='<c:out value="${param.originalId }"/>' readonly>
 
-			<h5>
-				<strong>수업 날짜와 시간을 입력해주세요.</strong>
-			</h5>
-			<br> <br> <br> <label>스케줄 선택</label> <br>클래스 시작일과
-			종료일을 입력해주세요.<br> <input type="date" id="openAt" name="openAt"
-				value='<c:out value="${schedule.openAt }"/>'> ~ <input
-				type="date" id="closeAt" name="closeAt"
-				value='<c:out value="${schedule.closeAt }"/>'> <br> <br>
-			<br> <strong>세부 날짜와 시간을 입력해주세요.</strong> <br>
+			<div class="lessonText">수업 날짜와 수업 시간을 입력해주세요.</div>
+			
+			<label>스케줄 선택</label> 
+			<br>
+			<small>클래스 시작일과 종료일을 입력해주세요.</small>
+			<br>
+			<input type="date" class="form-control dateInput" id="openAt" name="openAt" value='<c:out value="${schedule.openAt }"/>'> ~ 
+			<input type="date" class="form-control dateInput" id="closeAt" name="closeAt" value='<c:out value="${schedule.closeAt }"/>'>
+			<br> <br>
+			<div class="lessonText">추가 버튼을 눌러<br> 세부 날짜와 시간을 입력해주세요.</div>
 			<div>
-				<br>
 				<c:if test="${empty schedule.timeTable}">
 					<div id="timesetDiv">
-						<label for="lessonDate">날짜 </label> <input type="date"
-							class="lessonDate" name="lessonDate"> <label
-							for="startAt">수업 시작시간 </label> <input type="time" class="startAt"
-							name="startAt"> <label for="endAt">수업 종료시간 </label> <input
-							type="time" class="endAt" name="endAt">
+						<label for="lessonDate">날짜 </label> 
+						<input type="date" class="form-control lessonDate" name="lessonDate"> 
+						
+						<label for="startAt">시작시간 </label> 
+						<input type="time" class="form-control startAt" name="startAt"> ~
+						<label for="endAt">종료시간 </label> 
+						<input type="time" class="form-control endAt" name="endAt">
 					</div>
 				</c:if>
 
-				<c:forEach items='${schedule.timeTable}' var='timeList'
-					varStatus="loop">
+				<c:forEach items='${schedule.timeTable}' var='timeList' varStatus="loop">
 					<div id="timesetDiv">
-						<label for="lessonDate">날짜 </label> <input type="date"
-							class="lessonDate" name="lessonDate"
-							value='<c:out value="${timeList.lessonDate }"/>'> <label
-							for="startAt">수업 시작시간 </label> <input type="time" class="startAt"
-							name="startAt" value='<c:out value="${timeList.startAt }"/>'>
-						<label for="endAt">수업 종료시간 </label> <input type="time"
-							class="endAt" name="endAt"
-							value='<c:out value="${timeList.endAt }"/>'>
+						<label for="lessonDate">날짜 </label> 
+						<input type="date" class="form-control lessonDate" name="lessonDate" value='<c:out value="${timeList.lessonDate }"/>'> 
+						
+						<label for="startAt">시작시간 </label> 
+						<input type="time" class="form-control startAt" name="startAt" value='<c:out value="${timeList.startAt }"/>'> ~
+						<label for="endAt">종료시간 </label> 
+						<input type="time" class="form-control endAt" name="endAt" value='<c:out value="${timeList.endAt }"/>'>
 
 						<c:if test="${loop.index != 0}">
-							<input type="button" class="deleteLesson" name="deleteLesson"
-								value="delete">
+							<input type="button" class="deleteLesson" name="deleteLesson" value="시간 삭제">
 						</c:if>
 					</div>
-					<br>
 				</c:forEach>
 			</div>
-			<input type="button" id="addLesson" name="addLesson" value="+add" />
+			<br>
+			<input type="button" id="addLesson" name="addLesson" value="시간 추가" />
 			<br> <br> <br>
-			<button type="submit" name="prev">＜ 이전</button>
-			<button type="submit" name="next">다음 ＞</button>
-			<br> <br> <br>
+			<button type="submit" name="prev">이전</button>
+			<button type="submit" name="next">다음</button>
+			<br> <br>
 		</form>
 	</div>
 	<script>
@@ -181,7 +313,7 @@
 			var deleteBtn = document.createElement("input");
 			deleteBtn.setAttribute("type", "button");
 			deleteBtn.setAttribute("name", "deleteLesson");
-			deleteBtn.setAttribute("value", "delete");
+			deleteBtn.setAttribute("value", "시간 삭제");
 
 			clone.appendChild(deleteBtn);
 			timesetDiv.parentNode.appendChild(clone);
