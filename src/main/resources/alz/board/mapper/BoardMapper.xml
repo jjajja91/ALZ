@@ -218,6 +218,12 @@
 		where id
 		= #{lessonId}
 	</select>
+	
+	<select id="getBoardName" resultType="String">
+		select name
+		from alz_board_type
+		where id = #{id}
+	</select>
 
 	<update id="updateReview"
 		parameterType="alz.board.domain.BoardDTO">

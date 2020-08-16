@@ -26,7 +26,7 @@ public interface MerchandiseService {
 	MerchandiseDTO update(MerchandiseDTO merchandise);
 
 
-	MerchandiseDTO readByrefId(long lessonId);
+	MerchandiseDTO readByrefId(Long lessonId);
 
 	Long findMerchandiseId(long id);
 
