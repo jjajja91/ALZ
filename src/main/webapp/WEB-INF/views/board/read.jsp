@@ -6,74 +6,88 @@
 	prefix="sec"%>
 
 <%@include file="../includes/header.jsp"%>
-<sec:authentication var="principal" property="principal" />
-<div class="container">
-	<h1 class="page-header">Board</h1>
-</div>
+<head>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+</head>
+<style>
+.container {
+	margin-top: 200px;
+	margin-left: 400px;
+	min-height: 100%;
+	position: relative;
+}
+</style>
+<body>
 
-<div class="container">
-	<div class="panel-body">
+	<sec:authentication var="principal" property="principal" />
+	<div class="container">
+		<h1 class="page-header">Board</h1>
+		<div class="panel-body">
 
-		<div class="form-group">
-			<input type='hidden' id='boardId' value='${board.id }'> <input
-				type='hidden' id='userId' value='${principal.id}'> <input
-				class="form-control" name='title'
-				value='<c:out value="${board.title }"/>' readonly="readonly">
-		</div>
-		<div class="form-group">
-			<input name='nickname' value='<c:out value="${board.nickname }"/>'
-				readonly="readonly">
-		</div>
-		<div class="form-group">
-			<input name='writtenAt'
-				value='<fmt:formatDate  value="${board.writtenAt }"/>'
-				readonly="readonly"> <label>조회</label> <input name='viewCnt'
-				value='<c:out value="${board.viewCnt }"/>' readonly="readonly">
-		</div>
-		<hr>
-		<c:if test="${board.typeId == 4}">
-			<div>
-			<h>수강 클래스 : </h>
-		<strong><p><c:out value="${board.lessonTitle}"/></p></strong>	<br>
-						<lable>강의 만족도</lable>
-				<p id="lesson_star_rate">
-					<a href="#" id="star1">★</a> <a href="#" id="star2">★</a> <a
-						href="#" id="star3">★</a> <a href="#" id="star4">★</a> <a href="#"
-						id="star5">★</a>
-				</p>
-				<input type='hidden' name='lessonReview'
-					value='<c:out value="${board.lessonReview}"/>'>
+			<div class="form-group">
+				<input type='hidden' id='boardId' value='${board.id }'> <input
+					type='hidden' id='userId' value='${principal.id}'> <input
+					class="form-control" name='title'
+					value='<c:out value="${board.title }"/>' readonly="readonly">
+			</div>
+			<div class="form-group">
+				<input name='nickname' value='<c:out value="${board.nickname }"/>'
+					readonly="readonly">
+			</div>
+			<div class="form-group">
+				<input name='writtenAt'
+					value='<fmt:formatDate  value="${board.writtenAt }"/>'
+					readonly="readonly"> <label>조회</label> <input
+					name='viewCnt' value='<c:out value="${board.viewCnt }"/>'
+					readonly="readonly">
+			</div>
+			<hr>
+			<c:if test="${board.typeId == 4}">
+				<div>
+					<h>수강 클래스 : </h>
+					<strong><p>
+							<c:out value="${board.lessonTitle}" />
+						</p></strong> <br>
+					<lable>강의 만족도</lable>
+					<p id="lesson_star_rate">
+						<a href="#" id="star1">★</a> <a href="#" id="star2">★</a> <a
+							href="#" id="star3">★</a> <a href="#" id="star4">★</a> <a
+							href="#" id="star5">★</a>
+					</p>
+					<input type='hidden' name='lessonReview'
+						value='<c:out value="${board.lessonReview}"/>'>
 
-				<lable>강사 만족도</lable>
-				<p id="teacher_star_rate">
-					<a href="#" id="star1">★</a> <a href="#" id="star2">★</a> <a
-						href="#" id="star3">★</a> <a href="#" id="star4">★</a> <a href="#"
-						id="star5">★</a>
-				</p>
-				<input type='hidden' name='teacherReview'
-					value='<c:out value="${board.teacherReview}"/>'>
+					<lable>강사 만족도</lable>
+					<p id="teacher_star_rate">
+						<a href="#" id="star1">★</a> <a href="#" id="star2">★</a> <a
+							href="#" id="star3">★</a> <a href="#" id="star4">★</a> <a
+							href="#" id="star5">★</a>
+					</p>
+					<input type='hidden' name='teacherReview'
+						value='<c:out value="${board.teacherReview}"/>'>
 
 
+				</div>
+
+			</c:if>
+			<div class="form-group">
+				<textarea class="form-control" id='content' rows="10" name='content'
+					readonly="readonly"><c:out value="${board.content }" />
+			</textarea>
 			</div>
 
-		</c:if>
-		<div class="form-group">
-			<textarea class="form-control" id='content' rows="10" name='content'
-				readonly="readonly"><c:out value="${board.content }" />
-			</textarea>
-		</div>
+			<div class="form-group">
+				<input type="hidden" id="isLike" value="false"> <input
+					type="hidden" id="likeCnt" value="${board.likeCnt }" /> <a
+					class='likeCnt' href='<c:out value="${board.likeCnt }"/>'> ♡
+					좋아요 <c:out value="${board.likeCnt }" />
+				</a> <a class='commentCnt' href='<c:out value="${board.commentCnt }"/>'>댓글
+					<c:out value="${board.commentCnt }" />
+				</a>
+			</div>
 
-		<div class="form-group">
-			<input type="hidden" id="isLike" value="false"> <input
-				type="hidden" id="likeCnt" value="${board.likeCnt }" /> <a
-				class='likeCnt' href='<c:out value="${board.likeCnt }"/>'> ♡ 좋아요
-				<c:out value="${board.likeCnt }" />
-			</a> <a class='commentCnt' href='<c:out value="${board.commentCnt }"/>'>댓글
-				<c:out value="${board.commentCnt }" />
-			</a>
-		</div>
-
-		<%-- <div>
+			<%-- <div>
 
 		<div class="bigPictureWrapper">
 			<div class="bigPicture"></div>
@@ -94,62 +108,62 @@
 			</div>
 		</div> --%>
 
-		<button data-oper='write' class="btn btn-info"
-			onclick="location.href='/board/write?typeId=<c:out value="${board.typeId}"/>&id=<c:out value="${board.id}"/>&pid=<c:out value="${board.parentId}"/>&boardOrder=<c:out value="${board.boardOrder}"/>'">답글쓰기</button>
+			<button data-oper='write' class="btn btn-info"
+				onclick="location.href='/board/write?typeId=<c:out value="${board.typeId}"/>&id=<c:out value="${board.id}"/>&pid=<c:out value="${board.parentId}"/>&boardOrder=<c:out value="${board.boardOrder}"/>'">답글쓰기</button>
 
-		<c:if test="${principal.id eq board.writerId}">
-			<button data-oper='update' class="btn btn-default"
-				onclick="location.href='/board/update?id=<c:out value="${board.id}"/>'">수정</button>
-		</c:if>
-		<button data-oper='list' class="btn btn-info"
-			onclick="location.href='/board/list?typeId='${board.typeId}">목록</button>
+			<c:if test="${principal.id eq board.writerId}">
+				<button data-oper='update' class="btn btn-default"
+					onclick="location.href='/board/update?id=<c:out value="${board.id}"/>'">수정</button>
+			</c:if>
+			<button data-oper='list' class="btn btn-info"
+				onclick="location.href='/board/list?typeId='${board.typeId}">목록</button>
 
-		<form id='operForm' action="/board/modify" method="get">
-			<input type='hidden' id='id' name='id'
-				value='<c:out value="${board.id }"/>'> <input type='hidden'
-				name='pageNum' value='<c:out value="${cri.pageNum }"/>'> <input
-				type='hidden' name='amount' value='<c:out value="${cri.amount }"/>'>
-			<input type='hidden' name='keyword'
-				value='<c:out value="${cri.keyword }"/>'> <input
-				type='hidden' name='type' value='<c:out value="${cri.type }"/>'>
-			<input type='hidden' name='typeId'
-				value='<c:out value="${board.typeId }"/>'>
-		</form>
-	</div>
-
-	<!-- 댓글  -->
-	<input type='hidden' name='replyNickname' id='replyNickname'
-		value='${principal.nickname}'>
-	<div class="container">
-		<div class="panel panel-default">
-			<div class="panel-heading">
-				<i class="fa fa-comments fa-fw"></i> 댓글
-			</div>
-
-			<div class="panel-body">
-				<ul class="chat">
-					<li><strong class="primary-font">user00</strong> <small
-						class="pull-right text-muted">2020-07-03</small> <pre>Good job!</pre>
-					</li>
-				</ul>
-
-				<!-- 댓글입력 -->
-				<div>
-					<textarea id="commentContent" name='comment'
-						placeholder='댓글을 남겨보세요'></textarea>
-					<button id="registerCommentBtn">등록</button>
-				</div>
-			</div>
-			<input type="hidden" id="targetUser" name="targetUser"
-				value="<sec:authentication property="principal.nickname"/>" />
+			<form id='operForm' action="/board/modify" method="get">
+				<input type='hidden' id='id' name='id'
+					value='<c:out value="${board.id }"/>'> <input type='hidden'
+					name='pageNum' value='<c:out value="${cri.pageNum }"/>'> <input
+					type='hidden' name='amount' value='<c:out value="${cri.amount }"/>'>
+				<input type='hidden' name='keyword'
+					value='<c:out value="${cri.keyword }"/>'> <input
+					type='hidden' name='type' value='<c:out value="${cri.type }"/>'>
+				<input type='hidden' name='typeId'
+					value='<c:out value="${board.typeId }"/>'>
+			</form>
 		</div>
+
+		<!-- 댓글  -->
+		<input type='hidden' name='replyNickname' id='replyNickname'
+			value='${principal.nickname}'>
+		<div class="container">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<i class="fa fa-comments fa-fw"></i> 댓글
+				</div>
+
+				<div class="panel-body">
+					<ul class="chat">
+						<li><strong class="primary-font">user00</strong> <small
+							class="pull-right text-muted">2020-07-03</small> <pre>Good job!</pre>
+						</li>
+					</ul>
+
+					<!-- 댓글입력 -->
+					<div>
+						<textarea id="commentContent" name='comment'
+							placeholder='댓글을 남겨보세요'></textarea>
+						<button id="registerCommentBtn">등록</button>
+					</div>
+				</div>
+				<input type="hidden" id="targetUser" name="targetUser"
+					value="<sec:authentication property="principal.nickname"/>" />
+			</div>
+		</div>
+
 	</div>
 
-</div>
+	<script type="text/javascript" src="/resources/js/comment.js"></script>
 
-<script type="text/javascript" src="/resources/js/comment.js"></script>
-
-<script type="text/javascript">
+	<script type="text/javascript">
 
 
 	$(document).ready(function() {
