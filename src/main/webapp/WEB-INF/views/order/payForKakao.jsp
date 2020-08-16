@@ -11,7 +11,9 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"
+	integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
+	crossorigin="anonymous"></script>
 <script type="text/javascript"
 	src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
 </head>
@@ -22,11 +24,13 @@
 	<!-- 값 가져오기 -->
 	
 	var name = "${orderer}";	// 주문자 이름
-	var phone = ${orderPhone};
+	var phone = "${orderPhone}";
 	var totalPrice = ${totalPrice};
 	var merchandiseName = "${merchandiseName}";
 	var merchandises = ${merchandises};
 	var itemId = "${merchandise}";
+	
+	var method = "${method}";
 	
 	var msg;
 	var orderId;
@@ -40,6 +44,21 @@
 		             ];
 	
 	console.log(buyList);
+	console.log(buyList[0]);
+	
+	// 단품구매시 buyList에 담기위해서 값 변경해주기
+	if( buyList[0]===""){
+		buyList[0] = itemId;
+	}
+	
+	console.log(buyList[0]);
+	console.log(buyList);
+	
+	console.log("merchandises : "+ merchandises);
+	console.log("itemId : "+ itemId);
+	console.log("buyList.length : "+ buyList.length);
+	
+		
 	  
 	  function one() {
 		  if (merchandises === 0) {
@@ -106,31 +125,18 @@
 	  // 결제 완료 후 실행됨
 	  function orderComplete() {
 			// 1. 오더 테이블 등록
-				if (merchandises === 0) {
-					addNewOrder(itemId)
-					.then(function(response){
-						console.log(response)
-						location.href = "/order/buy?orderId="+orderId; 
-					})
-					.catch(function(error){
-						console.log(response)
-						var msg = '결제에 실패하였습니다.';
-						location.href = "/merchandise/cart";
-						alert(msg);
-					});
-				} else {  // 장바구니 구매시
-						addNewOrder(buyList)
-						.then(function(response){
-							console.log(response)
-							location.href = "/order/buy?orderId="+orderId; 
-						})
-						.catch(function(error){
-							console.log(response)
-							var msg = '결제에 실패하였습니다.';
-							location.href = "/merchandise/cart";
-							alert(msg);
-						});
-				}
+			addNewOrder(buyList)
+			.then(function(response){
+					console.log(response)
+					location.href = "/order/buy?orderId="+orderId; 
+			})
+			.catch(function(error){
+					console.log(response)
+					var msg = '결제에 실패하였습니다.';
+					location.href = "/merchandise/cart";
+					alert(msg);
+			});
+				
 		}
 	  
 	  
@@ -165,9 +171,53 @@
 					name: name,
 					phone: phone,
 					totalPrice: totalPrice,
-					method: "카카오 페이",
+					method: method,
 					state : "결제완료",
 					merchandiseId : merchandiseId
+				};
+				
+				
+				return $.ajax({
+					url: "/order/addNewOrder",
+					type: "POST",
+					data: JSON.stringify(orderData),
+					contentType: "application/json"
+				});
+	  }
+	  
+		function addOneOrder(itemId) {
+		  
+		  // 주문 번호 생성
+		  var date = new Date(); 
+		  var year = date.getFullYear(); 
+		  var month = new String(date.getMonth()+1); 
+		  var day = new String(date.getDate()); 
+
+		  // 한자리수일 경우 0을 채워준다. 
+		  if(month.length == 1){ 
+		    month = "0" + month; 
+		  };
+		  if(day.length == 1){ 
+		    day = "0" + day; 
+		  };
+		  
+		  // 6자리 난수 생성
+		  for (var i = 1; i <= 6; i++) {
+				subNum += Math.floor(Math.random() * 10);
+			};
+
+		  orderId = year + "" + month + "" + day + "_" + subNum;
+		  console.log(orderId);   // ex) 20200804_615664
+		  
+		  
+		  var orderData = {
+				  	id : orderId,
+					name: name,
+					phone: phone,
+					totalPrice: totalPrice,
+					method: method,
+					state : "결제완료",
+					merchandiseId : itemId
 				};
 				
 				

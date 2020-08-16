@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import alz.admin.service.ClassService;
+import alz.admin.service.LessonServiceAdmin;
 import alz.admin.service.MemberService;
 import alz.admin.service.OrdersService;
 import alz.board.domain.BoardCriteria;
@@ -36,12 +36,12 @@ import alz.order.service.PaymentService;
 @RequestMapping("/admins")
 public class AdminApiController {
 
-	private ClassService classService;
+	private LessonServiceAdmin classService;
 	private MemberService memberService;
 	private OrdersService orderService;
 
 	@Autowired
-	public AdminApiController(ClassService classService, MemberService memberService, OrdersService orderService) {
+	public AdminApiController(LessonServiceAdmin classService, MemberService memberService, OrdersService orderService) {
 		this.memberService = memberService;
 		this.classService = classService;
 		this.orderService = orderService;

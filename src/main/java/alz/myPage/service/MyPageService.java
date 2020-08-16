@@ -39,6 +39,12 @@ public interface MyPageService {
 	Long getMyCommentTotal(MyPageCriteria cri);
 
 	Long getMyLikeTotal(MyPageCriteria cri);
+
+	int getActiveLessonTotal(MyPageCriteria cri);
+
+	int getFinishedLessonTotal(MyPageCriteria cri);
+
+	int getRefundedLessonTotal(MyPageCriteria cri);
 	
 	
 }

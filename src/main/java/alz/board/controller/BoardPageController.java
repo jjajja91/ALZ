@@ -115,6 +115,7 @@ public class BoardPageController {
 	// 리스트
 	@GetMapping("/list")
 	public void list(BoardCriteria cri, Model model) {
+		
         model.addAttribute("list", boardService.readAll(cri));
 
 		int total = boardService.getTotal(cri);
@@ -131,12 +132,12 @@ public class BoardPageController {
 		}
 		switch(typeId) {
 		case 1:
-			if(!(getLoginUserInfo().getRole().equals("ADMIN"))) {
+			if(!(getLoginUserInfo().getRole().equals("ROLE_ADMIN"))) {
 				throw new UnauthorizedException();
 			}
 			break;
 		case 2:
-			if(!(getLoginUserInfo().getRole().equals("ADMIN"))) {
+			if(!(getLoginUserInfo().getRole().equals("ROLE_ADMIN"))) {
 				throw new UnauthorizedException();
 			}
 			break;

@@ -7,7 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-<h1>접근 권한이없습니다</h1>
+<h1>접근 권한이 없습니다.</h1>
 <a href="/">메인으로 가기</a>
 </body>
 </html>

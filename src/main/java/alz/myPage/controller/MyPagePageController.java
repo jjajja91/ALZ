@@ -1,10 +1,11 @@
 package alz.myPage.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,9 +14,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import alz.board.domain.CommentDTO;
 import alz.myPage.domain.MyPageCriteria;
 import alz.myPage.domain.MyPagePageDTO;
 import alz.myPage.service.MyPageService;
+import alz.order.domain.MerchandiseCriteria;
+import alz.order.domain.MerchandisePageDTO;
+import alz.order.service.MerchandiseService;
 import alz.user.domain.UserDTO;
 import lombok.extern.log4j.Log4j;
 
@@ -25,12 +30,12 @@ import lombok.extern.log4j.Log4j;
 public class MyPagePageController {
 
 	private MyPageService myPageService;
-	private PasswordEncoder passwordEncoder;
+	private MerchandiseService merchandiseService ;
 
 	@Autowired
-	public MyPagePageController(MyPageService myPageService, PasswordEncoder passwordEncoder) {
+	public MyPagePageController(MyPageService myPageService, MerchandiseService merchandiseService) {
 		this.myPageService = myPageService;
-		this.passwordEncoder = passwordEncoder;
+		this.merchandiseService = merchandiseService;
 	}
 	
 	// 로그인한 유저 정보 가져오기
@@ -65,7 +70,7 @@ public class MyPagePageController {
 	public String modifyAcc(UserDTO user, RedirectAttributes attr) {
 		String result ="";
 	     if (myPageService.selectById(user)) {	
-	    	 	result = "redirect:/logout";
+	    	 	result = "redirect:/modify";
 			}  else {
 			attr.addAttribute("verify", "no");
 			result = "redirect:/myPage/modifyAccResult";
@@ -78,7 +83,7 @@ public class MyPagePageController {
 	public String activeLession(MyPageCriteria cri, Model model) {
 		cri.setId(getLoginUserInfo().getId());
 		model.addAttribute("list", myPageService.myLessonList(cri));
-        int total = myPageService.getTotal(cri);
+        int total = myPageService.getActiveLessonTotal(cri);
 		model.addAttribute("pageMaker", new MyPagePageDTO(cri, total));		
 		return "myPage/myLessonList";
 	}
@@ -88,17 +93,37 @@ public class MyPagePageController {
 		public String finishedLesson(MyPageCriteria cri, Model model) {
 			cri.setId(getLoginUserInfo().getId());
 			model.addAttribute("list", myPageService.finishedLessonList(cri));
-	        int total = myPageService.getTotal(cri);
+	        int total = myPageService.getFinishedLessonTotal(cri);
 			model.addAttribute("pageMaker", new MyPagePageDTO(cri, total));
 			return "myPage/finishedLessonList";
 		}
+		
+//		// 강의중인 클래스
+//		@GetMapping(value = "/teachingLesson")
+//		public String teachingLesson(MyPageCriteria cri, Model model) {
+//			cri.setId(getLoginUserInfo().getId());
+//			model.addAttribute("list", myPageService.teachingLessonList(cri));
+//	        int total = myPageService.getTeachingLessonTotal(cri);
+//			model.addAttribute("pageMaker", new MyPagePageDTO(cri, total));
+//			return "myPage/finishedLessonList";
+//		}
+//		
+//		// 강의했던 클래스
+//		@GetMapping(value = "/teachedLesson")
+//		public String teachedLesson(MyPageCriteria cri, Model model) {
+//			cri.setId(getLoginUserInfo().getId());
+//			model.addAttribute("list", myPageService.teachedLessonList(cri));
+//	        int total = myPageService.getTeachedLessonTotal(cri);
+//			model.addAttribute("pageMaker", new MyPagePageDTO(cri, total));
+//			return "myPage/finishedLessonList";
+//		}
 	
 		//환불된 클래스
 		@GetMapping(value = "/refundedLesson")
 		public String refundedLesson(MyPageCriteria cri, Model model) {
 			cri.setId(getLoginUserInfo().getId());
 			model.addAttribute("list", myPageService.refundedLesson(cri));
-	        int total = myPageService.getTotal(cri);
+	        int total = myPageService.getRefundedLessonTotal(cri);
 			model.addAttribute("pageMaker", new MyPagePageDTO(cri, total));
 			return "myPage/refundedList";
 		}
@@ -116,7 +141,7 @@ public class MyPagePageController {
 	@GetMapping("/commentList")
 	public void commentList(MyPageCriteria cri, Model model) {
 		cri.setId(getLoginUserInfo().getId());
-		model.addAttribute("list", myPageService.getMyCommentList(cri));
+	    model.addAttribute("list", myPageService.getMyCommentList(cri));
 		Long total = myPageService.getMyCommentTotal(cri);
 		model.addAttribute("pageMaker", new MyPagePageDTO(cri, total));
 	}
@@ -153,5 +178,6 @@ public class MyPagePageController {
 		 
 	  return "myPage/pwdChk";
 	}
+	 
 
 }

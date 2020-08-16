@@ -35,7 +35,7 @@
 					<td>PHONENUMBER</td>
 					<td>
 						<input type="text" id="phoneNumber" name="phoneNumber" value="${principal.phoneNumber}">
-						<button>실명인증</button>
+						<!-- <button>실명인증</button> -->
 					</td>
 				</tr>
 				<%-- <tr>
@@ -78,7 +78,7 @@
 			function UserUpdateApi(data) {
 				console.log(data);
 					  return $.ajax({
-		  		    url: "/",
+		  		    url: "/users",
 		  		    type: "PUT",
 		  		    data: JSON.stringify(data),
 		  		    contentType: "application/json",
@@ -102,7 +102,7 @@
 					.then(function(response){
 						console.log(data);
 						
-					   self.location = "/callMypage";
+					   self.location = "/logout";
 					   alert("수정 완료!");
 					})			
 				} 

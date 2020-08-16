@@ -26,5 +26,6 @@ public class CartDTO {
 	private Date addDate;
 	private String name;
 	private Long originPrice;
+	private Long salePrice;
 	
 }

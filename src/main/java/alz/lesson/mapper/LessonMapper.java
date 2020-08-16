@@ -26,6 +26,7 @@ public interface LessonMapper {
 	int insertLessonDetail(LessonDetailDTO detail);
 	int insertCurriculumSubject(CurriculumSubjectDTO curriculumSubject);
 	int insertCurriculumDetail(CurriculumDetailDTO curriculumDetail);
+	int insertQuickReview(QuickReviewDTO quickReview);
 	
 	TeacherDTO findTeacherByUserId(Long userId);
 	

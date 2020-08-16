@@ -36,6 +36,15 @@ import lombok.extern.log4j.Log4j;
 		}
 		
 
+		@GetMapping("/boardDeletedListAdmin")
+		public void boardDeletedList(BoardCriteriaAdmin cri, Model model) {
+			
+			   model.addAttribute("list", boardService.readDeletedAll(cri));
+				int total = boardService.getTotal(cri);
+					// 페이징
+				model.addAttribute("pageMaker", new BoardPageDTOAdmin(cri, total));
+		}
+		
 	}
 
 

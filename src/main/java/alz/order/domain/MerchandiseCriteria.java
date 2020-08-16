@@ -16,6 +16,7 @@ public class MerchandiseCriteria {
 	
 	private String type;
 	private String keyword;
+	private Long userId;
 	
 	public MerchandiseCriteria() {
 		this(1,10);

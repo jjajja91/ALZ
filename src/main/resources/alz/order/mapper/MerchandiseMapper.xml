@@ -141,6 +141,52 @@
 		id > 0
 
 	</select>
+	
+	<select id="getCount" resultType="int">
+		SELECT count(*) from
+		alz_merchandise where user_id = #{userId}
+
+		<include refid="criteria"></include>
+		and id > 0
+
+	</select>
+	
+	<select id="readByrefId"
+		resultType="alz.order.domain.MerchandiseDTO">
+		SELECT * FROM ALZ_MERCHANDISE m, ALZ_LESSON l WHERE l.id = m.ref_id and m.ref_id = #{id}
+	</select>
+	
+	
+	<select id="findMerchandiseId"
+		resultType="long">
+		SELECT id FROM ALZ_MERCHANDISE where ref_id = #{id}
+	</select>
+	
+	<select id="getMyListWithPaging"
+		resultType="alz.order.domain.MerchandiseDTO">
+	<![CDATA[
+  select 
+    id, code_Type, name, sale_Price
+  from 
+      (
+      select /*+INDEX_DESC(alz_merchandise pk_id) */
+        rownum rn, id, code_Type, name, sale_Price
+      from 
+        alz_merchandise
+      where user_id = #{userId}
+     
+  ]]>
+
+		<include refid="criteria"></include>
+	
+	<![CDATA[
+	and rownum <= #{pageNum} * #{amount}
+      )
+  		where rn > (#{pageNum} -1) * #{amount}
+  	]]>
+
+	</select>
+	
 <!-- 
 	<insert id="insertCart" parameterType="alz.order.domain.CartDTO">
 		<selectKey keyProperty="cartId" order="BEFORE"

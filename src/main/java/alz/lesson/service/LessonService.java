@@ -21,6 +21,7 @@ public interface LessonService {
 	int createSchedule(ScheduleDTO schedule);
 	int createLessonDetail(LessonDetailDTO detail);
 	int createCurriculum(List<CurriculumSubjectDTO> curriculumList);
+	int createQuickReview(QuickReviewDTO quickReview);
 
 	TeacherDTO teacherByUserId(Long userId);
 	List<LessonDTO> lessonsByTeacherId(LessonDTO lesson);
@@ -49,6 +50,6 @@ public interface LessonService {
 
 	TeacherDTO updateTeacher(TeacherDTO teacher);
 	int updateLessonDetail(LessonDetailDTO detail);
-	int lessonSubmit(Long lessonId); // 상태변경 제출
+	int lessonSubmit(Long lessonId, Long userId); // 상태변경 제출
 	
 }

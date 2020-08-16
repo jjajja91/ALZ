@@ -3,18 +3,99 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@include file="../includes/header.jsp"%>
+<head>
+<style>
+.container {
+	position: relative;
+}
+
+.table-container {
+	position: absolute;
+	top: 30%;
+	left: 20%;
+}
+
+.content-table {
+  border-collapse: collapse;
+  font-size: 0.9em;
+  min-width: 400px;
+  width: 700px;
+  border-radius: 5px 5px 0 0;
+  overflow: hidden;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+.content-table thead tr {
+  background-color: #335492;
+  color: #ffffff;
+  text-align: left;
+}
+
+.content-table th {
+padding: 13px 15px
+}
+.content-table td {
+  padding: 8px 15px;
+}
+
+.content-table td a {
+  text-decoration: none;
+  color: #335492;
+}
+
+.content-table tbody tr {
+  border-bottom: 1px solid #dddddd;
+}
+
+.content-table tbody tr:nth-of-type(even) {
+  background-color: #f3f3f3;
+}
+
+.content-table tbody tr:last-of-type {
+  border-bottom: 2px solid #335492;
+}
+
+.content-table tbody tr.active-row {
+  font-weight: bold;
+  color: #335492;
+}
+
+.page-footer{
+	
+	right: 0%;
+	bottom: 0%;
+	margin-top: 20px;
+}
+
+.page-footer li{
+	float: left;
+}
+
+.paginate_button a {
+	text-decoration: none;
+	background-color: #eee;
+	padding: 5px 10px;
+	color: #335492;
+}
+
+.active a{
+	color: #eee;
+	background-color: #335492;
+}
+</style>
+</head>
+<body>
 
 <div class="container">
    <h1 class="page-header">Board</h1>
 </div>
 
-<div class="container">     
+<div class="table-container">
 
 	<!-- 검색 -->
 	<div>
-		<div>
+		<form id='actionForm' action="/board/list" method='get'>
 			<select id='type' name='type'>
-				<option value="" <c:out value="${pageMaker.cri.type == null? 'selected':'' }"/>>--</option>
 				<option value="T" <c:out value="${pageMaker.cri.type == 'T'? 'selected':'' }"/>>제목</option>
 				<option value="C" <c:out value="${pageMaker.cri.type == 'C'? 'selected':'' }"/>>내용</option>
 				<option value="W" <c:out value="${pageMaker.cri.type == 'W'? 'selected':'' }"/>>작성자</option>
@@ -28,11 +109,11 @@
 			<input type='hidden' id='typeId' name='typeId' value='<c:out value="${pageMaker.cri.typeId }"/>' />
 			<button class='writeBtn' id='searchBtn' >Search</button>
 			<button class='writeBtn' id='writeBtn' type="button">글쓰기</button>
-		</div>
+		</form>
 	</div>
 	
 	<!-- 글목록 -->
-	<table class="table table-striped" id="table" >
+	<table class="content-table" id="table" >
 		<thead id="table-header">
 			<tr>
 				<th>번호</th>
@@ -58,7 +139,7 @@
 	</table>
 	 
 	<!-- paging -->
-	<div class="page-footer">
+	<div class="page-footer" id="pagingDiv">
 		<ul class="pagination pull-right">
 			<c:if test="${pageMaker.prev }">
 				<li class="paginate_button previous"><a href="${pageMaker.startPage -1 }">Previous</a></li>
@@ -73,14 +154,6 @@
 			</c:if>
 		</ul>
 	</div>
-	
-		<form id='actionForm' action="/board/list" method='get'>
-			<input type='hidden' name='pageNum' value='${pageMaker.cri.pageNum}'>
-			<input type='hidden' name='amount' value='${pageMaker.cri.amount}'>
-			<input type='hidden' name='type' value='<c:out value="${pageMaker.cri.type}"/>' />
-			<input type='hidden' name='keyword' value='<c:out value="${pageMaker.cri.keyword}"/>' />
-			<input type='hidden' name='typeId' value='<c:out value="${pageMaker.cri.typeId}"/>' />
-		</form>
 
 </div>
 
@@ -103,9 +176,25 @@
 			self.location = "/board/write?typeId="+$typeId.val();
 		});
 		
+		// 읽기 이벤트 추가
+		$(".read").on("click", function(e) {
+			e.preventDefault();
+			actionForm.append("<input type='hidden' name='id' value='"+$(this).attr("href")+"'>");
+			actionForm.attr("action", "/board/read");
+			actionForm.submit();
+		});
 		var actionForm = $("#actionForm");
 		
-		// 첫 페이지 paging
+		//페이지 번호 이동
+		$('#pagingDiv a').click(function(e){
+			e.preventDefault();
+			actionForm.find("input[name='pageNum']").val($(this).attr("href"));
+			actionForm.submit();
+			
+		});
+		
+		
+		/* // 첫 페이지 paging
 		$(".paginate_button a").on("click", function(e) {
 			e.preventDefault();
 			
@@ -126,13 +215,7 @@
 		    actionForm.submit();
 		});
 		
-		// 읽기 이벤트 추가
-		$(".read").on("click", function(e) {
-			e.preventDefault();
-			actionForm.append("<input type='hidden' name='id' value='"+$(this).attr("href")+"'>");
-			actionForm.attr("action", "/board/read");
-			actionForm.submit();
-		});
+		
 		
 		// 검색버튼 이벤트
 		$("#searchBtn").on("click", function(e) {
@@ -168,10 +251,10 @@
 			
 			// 검색어가 없을때 
 			if(data.keyword=="") {
-				url = "/boards/typeId/" + data.typeId + "/type/" + data.type;
+				url = "/boards/total/" + data.typeId + "/" + data.type;
 			// 있을때
 			} else {
-				url = "/boards/typeId/" + data.typeId + "/type/" + data.type + "/keyword/" + data.keyword;
+				url = "/boards/total/" + data.typeId + "/" + data.type + "/" + data.keyword;
 			} 
 			
 			return $.ajax({
@@ -262,10 +345,10 @@
 				url : "/boards/" +data.typeId + "/" + data.pageNum + "/" + data.amount,
 				contentType : "application/json; charset=utf-8"
 			});
-		}
+		} */
 		
 		
-		// 글목록 출력
+		/* // 글목록 출력
 		function printBoardList(boards, page) {
 			if(page == -1) {
 				pageNum = Math.ceil(totalCnt/10.0);
@@ -310,7 +393,7 @@
 			}
 			
 			$table.append($(frag));
-		}
+		} */
 		
 	});
 </script>

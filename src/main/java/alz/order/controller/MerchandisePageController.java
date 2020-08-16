@@ -45,8 +45,10 @@ public class MerchandisePageController {
 	@GetMapping("/register")
 	public void register(Model model) {
 		TeacherDTO teacher = lessonService.teacherByUserId(getLoginUserInfo().getId());
+		System.out.println("teacher : " + teacher);
 		LessonDTO myLesson = new LessonDTO();
 		myLesson.setTeacherId(teacher.getId()).setState(4L);
+		System.out.println("myLesson : " + myLesson);
 		List<LessonDTO> lessonList = lessonService.lessonsByTeacherId(myLesson);
 		System.out.println(lessonList);
 		model.addAttribute("lessonList", lessonList);
@@ -63,13 +65,12 @@ public class MerchandisePageController {
 	// 목록 출력
 	@GetMapping("/list")
 	public void list(MerchandiseCriteria cri, Model model) {
-
-		log.info("list: " + cri);
+		System.out.println("cri: " + cri);
 		model.addAttribute("list", merchandiseService.readAll(cri));
-
+		
 		int total = merchandiseService.getTotal(cri);
 
-		log.info("total: " + total);
+		System.out.println("total: " + total);
 
 		model.addAttribute("pageMaker", new MerchandisePageDTO(cri, total));
 	}
@@ -113,12 +114,30 @@ public class MerchandisePageController {
 	public String modify(@RequestParam("id") Long id, @ModelAttribute("cri") MerchandiseCriteria cri,
 			MerchandiseDTO merchandise, RedirectAttributes rttr) {
 		log.info("modify:" + merchandise);
+		System.out.println(merchandise);
 
 		if (merchandiseService.updateById(id, merchandise) != null) {
 			rttr.addFlashAttribute("result", "success");
 		}
 
 		return "redirect:/merchandise/list" + cri.getListLink();
+	}
+	
+	// 로그인한 선생님의 수업 리스트
+	@GetMapping("/myList")
+	public void myList(MerchandiseCriteria cri, Model model) {
+		
+		long userId = getLoginUserInfo().getId();
+		cri.setUserId(userId);
+		
+		System.out.println("cri: " + cri);
+		model.addAttribute("list", merchandiseService.readMyLesson(cri));
+		
+		int total = merchandiseService.getCount(cri);
+
+		System.out.println("total: " + total);
+
+		model.addAttribute("pageMaker", new MerchandisePageDTO(cri, total));
 	}
 
 }
