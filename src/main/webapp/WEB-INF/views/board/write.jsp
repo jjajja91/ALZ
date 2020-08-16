@@ -40,7 +40,8 @@
     
 </head>
 <body>
-
+<br>
+<br><br><br><br><br><br><br><br><br>
 	<div class="container">
 		<div class="write-container">
 		<h2 id="head">Board Write</h2>

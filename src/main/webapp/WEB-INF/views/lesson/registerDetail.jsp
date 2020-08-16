@@ -9,7 +9,7 @@
 </div>
 
 <div class="container">
-	
+	<br><br><br><br><br><br><br><br>
 	<form role="form" action="/lesson/registerDetail" method="post">
 		<input type="hidden" name="lessonId" value='<c:out value="${param.lessonId }"/>' readonly>
 		<input type="hidden" name="originalId" value='<c:out value="${param.originalId }"/>' readonly>
