@@ -2,7 +2,8 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
+<%@ taglib uri="http://www.springframework.org/security/tags"
+	prefix="sec"%>
 <%@include file="../includes/header.jsp"%>
 <head>
 <script
@@ -36,29 +37,38 @@
 	rel="stylesheet">
 <script
 	src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
-    
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+
 </head>
+<style>
+.container {
+	margin-top: 200px;
+	margin-left: 400px;
+	min-height: 100%;
+	position: relative;
+}
+</style>
 <body>
 
 	<div class="container">
 		<div class="write-container">
-		<h2 id="head">Board Write</h2>
-		<form role="form" id="form" action="/board/write" method="post">
-			<c:if test="${typeId == 4}">
-				<div>
-							
-		<strong>수강했던 클래스</strong>
-		   <select name="reviewOpts" id="reviewOpts" class="reviewOpts">
-		      <option value="" disabled selected hidden>수강 완료한 클래스를 선택해
-							주세요</option>
-		      
-		      <c:forEach var="reviewOpts" items="${reviewOpt}">
-		         <option value="${reviewOpts.id}">${reviewOpts.title}</option>
-		      </c:forEach>
-		   </select>
-								
-					<br><br>	<lable>강의 만족도</lable>
+			<h2 id="head">Board Write</h2>
+			<form role="form" id="form" action="/board/write" method="post">
+				<c:if test="${typeId == 4}">
+					<div>
+
+						<strong>수강했던 클래스</strong> <select name="reviewOpts"
+							id="reviewOpts" class="reviewOpts">
+							<option value="" disabled selected hidden>수강 완료한 클래스를
+								선택해 주세요</option>
+
+							<c:forEach var="reviewOpts" items="${reviewOpt}">
+								<option value="${reviewOpts.id}">${reviewOpts.title}</option>
+							</c:forEach>
+						</select> <br>
+						<br>
+						<lable>강의 만족도</lable>
 						<p id="lesson_star_rate">
 							<a href="#" id="star1">★</a> <a href="#" id="star2">★</a> <a
 								href="#" id="star3">★</a> <a href="#" id="star4">★</a> <a
@@ -72,42 +82,46 @@
 								href="#" id="star5">★</a>
 						</p>
 						<input type='hidden' name='teacherReview'>
-					
-				</div>
-			</c:if>
 
-			<div class="form-group">
-				<label for="title">title:</label> <input class="form-control" rows="1" name="title"></input> 
-				<label for="content">content:</label> <textarea id="summernote" name="content"></textarea>
-				<label>Writer:</label>
-				<input class="form-control" rows="1" name="nickname" value='<sec:authentication property="principal.nickname"/>' readonly="readonly"></input>
-				<label>boardType:</label> 
-				<input class="form-control" rows="1" name="typeId" value="${typeId}" readonly="readonly"></input> 
-				
-				<input type="hidden" name="parentId" value='<c:out value="${param.pid}"/>'>
-				<input type="hidden" name="boardOrder" value='<c:out value="${param.boardOrder}"/>'> 
-				<input type="hidden" name="id" value='<c:out value="${param.id}"/>'>
-				<input type="hidden" name="writerId" value='<sec:authentication property="principal.id"/>'>
-				
-				<div class="row">
-					<div class="col-lg-12">
-						<div class="panel panel-defualt">
-							<div class="panel-heading">Files</div>
-							<div class="panel-body">
-								<div class='uploadResult'>
-									<ul>
+					</div>
+				</c:if>
 
-									</ul>
+				<div class="form-group">
+					<label for="title">title:</label> <input class="form-control"
+						rows="1" name="title"></input> <label for="content">content:</label>
+					<textarea id="summernote" name="content"></textarea>
+					<label>Writer:</label> <input class="form-control" rows="1"
+						name="nickname"
+						value='<sec:authentication property="principal.nickname"/>'
+						readonly="readonly"></input> <label>boardType:</label> <input
+						class="form-control" rows="1" name="typeId" value="${typeId}"
+						readonly="readonly"></input> <input type="hidden" name="parentId"
+						value='<c:out value="${param.pid}"/>'> <input
+						type="hidden" name="boardOrder"
+						value='<c:out value="${param.boardOrder}"/>'> <input
+						type="hidden" name="id" value='<c:out value="${param.id}"/>'>
+					<input type="hidden" name="writerId"
+						value='<sec:authentication property="principal.id"/>'>
+
+					<div class="row">
+						<div class="col-lg-12">
+							<div class="panel panel-defualt">
+								<div class="panel-heading">Files</div>
+								<div class="panel-body">
+									<div class='uploadResult'>
+										<ul>
+
+										</ul>
+									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-				</div>
 
-				<button type="submit" data-oper='write' class="btn btn-default">Submit</button>
-				<button type="submit" data-oper='list' class="btn btn-default">List</button>
-			</div>
-		</form>
+					<button type="submit" data-oper='write' class="btn btn-default">Submit</button>
+					<button type="submit" data-oper='list' class="btn btn-default">List</button>
+				</div>
+			</form>
 		</div>
 	</div>
 
