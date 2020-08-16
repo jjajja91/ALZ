@@ -87,11 +87,11 @@ padding: 13px 15px
 <body>
 
 <div class="container">
-   <h1 class="page-header">Board</h1>
 </div>
 
 <div class="table-container">
 
+   <h1 class="page-header">${boardName}</h1>
 	<!-- 검색 -->
 	<div>
 		<form id='actionForm' action="/board/list" method='get'>

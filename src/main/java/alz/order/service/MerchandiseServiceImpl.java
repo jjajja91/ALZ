@@ -100,7 +100,7 @@ public class MerchandiseServiceImpl implements MerchandiseService {
 	}
 
 	@Override
-	public MerchandiseDTO readByrefId(long lessonId) {
+	public MerchandiseDTO readByrefId(Long lessonId) {
 		return merchandiseMapper.readByrefId(lessonId);
 	}
 
