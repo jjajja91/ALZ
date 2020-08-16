@@ -41,11 +41,13 @@
 	padding: 13px 15px;
 	font-weight: bold;
 	font-size: 18px;
+	text-align: center;
 }
 
 .content-table td {
 	padding: 8px 15px;
 	font-size: 15px;
+	text-align: center;
 }
 
 .content-table thead tr {

@@ -40,7 +40,7 @@
 }
 
 .content-table th {
-	padding: 13px 15px;
+	padding: 10px 15px;
 	font-weight: bold;
 	font-size: 18px;
 }
@@ -76,12 +76,29 @@
 	font-weight: bold;
 	color: #335492;
 }
+
 div.title {
-	margin-left: 300px;
-	margin-bottom: 20px;
+	margin-left: 10px;
+	margin-bottom: 15px;
 	font-size: 30px;
 	font-weight: bold;
 }
+
+div.notice {
+	border-top: 1px solid #dddddd;
+	padding-top: 10px;
+	width: 700px;
+}
+
+div.orderNo {
+	margin-bottom: 10px;
+}
+
+p.orderNo {
+	font-weight: bold;
+	display: inline-block;
+}
+
 .footer {
 	width: 100%;
 	position: absolute;
@@ -93,23 +110,50 @@ div.title {
 	color: #fff;
 	padding: 30px 0;
 }
+
+th.th1 {
+	text-align: left;
+}
+
+td.td2 {
+	text-align: left;
+	width: 300px;
+}
+
+a.main {
+	font-size: 18px;
+	margin-left: 300px;
+	background-color: #335492;
+	border-radius: 5px 5px;
+	box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+	color: #ffffff;
+	border: 1px solid #dddddd;
+	background-color: #335492;
+}
 </style>
 <body>
 	<div class="container">
 		<sec:authentication var="principal" property="principal" />
-		<div class="title">주문 완료</div>
-		<div>
-			<strong>주문이 완료되었습니다. 이용해 주셔서 감사합니다.</strong>
-			<p>주문 내역은 [마이페이지 > 주문 내역]에서 다시 확인할 수 있습니다.
+		<div class="title">|주문 완료</div>
+		<div class="notice">
+			<p style="margin-bottom: 5px;">주문이 완료되었습니다. 이용해 주셔서 감사합니다.</p>
+			<p>주문 내역은 [마이페이지 > 주문 내역]에서 다시 확인할 수 있습니다.</p>
+		</div>
+		<br>
+		<div class="orderNo">
+			주문번호 :
+			<p class="orderNo">${orderId}</p>
 		</div>
 
 		<!-- alz_order_detail에서 가져옴 -->
 		<div class="orderConfirm">
-			<div class="mdInfo">
-				<strong>주문번호 : ${orderId}</strong>
-				<table border="1">
+			<div class="table-container">
+
+				<table class="content-table">
 					<tr>
-						<td colspan="3">상품정보</td>
+						<th class="th1">|상품 정보</th>
+						<th class="th1"></th>
+						<th class="th1"></th>
 					</tr>
 					<c:set var="finalTotalPrice" value="0" />
 					<c:forEach items="${orderList}" var="list">
@@ -128,36 +172,41 @@ div.title {
 			<br>
 
 			<div class="orderer">
-				<strong> 주문자 정보</strong>
-				<table border="1">
+				<table class="content-table">
+					<tr>
+						<th class="th1">|주문자 정보</th>
+						<th class="th1"></th>
+					</tr>
 					<tr>
 						<td>이름</td>
-						<td>${orderer.name}</td>
+						<td class="td2">${orderer.name}</td>
 					</tr>
 					<tr>
 						<td>연락처</td>
-						<td>${orderer.phone}</td>
+						<td class="td2">${orderer.phone}</td>
 					</tr>
 				</table>
 			</div>
 			<br>
 
 			<div class="payInfo">
-				<strong> 결제 정보</strong>
-				<table border="1">
+				<table class="content-table">
+					<tr>
+						<th class="th1">|결제 정보</th>
+						<th class="th1"></th>
+					</tr>
 					<tr>
 						<td>결제 방법</td>
-						<td>카카오 페이</td>
+						<td class="td2">카카오 페이</td>
 					</tr>
 					<tr>
 						<td>결제 금액</td>
-						<td><fmt:formatNumber value="${finalTotalPrice}"
+						<td class="td2"><fmt:formatNumber value="${finalTotalPrice}"
 								pattern="#,###" /> 원</td>
 					</tr>
 				</table>
 			</div>
-			<br> <a class='orderList' href='/'> 주문내역 확인</a> <a class='main'
-				href='/'> 메인으로 가기</a>
+			<br><br> <a class='main' href='/'> 메인으로 가기</a>
 		</div>
 	</div>
 	<footer class="footer">
