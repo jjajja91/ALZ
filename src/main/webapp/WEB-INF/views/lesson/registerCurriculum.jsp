@@ -4,12 +4,24 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <%@include file="../includes/header.jsp"%>
+<head>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+</head>
+<style>
+.container {
+	margin-top: 200px;
+	margin-left: 600px;
+	min-height: 100%;
+	position: relative;
+}
+</style>
+<body>
 <div class="container">
 	<h1 class="page-header">클래스 커리큘럼 등록</h1>
-</div>
 
-<div class="container">
 	<br><br><br><br><br><br><br>
+
 
 		<input type="hidden" name="originalId" value='<c:out value="${param.originalId }"/>' readonly>
 	
