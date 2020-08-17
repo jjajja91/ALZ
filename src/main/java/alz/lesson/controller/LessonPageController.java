@@ -223,7 +223,6 @@ public class LessonPageController {
 		int id;
 	    Long originalId = lessonDetail.getOriginalId();
 	    Long lessonId = lessonDetail.getLessonId();
-	      
 	    id = lessonService.createLessonDetail(lessonDetail);
 	      
 	    String url = "redirect:/lesson/registerSchedule?originalId="+originalId;

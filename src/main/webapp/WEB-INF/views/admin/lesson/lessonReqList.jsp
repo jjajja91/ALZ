@@ -3,6 +3,12 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@include file="../../includes/admin_header.jsp"%>
+<style>
+.lessonImg{
+width :150px;
+height : 120px;
+}
+</style>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
@@ -242,8 +248,13 @@
 									<tr>
 										<td><input type="checkbox" id="checkOne" name="checkOne"></td>
 										<th><c:out value="${LessonReqList.id }" /></th>
-										<td><img class="lessonImg"
-											src="/resources/img/classtmpimg.jpg"></td>
+										<td><c:if test= "${empty LessonReqList.thumbnail}">
+					<img class="lessonImg" src="/resources/img/classtmpimg.jpg">
+				</c:if>
+				<c:if test= "${!empty LessonReqList.thumbnail}">
+					<img class="lessonImg" src="/resources/img/lesson/thumb/${LessonReqList.teacherId}${LessonReqList.openAt}/${LessonReqList.thumbnail}">
+				</c:if>
+										</td>
 										<td><a class='read'  href="<c:out value="${LessonReqList.id }"/>"><c:out value="${LessonReqList.title }" />
 										<br>
 											<c:out value="${LessonReqList.openAt }" />  -  <c:out
