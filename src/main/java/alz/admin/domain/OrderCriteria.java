@@ -14,6 +14,7 @@ public class OrderCriteria {
 
 	private String type;
 	private String keyword;
+	private Long userId;
 
 	public OrderCriteria() {
 		this(1, 10);

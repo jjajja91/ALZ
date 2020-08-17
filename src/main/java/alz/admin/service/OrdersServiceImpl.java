@@ -40,6 +40,16 @@ public class OrdersServiceImpl implements OrdersService {
 	public void stateChange(OrderDTO order) {
 		ordersMapper.stateChange(order);
 	}
+
+	@Override
+	public List<OrderAllDTO> myOrderListPaging(OrderCriteria cri) {
+		return ordersMapper.myOrderListPaging(cri);
+	}
+
+	@Override
+	public int getMyTotal(OrderCriteria cri) {
+		return ordersMapper.getMyTotalCount(cri);
+	}
 	
 
 }
