@@ -158,6 +158,7 @@ input[type="button"] {
 			<input type="hidden" name="originalId" value='<c:out value="${param.originalId }"/>' readonly>
 			<input type="hidden" name="id" id="id" value='<c:out value="${detail.id }"/>' readonly>
 			<input type="hidden" name="location" id="location" readonly/>
+
 		
 			<div class="lessonText">클래스를 통해 어떤 것을 배울 수 있는지<br> 상상해볼 수 있도록 클래스 소개를 채워주세요.</div>
 			

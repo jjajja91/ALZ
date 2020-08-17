@@ -1,17 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+   pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%@ taglib uri="http://www.springframework.org/security/tags"
-	prefix="sec"%>
-<%-- <%@include file="../includes/header.jsp"%> --%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec"%>
+
 <head>
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
+
 </head>
 <style>
 
 .container {
+
 	margin-top: 70px;
 	margin-left: 10%;
 	min-height: 100%;
@@ -159,6 +161,7 @@ input[type="button"] {
 			<input type="hidden" name="lessonId" value='<c:out value="${param.lessonId }"/>' readonly> 
 			<input type="hidden" name="originalId" value='<c:out value="${param.originalId }"/>' readonly>
 
+
 			<div class="lessonText">수업 날짜와 수업 시간을 입력해주세요.</div>
 			
 			<label>스케줄 선택</label> 
@@ -192,20 +195,22 @@ input[type="button"] {
 						<label for="endAt">종료시간 </label> 
 						<input type="time" class="form-control endAt" name="endAt" value='<c:out value="${timeList.endAt }"/>'>
 
-						<c:if test="${loop.index != 0}">
-							<input type="button" class="deleteLesson" name="deleteLesson" value="시간 삭제">
-						</c:if>
-					</div>
-				</c:forEach>
-			</div>
-			<br>
-			<input type="button" id="addLesson" name="addLesson" value="시간 추가" />
-			<br> <br> <br>
-			<button type="submit" name="prev">이전</button>
-			<button type="submit" name="next">다음</button>
-			<br> <br>
-		</form>
-	</div>
+                  <c:if test="${loop.index != 0}">
+                     <input type="button" class="deleteLesson" name="deleteLesson"
+                        value="delete">
+                  </c:if>
+               </div>
+               <br>
+            </c:forEach>
+         </div>
+         <input type="button" id="addLesson" name="addLesson" value="+add" />
+         <br> <br> <br>
+         <button type="submit" name="prev">＜ 이전</button>
+         <button type="submit" name="next">다음 ＞</button>
+         <br> <br> <br>
+      </form>
+   </div>
+
 	<script>
 		var formObj;
 		var timesetDiv;
@@ -218,110 +223,111 @@ input[type="button"] {
 		var $lessonId;
 		var $originalId;
 
-		$(document).ready(function() {
-			formObj = $("form[role='form']");
-			$addBtn = $("input[name=addLesson]");
-			$lessonId = $("input[name=lessonId]");
-			$originalId = $("input[name=originalId]");
 
-		});
+      $(document).ready(function() {
+         formObj = $("form[role='form']");
+         $addBtn = $("input[name=addLesson]");
+         $lessonId = $("input[name=lessonId]");
+         $originalId = $("input[name=originalId]");
 
-		// 다음 클릭시 지우고 저장
-		$("button[type=submit]")
-				.click(
-						function(e) {
+      });
 
-							var name = $(this).attr("name");
+      // 다음 클릭시 지우고 저장
+      $("button[type=submit]")
+            .click(
+                  function(e) {
 
-							$openAt = $("#openAt");
-							$closeAt = $("#closeAt");
-							$lessonDate = $(".lessonDate");
-							$startAt = $(".startAt");
-							$endAt = $(".endAt");
+                     var name = $(this).attr("name");
 
-							if (name === 'prev') {
+                     $openAt = $("#openAt");
+                     $closeAt = $("#closeAt");
+                     $lessonDate = $(".lessonDate");
+                     $startAt = $(".startAt");
+                     $endAt = $(".endAt");
 
-								e.preventDefault();
+                     if (name === 'prev') {
 
-								if ($originalId.val() != "") {
-									self.location = "/lesson/registerBasic?lessonId="
-											+ $lessonId.val()
-											+ "&originalId="
-											+ $originalId.val();
-								} else {
-									self.location = "/lesson/registerBasic?lessonId="
-											+ $lessonId.val();
-								}
+                        e.preventDefault();
 
-							} else {
+                        if ($originalId.val() != "") {
+                           self.location = "/lesson/registerBasic?lessonId="
+                                 + $lessonId.val()
+                                 + "&originalId="
+                                 + $originalId.val();
+                        } else {
+                           self.location = "/lesson/registerBasic?lessonId="
+                                 + $lessonId.val();
+                        }
 
-								let timeTable = [];
-								for (let i = 0; i < $startAt.length; i++) {
-									let timeTablevalues = {
-										timeTableId : $lessonId.val(),
-										lessonDate : $lessonDate[i].value,
-										startAt : $startAt[i].value,
-										endAt : $endAt[i].value
-									};
-									timeTable.push(timeTablevalues);
-								}
+                     } else {
 
-								let timeList = {};
-								timeList["lessonId"] = $lessonId.val();
-								timeList["openAt"] = $openAt.val();
-								timeList["closeAt"] = $closeAt.val();
-								timeList["timeTable"] = timeTable;
+                        let timeTable = [];
+                        for (let i = 0; i < $startAt.length; i++) {
+                           let timeTablevalues = {
+                              timeTableId : $lessonId.val(),
+                              lessonDate : $lessonDate[i].value,
+                              startAt : $startAt[i].value,
+                              endAt : $endAt[i].value
+                           };
+                           timeTable.push(timeTablevalues);
+                        }
 
-								$
-										.ajax({
-											type : 'POST',
-											url : '/lessons/schedule',
-											data : JSON.stringify(timeList),
-											contentType : "application/json; charset=utf-8",
-											success : function(data) {
-												console.log("SUCESS: ", data);
-												if ($originalId.val() != null) {
-													self.location = "/lesson/registerDetail?lessonId="
-															+ $lessonId.val()
-															+ "&originalId="
-															+ $originalId.val();
-												} else {
-													self.location = "/lesson/registerDetail?lessonId="
-															+ $lessonId.val();
-												}
-											}
-										});
-							}
+                        let timeList = {};
+                        timeList["lessonId"] = $lessonId.val();
+                        timeList["openAt"] = $openAt.val();
+                        timeList["closeAt"] = $closeAt.val();
+                        timeList["timeTable"] = timeTable;
 
-						});
+                        $
+                              .ajax({
+                                 type : 'POST',
+                                 url : '/lessons/schedule',
+                                 data : JSON.stringify(timeList),
+                                 contentType : "application/json; charset=utf-8",
+                                 success : function(data) {
+                                    console.log("SUCESS: ", data);
+                                    if ($originalId.val() != null) {
+                                       self.location = "/lesson/registerDetail?lessonId="
+                                             + $lessonId.val()
+                                             + "&originalId="
+                                             + $originalId.val();
+                                    } else {
+                                       self.location = "/lesson/registerDetail?lessonId="
+                                             + $lessonId.val();
+                                    }
+                                 }
+                              });
+                     }
 
-		// 추가 버튼 클릭시 한칸씩 생기는 이벤트
-		$(document).on("click", "input[name='addLesson']", function(e) {
+                  });
 
-			e.preventDefault();
+      // 추가 버튼 클릭시 한칸씩 생기는 이벤트
+      $(document).on("click", "input[name='addLesson']", function(e) {
 
-			timesetDiv = document.getElementById("timesetDiv");
+         e.preventDefault();
 
-			var i = 0;
-			var clone = timesetDiv.cloneNode(true); // "deep" clone
-			clone.id = "duplicater" + ++i;
+         timesetDiv = document.getElementById("timesetDiv");
 
-			clone.getElementsByTagName("input").lessonDate.value = "";
-			clone.getElementsByTagName("input").startAt.value = "";
-			clone.getElementsByTagName("input").endAt.value = "";
+         var i = 0;
+         var clone = timesetDiv.cloneNode(true); // "deep" clone
+         clone.id = "duplicater" + ++i;
+
+         clone.getElementsByTagName("input").lessonDate.value = "";
+         clone.getElementsByTagName("input").startAt.value = "";
+         clone.getElementsByTagName("input").endAt.value = "";
 
 			var deleteBtn = document.createElement("input");
 			deleteBtn.setAttribute("type", "button");
 			deleteBtn.setAttribute("name", "deleteLesson");
 			deleteBtn.setAttribute("value", "시간 삭제");
 
-			clone.appendChild(deleteBtn);
-			timesetDiv.parentNode.appendChild(clone);
-		});
+         clone.appendChild(deleteBtn);
+         timesetDiv.parentNode.appendChild(clone);
+      });
 
-		$(document).on("click", "input[name='deleteLesson']", function(e) {
-			e.target.parentNode.remove();
-		});
-	</script>
+      $(document).on("click", "input[name='deleteLesson']", function(e) {
+         e.target.parentNode.remove();
+      });
+   </script>
 </body>
 </html>
