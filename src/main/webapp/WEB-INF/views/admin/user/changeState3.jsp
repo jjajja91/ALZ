@@ -1,15 +1,20 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<meta name="google-signin-scope" content="profile email">
+<meta name="google-signin-client_id"
+	content="576736845363-o0474pib5q69qlcv6lm7o42hs6lu5u59.apps.googleusercontent.com">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport"
+	content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width" />
 <%@include file="../../includes/admin_header.jsp"%>
-<!-- context 경로 -->
-<c:set var="path" value="${pageContext.request.contextPath}" />
+
 <!-- Content Wrapper -->
 <div id="content-wrapper" class="d-flex flex-column">
 
 	<!-- Main Content -->
 	<div id="content">
-	
-			<!-- Topbar -->
+
+		<!-- Topbar -->
 		<nav
 			class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
@@ -204,118 +209,167 @@
 
 		</nav>
 		<!-- End of Topbar -->
-	
+
+		<!-- Begin Page Content -->
 		<div class="container-fluid">
+
+			<!-- Page Heading -->
+			<h1 class="h3 mb-2 text-gray-800">회원 상태 변경</h1>
+
+			<!-- DataTales Example -->
 			<div class="card shadow mb-4">
-				<div class="card shadow mb-4">
-					<div class="card-body">
-						<div class="table-responsive">
-							<div>
-								<h2>회원정보 상세</h2>
-								<form name="form" method="post">
-									<table class="table table-bordered" id="dataTable" width="100%"
-										cellspacing="0">
-										<thead>
-											<tr>
-												<td>이메일</td>
-												<!-- id는 수정이 불가능하도록 readonly속성 추가 -->
-												<td>
-													<div class="col-lg-5">
-														<input name="email" value="${dto.email}"
-															readonly="readonly">
-													</div>
-												</td>
-											</tr>
-										</thead>
-										<thead>
-											<tr>
-												<td>닉네임</td>
-												<td>
-													<div class="col-lg-3">
-														<input name="nickname" value="${dto.nickname}">
-													</div>
-												</td>
-											</tr>
-										</thead>
-										<thead>
-											<tr>
-												<td>비밀번호</td>
-												<td>
-													<div class="col-lg-3">
-														<input type="password" name="password">
-													</div>
-												</td>
-											</tr>
-											<!-- 누락된 부분 -->
-										</thead>
-										<thead>
-											<tr>
-												<td>전화번호</td>
-												<td>
-													<div class="col-lg-3">
-														<input name="phoneNumber" id="phoneNumber"
-															value="${dto.phoneNumber}" type="text"
-															placeholder="'-'없이 번호만 입력하세요" maxlength="11"
-															autocomplete="off">
-													</div>
-												</td>
-											</tr>
-										</thead>
-										<thead>
-											<tr>
-												<td colspan="2" align="center"><input type="button"
-													value="수정" id="btnUpdate"> <!-- <input type="button" value="삭제" id="btnDelete"> -->
-													<button type="button" id=adminListBtn
-														class="btn btn-primary btn-sm">회원 목록</button> <br> <br>
-													<br>
-													<button type="button" id=adminHomeBtn
-														class="btn btn-primary btn-sm">관리자 홈으로</button> <br>
-													<br> <%-- <div style="color: red;">${message}</div> --%>
-												</td>
-											</tr>
-										</thead>
-									</table>
-								</form>
-							</div>
+				<div class="card-header py-3">
+					<h6 class="m-0 font-weight-bold text-primary">Decision in Progress</h6>
+				</div>
+				<div class="card-body">
+					<div class="table-responsive">
+
+						<div>
+							<br>회원 목록<br> <br>
+							<table class="table table-bordered" id="dataTable" width="100%"
+								cellspacing="0">
+								<thead style="text-align: center; background: #4e73df; color: white;">
+									<tr>
+										<th><input type="checkbox" id="checkAll"></th>
+										<th>이메일</th>
+										<th>닉네임</th>
+										<th>권한</th>
+										<th>전화번호</th>
+										<th>회원 상태</th>
+										<th>상태 시작일시</th>
+										<th>상태 종료일시</th>
+									</tr>
+								</thead>
+								<tbody>
+									<c:forEach var="row" items="${list}">
+										<tr>
+											<td><input type="checkbox" id="checkOne" name="checkOne"></td>
+											<td><input type="checkbox" id="checkOne" name="checkOne"></td>
+											<td>${row.email}</td>
+											<!-- 회원정보 상세조회를 위해 a태그 추가 -->
+											<td><a href="${path}/admin/view?email=${row.email}">${row.nickname}</a></td>
+											<td>${row.role}</td>
+											<td>${row.phoneNumber}</td>
+											<td>${row.state}</td>
+											<td>${row.startAt}</td>
+											<td>${row.endAt}</td>
+										</tr>
+									</c:forEach>
+								</tbody>
+							</table>
+							<select name='state'>
+								<option>상태 변경</option>
+								<option value='탈퇴'>탈퇴</option>
+								<option value='정지'>정지</option>
+								<option value='휴면'>휴면</option>						
+								<option value='일반'>일반</option>						
+							</select>
+							<input type='button' name='changeState' id='changeState' value="변경">
 						</div>
+
+
+
+
+						<div>
+							<form name="form" method="post">
+								<table class="table table-bordered" id="dataTable">
+									<div class="card-body">
+										<br> 
+										<span style="color: black; font-weight: bold;">회원 이메일</span>
+										<br> <br> 
+										<input type="text" name="email" style="width: 300px;" placeholder="상태 혹은 권한을 변환 시킬 회원의 이메일 입력 " class="form-control"> 
+										<br> <br> 
+										<input type="button" value="탈퇴" id="btnDropOut"> 
+										<input type="button" value="정지" id="btnSuspended"> 
+										<input type="button" value="휴면" id="btnInactive"> 
+										<input type="button" value="일반상태" id="btnBackNormal"><br>
+										<br>
+										<!-- <input type="button" value="일반계정" id="btnAsUser">
+											<input type="button" value="관리자계정" id="btnAsManager"> -->
+									</div>
+								</table>
+							</form>
+						</div>
+						
+						
+						
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
+	<!-- 로그인 실패나 성공시 메시지를 받아서 출력하는 자바스크립트 구문 -->
 	<script>
 		$(document).ready(function() {
-			$("#btnUpdate").click(function() {
+			$("#btnDropOut").click(function() {
 				// 확인 대화상자	
-				if (confirm("수정하시겠습니까?")) {
-					document.form.action = "${path}/admin/update";
+				if (document.form[0].value == "") {
+					alert("이메일을 입력해주세요");
+				} else if (confirm("해당 계정을 탈퇴 시키겠습니까?")) {
+					document.form.action = "${path}/admin/dropOut";
 					document.form.submit();
+
+				}
+			});
+			$("#btnSuspended").click(function() {
+				// 확인 대화상자
+				if (document.form[0].value == "") {
+					alert("이메일을 입력해주세요");
+				} else {
+					if (confirm("해당 계정을 정지 시키겠습니까?")) {
+						document.form.action = "${path}/admin/suspended";
+						document.form.submit();
+					}
+				}
+			});
+			$("#btnInactive").click(function() {
+				// 확인 대화상자	
+				if (document.form[0].value == "") {
+					alert("이메일을 입력해주세요");
+				} else {
+					if (confirm("해당 계정을 휴면전환 시키겠습니까?")) {
+						document.form.action = "${path}/admin/inactive";
+						document.form.submit();
+					}
+				}
+			});
+			$("#btnBackNormal").click(function() {
+				// 확인 대화상자	
+				if (document.form[0].value == "") {
+					alert("이메일을 입력해주세요");
+				} else {
+					if (confirm("해당 계정을 일반상태로 전환 시키겠습니까?")) {
+						document.form.action = "${path}/admin/backNormal";
+						document.form.submit();
+					}
+				}
+			});
+			$("#btnAsUser").click(function() {
+				// 확인 대화상자	
+				if (document.form[0].value == "") {
+					alert("이메일을 입력해주세요");
+				} else {
+					if (confirm("해당 계정을 일반 계정으로 전환 시키겠습니까?")) {
+						document.form.action = "${path}/admin/asUser";
+						document.form.submit();
+					}
+				}
+			});
+			$("#btnAsManager").click(function() {
+				// 확인 대화상자	
+				if (document.form[0].value == "") {
+					alert("이메일을 입력해주세요");
+				} else {
+					if (confirm("해당 계정을 관리자 계정으로 전환 시키겠습니까?")) {
+						document.form.action = "${path}/admin/asManager";
+						document.form.submit();
+					}
 				}
 			});
 		});
-		/* $(document).ready(function(){
-			$("#btnDelete").click(function(){
-				// 확인 대화상자 
-				if(confirm("삭제하시겠습니까?")){
-					document.form.action = "${path}/admin/delete";
-					document.form.submit();
-				}
-			});
-		}); */
-		$(function() {
-			var responseMessage = "<c:out value="${message}" />";
-			if (responseMessage != "") {
-				alert(responseMessage)
-			}
-		})
-		$(function() {
-			$("#adminListBtn").click(function() {
-				location.href = '/admin/list';
-			})
-		})
 		$(function() {
 			$("#adminHomeBtn").click(function() {
-				location.href = '/admin/index';
+				location.href = '/admin/changeStateView';
 			})
 		})
 	</script>
