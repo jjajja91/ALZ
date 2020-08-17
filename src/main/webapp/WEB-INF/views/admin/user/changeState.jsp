@@ -23,7 +23,6 @@
 						<div class="table-responsive">
 							<div>
 								<center>
-									<br>회원상태 및 권한 변환<br>
 									<table class="table table-bordered" id="dataTable" width="100%"
 										cellspacing="0">
 										<div class="card align-middle"
@@ -31,8 +30,6 @@
 											<div class="card-body">
 												<br>
 												<center>
-													<span style="color: green; font-weight: bold;">회원 상태
-														및 권한 변환</span> <br> <br>
 													<center>
 														<form name="form" method="post">
 															<center>

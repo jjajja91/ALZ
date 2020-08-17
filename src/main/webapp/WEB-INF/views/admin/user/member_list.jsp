@@ -17,7 +17,7 @@
 								<br>회원 목록<br> <br>
 								<table class="table table-bordered" id="dataTable" width="100%"
 									cellspacing="0">
-									<thead>
+									<thead style="text-align:center; background:#4e73df; color:white;">
 										<tr>
 											<th>이메일</th>
 											<th>닉네임</th>

@@ -14,7 +14,6 @@
 					<div class="card-body">
 						<div class="table-responsive">
 							<div>
-								<br>회원정보 상세<br> <br>
 								<h2>회원정보 상세</h2>
 								<form name="form" method="post">
 									<table class="table table-bordered" id="dataTable" width="100%"
