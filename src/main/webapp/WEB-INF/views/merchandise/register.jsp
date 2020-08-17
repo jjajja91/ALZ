@@ -56,6 +56,11 @@ td.tdVal {
 
 input, textarea, select {
 	border: 1px solid #335492;
+	width: 450px;
+}
+
+input.radio {
+	width: 30px;
 }
 
 button {
@@ -93,8 +98,8 @@ button.btn-default {
 
 				<tr class="trLine">
 					<td class="tdKey">상품 유형
-					<td class="tdVal"><input type="radio" name="codeType"
-						value="클래스" checked="checked"> 클래스 <input type="radio"
+					<td class="tdVal"><input type="radio" name="codeType" class="radio"
+						value="클래스" checked="checked"> 클래스 <input type="radio" class="radio"
 						name="codeType" value="준비물"> 준비물</td>
 				</tr>
 				<tr class="trLine">
@@ -138,8 +143,8 @@ button.btn-default {
 
 				<tr class="trLine">
 					<td class="tdKey">진열 상태</td>
-					<td class="tdVal"><input type="radio" name="displayState"
-						value="1" checked="checked"> 진열 <input type="radio"
+					<td class="tdVal"><input type="radio" name="displayState" class="radio"
+						value="1" checked="checked"> 진열 <input type="radio" class="radio"
 						name="displayState" value="0"> 미진열</td>
 				</tr>
 				<tr>

@@ -49,6 +49,11 @@ td.tdVal {
 
 input, textarea {
 	border: 1px solid #335492;
+	width: 450px;
+}
+
+input.radio {
+	width: 30px;
 }
 button {
 	border-radius: 5px 5px;
@@ -132,10 +137,10 @@ button.btn-default {
 
 				<tr class="trLine">
 					<td class="tdKey">진열 상태</td>
-					<td class="tdVal" id="displayState"><input type="radio"
+					<td class="tdVal" id="displayState"><input type="radio" class="radio"
 						name="displayState" value="1"
 						<c:if test="${merchandise.displayState eq '1'}">checked</c:if>>
-						진열 <input type="radio" name="displayState" value="0"
+						진열 <input type="radio" name="displayState" value="0" class="radio"
 						<c:if test="${merchandise.displayState eq '0'}">checked</c:if>>
 						미진열</td>
 
