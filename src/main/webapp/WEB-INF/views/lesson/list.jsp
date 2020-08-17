@@ -14,6 +14,10 @@
 	margin-top: 200px;
 	margin-left: 600px;
 }
+.lessonImg {
+width : 150px;
+height : 120px;
+}
 </style>
 <body>
 
