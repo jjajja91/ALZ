@@ -49,6 +49,8 @@ public class LessonDTO {
 	private Long salePrice;
 	private Double discountRate;
 	
+	private Long Rate;
+	
 	private String location;
 	
 }

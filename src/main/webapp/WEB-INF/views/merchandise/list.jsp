@@ -5,9 +5,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://www.springframework.org/security/tags"
 	prefix="sec"%>
-
-
-<%@include file="../includes/header.jsp"%>
 <head>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
@@ -15,7 +12,7 @@
 <style>
 .container {
 	margin-top: 200px;
-	margin-left: 600px;
+	margin-left: 25%;
 	min-height: 100%;
 	position: relative;
 }
@@ -24,7 +21,11 @@
 	top: 90px;
 	left: 20%;
 }
-
+.page-header {
+	font-weight: bold;
+	font-size: 24px;
+	margin-bottom: 20px;
+}
 .content-table {
 	border-collapse: collapse;
 	font-size: 0.8em;
@@ -86,21 +87,26 @@
 }
 
 .pull-right {
-	margin-right: 950px;
+	margin-right: 760px;
+}
+
+li {
+	display: inline;
 }
 
 div.search {
 	margin: 20px 0;
 }
+
 a#regBtn {
 	font-size: 18px;
 	background-color: #335492;
-	margin-left: 277px;
-	border-radius: 5px 5px;
+	margin-left: 277px; border-radius : 5px 5px;
 	box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
 	color: #ffffff;
 	border: 1px solid #dddddd;
 	background-color: #335492;
+	border-radius: 5px 5px;
 }
 </style>
 <body>
@@ -122,14 +128,13 @@ a#regBtn {
 
 	<div class="container">
 		<sec:authentication var="principal" property="principal" />
-		Lesson List Page
-		<!-- /.panel-heading -->
-		<br>
+		<h1 class="page-header">상품 리스트</h1>
+
 		<div class="table-container">
 			<table class="content-table">
 				<thead>
 					<tr>
-						<th>#상품번호</th>
+						<th>상품번호</th>
 						<th>상품 유형</th>
 						<th>상품명</th>
 						<th>상품 가격</th>
@@ -142,7 +147,7 @@ a#regBtn {
 					<tr>
 						<td><c:out value="${merchandise.id }" /></td>
 						<td><c:out value="${merchandise.codeType }" /></td>
-						<td><a class='move'
+						<td><a class='modify'
 							href='<c:out value="${merchandise.id }"/>'> <c:out
 									value="${merchandise.name }" /></a><br></td>
 						<td><fmt:formatNumber value="${merchandise.salePrice}"

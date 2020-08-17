@@ -13,6 +13,7 @@ import alz.lesson.domain.LessonCriteria;
 import alz.lesson.domain.LessonDTO;
 import alz.lesson.domain.LessonDetailDTO;
 import alz.lesson.domain.QuickReviewDTO;
+import alz.lesson.domain.ReviewDTO;
 import alz.lesson.domain.ScheduleDTO;
 import alz.lesson.domain.TeacherDTO;
 import alz.lesson.domain.TimeTableDTO;
@@ -197,9 +198,27 @@ public class LessonServiceImpl implements LessonService {
 	// 카테고리별 페이징한 목록
 	public List<LessonDTO> readAll(LessonCriteria cri) {
 		List<LessonDTO> lessons = lessonMapper.findWithPaging(cri);
+		List<ReviewDTO> reviewList = lessonMapper.findReview();
+		List<ReviewDTO> quickReviewList = lessonMapper.findQuickReview();
+		
+		Long rate;
+		for(int i=0; i<lessons.size(); i++) {
+			for(int j=0; j<reviewList.size(); j++) {
+				int lessonReview = reviewList.get(j).getLessonReviewRate().intValue(); 
+				int teacherReview = reviewList.get(j).getTeacherReviewRate().intValue();
+				rate = (lessonReview+teacherReview)/2L;
+				
+				if(lessons.get(i).getId()==reviewList.get(j).getLessonId()) {
+					lessons.get(i).setRate(rate);		
+				}
+			}
+			
+			for(int k=0; k<quickReviewList.size(); k++) {
+			}
+		}
+		System.out.println(lessons);
 		return lessons;
 	}
-	
 	
 	// 스케줄
 	public ScheduleDTO scheduleByLessonId(Long lessonId) {

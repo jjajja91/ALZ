@@ -13,10 +13,9 @@
 <style>
 .container {
 	margin-top: 200px;
-	margin-left: 600px;
+	margin-left: 27%;
 	min-height: 100%;
 	position: relative;
-	
 }
 
 .table-container {
@@ -32,6 +31,7 @@
 	border-radius: 5px 5px 0 0;
 	overflow: hidden;
 	box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+	margin-bottom: 15px;
 }
 
 .content-table thead tr {
@@ -100,16 +100,18 @@ p.orderNo {
 	display: inline-block;
 }
 
-.footer {
+footer {
+	position: absolute; 
+	margin-top: 30px;
 	width: 100%;
-	position: absolute;
-	bottom: 0;
+	bottom : 0;
 	background: #5eaeff;
 	text-align: center;
 	color: white;
 	background: #335492;
 	color: #fff;
 	padding: 30px 0;
+	bottom: 0;
 }
 
 th.th1 {
@@ -207,14 +209,9 @@ a.main {
 					</tr>
 				</table>
 			</div>
-			<br><br> <a class='main' href='/'> 메인으로 가기</a>
+			<br><br> <a class='main' href='/'> 메인으로 가기</a> <br><br>
 		</div>
 	</div>
-	<footer class="footer">
-		<div>
-			<p class="copy">Copyright, ⓒ ALZ. All rights reserved.</p>
-		</div>
-	</footer>
 </body>
 <script type="text/javascript">
 	
