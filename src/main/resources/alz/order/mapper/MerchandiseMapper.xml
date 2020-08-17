@@ -130,7 +130,7 @@
       )
   		where rn > (#{pageNum} -1) * #{amount}
   	]]>
-
+		order by id desc
 	</select>
 
 	<select id="getTotalCount" resultType="int">
