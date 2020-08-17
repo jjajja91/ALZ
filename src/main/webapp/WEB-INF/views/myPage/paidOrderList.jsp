@@ -26,57 +26,58 @@
 }
 
 .content-table {
-  border-collapse: collapse;
-  font-size: 0.8em;
-  min-width: 400px;
-  width: 700px;
-  border-radius: 5px 5px 0 0;
-  overflow: hidden;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+	border-collapse: collapse;
+	font-size: 0.8em;
+	min-width: 400px;
+	width: 700px;
+	border-radius: 5px 5px 0 0;
+	overflow: hidden;
+	box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
 }
 
 .content-table thead tr {
-  background-color: #335492;
-  color: #ffffff;
-  text-align: left;
+	background-color: #335492;
+	color: #ffffff;
+	text-align: left;
 }
 
 .content-table th {
-padding: 13px 15px
+	padding: 13px 15px
 }
+
 .content-table td {
-  padding: 8px 15px;
+	padding: 8px 15px;
 }
 
 .content-table td a {
-  text-decoration: none;
-  color: #335492;
+	text-decoration: none;
+	color: #335492;
 }
 
 .content-table tbody tr {
-  border-bottom: 1px solid #dddddd;
+	border-bottom: 1px solid #dddddd;
 }
 
 .content-table tbody tr:nth-of-type(even) {
-  background-color: #f3f3f3;
+	background-color: #f3f3f3;
 }
 
 .content-table tbody tr:last-of-type {
-  border-bottom: 2px solid #335492;
+	border-bottom: 2px solid #335492;
 }
 
 .content-table tbody tr.active-row {
-  font-weight: bold;
-  color: #335492;
+	font-weight: bold;
+	color: #335492;
 }
 
-.page-footer{
+.page-footer {
 	right: 0%;
 	bottom: 0%;
 	margin-top: 20px;
 }
 
-.page-footer li{
+.page-footer li {
 	float: left;
 }
 
@@ -87,7 +88,7 @@ padding: 13px 15px
 	color: #335492;
 }
 
-.active a{
+.active a {
 	color: #eee;
 	background-color: #335492;
 }
@@ -100,58 +101,61 @@ padding: 13px 15px
 	<div class="container">
 		<h1 class="page-header">결제 내역</h1>
 
-	<div class="table-container">
+		<div class="table-container">
 
-		
-		<table class="content-table" id="table">
-			<thead>
-				<tr>
-					<th>주문번호</th>
-					<th>주문일시</th>
-					<th>결제금액</th>
-					<th>결제상태</th>
-				</tr>
-			</thead>
-			<tbody>
-				<c:forEach items="${list }" var="order">
+
+			<table class="content-table" id="table">
+				<thead>
 					<tr>
-						<td><a class="move" href='<c:out value="${order.id}" />'>
-												<c:out value="${order.id}" /></a></td>
-						<td><fmt:formatDate pattern="yyyy-MM-dd"
-								value="${order.orderAt }" /></td>
-						<td><c:out value="${order.totalPrice }" /></td>
-						<td><c:out value="${order.state }" /></td>
+						<th>주문번호</th>
+						<th>주문일시</th>
+						<th>결제금액</th>
+						<th>결제상태</th>
 					</tr>
-				</c:forEach>
-			</tbody>
-		</table>
-		<!-- paging -->
-		<div class="page-footer">
-			<ul class="pagination pull-right">
-				<c:if test="${pageMaker.prev }">
-					<li class="paginate_button previous"><a
-						href="${pageMaker.startPage -1 }">Previous</a></li>
-				</c:if>
+				</thead>
+				<tbody>
+					<c:forEach items="${list }" var="order">
+						<tr>
+							<td><a class="move" href='<c:out value="${order.id}" />'>
+									<c:out value="${order.id}" />
+							</a></td>
+							<td><fmt:formatDate pattern="yyyy-MM-dd"
+									value="${order.orderAt }" /></td>
+							<td><c:out value="${order.totalPrice }" /></td>
+							<td><c:out value="${order.state }" /></td>
+						</tr>
+					</c:forEach>
+				</tbody>
+			</table>
+			<!-- paging -->
+			<div class="page-footer">
+				<ul class="pagination pull-right">
+					<c:if test="${pageMaker.prev }">
+						<li class="paginate_button previous"><a
+							href="${pageMaker.startPage -1 }">Previous</a></li>
+					</c:if>
 
-				<c:forEach var="num" begin="${pageMaker.startPage }"
-					end="${pageMaker.endPage }">
-					<li
-						class="paginate_button ${pageMaker.cri.pageNum == num? 'active':'' }"><a
-						href="${num }">${num }</a></li>
-				</c:forEach>
+					<c:forEach var="num" begin="${pageMaker.startPage }"
+						end="${pageMaker.endPage }">
+						<li
+							class="paginate_button ${pageMaker.cri.pageNum == num? 'active':'' }"><a
+							href="${num }">${num }</a></li>
+					</c:forEach>
 
-				<c:if test="${pageMaker.next }">
-					<li class="paginate_button next"><a
-						href="${pageMaker.endPage +1 }">Next</a></li>
-				</c:if>
-			</ul>
-		</div>
+					<c:if test="${pageMaker.next }">
+						<li class="paginate_button next"><a
+							href="${pageMaker.endPage +1 }">Next</a></li>
+					</c:if>
+				</ul>
+			</div>
 		</div>
 
 
 		<form id='actionForm' action="/myPage/paidOrderList" method='get'>
-			<input type='hidden' id='pageNum' name='pageNum' value='<c:out value="${pageMaker.cri.pageNum }"/>' />
-			<input type='hidden' id='amount' name='amount' value='<c:out value="${pageMaker.cri.amount }"/>' />
+			<input type='hidden' id='pageNum' name='pageNum'
+				value='<c:out value="${pageMaker.cri.pageNum }"/>' /> <input
+				type='hidden' id='amount' name='amount'
+				value='<c:out value="${pageMaker.cri.amount }"/>' />
 		</form>
 
 	</div>

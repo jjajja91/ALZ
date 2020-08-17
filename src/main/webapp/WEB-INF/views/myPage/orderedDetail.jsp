@@ -29,10 +29,17 @@
 	border-collapse: collapse;
 	font-size: 0.8em;
 	min-width: 400px;
+	margin-bottom: 30px;
 	width: 700px;
 	border-radius: 5px 5px 0 0;
 	overflow: hidden;
 	box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+	width: 700px;
+}
+
+.content-table thead {
+	font-weight: bold;
+	font-size: 18px;
 }
 
 .content-table thead tr {
@@ -47,6 +54,7 @@
 
 .content-table td {
 	padding: 8px 15px;
+	vertical-align: middle;
 }
 
 .content-table td a {
@@ -92,75 +100,102 @@
 	color: #eee;
 	background-color: #335492;
 }
+
+h1.page-header {
+	margin-left: 75px;
+}
+
+td.tdSub {
+	width: 300px;
+}
+
+div.list {
+	text-align: center;
+}
+
+button.btn-danger {
+	background-color: #335492;
+	color: #ffffff;
+	border-radius: 5px 5px;
+	border: 1px solid #dddddd;
+	font-size: 20px;
+	padding: 1px 5px;
+}
+p {
+	padding: 5px 0;
+}
 </style>
 </head>
 <body>
 
-
-
 	<div class="container">
-		<h1 class="page-header">내 게시글</h1>
-
+		<h1 class="page-header">주문번호 : ${orderId}</h1>
 		<div class="table-container">
+			<table class="content-table" id="table">
+				<thead>
+					<tr>
+						<td colspan="3">상품 정보</td>
+					</tr>
+				</thead>
+				<c:set var="finalTotalPrice" value="0" />
+				<c:forEach items="${orderList}" var="list">
+					<tr>
+						<td>이미지</td>
+						<td>
+							<p>${list.name }</p>
+							<p>
+								<fmt:formatNumber value="${list.salePrice}" pattern="#,###" />
+								원
+							</p>
+						</td>
+						<td>결제 완료</td>
+					</tr>
+					<c:set var="finalTotalPrice"
+						value="${finalTotalPrice + list.salePrice}" />
+				</c:forEach>
+				</tbody>
+			</table>
 
 
 			<table class="content-table" id="table">
 				<thead>
 					<tr>
-						<th>번호</th>
-						<th>제목</th>
-						<th>작성자</th>
-						<th>작성일</th>
-						<th>조회수</th>
+						<td colspan="2">주문 정보</td>
 					</tr>
 				</thead>
-				<tbody>
-					<c:forEach items="${list }" var="board">
-						<tr>
-							<td><c:out value="${board.id }" /></td>
-							<td><a class='read' href='<c:out value="${board.id }"/>'><c:out
-										value="${board.title }" /> (<c:out
-										value="${board.commentCnt}" />)</a></td>
-							<td><c:out value="${board.nickname }" /></td>
-							<td><fmt:formatDate pattern="yyyy-MM-dd"
-									value="${board.writtenAt }" /></td>
-							<td><c:out value="${board.viewCnt }" /></td>
-						</tr>
-					</c:forEach>
-				</tbody>
+				<tr>
+					<td class="tdSub">이름</td>
+					<td>${orderer.name}</td>
+				</tr>
+				<tr>
+					<td class="tdSub">연락처</td>
+					<td>${orderer.phone}</td>
+				</tr>
 			</table>
-			<!-- paging -->
-			<div class="page-footer">
-				<ul class="pagination pull-right">
-					<c:if test="${pageMaker.prev }">
-						<li class="paginate_button previous"><a
-							href="${pageMaker.startPage -1 }">Previous</a></li>
-					</c:if>
 
-					<c:forEach var="num" begin="${pageMaker.startPage }"
-						end="${pageMaker.endPage }">
-						<li
-							class="paginate_button ${pageMaker.cri.pageNum == num? 'active':'' }"><a
-							href="${num }">${num }</a></li>
-					</c:forEach>
+			<table class="content-table" id="table">
+				<thead>
+					<tr>
+						<td colspan="2">결제 정보</td>
+					</tr>
+				</thead>
+				<tr>
+					<td class="tdSub">결제 방법</td>
+					<td>카카오 페이</td>
+				</tr>
+				<tr>
+					<td class="tdSub">결제 금액</td>
+					<td><fmt:formatNumber value="${finalTotalPrice}"
+							pattern="#,###" /> 원</td>
+				</tr>
 
-					<c:if test="${pageMaker.next }">
-						<li class="paginate_button next"><a
-							href="${pageMaker.endPage +1 }">Next</a></li>
-					</c:if>
-				</ul>
+			</table>
+			<div class="list">
+				<button class="btn btn-danger">주문 목록</button>
 			</div>
 		</div>
-
-
-		<form id='actionForm' action="/myPage/boardList" method='get'>
-			<input type='hidden' id='pageNum' name='pageNum'
-				value='<c:out value="${pageMaker.cri.pageNum }"/>' /> <input
-				type='hidden' id='amount' name='amount'
-				value='<c:out value="${pageMaker.cri.amount }"/>' />
-		</form>
-
 	</div>
+
 
 	<script type="text/javascript">
 		
