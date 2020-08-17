@@ -1,41 +1,110 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
- <%@include file="../../includes/myPageNav.jsp"%>
+	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://www.springframework.org/security/tags"
+	prefix="sec"%>
+<%@include file="../../includes/header.jsp"%>
+<%@include file="../../includes/myPageNav.jsp"%>
+<style>
+.container {
+	margin-top: 200px;
+	margin-left: 25%;
+	min-height: 100%;
+	position: relative;
+}
 
-<div class="main">
-		<sec:authentication var="principal" property="principal" />
-		<h3>수정 정보 출력</h3>
+.table-container {
+	position: absolute;
+	top: 35px;
+	left: 15%;
+}
+.page-header {
+	font-weight: bold;
+	font-size: 24px;
+	margin-bottom: 50px;
+}
+
+td.tdKey {
+	font-weight: bold;
+	font-size: 18px;
+	padding: 10px 0;
+	vertical-align: middle;
+}
+
+td.tdVal {
+	vertical-align: middle;
+	padding-left: 50px;
+}
+
+tr.trLine {
+	border-bottom: 1px solid #dddddd;
+}
+
+input {
+	border: 1px solid #335492;
+	width: 250px;
+	height: 30px;
+	margin: 10px 0;
+}
+
+button {
+	border-radius: 5px 5px;
+	border: 1px solid #dddddd;
+	font-size: 18px;
+	padding: 0 5px;
+	width: 50px;
+}
+
+button.btn-danger {
+	background-color: Tomato;
+	color: #ffffff;
+}
+
+button.btn-default, nicknameChk {
+	background-color: #335492;
+	color: #ffffff;
+}
+
+button#nicknameChk {
+	width: 150px;
+    margin-left: 15px;
+    vertical-align: middle;
+}
+</style>
+
+
+
+
+<div class="container">
+	<sec:authentication var="principal" property="principal" />
+
+	<div class="table-container">
+		<h1 class="page-header">개인 정보 수정</h1>
 		<form role='form' action="/users/Modify" method="post">
 			<table>
-				<tr>
-					<td>EMAIL</td>
-					<td>
- 						<input type="text" id="email" name="email" value="${principal.username}" readonly="readonly">
-					 </td>
+				<tr class="trLine">
+					<td class="tdKey">이메일</td>
+					<td class="tdVal"><input type="text" id="email" name="email"
+						value="${principal.username}" readonly="readonly"></td>
 				</tr>
-				<tr>
-					<td>NICKNAME</td>
-					<td>
-						<input type="text"  id="nickname" name="nickname" value="${principal.nickname}">
-						<input type="hidden" id="originNickname" value="${principal.nickname}">
-						<input type="hidden" id="originPhone" value="${principal.phoneNumber}">
+				<tr class="trLine">
+					<td class="tdKey">닉네임</td>
+					<td class="tdVal"><input type="text" id="nickname" name="nickname"
+						value="${principal.nickname}"> <input type="hidden"
+						id="originNickname" value="${principal.nickname}"> <input
+						type="hidden" id="originPhone" value="${principal.phoneNumber}">
 						<input type="hidden" id="description" name="description" value="">
-							<button id="nicknameChk">닉네임 중복확인</button>
-					</td>
-				
+						<button id="nicknameChk">닉네임 중복확인</button></td>
+
 				</tr>
-				<tr>
-					<td>PW</td>
-					<td>
-						<input type="password" id="password" name="password" value="">
-					</td>
+				<tr class="trLine">
+					<td class="tdKey">비밀번호</td>
+					<td class="tdVal"><input type="password" id="password" name="password"
+						value=""></td>
 				</tr>
-				<tr>
-					<td>PHONENUMBER</td>
-					<td>
-						<input type="text" id="phoneNumber" name="phoneNumber" value="${principal.phoneNumber}">
-						<!-- <button>실명인증</button> -->
+				<tr class="trLine">
+					<td class="tdKey">핸드폰번호</td>
+					<td class="tdVal"><input type="text" id="phoneNumber" name="phoneNumber"
+						value="${principal.phoneNumber}"> <!-- <button>실명인증</button> -->
 					</td>
 				</tr>
 				<%-- <tr>
@@ -45,20 +114,20 @@
 					</td>
 				</tr> --%>
 				<tr>
-					<td colspan="2">
+					<td colspan="2" align="center" style="padding-top: 25px;">
 						<button type="submit" data-oper='update' class="btn btn-default">수정</button>
-						<button type="submit" data-oper='cancle' class="btn btn-default">취소</button>
+						<button type="submit" data-oper='cancle' class="btn btn-danger">취소</button>
 					</td>
 				</tr>
 			</table>
 		</form>
-		</div>
-		<hr>
-		
-		<a href="/">메인 페이지 이동</a>	<br>
-		
-		
-		<script type="text/javascript">
+	</div>
+</div>
+
+
+
+
+<script type="text/javascript">
 		$(document).ready(function() {
 			var $id = $("#id");
 			var $email = $("#email");

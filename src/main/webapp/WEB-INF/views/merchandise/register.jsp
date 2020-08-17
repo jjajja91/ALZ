@@ -17,80 +17,151 @@
 	crossorigin="anonymous"></script>
 </head>
 <style>
+body {
+	margin-bottom: 50px;
+}
+
+tr.trLine {
+	border-bottom: 1px solid #dddddd;
+}
+
+textarea {
+	margin: 5px 0;
+}
+
 .container {
 	margin-top: 200px;
-	margin-left: 600px;
+	margin-left: 30%;
 	min-height: 100%;
 	position: relative;
+}
+
+.page-header {
+	font-weight: bold;
+	font-size: 24px;
+	margin-bottom: 20px;
+}
+
+td.tdKey {
+	font-weight: bold;
+	font-size: 18px;
+	padding: 10px 0;
+	vertical-align: middle;
+}
+
+td.tdVal {
+	vertical-align: middle;
+	padding-left: 50px;
+}
+
+input, textarea, select {
+	border: 1px solid #335492;
+	width: 450px;
+}
+
+input.radio {
+	width: 30px;
+}
+
+button {
+	border-radius: 5px 5px;
+	border: 1px solid #dddddd;
+	font-size: 18px;
+}
+
+button.btn-danger {
+	background-color: Tomato;
+	color: #ffffff;
+}
+
+button.btn-default {
+	background-color: #335492;
+	color: #ffffff;
 }
 </style>
 
 <body>
 	<div class="container">
 		<h1 class="page-header">상품 등록</h1>
+		<form role="form" action="/merchandise/register" method="post">
+			<table>
+				<tr class="trLine">
+					<td class="tdKey">나의 클래스</td>
+					<td class="tdVal"><select name="lessonList" class="lessonList">
+							<option>클래스를 선택해주세요</option>
+							<c:forEach var="lesson" items="${lessonList}">
+								<option value="${lesson.id}">${lesson.title}</option>
+							</c:forEach>
+					</select></td>
+				</tr>
 
 
-		<select name="lessonList" class="lessonList">
-			<option>클래스를 선택해주세요</option>
-			<c:forEach var="lesson" items="${lessonList}">
-				<option value="${lesson.id}">${lesson.title}</option>
-			</c:forEach>
-		</select>
+				<tr class="trLine">
+					<td class="tdKey">상품 유형
+					<td class="tdVal"><input type="radio" name="codeType" class="radio"
+						value="클래스" checked="checked"> 클래스 <input type="radio" class="radio"
+						name="codeType" value="준비물"> 준비물</td>
+				</tr>
+				<tr class="trLine">
+					<td class="tdKey">상품명</td>
+					<td class="tdVal"><input class="form-control" name='name'
+						readonly></td>
+				</tr>
+				<tr class="trLine">
+					<td class="tdKey">상품 설명</td>
+					<td class="tdVal"><textarea class="form-control" rows="5" cols="60"
+							name='description'></textarea></td>
+				</tr>
 
-	<form role="form" action="/merchandise/register" method="post">
-		<div class="form-group">
-			<label>상품 유형</label> <label><input type="radio"
-				name="codeType" value="클래스" checked="checked"> 클래스</label> <label><input
-				type="radio" name="codeType" value="준비물"> 준비물</label>
-		</div>
+				<tr class="trLine">
+					<td class="tdKey">마감일</td>
+					<td class="tdVal"><input type="datetime-local" name='closedAt' /></td>
+				</tr>
 
-		<div class="form-group">
-			<label>상품명</label> <input class="form-control" name='name' readonly>
-		</div>
+				<tr class="trLine">
+					<td class="tdKey">상품 금액</td>
+					<td class="tdVal"><input class="form-control"
+						name='originPrice'></td>
+				</tr>
 
-		<div class="form-group">
-			<label>상품 설명</label>
-			<textarea class="form-control" rows="3" name='description'></textarea>
-		</div>
+				<tr class="trLine">
+					<td class="tdKey">할인 후 금액</td>
+					<td class="tdVal"><input class="form-control" name='salePrice'></td>
+				</tr>
 
-		<div class="form-group">
-			<label>마감일</label> <input type="datetime-local" name='closedAt' />
-		</div>
+				<tr class="trLine">
+					<td class="tdKey">할인률</td>
+					<td class="tdVal"><input class="form-control"
+						name='discountRate'></td>
+				</tr>
 
-		<div class="form-group">
-			<label>상품 금액</label> <input class="form-control" name='originPrice'>
-		</div>
+				<tr class="trLine">
+					<td class="tdKey">할인 마감일</td>
+					<td class="tdVal"><input type="datetime-local"
+						name='discountDeadline' /></td>
+				</tr>
 
-		<div class="form-group">
-			<label>할인 후 금액</label> <input class="form-control" name='salePrice'>
-		</div>
+				<tr class="trLine">
+					<td class="tdKey">진열 상태</td>
+					<td class="tdVal"><input type="radio" name="displayState" class="radio"
+						value="1" checked="checked"> 진열 <input type="radio" class="radio"
+						name="displayState" value="0"> 미진열</td>
+				</tr>
+				<tr>
+					<td colspan="2" align="center" style="padding-top: 25px;">
+						<button type="submit" class="btn btn-default">등록</button>
+						<button type="reset" class="btn btn-danger">취소</button>
+						<button type="button" class="btn list">목록</button>
+					</td>
+				</tr>
 
-		<div class="form-group">
-			<label>할인률</label> <input class="form-control" name='discountRate'>
-		</div>
+			</table>
 
-		<div class="form-group">
-			<label>할인 마감일</label> <input type="datetime-local"
-				name='discountDeadline' />
-		</div>
-
-		<div class="form-group">
-			<label>진열 상태</label> <label><input type="radio"
-				name="displayState" value="1" checked="checked"> 진열</label> <label><input
-				type="radio" name="displayState" value="0"> 미진열</label>
-		</div>
-
-		<div class="form-group">
 			<input class="form-control" type='hidden' name='refId' readonly>
-			<input class="form-control" name='userId' type='hidden'
+			<input class="form-control" type='hidden' name='userId'
 				value="<sec:authentication property="principal.id"/>" readonly>
-		</div>
-
-		<button type="submit" class="btn btn-info">등록</button>
-		<button type="reset" class="btn btn-danger">취소</button>
-	</form>
-
-</div>
+		</form>
+	</div>
 
 	<script>
 
@@ -178,6 +249,10 @@ $(document).ready(function(e){
 		var nameText = $(":selected") .text();
 		$refId.val(value);
 		$name.val(nameText);
+	});
+	
+	$(".list").click(function() {
+		location.href = "/merchandise/list";
 	});
 
 });
