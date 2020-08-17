@@ -4,8 +4,6 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import alz.board.domain.BoardCriteria;
-import alz.board.domain.BoardDTO;
 import alz.lesson.domain.CategoryDTO;
 import alz.lesson.domain.CurriculumDetailDTO;
 import alz.lesson.domain.CurriculumSubjectDTO;
@@ -14,6 +12,7 @@ import alz.lesson.domain.LessonDTO;
 import alz.lesson.domain.LessonDetailDTO;
 import alz.lesson.domain.LessonScheduleDTO;
 import alz.lesson.domain.QuickReviewDTO;
+import alz.lesson.domain.ReviewDTO;
 import alz.lesson.domain.ScheduleDTO;
 import alz.lesson.domain.TeacherDTO;
 import alz.lesson.domain.TimeTableDTO;
@@ -40,6 +39,8 @@ public interface LessonMapper {
 	TeacherDTO findTeacherByLessonId(Long id); // 강사
 	List<QuickReviewDTO> findQuickReviewByLessonId(Long id);  // 한줄평
 	ScheduleDTO findLessonSchedule(Long lessonId); // 스케줄 불러오기(등록용)
+	List<ReviewDTO> findReview(); // 보드리뷰
+	List<ReviewDTO> findQuickReview(); // 한줄평
 
 	List<LessonDTO> findAll();
 	// 카테고리별 페이징한 게시글 불러오기
