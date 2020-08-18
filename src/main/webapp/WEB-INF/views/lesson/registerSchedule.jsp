@@ -130,11 +130,11 @@
 }
 
 .dateInput, .lessonDate {
-	width: 130px;
+	width: 140px;
 }
 
 .startAt, .endAt {
-	width: 100px;
+	width: 120px;
 }
 
 input[type="button"] {

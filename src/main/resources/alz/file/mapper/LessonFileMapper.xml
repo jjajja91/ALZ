@@ -6,8 +6,8 @@
 <mapper namespace="alz.file.mapper.LessonFileMapper">
 
 <insert id="insert">
-	INSERT INTO alz_lesson_img (id uuid, lesson_id lessonId, image fileName, description fileType, path uploadPath)
-	VALUES (#{uuid}, #{lessonId}, #{fileName}, #{fileType}, #{uploadPath})
+	insert into alz_lesson_img (id, lesson_id, image, description, path)
+	values (#{uuid}, #{lessonId}, #{fileName}, #{fileType}, #{uploadPath})
 </insert>
 
 <delete id="delete">

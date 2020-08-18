@@ -226,6 +226,7 @@ input[type="button"] {
 	$(document).ready(function(){
 		var formObj = $("form[role='form']");
 		var $summernote = $('#summernote');
+		var $lessonId = $("input[name=lessonId]");
 		
 		// 서머노트 커스터마이징
 		$summernote.summernote({
@@ -272,30 +273,73 @@ input[type="button"] {
 			sendFile(files);
 		});
 		
-	});
-	
-	// 다음 클릭시 지우고 저장
-	$("button[type=submit]").click(function(e){
+		// 다음 클릭시 지우고 저장
+		$("button[type=submit]").click(function(e){
 
-		var $lessonId = $("input[name=lessonId]");
-		var $originalId = $("input[name=originalId]");
-		var $inputlocation = $("#location");
-		
-		var name = $(this).attr("name");
+			var $originalId = $("input[name=originalId]");
+			var $inputlocation = $("#location");
+			
+			var name = $(this).attr("name");
 
-		var fileList = [];
-		
-		if (name === 'prev') {
+			var fileList = [];
+			var data = {};
 			
-			emptySummernote();
-			createFileList();
+			//서머노트 디폴트값이면 비우기
+			$('.summernote').each(function(){
+				var summernote = $(this);
+				$('form').on('submit',function(){
+					if (summernote.summernote('isEmpty')) {
+						summernote.val('');
+					} else if(summernote.val()=='<p><br></p>'){
+						summernote.val('');
+					}
+				});
+			});
 			
-			var data = {
-				lessonId : $lessonId.val(),
-				fileList: fileList
-			};
+			// 파일 적용
+			$(".uploadResult ul li").each(function(i, obj){
+				var jobj = $(obj);
+				console.dir(jobj);
+				var file = {
+						fileName: jobj.data("filename"),
+						uuid: jobj.data("uuid"),
+						uploadPath: jobj.data("path"),
+						fileType: jobj.data("type")
+				};
+				fileList[i] = file;
+			});
 			
-			lessonWriteApi(data)
+			if (name === 'prev') {
+				
+				
+				data = {
+						lessonId : $lessonId.val(),
+						fileList: fileList
+					};
+				
+				lessonWriteApi(data)
+					.then(function(response){
+						console.log(response);
+					})
+					.catch (function(error){
+						var errorMessage = error.responseJSON.defaultMessage;
+						console.log(error.responseJSON);
+						alert(errorMessage);
+						var errorFocus = error.responseJSON.field;
+						inputData[errorFocus].focus();
+					});
+				
+				$inputlocation.val("prev");
+				formObj.submit();
+				
+			} else {
+				
+				data = {
+						lessonId : $lessonId.val(),
+						fileList: fileList
+					};
+				
+				lessonWriteApi(data)
 				.then(function(response){
 					console.log(response);
 				})
@@ -306,156 +350,152 @@ input[type="button"] {
 					var errorFocus = error.responseJSON.field;
 					inputData[errorFocus].focus();
 				});
+				
+				$inputlocation.val("next");
+				formObj.submit();
+			}
 			
-			$inputlocation.val("prev");
-			formObj.submit();
-			
-		} else {
-			
-			emptySummernote();
-			createFileList();
-			
-			$inputlocation.val("next");
-			formObj.submit();
+		});
+		
+		
+		// 파일 제출(저장)
+	    function sendFile(files){
+			var formData = new FormData();
+			for(var i=0; i<files.length; i++){
+				if(!checkExtension(files[i].name, files[i].size)){
+					return false;
+				}
+				formData.append("uploadFile", files[i]);
+			}
+			$.ajax({
+				url: '/file/uploadAjaxAction',
+				processData: false,
+				contentType: false,
+				data: formData,
+				type: 'POST',
+				dataType: 'json',
+				success: function(result){
+					console.log(result);
+					showUploadResult(result);
+				}
+			});
+	    }
+		
+		//글쓰는 ajax
+		function lessonWriteApi(data) {
+			return $.ajax({
+				url: "/lessons",
+				type: "POST",
+				data: JSON.stringify(data),
+				contentType: "application/json",
+			});
 		}
 		
-	});
-	
-	// 파일 제출(저장)
-    function sendFile(files){
-		var formData = new FormData();
-		for(var i=0; i<files.length; i++){
-			if(!checkExtension(files[i].name, files[i].size)){
+		var regex = new RegExp("(.*?)\.(exe|sh|zip|alz)$");
+		var maxSize = 5242880;
+		
+		function checkExtension(fileName, fileSize) {
+			if(fileSize >= maxSize){
+				alert("파일 사이즈 초과");
 				return false;
 			}
-			formData.append("uploadFile", files[i]);
-		}
-		$.ajax({
-			url: '/file/uploadAjaxAction',
-			processData: false,
-			contentType: false,
-			data: formData,
-			type: 'POST',
-			dataType: 'json',
-			success: function(result){
-				console.log(result);
-				showUploadResult(result);
+			
+			if(regex.test(fileName)){
+				alert("해당 종류의 파일은 업로드할 수 없습니다.");
+				return false;
 			}
+			return true;
+		}
+		
+		// 파일 올린 결과 출력
+		function showUploadResult(uploadResultArr) {
+			if(!uploadResultArr||uploadResultArr.length==0){return;}
+			var uploadUL = $(".uploadResult ul");
+			var str = "";
+			var imgstr = "";
+			
+			$(uploadResultArr).each(function(i, obj){
+				if(obj.image){
+					var fileCallPath = encodeURIComponent(obj.uploadPath+"/s_"+obj.uuid+"_"+obj.fileName);
+					var imagePath = encodeURIComponent(obj.uploadPath+"/"+obj.uuid+"_"+obj.fileName);
+					str += "<li data-path='"+obj.uploadPath+"'";
+					str += " data-uuid='"+obj.uuid+"' data-filename='"+obj.fileName+"' data-type='"+obj.image+"'><div>";
+					str += "<span> " + obj.fileName+"</span>";
+					str += "<button type='button' data-file=\'"+fileCallPath+"\' data-type='image' class='btn btn-warning btn-circle'><i class='fa fa-times'></i></button><br>";
+					imgstr += "<pr><img style='width:100%; 'src='/file/display?fileName="+imagePath+"'></pr>";
+					str += "<img src='/file/display?fileName="+fileCallPath+"'>";
+					str += "</div></li>";
+				} else {
+					var fileCallPath = encodeURIComponent(obj.uploadPath+"/"+obj.uuid+"_"+obj.fileName);
+					var fileLink = fileCallPath.replace(new RegExp(/\\/g), "/");
+					
+					str += "<li data-path='"+obj.uploadPath+"'";
+					str += " data-uuid='"+obj.uuid+"' data-filename='"+obj.fileName+"' data-type='"+obj.image+"'><div>";
+					str += "<span> " + obj.fileName+"</span>";
+					str += "<button type='button' data-file=\'"+fileCallPath+"\' data-type='file' class='btn btn-warning btn-circle'><i class='fa fa-times'></i></button><br>";
+					str += "<img src='/resources/img/attach.png'>";
+					str += "</div></li>";
+					
+				}
+			});
+			uploadUL.append(str);
+			$(".card-block").append(imgstr);
+			$summernote.summernote("insertParagraph");
+		}
+
+		// 파일 리스트 불러오는 함수
+  		(function() {
+		$.getJSON("/lessons/getFileList",{lessonId : $lessonId.val()}, function(arr){
+			var str = "";
+			$(arr).each(function(i, file){
+				if(file.fileType){
+					var fileCallPath = encodeURIComponent(file.uploadPath+"/s_"+file.uuid+"_"+file.fileName);
+					str += "<li data-path='"+file.uploadPath+"'";
+					str += " data-uuid='"+file.uuid+"' data-filename='"+file.fileName+"' data-type='"+file.fileType+"'><div>";
+					str += "<span> " + file.fileName+"</span>";
+					str += "<button type='button' data-file=\'"+fileCallPath+"\' data-type='image' class='btn btn-warning btn-circle'><i class='fa fa-times'></i></button><br>";
+					str += "<img src='/file/display?fileName="+fileCallPath+"'>";
+					str += "</div></li>";
+				} else {
+					var fileCallPath = encodeURIComponent(file.uploadPath+"/"+file.uuid+"_"+file.fileName);
+					var fileLink = fileCallPath.replace(new RegExp(/\\/g), "/");
+													
+					str += "<li data-path='"+file.uploadPath+"'";
+					str += " data-uuid='"+file.uuid+"' data-filename='"+file.fileName+"' data-type='"+file.fileType+"'><div>";
+					str += "<span> " + file.fileName+"</span>";
+					str += "<button type='button' data-file=\'"+fileCallPath+"\' data-type='file' class='btn btn-warning btn-circle'><i class='fa fa-times'></i></button><br>";
+					str += "<img src='/resources/img/attach.png'>";
+					str += "</div></li>";									
+				}
+			});
+			$(".uploadResult ul").html(str);
 		});
-    }
-	
-	//글쓰는 ajax
-	function lessonWriteApi(data) {
-		return $.ajax({
-			url: "/lessons",
-			type: "POST",
-			data: JSON.stringify(data),
-			contentType: "application/json",
-		});
-	}
-	
-	function emptySummernote() {
-		//서머노트 디폴트값이면 비우기
-		$('.summernote').each(function(){
-			var summernote = $(this);
-			$('form').on('submit',function(){
-				if (summernote.summernote('isEmpty')) {
-					summernote.val('');
-				} else if(summernote.val()=='<p><br></p>'){
-					summernote.val('');
+		})();
+	       
+		// 파일 삭제 
+		$(".uploadResult").on("click", "button", function(e){
+			console.log("delete file");
+			
+			var targetFile = $(this).data("file");
+			var type = $(this).data("type");
+			var targetLi = $(this).closest("li");
+			
+			$.ajax({
+				url: '/file/deleteFile',
+				data: {fileName: targetFile, type:type},
+				dataType: 'text',
+				type: 'POST',
+				success: function(result){
+					alert(result);
+					targetLi.remove();
 				}
 			});
 		});
-	}
-	
-	function createFileList() {
-		// 파일 적용
-		$(".uploadResult ul li").each(function(i, obj){
-			var jobj = $(obj);
-			console.dir(jobj);
-			var file = {
-					fileName: jobj.data("filename"),
-					uuid: jobj.data("uuid"),
-					uploadPath: jobj.data("path"),
-					fileType: jobj.data("type")
-			};
-			fileList[i] = file;
-		});
-	}
-    
-	var regex = new RegExp("(.*?)\.(exe|sh|zip|alz)$");
-	var maxSize = 5242880;
-	
-	function checkExtension(fileName, fileSize) {
-		if(fileSize >= maxSize){
-			alert("파일 사이즈 초과");
-			return false;
-		}
 		
-		if(regex.test(fileName)){
-			alert("해당 종류의 파일은 업로드할 수 없습니다.");
-			return false;
-		}
-		return true;
-	}
-	
-	// 파일 올린 결과 출력
-	function showUploadResult(uploadResultArr) {
-		if(!uploadResultArr||uploadResultArr.length==0){return;}
-		var uploadUL = $(".uploadResult ul");
-		var str = "";
-		var imgstr = "";
-		
-		$(uploadResultArr).each(function(i, obj){
-			if(obj.image){
-				var fileCallPath = encodeURIComponent(obj.uploadPath+"/s_"+obj.uuid+"_"+obj.fileName);
-				var imagePath = encodeURIComponent(obj.uploadPath+"/"+obj.uuid+"_"+obj.fileName);
-				str += "<li data-path='"+obj.uploadPath+"'";
-				str += " data-uuid='"+obj.uuid+"' data-filename='"+obj.fileName+"' data-type='"+obj.image+"'><div>";
-				str += "<span> " + obj.fileName+"</span>";
-				str += "<button type='button' data-file=\'"+fileCallPath+"\' data-type='image' class='btn btn-warning btn-circle'><i class='fa fa-times'></i></button><br>";
-				imgstr += "<pr><img style='width:100%; 'src='/file/display?fileName="+imagePath+"'></pr>";
-				str += "<img src='/file/display?fileName="+fileCallPath+"'>";
-				str += "</div></li>";
-			} else {
-				var fileCallPath = encodeURIComponent(obj.uploadPath+"/"+obj.uuid+"_"+obj.fileName);
-				var fileLink = fileCallPath.replace(new RegExp(/\\/g), "/");
-				
-				str += "<li data-path='"+obj.uploadPath+"'";
-				str += " data-uuid='"+obj.uuid+"' data-filename='"+obj.fileName+"' data-type='"+obj.image+"'><div>";
-				str += "<span> " + obj.fileName+"</span>";
-				str += "<button type='button' data-file=\'"+fileCallPath+"\' data-type='file' class='btn btn-warning btn-circle'><i class='fa fa-times'></i></button><br>";
-				str += "<img src='/resources/img/attach.png'>";
-				str += "</div></li>";
-				
-			}
-		});
-		uploadUL.append(str);
-		$(".card-block").append(imgstr);
-		$summernote.summernote("insertParagraph");
-	}
-
-	
-       
-	// 파일 삭제 
-	$(".uploadResult").on("click", "button", function(e){
-		console.log("delete file");
-		
-		var targetFile = $(this).data("file");
-		var type = $(this).data("type");
-		var targetLi = $(this).closest("li");
-		
-		$.ajax({
-			url: '/file/deleteFile',
-			data: {fileName: targetFile, type:type},
-			dataType: 'text',
-			type: 'POST',
-			success: function(result){
-				alert(result);
-				targetLi.remove();
-			}
-		});
 	});
+	
+	
+	
 	
 </script>
 </body>
