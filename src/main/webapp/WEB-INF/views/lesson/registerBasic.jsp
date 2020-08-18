@@ -66,10 +66,10 @@
 }
 
 .lessonForm button[name="prev"] {
-    right: 57%;
+    right: 21%;
 }
 .lessonForm button[name="next"] {
-    right: 51%;
+    right: 15%;
 }
 
 .form-control {

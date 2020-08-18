@@ -20,6 +20,7 @@ public interface LessonService {
 	int createLesson(LessonDTO lesson);
 	int createSchedule(ScheduleDTO schedule);
 	int createLessonDetail(LessonDetailDTO detail);
+	void createLessonDetailFile(LessonDetailDTO detail);
 	int createCurriculum(List<CurriculumSubjectDTO> curriculumList);
 	int createQuickReview(QuickReviewDTO quickReview);
 

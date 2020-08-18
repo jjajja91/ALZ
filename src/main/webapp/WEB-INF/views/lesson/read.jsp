@@ -11,36 +11,38 @@
 <style>
 .container {
 	margin-top: 200px;
-	margin-left: 350px;
+	margin-left: 100px;
 	display: inline-block;
 }
 
 .lessonSideDiv {
 	display: inline-block;
 }
+
+.lessonImg {
+	width: 700px;
+}
 </style>
 <body>
 	<div class="container">
-		<h1 class="page-header">클래스 상세보기</h1>
-
-
 		<div class="lesson-container">
-
 			<div class="lesson-main">
 				<div class="lessonDetailImgDiv">
 					<c:if test="${empty lesson.thumbnail}">
 						<img class="lessonImg" src="../../../resources/img/javaclass.jpg">
 					</c:if>
 					<c:if test="${!empty lesson.thumbnail}">
-						<img class="lessonImg"
-							src="/resources/img/lesson/thumb/${lesson.teacherId}${lesson.openAt}/${lesson.thumbnail}">
+						<img class="lessonImg" src="/resources/img/lesson/thumb/${lesson.teacherId}${lesson.openAt}/${lesson.thumbnail}">
 					</c:if>
 				</div>
 				<div class="lesson-detail">
 					<div class="lesson-detail-nav">
-						<a href="#detailDiv">클래스소개</a> <a href="#scheduleDiv">시간표</a> <a
-							href="#curriculumDiv">커리큘럼</a> <a href="#teacherDiv">강사소개</a> <a
-							href="#shortReview">후기</a> <a href="#refundTerm">환불정책</a>
+						<a href="#detailDiv">클래스소개</a> 
+						<a href="#scheduleDiv">시간표</a> 
+						<a href="#curriculumDiv">커리큘럼</a> 
+						<a href="#teacherDiv">강사소개</a> 
+						<a href="#shortReview">후기</a> 
+						<a href="#refundTerm">환불정책</a>
 					</div>
 
 					<div class="detailDiv" id="detailDiv">
@@ -48,33 +50,20 @@
 						<h3>
 							<strong>이런 걸 배울 거예요</strong>
 						</h3>
-						<ul>
-							<li><span> <img class="lessonImg"
-									src="../../../resources/img/classtmpimg.jpg">
-									<p>for문으로 별찍기</p>
-							</span></li>
-							<li><span> <img class="lessonImg"
-									src="../../../resources/img/classtmpimg.jpg">
-									<p>for문으로 별찍기</p>
-							</span></li>
-							<li><span> <img class="lessonImg"
-									src="../../../resources/img/classtmpimg.jpg">
-									<p>for문으로 별찍기</p>
-							</span></li>
-						</ul>
+						<pre class="pre">
+							<c:out value="${detail.detail}" />
+						</pre>
 
 						<br> <br>
 						<h3>
-							<strong><c:out value="${lesson.levelName}" /> <c:if
-									test="${lesson.levelName != '누구나'}">자들</c:if></strong>을 위한 <br>
-							<c:out value="${lesson.categoryName}" />
-							클래스입니다.
+							<strong>
+								<c:out value="${lesson.levelName}" /> 
+								<c:if test="${lesson.levelName != '누구나'}">자들</c:if>
+							</strong>을 위한 <br> <c:out value="${lesson.categoryName}" /> 클래스입니다.
 						</h3>
 
 						<br> <br>
-						<pre class="pre">
-					<c:out value="${lesson.detail}"></c:out>
-				</pre>
+						
 					</div>
 
 					<div class="scheduleDiv" id="scheduleDiv">

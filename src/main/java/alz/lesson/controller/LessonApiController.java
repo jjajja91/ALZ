@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import alz.lesson.domain.CategoryDTO;
 import alz.lesson.domain.CurriculumSubjectDTO;
 import alz.lesson.domain.LessonDTO;
+import alz.lesson.domain.LessonDetailDTO;
 import alz.lesson.domain.QuickReviewDTO;
 import alz.lesson.domain.ScheduleDTO;
 import alz.lesson.service.LessonServiceImpl;
@@ -44,9 +45,9 @@ public class LessonApiController {
 	}
    
 	@PostMapping
-	public ResponseEntity<?> create(@RequestBody LessonDTO classes){
-//		LessonDTO openedClass = lessonService.create(classes);
-		return ResponseEntity.status(HttpStatus.CREATED).body("");
+	public ResponseEntity<?> create(@RequestBody LessonDetailDTO detail){
+		lessonService.createLessonDetailFile(detail);
+		return ResponseEntity.status(HttpStatus.CREATED).body(detail);
 	}
 	
 	// 자동완성 클래스 선택

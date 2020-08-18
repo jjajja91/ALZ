@@ -67,10 +67,10 @@
 }
 
 .lessonForm button[name="prev"] {
-    right: 57%;
+    right: 21%;
 }
 .lessonForm button[name="next"] {
-    right: 51%;
+    right: 15%;
 }
 
 .form-control {
@@ -227,73 +227,70 @@ input[type="button"] {
 		});
 
 		// 다음 클릭시 지우고 저장
-		$("button[type=submit]")
-				.click(
-						function(e) {
+		$("button[type=submit]") .click( function(e) {
 
-							var name = $(this).attr("name");
+			var name = $(this).attr("name");
 
-							$openAt = $("#openAt");
-							$closeAt = $("#closeAt");
-							$lessonDate = $(".lessonDate");
-							$startAt = $(".startAt");
-							$endAt = $(".endAt");
+			$openAt = $("#openAt");
+			$closeAt = $("#closeAt");
+			$lessonDate = $(".lessonDate");
+			$startAt = $(".startAt");
+			$endAt = $(".endAt");
 
-							if (name === 'prev') {
+			if (name === 'prev') {
 
-								e.preventDefault();
+				e.preventDefault();
 
-								if ($originalId.val() != "") {
-									self.location = "/lesson/registerBasic?lessonId="
-											+ $lessonId.val()
-											+ "&originalId="
-											+ $originalId.val();
-								} else {
-									self.location = "/lesson/registerBasic?lessonId="
-											+ $lessonId.val();
-								}
+				if ($originalId.val() != "") {
+					self.location = "/lesson/registerBasic?lessonId="
+							+ $lessonId.val()
+							+ "&originalId="
+							+ $originalId.val();
+				} else {
+					self.location = "/lesson/registerBasic?lessonId="
+							+ $lessonId.val();
+				}
 
-							} else {
+			} else {
 
-								let timeTable = [];
-								for (let i = 0; i < $startAt.length; i++) {
-									let timeTablevalues = {
-										timeTableId : $lessonId.val(),
-										lessonDate : $lessonDate[i].value,
-										startAt : $startAt[i].value,
-										endAt : $endAt[i].value
-									};
-									timeTable.push(timeTablevalues);
-								}
+				let timeTable = [];
+				for (let i = 0; i < $startAt.length; i++) {
+					let timeTablevalues = {
+						timeTableId : $lessonId.val(),
+						lessonDate : $lessonDate[i].value,
+						startAt : $startAt[i].value,
+						endAt : $endAt[i].value
+					};
+					timeTable.push(timeTablevalues);
+				}
 
-								let timeList = {};
-								timeList["lessonId"] = $lessonId.val();
-								timeList["openAt"] = $openAt.val();
-								timeList["closeAt"] = $closeAt.val();
-								timeList["timeTable"] = timeTable;
+				let timeList = {};
+				timeList["lessonId"] = $lessonId.val();
+				timeList["openAt"] = $openAt.val();
+				timeList["closeAt"] = $closeAt.val();
+				timeList["timeTable"] = timeTable;
 
-								$
-										.ajax({
-											type : 'POST',
-											url : '/lessons/schedule',
-											data : JSON.stringify(timeList),
-											contentType : "application/json; charset=utf-8",
-											success : function(data) {
-												console.log("SUCESS: ", data);
-												if ($originalId.val() != null) {
-													self.location = "/lesson/registerDetail?lessonId="
-															+ $lessonId.val()
-															+ "&originalId="
-															+ $originalId.val();
-												} else {
-													self.location = "/lesson/registerDetail?lessonId="
-															+ $lessonId.val();
-												}
-											}
-										});
-							}
+				$.ajax({
+					type : 'POST',
+					url : '/lessons/schedule',
+					data : JSON.stringify(timeList),
+					contentType : "application/json; charset=utf-8",
+					success : function(data) {
+						console.log("SUCESS: ", data);
+						if ($originalId.val() != null) {
+							self.location = "/lesson/registerDetail?lessonId="
+									+ $lessonId.val()
+									+ "&originalId="
+									+ $originalId.val();
+						} else {
+							self.location = "/lesson/registerDetail?lessonId="
+									+ $lessonId.val();
+						}
+					}
+				});
+			}
 
-						});
+		});
 
 		// 추가 버튼 클릭시 한칸씩 생기는 이벤트
 		$(document).on("click", "input[name='addLesson']", function(e) {

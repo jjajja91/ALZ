@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import alz.file.mapper.LessonFileMapper;
 import alz.lesson.domain.CategoryDTO;
 import alz.lesson.domain.CurriculumDetailDTO;
 import alz.lesson.domain.CurriculumSubjectDTO;
@@ -25,11 +26,14 @@ public class LessonServiceImpl implements LessonService {
 
 	private LessonMapper lessonMapper;
 	private UserMapper userMapper;
+	private LessonFileMapper lessonFileMapper;
 	
 	@Autowired
-	public LessonServiceImpl(LessonMapper lessonMapper, UserMapper userMapper) {
+	public LessonServiceImpl(LessonMapper lessonMapper, UserMapper userMapper, LessonFileMapper lessonFileMapper) {
 		this.lessonMapper = lessonMapper;
 		this.userMapper = userMapper;
+		this.lessonFileMapper = lessonFileMapper;
+		
 	}
 	
 	// 강사등록
@@ -79,10 +83,30 @@ public class LessonServiceImpl implements LessonService {
 		if(detail.getId()!=null) {
 			lessonMapper.deleteLessonDetail(detail.getId());
 		}
+		
 		// 만들어진 클래스 id 보내줌
 		int affectedRowCount = lessonMapper.insertLessonDetail(detail);
 		int detailId = detail.getId().intValue();
 		return detailId;
+	}
+	
+	// 클래스 세부 이미지파일 등록
+	public void createLessonDetailFile(LessonDetailDTO detail) {
+		
+		// 원래 있던 세부설명 삭제하고 새로만듬
+		if(detail.getId()!=null) {
+			// 파일삭제 추가해야됨
+			lessonFileMapper.delete(detail.getLessonId());
+		}
+		
+		if (detail.getFileList() == null || detail.getFileList().size() <= 0) {
+			return;
+		}
+		
+		detail.getFileList().forEach(file -> {
+			file.setLessonId(detail.getLessonId());
+			lessonFileMapper.insert(file);
+		});
 	}
 	
 	// 클래스 커리큘럼 등록

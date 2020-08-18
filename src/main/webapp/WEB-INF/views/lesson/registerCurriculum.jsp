@@ -197,14 +197,14 @@ input[name="addSubject"] {
 }
 
 .lessonForm button[name="prev"] {
-    right: 63%;
+    right: 27%;
 }
 .lessonForm button[name="save"] {
-    right: 57%;
+    right: 21%;
     background: lightgrey;
 }
 .lessonForm button[name="submit"] {
-    right: 51%;
+    right: 15%;
     background: midnightblue;
 }
 </style>
