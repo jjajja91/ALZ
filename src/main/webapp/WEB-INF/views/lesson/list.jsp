@@ -12,7 +12,17 @@
 .container {
 	position: absolute;
 	margin-top: 200px;
-	margin-left: 600px;
+	margin-left: 10%;
+	width:100%;
+}
+
+.lessonHeaderTitle {
+	color: #335492;
+    font-size: 25px;
+    font-weight: 500;
+    padding: 20px;
+    border-bottom: solid;
+    width: 75%;
 }
 .lessonImg {
 width : 150px;
@@ -22,7 +32,9 @@ height : 120px;
 <body>
 
 <div class="container">     
-	<h1 class="page-header">클래스 목록</h1>
+	<c:forEach items="${list}" var="lesson" begin="1" end="1" step="1">
+		<div class="lessonHeaderTitle"><c:out value="${lesson.categoryName}" /></div>
+	</c:forEach>
 	<div class="lessonSortDiv">
 		<select name="sort" id="lessonListSort">
 		    <option value="newest">최신순</option>

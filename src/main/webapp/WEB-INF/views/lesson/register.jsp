@@ -57,7 +57,7 @@
 
 .lessonForm button {
     position: absolute;
-    right: 55%;
+    right: 15%;
     background: #335492;
     color: white;
     height: 35px;
@@ -116,7 +116,7 @@
 				<label>활동적인 SNS 채널</label>
 				<br> 
 				<select class="form-control" name="snsType" id="snsType">
-					<option value="Instagram" <c:if test="${teacher.snsType eq 'instagram'}"> selected="selected" </c:if>>Instagram</option>
+					<option value="Instagram" <c:if test="${teacher.snsType eq 'Instagram'}"> selected="selected" </c:if>>Instagram</option>
 					<option value="Youtube" <c:if test="${teacher.snsType eq 'Youtube'}"> selected="selected" </c:if>>Youtube</option>
 					<option value="Facebook" <c:if test="${teacher.snsType eq 'Facebook'}"> selected="selected" </c:if>>Facebook</option>
 				</select> 

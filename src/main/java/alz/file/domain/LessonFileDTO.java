@@ -1,8 +1,5 @@
-package alz.lesson.domain;
+package alz.file.domain;
 
-import java.util.List;
-
-import alz.file.domain.LessonFileDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -13,20 +10,17 @@ import lombok.experimental.Accessors;
 
 @Getter
 @Setter
-@Builder
 @Accessors(chain=true)
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class LessonDetailDTO {
+@Builder
+public class LessonFileDTO {
 	
-	private Long originalId;
-	private Long id;
+	private String uuid;
+	private String uploadPath;
+	private String fileName;
+	private boolean fileType;
 	private Long lessonId;
-	private String Detail;
-	
-	private String location;
-	
-	private List<LessonFileDTO> fileList;
 
 }
