@@ -4,153 +4,193 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 
 <%@include file="../includes/header.jsp"%>
+<!DOCTYPE html>
+<html lang="ko">
+
 <head>
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./resources/css/reset.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Open+Sans:wght@300;400;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        body * {
+            font-family: 'Open Sans', 'Noto Sans KR', sans-serif;
+        }
+        
+        .lessonHeaderTitle {
+			color: #335492;
+    		font-size: 25px;
+    		font-weight: 500;
+    		padding: 20px;
+    		border-bottom: solid;
+    		width: 75%;
+		}
+
+        #lessonList {
+            width: 1000px;
+            margin: 0 auto;
+        }
+
+        h2 {
+            font-size: 30px;
+            font-weight: 500;
+        }
+
+        .main_wrap section {
+            padding: 80px 0 0;
+        }
+
+        .main_wrap section:last-child {
+            padding-bottom: 80px;
+        }
+
+        .main_wrap section ul {
+            display: flex;
+            flex-flow: row wrap;
+            margin-top: 30px;
+        }
+
+        .main_wrap section ul li {
+            width: 200px;
+            margin-right: 25px;
+            margin-bottom: 20px;
+        }
+
+        .main_wrap section ul li:last-child {
+            margin-right: 0;
+        }
+
+        .main_wrap section ul li .img {
+            height: 160px;
+            width: 200px;
+            margin-bottom: 10px;
+        }
+        
+        .main_wrap section ul li .img img {
+            height: 160px;
+            width: 200px;
+        }
+
+        .main_wrap section ul li h3 {
+            font-size: 18px;
+            text-align: left;
+            margin-top: 10px;
+        }
+
+        .main_wrap section ul li a {
+            text-decoration: none;
+            color: black;
+        }
+
+        .main_wrap section ul li span {
+            border: none;
+            padding: 2px 10px;
+            background-color: #335492;
+            color: #f4f4f4;
+            margin-right: 5px;
+            font-size: 12px;
+        }
+
+        h6 {
+            display: inline;
+        }
+
+        .likeInfo {
+            text-align: right;
+            font-size: 20px;
+        }
+
+        .likeInfo a {
+            margin-left: 10px;
+        }
+
+        h3 {
+            margin-bottom: 10px;
+        }
+
+        h4 {
+            text-decoration: line-through;
+            display: inline;
+        }
+
+        h5 {
+            display: inline;
+            color: red;
+        }
+
+        h1 {
+            margin-top: 10px;
+            font-size: 25px;
+            font-weight: bold;
+        }
+        
+        .price {
+            text-align: right;
+        }
+    </style>
 </head>
-<style>
-.container {
-	position: absolute;
-	margin-top: 200px;
-	margin-left: 10%;
-	width:100%;
-}
 
-.lessonHeaderTitle {
-	color: #335492;
-    font-size: 25px;
-    font-weight: 500;
-    padding: 20px;
-    border-bottom: solid;
-    width: 75%;
-}
-.lessonImg {
-width : 150px;
-height : 120px;
-}
-</style>
 <body>
+    <div id="lessonList">
+        <div class="main_wrap">    
+			<c:forEach items="${list}" var="lesson" begin="1" end="1" step="1">
+			<div class="lessonHeaderTitle"><c:out value="${lesson.categoryName}" /></div>
+			</c:forEach>
+				<div class="lessonSortDiv">
+					<select name="sort" id="lessonListSort">
+		    		<option value="newest">최신순</option>
+		    		<option value="rate">평점순</option>
+					</select>
+				</div>
+            <section class="sec">
+                <div class="inner">
+                    <ul>
+                		<c:forEach items="${list}" var="lesson">
+                        <li>
+                            <div class="likeInfo">
+                                <a id="like" href=""><i class="xi-heart-o"></i>
+                                <h6>200</h6></a>
+                                <a id="reserv" href=""><i class="xi-star-o"></i>
+                                <h6>200</h6></a>
+                            </div>
+                            <a href="">
+                                <div class="img">
+                                <c:if test= "${empty lesson.thumbnail}">
+								<img class="lessonImg" src="../../../resources/img/classtmpimg.jpg">
+								</c:if>
+								<c:if test= "${!empty lesson.thumbnail}">
+								<img class="lessonImg" src="/resources/img/lesson/thumb/${lesson.teacherId}${lesson.openAt}/${lesson.thumbnail}">
+								</c:if>
+                                </div>
+                                <span>${lesson.typeName}</span><span>${lesson.categoryName}</span>
+                                <h3>${lesson.title}</h3>
+                                <div class="price">
+                                	<fmt:formatNumber type="number" var="originPrice" maxFractionDigits="3" value="${lesson.originPrice}" />
+                                    <h4>${originPrice}원</h4>
+                                    <fmt:parseNumber var= "discountRate" integerOnly= "true" value= "${lesson.discountRate }" />
+                                    <h5>${discountRate}%</h5>
+                                    <fmt:formatNumber type="number" var="salePrice" maxFractionDigits="3" value="${lesson.salePrice}" />
+                                    <h1>${salePrice}원</h1>
+                                </div>
+                            </a>
+                        </li>
+                        </c:forEach>
+                    </ul>
+                </div>
+            </section>
+        </div>
 
-<div class="container">     
-	<c:forEach items="${list}" var="lesson" begin="1" end="1" step="1">
-		<div class="lessonHeaderTitle"><c:out value="${lesson.categoryName}" /></div>
-	</c:forEach>
-	<div class="lessonSortDiv">
-		<select name="sort" id="lessonListSort">
-		    <option value="newest">최신순</option>
-		    <option value="rate">평점순</option>
-		</select>
-	</div>
-	
-	<div class="lessonRowDiv">
-		<c:forEach items="${list}" var="lesson">
-			<div class="lessonInfoDiv">
-				<c:if test= "${empty lesson.thumbnail}">
-					<img class="lessonImg" src="../../../resources/img/classtmpimg.jpg">
-				</c:if>
-				<c:if test= "${!empty lesson.thumbnail}">
-					<img class="lessonImg" src="/resources/img/lesson/thumb/${lesson.teacherId}${lesson.openAt}/${lesson.thumbnail}">
-				</c:if>
-				<p>[<c:out value="${lesson.typeName}" />] <c:out value="${lesson.categoryName}" /></p>
-				<a class='read' href='<c:out value="${lesson.id }"/>'><c:out value="${lesson.title}" /></a>
-				<br>
-				<fmt:formatNumber type="number" var="originPrice" maxFractionDigits="3" value="${lesson.originPrice}" />
-				<fmt:parseNumber var= "discountRate" integerOnly= "true" value= "${lesson.discountRate }" />
-				<del><c:out value="${originPrice }"/></del>원 <c:out value="${discountRate}" />%
-				<fmt:formatNumber type="number" var="salePrice" maxFractionDigits="3" value="${lesson.salePrice}" />
-				<br>
-				<c:out value="${salePrice}" />원
-			</div>
-		</c:forEach>
-	</div>
-	
-	<!-- paging -->
-	
-	<div class="page-footer" id="pagingDiv">
-		<ul class="pagination pull-right">
-			<c:if test="${pageMaker.prev }">
-				<li class="paginate_button previous"><a href="${pageMaker.startPage -1 }">Previous</a></li>
-			</c:if>
-			
-			<c:forEach var="num" begin="${pageMaker.startPage }" end="${pageMaker.endPage }">
-				<li class="paginate_button ${pageMaker.cri.pageNum == num? 'active':'' }"><a href="${num }">${num }</a></li>
-			</c:forEach>
-			
-			<c:if test="${pageMaker.next }">
-				<li class="paginate_button next"><a href="${pageMaker.endPage +1 }">Next</a></li>
-			</c:if>
-		</ul>
-	</div>
-	
-	
-	<form id='actionForm' action="/lesson/list" method='get'>
-		<input type='hidden' name='pageNum' value='${pageMaker.cri.pageNum}'>
-		<input type='hidden' name='amount' value='${pageMaker.cri.amount}'>
-		<input type='hidden' name='keyword' value='<c:out value="${pageMaker.cri.keyword}"/>' />
-		<input type='hidden' name='categoryMain' value='<c:out value="${pageMaker.cri.categoryMain}"/>' />
-		<input type='hidden' name='categorySub' value='<c:out value="${pageMaker.cri.categorySub}"/>' />
-	</form>
-	
-	<%-- <table class="lessonTable">
-		<thead id="table-header">
-			<tr>
-				<th>클래스</th>
-				<th>클래스</th>
-				<th>클래스</th>
-				<th>클래스</th>
-				<th>클래스</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr>
-			<c:forEach items="${list}" var="lesson">
-					<td>
-						<img class="lessonImg" src="../../../resources/img/classtmpimg.jpg">
-						<p><small>[<c:out value="${lesson.typeName}" />] <c:out value="${lesson.categoryName}" /></small></p>
-						<a class='read' href='<c:out value="${lesson.id }"/>'><strong><c:out value="${lesson.title}" /></strong></a>
-						<p>★★★☆☆</p>
-						<p>100,000원</p>
-					</td>
-					<td><a href="get?id=${lesson.id}"><c:out value="${lesson.name}" /></a></td>
-					<td><c:out value="${classes.description}" /></td>
-					<td><fmt:formatDate pattern="yyyy/MM/dd"
-							value="${classes.openAt}" />~<fmt:formatDate pattern="yyyy/MM/dd"
-							value="${classes.closeAt}" /></td>
-					<td><c:out value="${classes.startAt}" />~<c:out
-							value="${classes.endAt}" /></td>
-					<td><c:out value="${classes.studentCnt}" /></td>
-					<td><c:out value="${classes.likeCnt}" /></td>
-					<td><c:out value="${classes.reservCnt}" /></td>
-					<td><c:out value="${classes.rate}" /></td>
-			</c:forEach>
-				</tr>
-		</tbody>
-	</table> --%>
-	
-</div>
-<script type="text/javascript">
-	
-	$(document).ready(function() {
-		
-		var actionForm = $("#actionForm");
-		
-		$(".read").on("click", function(e) {
-			e.preventDefault();
-			actionForm.append("<input type='hidden' name='id' value='"+$(this).attr("href")+"'>");
-			actionForm.attr("action", "/lesson/read");
-			actionForm.submit();
-		})
-		
-		//페이지 번호 이동
-		$('#pagingDiv a').click(function(e){
-			e.preventDefault();
-			actionForm.find("input[name='pageNum']").val($(this).attr("href"));
-			actionForm.submit();
-			
-		});
-		
-	});
-	
-</script>
+    </div>
+
+
 </body>
+
 </html>
