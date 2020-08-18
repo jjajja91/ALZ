@@ -93,8 +93,8 @@ button.btn-default {
 							<option>클래스를 선택해주세요</option>
 							<c:forEach var="lesson" items="${lessonList}">
 								<option value="${lesson.id}"
-									data-open='<fmt:formatDate pattern = "yyyy-MM-dd HH:mm:ss" value="${lesson.openAt}" />'
-									data-end='<fmt:formatDate pattern = "yyyy-MM-dd HH:mm:ss" value="${lesson.closeAt}" />'>${lesson.title}</option>
+									data-open='<fmt:formatDate pattern = "yyyy-MM-dd" value="${lesson.openAt}" />'
+									data-end='<fmt:formatDate pattern = "yyyy-MM-dd" value="${lesson.closeAt}" />'>${lesson.title}</option>
 							</c:forEach>
 					</select></td>
 				</tr>
@@ -119,13 +119,12 @@ button.btn-default {
 				</tr>
 				<tr class="trLine">
 					<td class="tdKey">시작일</td>
-					<td class="tdVal"><input type="datetime-local"
-						name='registerAt' /></td>
+					<td class="tdVal"><input class="form-control" name='registerAt' /></td>
 				</tr>
 
 				<tr class="trLine">
 					<td class="tdKey">마감일</td>
-					<td class="tdVal"><input type="datetime-local" name='closedAt' /></td>
+					<td class="tdVal"><input class="form-control" name='closedAt' /></td>
 				</tr>
 
 				<tr class="trLine">
