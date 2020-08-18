@@ -209,6 +209,7 @@ input[name="addSubject"] {
 }
 </style>
 <body>
+
 	<div class="lessonHeaderDiv">
 		<span class="lessonHeaderLeft">클래스 등록 > 5. 커리큘럼 등록</span>
 		<span class="lessonHeaderRight"><a href="/">HOME</a></span>
@@ -216,6 +217,7 @@ input[name="addSubject"] {
 	<div class="container">
 		<div class="titleDiv">
 			<span class="pageTitle">커리큘럼</span>(5/5)
+
 		</div>
 	
 		<input type="hidden" name="originalId" value='<c:out value="${param.originalId }"/>' readonly>

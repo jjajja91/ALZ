@@ -21,7 +21,6 @@
 .table-container {
 	top: 90px;
 	left: 20%;
-	
 }
 
 .content-table {
@@ -51,6 +50,7 @@
 	padding: 8px 15px;
 	font-size: 15px;
 	text-align: center;
+	vertical-align: middle;
 }
 
 .content-table thead tr {
@@ -109,6 +109,10 @@ div.title {
 	border-radius: 5px 5px;
 	border: 1px solid #dddddd;
 }
+
+p.price {
+	margin: 5px 0;
+}
 </style>
 <body>
 	<sec:authentication var="principal" property="principal" />
@@ -142,12 +146,16 @@ div.title {
 									class="chkBox" data-cartId="${row.id }"> <input
 									type="hidden" id="id${i}" name="id" value="${row.id }"></td>
 								<td>${row.name }</td>
-								<td><fmt:formatNumber value="${row.salePrice }"
-										pattern="#,###" /> 원<br> <del
-										style="font-weight: normal;">
-										<fmt:formatNumber value="${row.originPrice }" pattern="#,###" />
+								<td><p class="price">
+										<fmt:formatNumber value="${row.salePrice }" pattern="#,###" />
 										원
-									</del></td>
+									</p>
+									<p class="price">
+										<del style="font-weight: normal;">
+											<fmt:formatNumber value="${row.originPrice }" pattern="#,###" />
+											원
+										</del>
+									</p></td>
 								<td><a class="delete"
 									href="/merchandise/delete?id=${row.id }"
 									style="font-weight: bold; font-size: 1.3rem;">X</a></td>

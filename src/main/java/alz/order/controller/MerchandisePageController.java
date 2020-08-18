@@ -106,7 +106,7 @@ public class MerchandisePageController {
 			rttr.addFlashAttribute("result", "success");
 		}
 
-		return "redirect:/merchandise/list" + cri.getListLink();
+		return "redirect:/merchandise/myList" + cri.getListLink();
 	}
 
 	// 상품 삭제
@@ -120,7 +120,7 @@ public class MerchandisePageController {
 			rttr.addFlashAttribute("result", "success");
 		}
 
-		return "redirect:/merchandise/list" + cri.getListLink();
+		return "redirect:/merchandise/myList" + cri.getListLink();
 	}
 	
 	// 로그인한 선생님의 수업 리스트

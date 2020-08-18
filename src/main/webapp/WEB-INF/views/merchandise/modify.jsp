@@ -219,7 +219,7 @@ button.btn-default {
 								console.log("리무브");
 								formObj.attr("action", "/merchandise/remove");
 							} else if (operation === 'list') {
-								formObj.attr("action", "/merchandise/list")
+								formObj.attr("action", "/merchandise/myList")
 										.attr("method", "get");
 
 								var pageNumTag = $("input[name='pageNum']")

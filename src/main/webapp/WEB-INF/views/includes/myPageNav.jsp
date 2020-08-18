@@ -104,7 +104,7 @@
         <li class="mypageItem" id="teacher">
           <a href="#teacher" class="mypageBtn">선생님메뉴</a>
           <div class="smenu">
-  			<a href="/merchandise/list">강의 등록</a>
+  			<a href="/merchandise/myList">강의 등록</a>
   			<a href="/myPage/teachingLesson">강의 중 클래스</a>
   			<a href="#">모집 중 클래스</a>
   			<a href="/myPage/teachedLesson">강의종료 클래스</a>
@@ -115,7 +115,7 @@
           <a href="#paymentList" class="mypageBtn">결제정보</a>
           <div class="smenu">
   			<a href="/myPage/refundedLesson">취소/환불</a>
-  			<a href="#">결제 내역</a>
+  			<a href="/myPage/paidOrderList">결제 내역</a>
           </div>
         </li>
         <li class="mypageItem" id="myList">

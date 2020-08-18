@@ -110,7 +110,7 @@ a#regBtn {
 }
 </style>
 <body>
-<body>
+
 	<div class="container">
 		<sec:authentication var="principal" property="principal" />
 		<h1 class="page-header">상품 리스트</h1>
@@ -126,6 +126,7 @@ a#regBtn {
 						<th>상품 편집</th>
 					</tr>
 				</thead>
+
 
 				<c:forEach items="${list}" var="merchandise">
 					<tr>
