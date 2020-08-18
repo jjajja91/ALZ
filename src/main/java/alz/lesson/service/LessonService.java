@@ -2,13 +2,12 @@ package alz.lesson.service;
 
 import java.util.List;
 
-import alz.board.domain.BoardCriteria;
+import alz.file.domain.LessonFileDTO;
 import alz.lesson.domain.CategoryDTO;
 import alz.lesson.domain.CurriculumSubjectDTO;
 import alz.lesson.domain.LessonCriteria;
 import alz.lesson.domain.LessonDTO;
 import alz.lesson.domain.LessonDetailDTO;
-import alz.lesson.domain.LessonScheduleDTO;
 import alz.lesson.domain.QuickReviewDTO;
 import alz.lesson.domain.ScheduleDTO;
 import alz.lesson.domain.TeacherDTO;
@@ -20,6 +19,7 @@ public interface LessonService {
 	int createLesson(LessonDTO lesson);
 	int createSchedule(ScheduleDTO schedule);
 	int createLessonDetail(LessonDetailDTO detail);
+	void createLessonDetailFile(LessonDetailDTO detail);
 	int createCurriculum(List<CurriculumSubjectDTO> curriculumList);
 	int createQuickReview(QuickReviewDTO quickReview);
 
@@ -37,6 +37,9 @@ public interface LessonService {
 	
 	LessonDetailDTO detailByLessonId(Long lessonId); // 세부설명
 	ScheduleDTO scheduleByLessonId(Long lessonId); // 스케줄 불러오기(등록페이지에서 사용)
+	
+	// 파일 리스트 얻기
+	public List<LessonFileDTO> getFileList(Long lessonId);
 	
 	List<CategoryDTO> mainCategory();
 	List<CategoryDTO> subCategory();

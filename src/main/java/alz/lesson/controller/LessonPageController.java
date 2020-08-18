@@ -80,6 +80,7 @@ public class LessonPageController {
    @GetMapping("/read")
    public void get(@RequestParam Long id, Model model) {
       model.addAttribute("lesson", lessonService.readByLessonId(id));
+      model.addAttribute("detail", lessonService.detailByLessonId(id));
       model.addAttribute("curriculum", lessonService.curriculumByLessonId(id));
       model.addAttribute("schedule", lessonService.timeTableByLessonId(id));
       model.addAttribute("teacher", lessonService.teacherByLessonId(id));
@@ -223,7 +224,6 @@ public class LessonPageController {
 		int id;
 	    Long originalId = lessonDetail.getOriginalId();
 	    Long lessonId = lessonDetail.getLessonId();
-	      
 	    id = lessonService.createLessonDetail(lessonDetail);
 	      
 	    String url = "redirect:/lesson/registerSchedule?originalId="+originalId;
