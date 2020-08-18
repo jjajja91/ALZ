@@ -402,31 +402,13 @@
   		  	  });
   		}
 
+		var actionForm = $("#actionForm");
 		
-		
-		/* // 첫 페이지 paging
-		$(".paginate_button a").on("click", function(e) {
-			e.preventDefault();
-			
-			data = {
-					pageNum : $pageNum.val(),
-					amount : $amount.val()
-				};
-			
-			var targetPageNum = $(this).attr("href");
-			data.pageNum = targetPageNum;
-			
-			// 글 목록 출력
-			getList(data, pageNum);
-			actionForm.find("input[name='pageNum']").val($(this).attr("href"));
-			actionForm.submit();
-		});
-		 */
 		// 읽기 이벤트 추가
 		$(".read").on("click", function(e) {
 			e.preventDefault();
 			actionForm.append("<input type='hidden' name='id' value='"+$(this).attr("href")+"'>");
-			actionForm.attr("action", "/board/read");
+			actionForm.attr("action", "/admin/board/boardReadAdmin");
 			actionForm.submit();
 		});
 		
@@ -489,69 +471,12 @@
 	          if (month.length < 2) month = '0' + month; 
 	          if (day.length < 2) day = '0' + day; 
 	          return [year, month, day].join('-'); };
-	
-		
-/* 		 
+		 
 		var pageFooter = $(".page-footer");
 		
 		
-		// 글 검색 결과
-	function boardSearch(data) {
-			return $.ajax({
-				type : "GET",
-				url : "/myPage/" + data.pageNum + "/" + data.amount+ "/" + ".json",
-				contentType : "application/json; charset=utf-8"
-			});
-		} 
-		
-		
-		// 글목록 출력
-		function printBoardList(boards, page) {
-			if(page == -1) {
-				pageNum = Math.ceil(totalCnt/10.0);
-				printBoardList(boards, pageNum);
-				return;
-			}
-			
-			var $tableHeader = $table.find("#table-header").clone();
-			$table.empty();
-			$table.append($tableHeader);
-			
-			var frag = document.createDocumentFragment();
-			for(var i=0; i<boards.length; i++) {
-				var board= boards[i];
-				
-				var tr = document.createElement("tr");
-				var id = document.createElement("td");
-				id.textContent = board.id;
-				tr.appendChild(id);
-				
-				var title = document.createElement("td");
-				var titleA = document.createElement("a");
-				titleA.setAttribute("class", "read");
-				titleA.setAttribute("href", board.id);
-				titleA.textContent = board.title;
-				
-				title.appendChild(titleA);
-				tr.appendChild(title);
-				var nickname = document.createElement("td");
-				nickname.textContent = board.nickname;
-				tr.appendChild(nickname);
-				
-				var writtenAt = document.createElement("td");
-				writtenAt.textContent = moment(board.writtenAt).format('YYYY-MM-DD'); 
-				tr.appendChild(writtenAt);
-				
-				var viewCnt = document.createElement("td");
-				viewCnt.textContent = board.viewCnt;
-				tr.appendChild(viewCnt);
-				
-				frag.appendChild(tr);
-			}
-			
-			$table.append($(frag));
-		}
-		 */
+	
+	
 	});
 	
 </script>

@@ -13,7 +13,7 @@
 <style>
 .container {
 	margin-top: 200px;
-	margin-left: 600px;
+	margin-left: 27%;
 	min-height: 100%;
 	position: relative;
 }
@@ -50,6 +50,7 @@
 	padding: 8px 15px;
 	font-size: 15px;
 	text-align: center;
+	vertical-align: middle;
 }
 
 .content-table thead tr {
@@ -92,8 +93,9 @@ div.title {
 
 .orderBtn {
 	font-size: 18px;
-	margin-top: 30px;
+	margin-top: 15px;
 	margin-left: 300px;
+	margin-bottom: 30px;
 	background-color: #335492;
 	border-radius: 5px 5px;
 	box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
@@ -101,16 +103,15 @@ div.title {
 	border: 1px solid #dddddd;
 }
 
-.footer {
-	width: 100%;
-	position: absolute;
-	bottom: 0;
-	background: #5eaeff;
-	text-align: center;
-	color: white;
-	background: #335492;
-	color: #fff;
-	padding: 30px 0;
+.deleteBtn {
+	font-size: 18px;
+	box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+	border-radius: 5px 5px;
+	border: 1px solid #dddddd;
+}
+
+p.price {
+	margin: 5px 0;
 }
 </style>
 <body>
@@ -145,12 +146,16 @@ div.title {
 									class="chkBox" data-cartId="${row.id }"> <input
 									type="hidden" id="id${i}" name="id" value="${row.id }"></td>
 								<td>${row.name }</td>
-								<td><fmt:formatNumber value="${row.salePrice }"
-										pattern="#,###" /> 원<br> <del
-										style="font-weight: normal;">
-										<fmt:formatNumber value="${row.originPrice }" pattern="#,###" />
+								<td><p class="price">
+										<fmt:formatNumber value="${row.salePrice }" pattern="#,###" />
 										원
-									</del></td>
+									</p>
+									<p class="price">
+										<del style="font-weight: normal;">
+											<fmt:formatNumber value="${row.originPrice }" pattern="#,###" />
+											원
+										</del>
+									</p></td>
 								<td><a class="delete"
 									href="/merchandise/delete?id=${row.id }"
 									style="font-weight: bold; font-size: 1.3rem;">X</a></td>
@@ -216,11 +221,6 @@ div.title {
 		</div>
 	</div>
 
-	<footer class="footer">
-		<div>
-			<p class="copy">Copyright, ⓒ ALZ. All rights reserved.</p>
-		</div>
-	</footer>
 </body>
 <script type="text/javascript">
 	var link = document.location.href; //현재 페이지 url 

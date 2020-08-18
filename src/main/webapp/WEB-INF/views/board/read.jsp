@@ -99,29 +99,21 @@
 				</a>
 			</div>
 
-			<%-- <div>
 
-		<div class="bigPictureWrapper">
-			<div class="bigPicture"></div>
+		<div class="form-group">
+			<input type="hidden" id="isLike" value="false"> <input
+				type="hidden" id="likeCnt" value="${board.likeCnt }" /> <a
+				class='likeCnt' href='<c:out value="${board.likeCnt }"/>'> ♡ 좋아요
+				<c:out value="${board.likeCnt }" />
+			</a> <a class='commentCnt' href='<c:out value="${board.commentCnt }"/>'>댓글
+				<c:out value="${board.commentCnt }" />
+			</a>
 		</div>
 
-		<div class="row">
-			<div class="col-lg-12">
-				<div class="panel panel-defualt">
-					<div class="panel-heading">Files</div>
-					<div class="panel-body">
-						<div class='uploadResult'>
-							<ul>
+		<button data-oper='write' class="btn btn-info"
+			onclick="location.href='/board/write?typeId=<c:out value="${board.typeId}"/>&id=<c:out value="${board.id}"/>&pid=<c:out value="${board.parentId}"/>&boardOrder=<c:out value="${board.boardOrder}"/>'">답글쓰기</button>
 
-							</ul>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div> --%>
 
-			<button data-oper='write' class="btn btn-info"
-				onclick="location.href='/board/write?typeId=<c:out value="${board.typeId}"/>&id=<c:out value="${board.id}"/>&pid=<c:out value="${board.parentId}"/>&boardOrder=<c:out value="${board.boardOrder}"/>'">답글쓰기</button>
 
 			<c:if test="${principal.id eq board.writerId}">
 				<button data-oper='update' class="btn btn-default"

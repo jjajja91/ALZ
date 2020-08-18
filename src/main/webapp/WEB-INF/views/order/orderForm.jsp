@@ -11,8 +11,7 @@
 <style>
 .container {
 	margin-top: 200px;
-	margin-left: 600px;
-	min-height: 100%;
+	margin-left: 27%;
 	position: relative;
 }
 
@@ -48,6 +47,7 @@
 	padding: 8px 15px;
 	font-size: 15px;
 	text-align: center;
+	vertical-align: middle;
 }
 
 .content-table thead tr {
@@ -84,12 +84,15 @@
 #buyBtn {
 	font-size: 18px;
 	margin-top: 30px;
-	margin-left: 320px; background-color : #335492;
+	margin-bottom: 30px;
+	margin-left: 320px;
+	background-color: #335492;
 	border-radius: 5px 5px;
 	box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
 	color: #ffffff;
 	border: 1px solid #dddddd;
-	background-color: #335492
+	background-color: #335492;
+	margin-left: 320px;
 }
 
 div.title {
@@ -114,27 +117,22 @@ div.payMethod {
 div.sub1 {
 	font-size: 18px;
 	font-weight: bold;
-	margin-bottom: 10px;
+	margin-bottom: 15px;
+	margin-top: 10px;
 }
 
 p.p1 {
+	margin: 10px 0;
+}
+p {
 	margin: 5px 0;
 }
 
+p.originP {
+	font-weight: normal;
+}
 p>span {
 	font-weight: bold;
-}
-
-.footer {
-	width: 100%;
-	position: absolute;
-	bottom: 0;
-	background: #5eaeff;
-	text-align: center;
-	color: white;
-	background: #335492;
-	color: #fff;
-	padding: 30px 0;
 }
 </style>
 <body>
@@ -146,8 +144,8 @@ p>span {
 			<div class="table-container">
 				<table class="content-table">
 					<tr>
+						<th>상품 정보</th>
 						<th></th>
-						<th>상품정보</th>
 						<th>상품 금액</th>
 					</tr>
 					<c:set var="i" value="0" />
@@ -157,13 +155,21 @@ p>span {
 					<c:set var="salePrice" value="0" />
 					<c:forEach items="${buyList}" var="list">
 						<tr>
-							<td class="main_list_col1">이미지</td>
+							<td class="main_list_col1"><img class="lessonImg"
+								src="/resources/img/classtmpimg.jpg"></td>
 							<td class="main_list_col2">${list.name}</td>
-							<td class="main_list_col3"><fmt:formatNumber
-									value="${list.salePrice }" pattern="#,###" /> 원<br> <del>
-									<fmt:formatNumber value="${list.originPrice }" pattern="#,###" />
+							<td class="main_list_col3">
+								<p class="saleP">
+									<fmt:formatNumber value="${list.salePrice }" pattern="#,###" />
 									원
-								</del></td>
+								</p>
+								<p class="originP">
+									<del>
+										<fmt:formatNumber value="${list.originPrice }" pattern="#,###" />
+										원
+									</del>
+								</p>
+							</td>
 						</tr>
 
 						<input type="hidden" id="cartId" name="cartId" value="${list.id }">
@@ -182,12 +188,16 @@ p>span {
 
 			<div class="orderer">
 				<div class="sub1">연락처 정보</div>
-				<p class="p1">이 름</p>
-				<input type="text" name="name" id="name"
-					value="${userInfo.nickname}">
-				<p class="p1">휴대폰</p>
-				<input type="text" name="phone" id="phone"
-					value="${userInfo.phoneNumber}">
+				<div style="margin-bottom: 5px;">
+					<p class="p1" style="display: inline-block;">이 름</p>
+					<input type="text" name="name" id="name"
+						value="${userInfo.nickname}" style="margin-left: 21px;">
+				</div>
+				<div>
+					<p class="p1" style="display: inline-block;">휴대폰</p>
+					<input type="text" name="phone" id="phone"
+						value="${userInfo.phoneNumber}" style="margin-left: 11px;">
+				</div>
 			</div>
 			<br>
 			<div class="priceInfo">
@@ -235,11 +245,7 @@ p>span {
 		</form>
 
 	</div>
-	<footer class="footer">
-		<div>
-			<p class="copy">Copyright, ⓒ ALZ. All rights reserved.</p>
-		</div>
-	</footer>
+
 </body>
 <script type="text/javascript">
 	var phoneNumber = $("#phone").val();

@@ -12,104 +12,154 @@
 	src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 </head>
 <style>
+body {
+	margin-bottom: 50px;
+}
+
+tr.trLine {
+	border-bottom: 1px solid #dddddd;
+}
+textarea {
+	margin: 5px 0;
+}
 .container {
 	margin-top: 200px;
-	margin-left: 600px;
+	margin-left: 30%;
 	min-height: 100%;
 	position: relative;
 }
-</style>
 
+.page-header {
+	font-weight: bold;
+	font-size: 24px;
+	margin-bottom: 20px;
+}
+
+td.tdKey {
+	font-weight: bold;
+	font-size: 18px;
+	padding: 10px 0;
+	vertical-align: middle;
+}
+
+td.tdVal {
+	vertical-align: middle;
+	padding-left: 50px;
+}
+
+input, textarea {
+	border: 1px solid #335492;
+	width: 450px;
+}
+
+input.radio {
+	width: 30px;
+}
+button {
+	border-radius: 5px 5px;
+	border: 1px solid #dddddd;
+	font-size: 18px;
+}
+button.btn-danger {
+	background-color: Tomato;
+	color: #ffffff;
+}
+button.btn-default {
+	background-color: #335492;
+	color: #ffffff;
+}
+</style>
 
 <body>
 	<div class="container">
 		<h1 class="page-header">상품 편집</h1>
 		<form id="merchandiseEdit" name="merchandiseEdit"
 			action="/merchandise/modify" method="post">
-			<table border="">
-				<tr>
-					<td>상품 번호</td>
-					<td><input type="text" id="id" name="id"
+			<table>
+				<tr class="trLine">
+					<td class="tdKey">상품 번호</td>
+					<td class="tdVal"><input type="text" id="id" name="id"
 						value="${merchandise.id}" readonly="readonly"></td>
-				</tr>
+				<tr class="trLine">
 				<!-- 							<tr>
 								<td>상품이미지</td>
 								<td>이미지 <br> <input type="file" id="merchandiseImage"
 									name="merchandiseImage">
 								</td>
 							</tr> -->
-				<tr>
-					<td>상품명</td>
-					<td><input type="text" id="name" name="name"
+				<tr class="trLine">
+					<td class="tdKey">상품명</td>
+					<td class="tdVal"><input type="text" id="name" name="name"
 						value="${merchandise.name }" readonly></td>
 				</tr>
-				<tr>
-					<td>상품 유형</td>
-					<td id="codeType"><input type="text" name="codeType"
-						value="${merchandise.codeType}" readonly></td>
+				<tr class="trLine">
+					<td class="tdKey">상품 유형</td>
+					<td class="tdVal" id="codeType"><input type="text"
+						name="codeType" value="${merchandise.codeType}" readonly></td>
 				</tr>
-				<tr>
-					<td>상품 내용</td>
-					<td><textarea id="description" name="description" row="5"
-							cols="60">${merchandise.description}</textarea></td>
+				<tr class="trLine">
+					<td class="tdKey">상품 내용</td>
+					<td class="tdVal"><textarea id="description"
+							name="description" rows="5" cols="60">${merchandise.description}</textarea></td>
 				</tr>
 
-				<tr>
-					<td>상품 마감일</td>
-					<td><input type="text" id="closedAt" name="closedAt"
+				<tr class="trLine">
+					<td class="tdKey">상품 마감일</td>
+					<td class="tdVal"><input type="text" id="closedAt"
+						name="closedAt"
 						value='<fmt:formatDate pattern = "yyyy/MM/dd" value="${merchandise.closedAt}" />'></td>
 				</tr>
 
-				<tr>
-					<td>상품 금액</td>
-					<td><input type="text" id="originPrice" name="originPrice"
-						value="${merchandise.originPrice}" /></td>
+				<tr class="trLine">
+					<td class="tdKey">상품 금액</td>
+					<td class="tdVal"><input type="text" id="originPrice"
+						name="originPrice" value="${merchandise.originPrice}" /></td>
 				</tr>
 
-				<tr>
-					<td>할인 후 금액</td>
-					<td><input type="text" id="salePrice" name="salePrice"
-						value="${merchandise.salePrice}" readonly></td>
+				<tr class="trLine">
+					<td class="tdKey">할인 후 금액</td>
+					<td class="tdVal"><input type="text" id="salePrice"
+						name="salePrice" value="${merchandise.salePrice}" readonly></td>
 				</tr>
 
-				<tr>
-					<td>할인율</td>
-					<td><input type="number" id="discountRate" name="discountRate"
-						value="${merchandise.discountRate }"></td>
+				<tr class="trLine">
+					<td class="tdKey">할인율</td>
+					<td class="tdVal"><input type="number" id="discountRate"
+						name="discountRate" value="${merchandise.discountRate }"></td>
 				</tr>
 
-				<tr>
-					<td>할인 마감일</td>
-					<td><input type="text" id="discountDeadline"
+				<tr class="trLine">
+					<td class="tdKey">할인 마감일</td>
+					<td class="tdVal"><input type="text" id="discountDeadline"
 						name="discountDeadline"
 						value='<fmt:formatDate pattern = "yyyy/MM/dd" value="${merchandise.discountDeadline }" />'></td>
 				</tr>
 
-				<tr>
-					<td>진열 상태</td>
-					<td id="displayState"><input type="radio" name="displayState"
-						value="1"
+				<tr class="trLine">
+					<td class="tdKey">진열 상태</td>
+					<td class="tdVal" id="displayState"><input type="radio" class="radio"
+						name="displayState" value="1"
 						<c:if test="${merchandise.displayState eq '1'}">checked</c:if>>
-						진열 <input type="radio" name="displayState" value="0"
+						진열 <input type="radio" name="displayState" value="0" class="radio"
 						<c:if test="${merchandise.displayState eq '0'}">checked</c:if>>
 						미진열</td>
 
 				</tr>
 
-				<tr>
-					<td>상품 대상 식별자</td>
-					<td><input type="text" id="refId" name="refId"
+				<tr class="trLine">
+					<td class="tdKey">상품 대상 식별자</td>
+					<td class="tdVal"><input type="text" id="refId" name="refId"
 						value="${merchandise.refId }"></td>
 				</tr>
 
-				<tr>
-					<td>상품 식별자</td>
-					<td><input type="text" id="merchandiseId" name="merchandiseId"
-						value="${merchandise.userId }"></td>
+				<tr class="trLine">
+					<td class="tdKey">상품 식별자</td>
+					<td class="tdVal"><input type="text" id="merchandiseId"
+						name="merchandiseId" value="${merchandise.userId }"></td>
 				</tr>
 
 				<tr>
-					<td colspan="2" align="center">
+					<td colspan="2" align="center" style="padding-top: 25px;">
 						<button type="submit" data-oper='modify' class="btn btn-default">수정</button>
 						<button type="submit" data-oper='remove' class="btn btn-danger">삭제</button>
 						<button type="submit" data-oper='list' class="btn btn-info">목록</button>
@@ -159,10 +209,17 @@
 							console.log(operation);
 
 							if (operation === 'remove') {
+								var delConfirm = confirm('정말로 삭제하시겠습니까?');
+								   if (delConfirm) {
+								      alert('삭제되었습니다.');
+								   }
+								   else {
+								      return;
+								   }
 								console.log("리무브");
 								formObj.attr("action", "/merchandise/remove");
 							} else if (operation === 'list') {
-								formObj.attr("action", "/merchandise/list")
+								formObj.attr("action", "/merchandise/myList")
 										.attr("method", "get");
 
 								var pageNumTag = $("input[name='pageNum']")
@@ -181,7 +238,11 @@
 								formObj.append(typeTag);
 								formObj.append(keywordTag);
 
+							} else {
+								alert('수정 완료');
 							}
+							
+							
 							formObj.submit();
 
 						});

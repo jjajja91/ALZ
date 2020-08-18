@@ -95,6 +95,7 @@
 		<span class="lessonHeaderRight"><a href="/">HOME</a></span>
 	</div>
 	<div class="container">
+
 		<div class="titleDiv">
 			<span class="pageTitle">강사소개</span>(1/5)
 		</div>
@@ -105,6 +106,7 @@
 				
 			<div class="lessonText">본인을 소개하고<br>활동중인 SNS 채널을 알려주세요</div>
 			
+
 			<div class="lessonTeacherDiv">
 				<label>닉네임</label> 
 				<input class="form-control" id='nickname' name='nickname' value='<c:out value="${teacher.nickname }"/>'> 
@@ -129,6 +131,7 @@
 				<br> 
 				<textarea class="form-control teacherTextarea" placeholder="강사님이 어떤 분인지 소개해주세요" name="profile"><c:out value="${teacher.profile }" /></textarea>
 			</div>
+
 
 			<br>
 			<br>

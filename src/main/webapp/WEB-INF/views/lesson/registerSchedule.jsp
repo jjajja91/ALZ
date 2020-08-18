@@ -1,17 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+   pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%@ taglib uri="http://www.springframework.org/security/tags"
-	prefix="sec"%>
-<%-- <%@include file="../includes/header.jsp"%> --%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec"%>
+
 <head>
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
+
 </head>
 <style>
 
 .container {
+
 	margin-top: 70px;
 	margin-left: 10%;
 	min-height: 100%;
@@ -159,6 +161,7 @@ input[type="button"] {
 			<input type="hidden" name="lessonId" value='<c:out value="${param.lessonId }"/>' readonly> 
 			<input type="hidden" name="originalId" value='<c:out value="${param.originalId }"/>' readonly>
 
+
 			<div class="lessonText">수업 날짜와 수업 시간을 입력해주세요.</div>
 			
 			<label>스케줄 선택</label> 
@@ -192,20 +195,22 @@ input[type="button"] {
 						<label for="endAt">종료시간 </label> 
 						<input type="time" class="form-control endAt" name="endAt" value='<c:out value="${timeList.endAt }"/>'>
 
-						<c:if test="${loop.index != 0}">
-							<input type="button" class="deleteLesson" name="deleteLesson" value="시간 삭제">
-						</c:if>
-					</div>
-				</c:forEach>
-			</div>
-			<br>
-			<input type="button" id="addLesson" name="addLesson" value="시간 추가" />
-			<br> <br> <br>
-			<button type="submit" name="prev">이전</button>
-			<button type="submit" name="next">다음</button>
-			<br> <br>
-		</form>
-	</div>
+                  <c:if test="${loop.index != 0}">
+                     <input type="button" class="deleteLesson" name="deleteLesson"
+                        value="delete">
+                  </c:if>
+               </div>
+               <br>
+            </c:forEach>
+         </div>
+         <input type="button" id="addLesson" name="addLesson" value="+add" />
+         <br> <br> <br>
+         <button type="submit" name="prev">＜ 이전</button>
+         <button type="submit" name="next">다음 ＞</button>
+         <br> <br> <br>
+      </form>
+   </div>
+
 	<script>
 		var formObj;
 		var timesetDiv;
@@ -312,13 +317,13 @@ input[type="button"] {
 			deleteBtn.setAttribute("name", "deleteLesson");
 			deleteBtn.setAttribute("value", "시간 삭제");
 
-			clone.appendChild(deleteBtn);
-			timesetDiv.parentNode.appendChild(clone);
-		});
+         clone.appendChild(deleteBtn);
+         timesetDiv.parentNode.appendChild(clone);
+      });
 
-		$(document).on("click", "input[name='deleteLesson']", function(e) {
-			e.target.parentNode.remove();
-		});
-	</script>
+      $(document).on("click", "input[name='deleteLesson']", function(e) {
+         e.target.parentNode.remove();
+      });
+   </script>
 </body>
 </html>

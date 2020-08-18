@@ -194,6 +194,7 @@ input[type="button"] {
 			<input type="hidden" name="originalId" value='<c:out value="${param.originalId }"/>' readonly>
 			<input type="hidden" name="id" id="id" value='<c:out value="${detail.id }"/>' readonly>
 			<input type="hidden" name="location" id="location" readonly/>
+
 		
 			
 			<textarea class="form-control" id="summernote" placeholder="클래스를 통해 알려주실 것과 완성할 수 있는 것들을 설명해 주세요." name="detail"><c:out value="${detail.detail }" /></textarea>

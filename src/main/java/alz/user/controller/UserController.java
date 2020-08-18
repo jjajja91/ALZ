@@ -340,7 +340,6 @@ public class UserController {
 	
 	@PostMapping("/modifyPwd")
 	public String modifyPwd(UserDTO user) {
-		System.out.println("/여기야 여기");
 		log.info(user);
 		System.out.println(user);
 		if(userService.modifyPwd(user)) {

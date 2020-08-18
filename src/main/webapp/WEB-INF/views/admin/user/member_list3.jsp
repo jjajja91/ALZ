@@ -1,24 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@include file="../../includes/admin_header.jsp"%>
-<style>
-.lessonImg{
-width :150px;
-height : 120px;
-}
-</style>
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<!-- context 경로 -->
+<c:set var="path" value="${pageContext.request.contextPath}" />
 
 <!-- Content Wrapper -->
 <div id="content-wrapper" class="d-flex flex-column">
 
 	<!-- Main Content -->
 	<div id="content">
-
-		<!-- Topbar -->
+			<!-- Topbar -->
 		<nav
 			class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
@@ -213,66 +204,61 @@ height : 120px;
 
 		</nav>
 		<!-- End of Topbar -->
-
-		<!-- Begin Page Content -->
+		
+		<!-- Begin Page Content -->		
 		<div class="container-fluid">
-
+		
 			<!-- Page Heading -->
-			<h1 class="h3 mb-2 text-gray-800">Tables</h1>
-			<p class="mb-4">심사 요청 클래스
-			</p>
-
+			<h1 class="h3 mb-2 text-gray-800">회원 리스트</h1>
+			<p class="mb-4">회원 상태 변경</p>
+			
 			<!-- DataTales Example -->
 			<div class="card shadow mb-4">
 				<div class="card-header py-3">
 					<h6 class="m-0 font-weight-bold text-primary">Decision in Progress</h6>
 				</div>
-
 				<div class="card-body">
 					<div class="table-responsive">
-						<table class="table table-bordered" id="dataTable" width="100%"
-							cellspacing="0">
-							<thead>
-								<tr>
-									<th><input type="checkbox" id="checkAll"></th>
-									<th>번호</th>
-									<th class="imgArea" style="width:180px">썸네일</th>
-									<th>클래스 설명</th>
-									<th>클래스 상태</th>
-
-								</tr>
-							</thead>
-
-							<tbody>
-								<c:forEach items="${list}" var="LessonReqList">
+						<form name="form" method="post">
+							<table class="table table-bordered" id="dataTable" width="100%"
+								cellspacing="0">
+								<thead style="text-align:center; background:#4e73df; color:white;">
 									<tr>
-										<td><input type="checkbox" id="checkOne" name="checkOne"></td>
-										<th><c:out value="${LessonReqList.id }" /></th>
-										<td><c:if test= "${empty LessonReqList.thumbnail}">
-					<img class="lessonImg" src="/resources/img/classtmpimg.jpg">
-				</c:if>
-				<c:if test= "${!empty LessonReqList.thumbnail}">
-					<img class="lessonImg" src="/resources/img/lesson/thumb/${LessonReqList.teacherId}${LessonReqList.openAt}/${LessonReqList.thumbnail}">
-				</c:if>
-										</td>
-										<td><a class='read'  href="<c:out value="${LessonReqList.id }"/>"><c:out value="${LessonReqList.title }" />
-										<br>
-											<c:out value="${LessonReqList.openAt }" />  -  <c:out
-												value="${LessonReqList.closeAt }" /></a></td>
-										<td><c:out value="${LessonReqList.state }" /></td>
+										<th><input type="checkbox" id="checkAll"></th>
+										<th>이메일</th>
+										<th>닉네임</th>
+										<th>권한</th>
+										<th>전화번호</th>
+										<th>회원 상태</th>
+										<th>상태 시작일시</th>
+										<th>상태 종료일시</th>
 									</tr>
-
-								</c:forEach>
-							</tbody>
-						</table>
-						<select name='state'>
-							<option>상태 변경</option>
-							<option value='3'>심사 중</option>
-							<option value='4'>심사 통과</option>
-							<option value='5'>심사 미통과</option>						
-						</select>
-						<input type='button' name='changeState' id='changeState' value="변경">
-						
+								</thead>
+								<tbody>
+									<c:forEach var="row" items="${list}">
+										<tr>
+											<td><input type="checkbox" id="checkOne" name="checkOne"></td>
+											<td>${row.email}</td>
+											<!-- 회원정보 상세조회를 위해 a태그 추가 -->
+											<td><a href="${path}/admin/view?email=${row.email}">${row.nickname}</a></td>
+											<td>${row.role}</td>
+											<td>${row.phoneNumber}</td>
+											<td>${row.state}</td>
+											<td>${row.startAt}</td>
+											<td>${row.endAt}</td>
+										</tr>
+									</c:forEach>
+								</tbody>
+							</table>
+							<select name='state'>
+								<option>상태 변경</option>
+								<option value='3' id="btnDropOut">탈퇴</option>
+								<option value='4' id="btnSuspended">정지</option>
+								<option value='5' id="btnInactive">휴면</option>						
+								<option value='6' id="btnBackNormal">일반</option>						
+							</select>
+							<input type='button' name='changeState' id='changeState' value="변경">
+						</form>
 						<!-- paging -->
 						<div class="page-footer">
 							<ul class="pagination pull-right">
@@ -295,207 +281,238 @@ height : 120px;
 							</ul>
 						</div>
 
-						<form id='actionForm' action="/admin/lesson/lessonReqList" method='get'>
+						<form id='actionForm' action="/admin/list" method='get'>
 							<input type='hidden' name='pageNum' value='${pageMaker.cri.pageNum}'> 
 							<input type='hidden' name='amount' value='${pageMaker.cri.amount}'>
 						</form>
-						
 					</div>
 				</div>
 			</div>
-
 		</div>
 		<!-- /.container-fluid -->
-
 	</div>
 	<!-- End of Main Content -->
-
+	
 	<!-- Footer -->
 	<footer class="sticky-footer bg-white">
 		<div class="container my-auto">
 			<div class="copyright text-center my-auto">
-				<span>Copyright &copy; Your Website 2020</span>
+				<span>Copyright &copy; ALZ Corp. All rights reserved.</span>
 			</div>
 		</div>
 	</footer>
 	<!-- End of Footer -->
-
-</div>
-<!-- End of Content Wrapper -->
-
-</div>
-<!-- End of Page Wrapper -->
-
-<!-- Scroll to Top Button-->
-<a class="scroll-to-top rounded" href="#page-top"> 
-	<i class="fas fa-angle-up"></i>
-</a>
-
-<!-- Logout Modal-->
-<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog"
-	aria-labelledby="exampleModalLabel" aria-hidden="true">
-	<div class="modal-dialog" role="document">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-				<button class="close" type="button" data-dismiss="modal"
-					aria-label="Close">
-					<span aria-hidden="true">×</span>
-				</button>
-			</div>
-			<div class="modal-body">Select "Logout" below if you are ready
-				to end your current session.</div>
-			<div class="modal-footer">
-				<button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-				<a class="btn btn-primary" href="login.html">Logout</a>
+	
+	</div>
+	<!-- End of Content Wrapper -->
+	
+	</div>
+	<!-- End of Page Wrapper -->
+	
+	<!-- Scroll to Top Button-->
+	<a class="scroll-to-top rounded" href="#page-top"> <i
+		class="fas fa-angle-up"></i>
+	</a>
+	
+	<!-- Logout Modal-->
+	<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+					<button class="close" type="button" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">×</span>
+					</button>
+				</div>
+				<div class="modal-body">Select "Logout" below if you are ready
+					to end your current session.</div>
+				<div class="modal-footer">
+					<button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+					<a class="btn btn-primary" href="login.html">Logout</a>
+				</div>
 			</div>
 		</div>
 	</div>
-</div>
-
-<!-- Bootstrap core JavaScript-->
-<script src="/resources/vendor/jquery/jquery.min.js"></script>
-<script src="/resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-<!-- Core plugin JavaScript-->
-<script src="/resources/vendor/jquery-easing/jquery.easing.min.js"></script>
-
-<!-- Custom scripts for all pages-->
-<script src="/resources/js/sb-admin-2.min.js"></script>
-
-<!-- Page level plugins -->
-<!-- 	<script src="/resources/vendor/datatables/js/jquery.dataTables.min.js"></script>
-	<script
-		src="/resources/vendor/datatables/js/dataTables.bootstrap4.min.js"></script>
- -->
-<!-- Page level custom scripts -->
-<!-- 
-<script src="/resources/js/demo/datatables-demo.js"></script> -->
-
-<script type="text/javascript">
-
-	var actionForm;
 	
-	$(document).ready(function() {
+	<!-- Bootstrap core JavaScript-->
+	<script src="/resources/vendor/jquery/jquery.min.js"></script>
+	<script src="/resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+	
+	<!-- Core plugin JavaScript-->
+	<script src="/resources/vendor/jquery-easing/jquery.easing.min.js"></script>
+	
+	<!-- Custom scripts for all pages-->
+	<script src="/resources/js/sb-admin-2.min.js"></script>
+	
+	<!-- Page level plugins -->
+	<!-- <script src="/resources/vendor/chart.js/Chart.min.js"></script> -->
+	
+	<!-- Page level custom scripts -->
+	<!-- <script src="/resources/js/demo/chart-area-demo.js"></script>
+	<script src="/resources/js/demo/chart-pie-demo.js"></script> -->
 
-		actionForm = $("#actionForm");
-		
-		//전체선택 체크박스 클릭
-		$("#checkAll").click(function(){ 
-			//만약 전체 선택 체크박스가 체크된상태일경우
-			if($("#checkAll").prop("checked")) { 
-				$("input[type=checkbox]").prop("checked",true); 
-			} else { 
-				$("input[type=checkbox]").prop("checked",false); 
-			} 
-		});
-		
-		 //변경버튼 클릭시
-		$("#changeState").click(function(){
-			var lessonId = getChecked();
-			var state = $("select[name=state]").val();
-			var data = {
-				lessonId,
-				state
+	<script type="text/javascript">
+	
+		var actionForm;
+	
+		$(document).ready(function() {
+
+			actionForm = $("#actionForm");
+			
+			//전체선택 체크박스 클릭
+			$("#checkAll").click(function(){ 
+				//만약 전체 선택 체크박스가 체크된상태일경우
+				if($("#checkAll").prop("checked")) { 
+					$("input[type=checkbox]").prop("checked",true); 
+				} else { 
+					$("input[type=checkbox]").prop("checked",false); 
+				} 
+			});
+			
+			 //변경버튼 클릭시
+			$("#changeState").click(function(){
+				var email = getChecked();
+				var state = $("select[name=state]").val();
+				var data = {
+					email,
+					state
+				};
+				changeLessonStateApi(data)			
+			});
+			
+			 
+			//체크된것 값 가져오기                                                             
+			function getChecked(){ 
+				var tdArr = new Array();
+				var checkbox = $("input[name=checkOne]:checked");
+					// 체크된 체크박스 값을 가져온다
+				checkbox.each(function(i) {
+				var tr = checkbox.parent().parent().eq(i);
+				var td = tr.children();
+				var no = td.eq(1).text();
+				tdArr.push(no);				
+			});
+				return tdArr;
 			};
-			changeLessonStateApi(data)			
-		});
-		
-		 
-		//체크된것 값 가져오기                                                             
-		function getChecked(){ 
-			var tdArr = new Array();
-			var checkbox = $("input[name=checkOne]:checked");
-				// 체크된 체크박스 값을 가져온다
-			checkbox.each(function(i) {
-			var tr = checkbox.parent().parent().eq(i);
-			var td = tr.children();
-			var no = td.eq(1).text();
-			tdArr.push(no);				
-		});
-			return tdArr;
-		};
-		
-		//state change
-		function changeLessonStateApi(data){
-  		  return $.ajax({
-  		    url: "/admin/lesson",
-  		    type: "Put",
-  		    data: JSON.stringify(data),
-  		    contentType: "application/json",
-  		    success : 
-  		    	location.href = "/admin/lesson/lessonReqList"
-  		  	  });
-  		}
-		
-		$pageBtn = $(".paging");
-		$tbody = $("tbody");
+			
+			//state change
+			function changeUserStateApi(data){
+	  		  return $.ajax({
+	  		    url: "/admin/user",
+	  		    type: "Put",
+	  		    data: JSON.stringify(data),
+	  		    contentType: "application/json",
+	  		    success : 
+	  		    	location.href = "/admin/list"
+	  		  	  });
+	  		}
+			
+			$pageBtn = $(".paging");
+			$tbody = $("tbody");
 
-		$pageBtn.on().click(function(e){
-			// active 관련은 나중에 없앨 수도 있음
-			$pageBtn.parent().removeClass("active")
-			e.preventDefault();
-			var $target = e.target
-			console.log($target);
-			$target.parentNode.setAttribute("class", "active");
-			var pageNum = $target.text;
-			getBoardList(pageNum)
-			.then(function(response){
-				console.log(response);
-				drawMyBoardList(response);
-			})
-			.catch(function(error){
-				console.log(error);
+			$pageBtn.on().click(function(e){
+				// active 관련은 나중에 없앨 수도 있음
+				$pageBtn.parent().removeClass("active")
+				e.preventDefault();
+				var $target = e.target
+				console.log($target);
+				$target.parentNode.setAttribute("class", "active");
+				var pageNum = $target.text;
+				getBoardList(pageNum)
+				.then(function(response){
+					console.log(response);
+					drawMyBoardList(response);
+				})
+				.catch(function(error){
+					console.log(error);
+				});
 			});
+			
+			function getBoardList(pageNum){
+					return $.ajax({
+					type : "GET",
+					url : "/admin/board/"+pageNum,
+					contentType : "application/json"
+				});
+			};
+			
+			function drawMyBoardList(boardList){
+				console.log(boardList);
+				$tbody.html("");
+				var fragment = document.createDocumentFragment();
+				for(var i = 0; i<boardList.length; i++){
+					var board = boardList[i];
+					var str = "";
+					var tr = document.createElement("tr");
+					str += "<td>"+board.id+"</td>";
+					str += "<td><a class='read' href='/board/read?id="+board.boardId+"'>"+board.title+"</a></td>";
+					str += "<td>"+board.nickname+"</td>"
+					var writtenAt = board.writtenAt
+					var date = new Date(writtenAt);
+					str += "<td>"+formatDate(date)+"</td>"
+				tr.innerHTML += str;
+				fragment.appendChild(tr);	
+				}
+				$tbody.append($(fragment));
+			};
+			
+			function formatDate(date) { 
+				var d = new Date(date), month = '' + (d.getMonth() + 1), day = '' + d.getDate(), year = d.getFullYear(); 
+				if (month.length < 2) month = '0' + month; 
+				if (day.length < 2) day = '0' + day; 
+				return [year, month, day].join('-'); 
+			};
+
 		});
 		
-		function getBoardList(pageNum){
-				return $.ajax({
-				type : "GET",
-				url : "/admin/board/"+pageNum,
-				contentType : "application/json"
-			});
-		};
-		
-		function drawMyBoardList(boardList){
-			console.log(boardList);
-			$tbody.html("");
-			var fragment = document.createDocumentFragment();
-			for(var i = 0; i<boardList.length; i++){
-				var board = boardList[i];
-				var str = "";
-				var tr = document.createElement("tr");
-				str += "<td>"+board.id+"</td>";
-				str += "<td><a class='read' href='/board/read?id="+board.boardId+"'>"+board.title+"</a></td>";
-				str += "<td>"+board.nickname+"</td>"
-				var writtenAt = board.writtenAt
-				var date = new Date(writtenAt);
-				str += "<td>"+formatDate(date)+"</td>"
-			tr.innerHTML += str;
-			fragment.appendChild(tr);	
-			}
-			$tbody.append($(fragment));
-		};
-		
-		function formatDate(date) { 
-			var d = new Date(date), month = '' + (d.getMonth() + 1), day = '' + d.getDate(), year = d.getFullYear(); 
-			if (month.length < 2) month = '0' + month; 
-			if (day.length < 2) day = '0' + day; 
-			return [year, month, day].join('-'); 
-		};
+			
+			$("#btnDropOut").click(function() {
+				// 확인 대화상자	
+				if (document.form[0].value == "") {
+					alert("이메일을 입력해주세요");
+				} else if (confirm("해당 계정을 탈퇴 시키겠습니까?")) {
+					document.form.action = "${path}/admin/dropOut";
+					document.form.submit();
 
-	});
-	
-	// 읽기 이벤트 추가
-	$(".read").on("click", function(e) {
-		e.preventDefault();
-		actionForm.append("<input type='hidden' name='id' value='"+$(this).attr("href")+"'>");
-		actionForm.attr("action", "/admin/lesson/lessonReqRead");
-		actionForm.submit();
-	});
-	
-</script>
+				}
+			});
+			$("#btnSuspended").click(function() {
+				// 확인 대화상자
+				if (document.form[0].value == "") {
+					alert("이메일을 입력해주세요");
+				} else {
+					if (confirm("해당 계정을 정지 시키겠습니까?")) {
+						document.form.action = "${path}/admin/suspended";
+						document.form.submit();
+					}
+				}
+			});
+			$("#btnInactive").click(function() {
+				// 확인 대화상자	
+				if (document.form[0].value == "") {
+					alert("이메일을 입력해주세요");
+				} else {
+					if (confirm("해당 계정을 휴면전환 시키겠습니까?")) {
+						document.form.action = "${path}/admin/inactive";
+						document.form.submit();
+					}
+				}
+			});
+			$("#btnBackNormal").click(function() {
+				// 확인 대화상자	
+				if (document.form[0].value == "") {
+					alert("이메일을 입력해주세요");
+				} else {
+					if (confirm("해당 계정을 일반상태로 전환 시키겠습니까?")) {
+						document.form.action = "${path}/admin/backNormal";
+						document.form.submit();
+					}
+				}
+			});
+		
+	</script>
 
 </body>
-
 </html>

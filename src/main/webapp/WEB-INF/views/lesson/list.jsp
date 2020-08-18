@@ -24,6 +24,10 @@
     border-bottom: solid;
     width: 75%;
 }
+.lessonImg {
+width : 150px;
+height : 120px;
+}
 </style>
 <body>
 
