@@ -15,4 +15,8 @@ public interface OrdersService {
 	public int getTotal(OrderCriteria cri);
 	
 	public void stateChange(OrderDTO order);
+
+	public List<OrderAllDTO> myOrderListPaging(OrderCriteria cri);
+
+	public int getMyTotal(OrderCriteria cri);
 }

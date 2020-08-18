@@ -111,21 +111,6 @@ a#regBtn {
 </style>
 <body>
 
-<br><br><br><br><br><br><br><br><br><br><br>
-<sec:authentication var="principal" property="principal" />
-	<div class="row">
-		<div class="col-lg-12">
-			<div class="panel panel-default">
-				<div class="panel-heading">
-					Board List Page
-					<form id='cartForm' action="/merchandise/cart" method='get'>
-						<input type="hidden" id="userId" name="userId" value="${principal.id }">
-						<button id='cartBtn' class="btn btn-xs pull-right">장바구니</button>
-					</form>
-					<button id='regBtn' type="button" class="btn btn-xs pull-right">상품
-						등록</button>
-				</div>
-
 	<div class="container">
 		<sec:authentication var="principal" property="principal" />
 		<h1 class="page-header">상품 리스트</h1>

@@ -47,6 +47,7 @@
 	padding: 8px 15px;
 	font-size: 15px;
 	text-align: center;
+	vertical-align: middle;
 }
 
 .content-table thead tr {
@@ -123,7 +124,13 @@ div.sub1 {
 p.p1 {
 	margin: 10px 0;
 }
+p {
+	margin: 5px 0;
+}
 
+p.originP {
+	font-weight: normal;
+}
 p>span {
 	font-weight: bold;
 }
@@ -137,8 +144,8 @@ p>span {
 			<div class="table-container">
 				<table class="content-table">
 					<tr>
+						<th>상품 정보</th>
 						<th></th>
-						<th>상품정보</th>
 						<th>상품 금액</th>
 					</tr>
 					<c:set var="i" value="0" />
@@ -148,13 +155,21 @@ p>span {
 					<c:set var="salePrice" value="0" />
 					<c:forEach items="${buyList}" var="list">
 						<tr>
-							<td class="main_list_col1">이미지</td>
+							<td class="main_list_col1"><img class="lessonImg"
+								src="/resources/img/classtmpimg.jpg"></td>
 							<td class="main_list_col2">${list.name}</td>
-							<td class="main_list_col3"><fmt:formatNumber
-									value="${list.salePrice }" pattern="#,###" /> 원<br> <del>
-									<fmt:formatNumber value="${list.originPrice }" pattern="#,###" />
+							<td class="main_list_col3">
+								<p class="saleP">
+									<fmt:formatNumber value="${list.salePrice }" pattern="#,###" />
 									원
-								</del></td>
+								</p>
+								<p class="originP">
+									<del>
+										<fmt:formatNumber value="${list.originPrice }" pattern="#,###" />
+										원
+									</del>
+								</p>
+							</td>
 						</tr>
 
 						<input type="hidden" id="cartId" name="cartId" value="${list.id }">

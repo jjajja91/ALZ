@@ -115,7 +115,7 @@
           <a href="#paymentList" class="mypageBtn">결제정보</a>
           <div class="smenu">
   			<a href="/myPage/refundedLesson">취소/환불</a>
-  			<a href="#">결제 내역</a>
+  			<a href="/myPage/paidOrderList">결제 내역</a>
           </div>
         </li>
         <li class="mypageItem" id="myList">
