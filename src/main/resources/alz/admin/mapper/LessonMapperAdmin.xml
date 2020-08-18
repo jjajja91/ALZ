@@ -8,9 +8,8 @@
 
 	<select id="LessonReqList"
 		resultType="alz.admin.domain.LessonDTOAdmin">
-		select l.id id, l.title title, l.open_at openAt, l.close_at
-		closeAt,
-		ls.state state
+		select l.id id, l.teacher_id teacherId, l.thumbnail thumbnail, l.title title, l.open_at openAt, l.close_at	closeAt, 
+		ls.state state 
 		from alz_lesson l, alz_lesson_state ls
 		where
 		l.state = ls.id
