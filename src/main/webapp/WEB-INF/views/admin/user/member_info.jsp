@@ -26,7 +26,7 @@
 											<!-- 회원의 아이디를 입력하면 해당 회원에 정보가 하단에 출력되게 함 -->
 											<form action="find_member" method="post">
 												<span style="color: black; font-weight: bold;"><h3>회원
-														아이디</h3></span> <br> <br>
+														정보</h3></span> <br> <br>
 												<div class="col-lg-3">
 													<input type="text" name="email" placeholder="이메일을 입력하세요."
 														class="form-control"><br>
@@ -55,13 +55,13 @@
 														<center>
 															<c:forEach var="member" items="${map.list}">
 																<!-- 컨트롤러에서 넘어온 map의 값 -->
-																<span style="color: black; font-weight: bold;">아이디
+																<span style="color: black; font-weight: bold;">이메일
 																	:</span>
 																<span style="color: blue; font-weight: bold;">${member.email}</span>
 																<br>
 																<br>
 
-																<span style="color: black; font-weight: bold;">이메일
+																<span style="color: black; font-weight: bold;">닉네임
 																	:</span>
 																<span style="color: blue; font-weight: bold;">${member.nickname}</span>
 																<br>

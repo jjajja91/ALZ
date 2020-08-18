@@ -60,5 +60,6 @@ public interface BoardService {
 
 	BoardDTO readReview(BoardDTO board);
 
+	String getBoardName(Integer typeId);
 
 }

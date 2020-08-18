@@ -15,7 +15,7 @@
 			<br> <br>
 			<div
 				class="d-sm-flex align-items-center justify-content-between mb-4">
-				<h1 class="h3 mb-2 text-gray-800">회원 정보 검색</h1>
+				<h1 class="h3 mb-2 text-gray-800">회원 상태 변경</h1>
 			</div>
 			<div class="card shadow mb-4">
 				<div class="card shadow mb-4">
