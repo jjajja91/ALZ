@@ -1,14 +1,20 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@page import="java.text.SimpleDateFormat"%>
-<%@page import="com.thoughtworks.qdox.parser.ParseException"%>
+<meta name="google-signin-scope" content="profile email">
+<meta name="google-signin-client_id"
+	content="576736845363-o0474pib5q69qlcv6lm7o42hs6lu5u59.apps.googleusercontent.com">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport"
+	content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width" />
 <%@include file="../../includes/admin_header.jsp"%>
+
+<!-- Content Wrapper -->
 <div id="content-wrapper" class="d-flex flex-column">
 
 	<!-- Main Content -->
 	<div id="content">
-	
-			<!-- Topbar -->
+
+		<!-- Topbar -->
 		<nav
 			class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
@@ -203,99 +209,167 @@
 
 		</nav>
 		<!-- End of Topbar -->
-	
+
+		<!-- Begin Page Content -->
 		<div class="container-fluid">
-			<br> <br>
-			<div
-				class="d-sm-flex align-items-center justify-content-between mb-4">
-				<h1 class="h3 mb-2 text-gray-800">회원 정보 검색</h1>
-			</div>
+
+			<!-- Page Heading -->
+			<h1 class="h3 mb-2 text-gray-800">회원 상태 변경</h1>
+
+			<!-- DataTales Example -->
 			<div class="card shadow mb-4">
-				<div class="card shadow mb-4">
-					<div class="card-body">
-						<div class="table-responsive">
-							<div>
-								<center>
-									<br> <br>
-									<table class="table table-bordered" id="dataTable" width="100%"
-										cellspacing="0">
-										<center>
-											<!-- 회원의 아이디를 입력하면 해당 회원에 정보가 하단에 출력되게 함 -->
-											<form action="find_member" method="post">
-												<span style="color: black; font-weight: bold;"><h3>회원
-														정보</h3></span> <br> <br>
-												<div class="col-lg-3">
-													<input type="text" name="email" placeholder="이메일을 입력하세요."
-														class="form-control"><br>
-												</div>
-												<button type="submit" name="submit"
-													class="btn btn-primary btn-sm">확인</button>
-												&nbsp;&nbsp;
-												<button type="button" id=adminHomeBtn
-													class="btn btn-primary btn-sm">관리자 홈으로</button>
-												<br> <br>
-											</form>
-										</center>
-									</table>
-								</center>
+				<div class="card-header py-3">
+					<h6 class="m-0 font-weight-bold text-primary">Decision in Progress</h6>
+				</div>
+				<div class="card-body">
+					<div class="table-responsive">
 
-
-								<c:if test="${map.list != null}">
-									<center>
-										<span style="color: black; font-weight: bold;">해당하는 회원
-											정보</span> <br> <br>
-										<table border="1" width="500px" class="table-hover">
-											<div class="card align-middle"
-												style="width: 50rem; border-radius: 20px;">
-												<div class="card-body">
-													<div style="text-align: center;">
-														<center>
-															<c:forEach var="member" items="${map.list}">
-																<!-- 컨트롤러에서 넘어온 map의 값 -->
-																<span style="color: black; font-weight: bold;">이메일
-																	:</span>
-																<span style="color: blue; font-weight: bold;">${member.email}</span>
-																<br>
-																<br>
-
-																<span style="color: black; font-weight: bold;">닉네임
-																	:</span>
-																<span style="color: blue; font-weight: bold;">${member.nickname}</span>
-																<br>
-																<br>
-
-																<span style="color: black; font-weight: bold;">전화번호
-																	:</span>
-																<span style="color: blue; font-weight: bold;">${member.phoneNumber}</span>
-																<br>
-																<br>
-															</c:forEach>
-														</center>
-													</div>
-												</div>
-											</div>
-										</table>
-									</center>
-								</c:if>
-							</div>
+						<div>
+							<br>회원 목록<br> <br>
+							<table class="table table-bordered" id="dataTable" width="100%"
+								cellspacing="0">
+								<thead style="text-align: center; background: #4e73df; color: white;">
+									<tr>
+										<th><input type="checkbox" id="checkAll"></th>
+										<th>이메일</th>
+										<th>닉네임</th>
+										<th>권한</th>
+										<th>전화번호</th>
+										<th>회원 상태</th>
+										<th>상태 시작일시</th>
+										<th>상태 종료일시</th>
+									</tr>
+								</thead>
+								<tbody>
+									<c:forEach var="row" items="${list}">
+										<tr>
+											<td><input type="checkbox" id="checkOne" name="checkOne"></td>
+											<td><input type="checkbox" id="checkOne" name="checkOne"></td>
+											<td>${row.email}</td>
+											<!-- 회원정보 상세조회를 위해 a태그 추가 -->
+											<td><a href="${path}/admin/view?email=${row.email}">${row.nickname}</a></td>
+											<td>${row.role}</td>
+											<td>${row.phoneNumber}</td>
+											<td>${row.state}</td>
+											<td>${row.startAt}</td>
+											<td>${row.endAt}</td>
+										</tr>
+									</c:forEach>
+								</tbody>
+							</table>
+							<select name='state'>
+								<option>상태 변경</option>
+								<option value='탈퇴'>탈퇴</option>
+								<option value='정지'>정지</option>
+								<option value='휴면'>휴면</option>						
+								<option value='일반'>일반</option>						
+							</select>
+							<input type='button' name='changeState' id='changeState' value="변경">
 						</div>
+
+
+
+
+						<div>
+							<form name="form" method="post">
+								<table class="table table-bordered" id="dataTable">
+									<div class="card-body">
+										<br> 
+										<span style="color: black; font-weight: bold;">회원 이메일</span>
+										<br> <br> 
+										<input type="text" name="email" style="width: 300px;" placeholder="상태 혹은 권한을 변환 시킬 회원의 이메일 입력 " class="form-control"> 
+										<br> <br> 
+										<input type="button" value="탈퇴" id="btnDropOut"> 
+										<input type="button" value="정지" id="btnSuspended"> 
+										<input type="button" value="휴면" id="btnInactive"> 
+										<input type="button" value="일반상태" id="btnBackNormal"><br>
+										<br>
+										<!-- <input type="button" value="일반계정" id="btnAsUser">
+											<input type="button" value="관리자계정" id="btnAsManager"> -->
+									</div>
+								</table>
+							</form>
+						</div>
+						
+						
+						
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-	<!-- 회원정보에 없는 아이디를 입력할 시에 출력되는 경고창 -->
+	<!-- 로그인 실패나 성공시 메시지를 받아서 출력하는 자바스크립트 구문 -->
 	<script>
-		$(function() {
-			var responseMessage = "<c:out value="${message}" />";
-			if (responseMessage != "") {
-				alert(responseMessage)
-			}
-		})
+		$(document).ready(function() {
+			$("#btnDropOut").click(function() {
+				// 확인 대화상자	
+				if (document.form[0].value == "") {
+					alert("이메일을 입력해주세요");
+				} else if (confirm("해당 계정을 탈퇴 시키겠습니까?")) {
+					document.form.action = "${path}/admin/dropOut";
+					document.form.submit();
 
+				}
+			});
+			$("#btnSuspended").click(function() {
+				// 확인 대화상자
+				if (document.form[0].value == "") {
+					alert("이메일을 입력해주세요");
+				} else {
+					if (confirm("해당 계정을 정지 시키겠습니까?")) {
+						document.form.action = "${path}/admin/suspended";
+						document.form.submit();
+					}
+				}
+			});
+			$("#btnInactive").click(function() {
+				// 확인 대화상자	
+				if (document.form[0].value == "") {
+					alert("이메일을 입력해주세요");
+				} else {
+					if (confirm("해당 계정을 휴면전환 시키겠습니까?")) {
+						document.form.action = "${path}/admin/inactive";
+						document.form.submit();
+					}
+				}
+			});
+			$("#btnBackNormal").click(function() {
+				// 확인 대화상자	
+				if (document.form[0].value == "") {
+					alert("이메일을 입력해주세요");
+				} else {
+					if (confirm("해당 계정을 일반상태로 전환 시키겠습니까?")) {
+						document.form.action = "${path}/admin/backNormal";
+						document.form.submit();
+					}
+				}
+			});
+			$("#btnAsUser").click(function() {
+				// 확인 대화상자	
+				if (document.form[0].value == "") {
+					alert("이메일을 입력해주세요");
+				} else {
+					if (confirm("해당 계정을 일반 계정으로 전환 시키겠습니까?")) {
+						document.form.action = "${path}/admin/asUser";
+						document.form.submit();
+					}
+				}
+			});
+			$("#btnAsManager").click(function() {
+				// 확인 대화상자	
+				if (document.form[0].value == "") {
+					alert("이메일을 입력해주세요");
+				} else {
+					if (confirm("해당 계정을 관리자 계정으로 전환 시키겠습니까?")) {
+						document.form.action = "${path}/admin/asManager";
+						document.form.submit();
+					}
+				}
+			});
+		});
 		$(function() {
 			$("#adminHomeBtn").click(function() {
-				location.href = '/admin/index';
+				location.href = '/admin/changeStateView';
 			})
 		})
 	</script>
