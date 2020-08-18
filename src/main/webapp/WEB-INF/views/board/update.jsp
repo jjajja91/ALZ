@@ -377,7 +377,7 @@
 					str += " data-uuid='"+file.uuid+"' data-filename='"+file.fileName+"' data-type='"+file.fileType+"'><div>";
 					str += "<span> " + file.fileName+"</span>";
 					str += "<button type='button' data-file=\'"+fileCallPath+"\' data-type='file' class='btn btn-warning btn-circle'><i class='fa fa-times'></i></button><br>";
-					str += "<img style='width:100%;' src='/resources/img/attach.png'>";
+					str += "<img src='/resources/img/attach.png'>";
 					str += "</div></li>";									
 				}
 			});
@@ -421,7 +421,7 @@
   					str += "<span> " + obj.fileName+"</span>";
   					str += "<button type='button' data-file=\'"+fileCallPath+"\' data-type='image' class='btn btn-warning btn-circle'><i class='fa fa-times'></i></button><br>";
   		  			imgstr += "<pr><img style='width:100%;' src='/file/display?fileName="+imagePath+"'></pr>";
-  					str += "<img style='width:100%;' src='/file/display?fileName="+fileCallPath+"'>";
+  					str += "<img src='/file/display?fileName="+fileCallPath+"'>";
   					str += "</div></li>";
   				} else {
   					var fileCallPath = encodeURIComponent(obj.uploadPath+"/"+obj.uuid+"_"+obj.fileName);
@@ -431,7 +431,7 @@
   					str += " data-uuid='"+obj.uuid+"' data-filename='"+obj.fileName+"' data-type='"+obj.image+"'><div>";
   					str += "<span> " + obj.fileName+"</span>";
   					str += "<button type='button' data-file=\'"+fileCallPath+"\' data-type='file' class='btn btn-warning btn-circle'><i class='fa fa-times'></i></button><br>";
-  					str += "<img style='width:100%;' src='/resources/img/attach.png'>";
+  					str += "<img src='/resources/img/attach.png'>";
   					str += "</div></li>";
   					
   				}

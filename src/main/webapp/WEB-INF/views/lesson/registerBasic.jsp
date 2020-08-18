@@ -127,7 +127,7 @@
 }
 
 .dateInput, .lessonDate {
-	width: 130px;
+	width: 140px;
 }
 </style>
 <body>

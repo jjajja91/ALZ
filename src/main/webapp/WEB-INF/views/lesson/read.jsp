@@ -35,6 +35,16 @@
 .lessonImg {
 	width: 700px;
 }
+
+#content {
+    height: -webkit-fill-available;
+    border: none;
+    background-color:white;
+    padding-top: 20px;
+    resize: none;
+}
+
+
 </style>
 <body>
 	<div class="container">

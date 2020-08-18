@@ -107,6 +107,7 @@ public class LessonServiceImpl implements LessonService {
 			return;
 		}
 		
+		System.out.println(detail.getFileList());
 		detail.getFileList().forEach(file -> {
 			file.setLessonId(detail.getLessonId());
 			lessonFileMapper.insert(file);

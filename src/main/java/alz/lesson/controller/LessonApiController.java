@@ -48,6 +48,7 @@ public class LessonApiController {
    
 	@PostMapping
 	public ResponseEntity<?> create(@RequestBody LessonDetailDTO detail){
+		System.out.println(detail);
 		lessonService.createLessonDetailFile(detail);
 		return ResponseEntity.status(HttpStatus.CREATED).body(detail);
 	}
