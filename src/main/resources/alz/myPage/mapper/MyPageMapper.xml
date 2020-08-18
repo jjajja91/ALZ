@@ -123,8 +123,8 @@
      <select id="myLessonList" resultType="alz.lesson.domain.LessonDTO">
      <![CDATA[
     	select * from 
-    	(select rownum rn, id, title, thumbnail, open_at, close_at from
-    	(select l.id, l.title, l.thumbnail, l.open_at, l.close_at
+    	(select rownum rn, id, teacher_id, title, thumbnail, open_at, close_at from
+    	(select l.id, l.teacher_id, l.title, l.thumbnail, l.open_at, l.close_at
       	from
       	alz_order o,
         alz_order_detail od,
