@@ -120,9 +120,10 @@ button.btn-danger {
 	border: 1px solid #dddddd;
 	font-size: 20px;
 	padding: 1px 5px;
+	margin-bottom: 50px;
 }
 p {
-	padding: 5px 0;
+	padding: 5px 0;	
 }
 </style>
 </head>

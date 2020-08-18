@@ -17,8 +17,6 @@
 	crossorigin="anonymous"></script>
 </head>
 
-<br><br><br><br><br><br><br><br><br>
-
 <style>
 body {
 	margin-bottom: 50px;

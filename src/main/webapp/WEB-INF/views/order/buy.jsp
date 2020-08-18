@@ -49,6 +49,7 @@
 .content-table td {
 	padding: 8px 15px;
 	font-size: 15px;
+	vertical-align: middle;
 }
 
 .content-table thead tr {
@@ -101,10 +102,10 @@ p.orderNo {
 }
 
 footer {
-	position: absolute; 
+	position: absolute;
 	margin-top: 30px;
 	width: 100%;
-	bottom : 0;
+	bottom: 0;
 	background: #5eaeff;
 	text-align: center;
 	color: white;
@@ -123,15 +124,21 @@ td.td2 {
 	width: 300px;
 }
 
+p {
+	margin: 10px 0;
+}
+
 a.main {
 	font-size: 18px;
-	margin-left: 300px;
 	background-color: #335492;
 	border-radius: 5px 5px;
 	box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
 	color: #ffffff;
 	border: 1px solid #dddddd;
 	background-color: #335492;
+}
+div.toMain {
+    margin: 30px 0 30px 300px;
 }
 </style>
 <body>
@@ -161,10 +168,13 @@ a.main {
 					<c:set var="finalTotalPrice" value="0" />
 					<c:forEach items="${orderList}" var="list">
 						<tr>
-							<td>이미지</td>
-							<td>${list.name }<br> <fmt:formatNumber
-									value="${list.salePrice}" pattern="#,###" /> 원
-							</td>
+							<td><img class="lessonImg"
+								src="/resources/img/classtmpimg.jpg"></td>
+							<td><p>${list.name }</p>
+								<p>
+									<fmt:formatNumber value="${list.salePrice}" pattern="#,###" />
+									원
+								</p></td>
 							<td>결제 완료</td>
 						</tr>
 						<c:set var="finalTotalPrice"
@@ -209,7 +219,9 @@ a.main {
 					</tr>
 				</table>
 			</div>
-			<br><br> <a class='main' href='/'> 메인으로 가기</a> <br><br>
+		</div>
+		<div class="toMain">
+			<a class='main' href='/'> 메인으로 가기</a>
 		</div>
 	</div>
 </body>
