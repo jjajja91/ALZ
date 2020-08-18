@@ -92,7 +92,9 @@ button.btn-default {
 					<td class="tdVal"><select name="lessonList" class="lessonList">
 							<option>클래스를 선택해주세요</option>
 							<c:forEach var="lesson" items="${lessonList}">
-								<option value="${lesson.id}">${lesson.title}</option>
+								<option value="${lesson.id}"
+									data-open='<fmt:formatDate pattern = "yyyy-MM-dd HH:mm:ss" value="${lesson.openAt}" />'
+									data-end='<fmt:formatDate pattern = "yyyy-MM-dd HH:mm:ss" value="${lesson.closeAt}" />'>${lesson.title}</option>
 							</c:forEach>
 					</select></td>
 				</tr>
@@ -100,9 +102,10 @@ button.btn-default {
 
 				<tr class="trLine">
 					<td class="tdKey">상품 유형
-					<td class="tdVal"><input type="radio" name="codeType" class="radio"
-						value="클래스" checked="checked"> 클래스 <input type="radio" class="radio"
-						name="codeType" value="준비물"> 준비물</td>
+					<td class="tdVal"><input type="radio" name="codeType"
+						class="radio" value="클래스" checked="checked"> 클래스 <input
+						type="radio" class="radio" name="codeType" value="준비물">
+						준비물</td>
 				</tr>
 				<tr class="trLine">
 					<td class="tdKey">상품명</td>
@@ -111,8 +114,13 @@ button.btn-default {
 				</tr>
 				<tr class="trLine">
 					<td class="tdKey">상품 설명</td>
-					<td class="tdVal"><textarea class="form-control" rows="5" cols="60"
-							name='description'></textarea></td>
+					<td class="tdVal"><textarea class="form-control" rows="5"
+							cols="60" name='description'></textarea></td>
+				</tr>
+				<tr class="trLine">
+					<td class="tdKey">시작일</td>
+					<td class="tdVal"><input type="datetime-local"
+						name='registerAt' /></td>
 				</tr>
 
 				<tr class="trLine">
@@ -145,9 +153,10 @@ button.btn-default {
 
 				<tr class="trLine">
 					<td class="tdKey">진열 상태</td>
-					<td class="tdVal"><input type="radio" name="displayState" class="radio"
-						value="1" checked="checked"> 진열 <input type="radio" class="radio"
-						name="displayState" value="0"> 미진열</td>
+					<td class="tdVal"><input type="radio" name="displayState"
+						class="radio" value="1" checked="checked"> 진열 <input
+						type="radio" class="radio" name="displayState" value="0">
+						미진열</td>
 				</tr>
 				<tr>
 					<td colspan="2" align="center" style="padding-top: 25px;">
@@ -173,6 +182,7 @@ $(document).ready(function(e){
 		var $codeType = $("input[name=codeType]");
 		var $description = $("textarea[name=description]");
 		var $closedAt = $("input[name=closedAt]");
+		var $registerAt = $("input[name=registerAt]");
 		var $originPrice = $("input[name=originPrice]");
 		var $displayState = $("input[name=displayState]");
 		var $discountRate = $("input[name=discountRate]");
@@ -210,6 +220,7 @@ $(document).ready(function(e){
 				name: $name.val(),
 				codeType: $codeType.val(),
 				description: $description.val(),
+				registerAt: $registerAt.val(),
 				closedAt: $closedAt.val(),
 				originPrice: $originPrice.val(),
 				salePrice: $salePrice.val(),
@@ -248,9 +259,13 @@ $(document).ready(function(e){
 	$('.lessonList').change(function(e) {
 		console.log("변경");
 		var value = $(this).val();
-		var nameText = $(":selected") .text();
+		var nameText = $(":selected").text();
+		var startDate = $(":selected").data("open");
+		var endDate = $(":selected").data("end");
 		$refId.val(value);
 		$name.val(nameText);
+		$registerAt.val(startDate);
+		$closedAt.val(endDate);
 	});
 	
 	$(".list").click(function() {
