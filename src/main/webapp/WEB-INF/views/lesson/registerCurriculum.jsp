@@ -332,7 +332,7 @@ input[name="addSubject"] {
 		
 	});
 	
-	// 쓰기 아직 완성안됨
+	// 버튼이벤트
 	$("button[type=button]").click(function(e) {
 
 		e.preventDefault();
@@ -341,6 +341,7 @@ input[name="addSubject"] {
 		var location = $(this).attr("name");
 		var curriculumList = [];
 
+		
 		// 커리큘럼 목록 배열
 		$('.subjectLi').each(function() { 
 			var curriculumObj = {
@@ -360,14 +361,20 @@ input[name="addSubject"] {
 			curriculumList.push(curriculumObj);
 		});
 		
-		insertCurriculum(curriculumList, location)
-			.then(function(response) {
-				if (response==='prev') {
-		    		self.location = "/lesson/registerDetail?lessonId="+$lessonId.val();
-		    	} else if(response==='submit') {
-		    		
-		    	}
-			})
+		if(curriculumList[0].subject!=null) {
+			insertCurriculum(curriculumList, location)
+				.then(function(response) {
+					if (response==='prev') {
+			    		self.location = "/lesson/registerDetail?lessonId="+$lessonId.val();
+			    	} else if(response==='save') {
+			    		alert("저장되었습니다!");
+			    	}
+				})
+		} 
+		
+		if (location=='prev') {
+			self.location = "/lesson/registerDetail?lessonId="+$lessonId.val();
+		}
 		
 	});
 	

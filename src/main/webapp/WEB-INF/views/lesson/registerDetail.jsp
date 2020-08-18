@@ -235,7 +235,6 @@ input[type="button"] {
 			focus : true,
 			lang : 'ko-KR',
 			height : 320,
-			width: 900,	
 			
 			// 콜백으로 파일 서버 저장
 			callbacks : {
@@ -261,12 +260,17 @@ input[type="button"] {
 			$("div[class*=toolbar]").append(str);
 		}
 		
+		$('.note-editor').width($(window).width()* 0.8);
+		
 		// 파일 변경시 변경
 		$("input[type='file']").change(function(e){
 			var inputFile = $("input[name='uploadFile']");
 			var files = inputFile[0].files;
+			
+
 			sendFile(files);
 		});
+		
 	});
 	
 	// 다음 클릭시 지우고 저장
@@ -409,7 +413,7 @@ input[type="button"] {
 				str += " data-uuid='"+obj.uuid+"' data-filename='"+obj.fileName+"' data-type='"+obj.image+"'><div>";
 				str += "<span> " + obj.fileName+"</span>";
 				str += "<button type='button' data-file=\'"+fileCallPath+"\' data-type='image' class='btn btn-warning btn-circle'><i class='fa fa-times'></i></button><br>";
-				imgstr += "<pr><img src='/file/display?fileName="+imagePath+"'></pr>";
+				imgstr += "<pr><img style='width:100%; 'src='/file/display?fileName="+imagePath+"'></pr>";
 				str += "<img src='/file/display?fileName="+fileCallPath+"'>";
 				str += "</div></li>";
 			} else {

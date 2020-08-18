@@ -5,8 +5,21 @@
 
 <%@include file="../includes/header.jsp"%>
 <head>
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+<!-- include summernote-ko-KR -->
+<script src="/resources/js/summernote-ko-KR.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+	integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+	integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+	integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
 </head>
 <style>
 .container {
@@ -50,10 +63,9 @@
 						<h3>
 							<strong>이런 걸 배울 거예요</strong>
 						</h3>
-						<pre class="pre">
-							<c:out value="${detail.detail}" />
-						</pre>
-
+						<textarea class="form-control" 
+								  id='content' name='content' readonly="readonly"><c:out value="${detail.detail }" /></textarea>
+						
 						<br> <br>
 						<h3>
 							<strong>
@@ -233,6 +245,46 @@
 				$("input[type=hidden][name=rate]").val(lesson_star_rate);
 
 			});
+	
+	// 파일 리스트 가져와서 보여주기
+	(function() {
+
+		$.getJSON("/lessons/getFileList", {
+			lessonId : lessonId
+		}, function(arr) {
+			console.log(arr);
+			
+			var str = "";
+			
+			$(arr).each(function(i, file){
+				
+				//image type
+				if(file.fileType){
+					var fileCallPath = encodeURIComponent(file.uploadPath+"/s_"+file.uuid+"_"+file.fileName);
+					
+					str += "<li data-path='"+file.uploadPath+"' data-uuid='"+file.uuid+"' data-filename='"+file.fileName+"'";
+					str += "data-type='"+file.fileType+"'><div>";
+					str += "<img src='/file/display?fileName="+fileCallPath+"'>";
+					str += "</div></li>";
+				} else {
+					str += "<li data-path='"+file.uploadPath+"' data-uuid='"+file.uuid+"' data-filename='"+file.fileName+"'";
+					str += "data-type='"+file.fileType+"'><div>";
+					str += "<img src='/resources/img/attach.png'>";
+					str += "</div></li>";
+				}
+			});
+			$(".uploadResult ul").html(str);
+		});
+	})();
+	
+
+	var $content = $('#content');
+	
+	//서머노트 툴바 삭제
+	$content.summernote('code', $content.val());
+	$("div[class*=toolbar]").css("display", "none");
+	$("div[class*=note-editable]").attr("contenteditable", "false");
+
 
 	// 한줄평 리스트 가져오기
 	function getquickReviewList() {

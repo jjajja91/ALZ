@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import alz.file.domain.BoardFileDTO;
+import alz.file.domain.LessonFileDTO;
 import alz.file.mapper.LessonFileMapper;
 import alz.lesson.domain.CategoryDTO;
 import alz.lesson.domain.CurriculumDetailDTO;
@@ -20,7 +22,9 @@ import alz.lesson.domain.TeacherDTO;
 import alz.lesson.domain.TimeTableDTO;
 import alz.lesson.mapper.LessonMapper;
 import alz.user.mapper.UserMapper;
+import lombok.extern.log4j.Log4j;
 
+@Log4j
 @Service
 public class LessonServiceImpl implements LessonService {
 
@@ -96,7 +100,7 @@ public class LessonServiceImpl implements LessonService {
 		// 원래 있던 세부설명 삭제하고 새로만듬
 		if(detail.getId()!=null) {
 			// 파일삭제 추가해야됨
-			lessonFileMapper.delete(detail.getLessonId());
+			lessonFileMapper.deleteAll(detail.getLessonId());
 		}
 		
 		if (detail.getFileList() == null || detail.getFileList().size() <= 0) {
@@ -287,6 +291,11 @@ public class LessonServiceImpl implements LessonService {
 		return total;
 	}
 
+	@Override
+	public List<LessonFileDTO> getFileList(Long lessonId) {
+		log.info("get File list by lesson_id" + lessonId);
+		return lessonFileMapper.findByLessonId(lessonId);
+	}
 	
 
 

@@ -15,11 +15,13 @@
 </delete>
 
 <delete id="deleteAll">
-	DELETE FROM alz_board_file WHERE board_id = #{boardId}
+	DELETE FROM alz_lesson_img WHERE lesson_id = #{lessonId}
 </delete>
 
-<select id="findByBoardId" resultType="alz.file.domain.LessonFileDTO">
-	SELECT * FROM alz_lesson_img WHERE lesson_id = #{lessonId}
+<select id="findByLessonId" resultType="alz.file.domain.LessonFileDTO">
+	SELECT id uuid, lesson_id lessonId, image fileName, description fileType, path uploadPath
+	FROM   alz_lesson_img 
+	WHERE  lesson_id = #{lessonId}
 </select>
 
 <select id="getOldFiles" resultType="alz.file.domain.LessonFileDTO">

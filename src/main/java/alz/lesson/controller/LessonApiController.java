@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import alz.file.domain.LessonFileDTO;
 import alz.lesson.domain.CategoryDTO;
 import alz.lesson.domain.CurriculumSubjectDTO;
 import alz.lesson.domain.LessonDTO;
@@ -48,6 +50,13 @@ public class LessonApiController {
 	public ResponseEntity<?> create(@RequestBody LessonDetailDTO detail){
 		lessonService.createLessonDetailFile(detail);
 		return ResponseEntity.status(HttpStatus.CREATED).body(detail);
+	}
+	
+	// 파일 리스트 얻어오기
+	@GetMapping(value = "/getFileList", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public ResponseEntity<List<LessonFileDTO>> getFileList(Long lessonId) {
+		List<LessonFileDTO> lessonFiles = lessonService.getFileList(lessonId);
+		return ResponseEntity.status(HttpStatus.OK).body(lessonFiles);
 	}
 	
 	// 자동완성 클래스 선택

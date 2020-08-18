@@ -6,8 +6,35 @@
 	prefix="sec"%>
 <%@include file="../includes/header.jsp"%>
 <head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+<!-- include summernote-ko-KR -->
+<script src="/resources/js/summernote-ko-KR.js"></script>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"
+	crossorigin="anonymous"></script>
 <script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+	integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+	crossorigin="anonymous"></script>
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+	integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+	crossorigin="anonymous">
+<script
+	src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+	integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+	crossorigin="anonymous"></script>
+
+<link
+	href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css"
+	rel="stylesheet">
+<script
+	src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
 </head>
 <style>
 .container {
@@ -340,7 +367,7 @@
 					str += " data-uuid='"+file.uuid+"' data-filename='"+file.fileName+"' data-type='"+file.fileType+"'><div>";
 					str += "<span> " + file.fileName+"</span>";
 					str += "<button type='button' data-file=\'"+fileCallPath+"\' data-type='image' class='btn btn-warning btn-circle'><i class='fa fa-times'></i></button><br>";
-					str += "<img src='/file/display?fileName="+fileCallPath+"'>";
+					str += "<img style='width:100%;' src='/file/display?fileName="+fileCallPath+"'>";
 					str += "</div></li>";
 				} else {
 					var fileCallPath = encodeURIComponent(file.uploadPath+"/"+file.uuid+"_"+file.fileName);
@@ -350,7 +377,7 @@
 					str += " data-uuid='"+file.uuid+"' data-filename='"+file.fileName+"' data-type='"+file.fileType+"'><div>";
 					str += "<span> " + file.fileName+"</span>";
 					str += "<button type='button' data-file=\'"+fileCallPath+"\' data-type='file' class='btn btn-warning btn-circle'><i class='fa fa-times'></i></button><br>";
-					str += "<img src='/resources/img/attach.png'>";
+					str += "<img style='width:100%;' src='/resources/img/attach.png'>";
 					str += "</div></li>";									
 				}
 			});
@@ -393,8 +420,8 @@
   					str += " data-uuid='"+obj.uuid+"' data-filename='"+obj.fileName+"' data-type='"+obj.image+"'><div>";
   					str += "<span> " + obj.fileName+"</span>";
   					str += "<button type='button' data-file=\'"+fileCallPath+"\' data-type='image' class='btn btn-warning btn-circle'><i class='fa fa-times'></i></button><br>";
-  		  			imgstr += "<pr><img src='/file/display?fileName="+imagePath+"'></pr>";
-  					str += "<img src='/file/display?fileName="+fileCallPath+"'>";
+  		  			imgstr += "<pr><img style='width:100%;' src='/file/display?fileName="+imagePath+"'></pr>";
+  					str += "<img style='width:100%;' src='/file/display?fileName="+fileCallPath+"'>";
   					str += "</div></li>";
   				} else {
   					var fileCallPath = encodeURIComponent(obj.uploadPath+"/"+obj.uuid+"_"+obj.fileName);
@@ -404,7 +431,7 @@
   					str += " data-uuid='"+obj.uuid+"' data-filename='"+obj.fileName+"' data-type='"+obj.image+"'><div>";
   					str += "<span> " + obj.fileName+"</span>";
   					str += "<button type='button' data-file=\'"+fileCallPath+"\' data-type='file' class='btn btn-warning btn-circle'><i class='fa fa-times'></i></button><br>";
-  					str += "<img src='/resources/img/attach.png'>";
+  					str += "<img style='width:100%;' src='/resources/img/attach.png'>";
   					str += "</div></li>";
   					
   				}

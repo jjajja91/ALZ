@@ -331,7 +331,7 @@
 					str += " data-uuid='"+obj.uuid+"' data-filename='"+obj.fileName+"' data-type='"+obj.image+"'><div>";
 					str += "<span> " + obj.fileName+"</span>";
 					str += "<button type='button' data-file=\'"+fileCallPath+"\' data-type='image' class='btn btn-warning btn-circle'><i class='fa fa-times'></i></button><br>";
-					imgstr += "<pr><img src='/file/display?fileName="+imagePath+"'></pr>";
+					imgstr += "<pr><img style='width:100%;' src='/file/display?fileName="+imagePath+"'></pr>";
 					str += "<img src='/file/display?fileName="+fileCallPath+"'>";
 					str += "</div></li>";
 				} else {
