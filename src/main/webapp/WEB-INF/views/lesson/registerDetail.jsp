@@ -284,33 +284,33 @@ input[type="button"] {
 			var fileList = [];
 			var data = {};
 			
-			//서머노트 디폴트값이면 비우기
-			$('.summernote').each(function(){
-				var summernote = $(this);
-				$('form').on('submit',function(){
-					if (summernote.summernote('isEmpty')) {
-						summernote.val('');
-					} else if(summernote.val()=='<p><br></p>'){
-						summernote.val('');
-					}
-				});
-			});
-			
-			// 파일 적용
-			$(".uploadResult ul li").each(function(i, obj){
-				var jobj = $(obj);
-				console.dir(jobj);
-				var file = {
-						fileName: jobj.data("filename"),
-						uuid: jobj.data("uuid"),
-						uploadPath: jobj.data("path"),
-						fileType: jobj.data("type")
-				};
-				fileList[i] = file;
-			});
 			
 			if (name === 'prev') {
 				
+				//서머노트 디폴트값이면 비우기
+				$('.summernote').each(function(){
+					var summernote = $(this);
+					$('form').on('submit',function(){
+						if (summernote.summernote('isEmpty')) {
+							summernote.val('');
+						} else if(summernote.val()=='<p><br></p>'){
+							summernote.val('');
+						}
+					});
+				});
+				
+				// 파일 적용
+				$(".uploadResult ul li").each(function(i, obj){
+					var jobj = $(obj);
+					console.dir(jobj);
+					var file = {
+							fileName: jobj.data("filename"),
+							uuid: jobj.data("uuid"),
+							uploadPath: jobj.data("path"),
+							fileType: jobj.data("type")
+					};
+					fileList[i] = file;
+				});
 				
 				data = {
 						lessonId : $lessonId.val(),
@@ -333,6 +333,31 @@ input[type="button"] {
 				formObj.submit();
 				
 			} else {
+
+				//서머노트 디폴트값이면 비우기
+				$('.summernote').each(function(){
+					var summernote = $(this);
+					$('form').on('submit',function(){
+						if (summernote.summernote('isEmpty')) {
+							summernote.val('');
+						} else if(summernote.val()=='<p><br></p>'){
+							summernote.val('');
+						}
+					});
+				});
+				
+				// 파일 적용
+				$(".uploadResult ul li").each(function(i, obj){
+					var jobj = $(obj);
+					console.dir(jobj);
+					var file = {
+							fileName: jobj.data("filename"),
+							uuid: jobj.data("uuid"),
+							uploadPath: jobj.data("path"),
+							fileType: jobj.data("type")
+					};
+					fileList[i] = file;
+				});
 				
 				data = {
 						lessonId : $lessonId.val(),
