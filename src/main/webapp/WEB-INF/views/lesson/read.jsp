@@ -44,6 +44,21 @@
     resize: none;
 }
 
+.note-editor note-frame card {
+	border:none
+}
+
+.note-editable card-block {
+	background:white !important;
+}
+
+.note-resizebar {
+	display:none;
+}
+
+.note-statusbar {
+	border:none;
+}
 
 </style>
 <body>
@@ -199,9 +214,9 @@
 			<form name="orderform" method="get" action="/order/orderForm">
 
 				<input type="hidden" id="id" name="id" value='<c:out value="${lesson.id}"/>'>
-        <input type="hidden" id="name" name="name" value='<c:out value="${merchandise.name }"/>'>
+        		<input type="hidden" id="name" name="name" value='<c:out value="${merchandise.name }"/>'>
 				<input type="hidden" id="originPrice" name="originPrice" value='<c:out value="${merchandise.originPrice }"/>'> 
-        <input type="hidden" id="userId" name="userId" value="${principal.id }">
+       			<input type="hidden" id="userId" name="userId" value="${principal.id }">
 				<input type='hidden' id='cartId' name='cartId' value="${lesson.id }">
 
 				<button type="submit" class="buy">구매하기</button>
@@ -240,6 +255,7 @@
 		str += "<br>";
 		</c:forEach>
 		$shortReviewDiv.html(str);
+		
 
 	});
 
@@ -260,7 +276,7 @@
 	(function() {
 
 		$.getJSON("/lessons/getFileList", {
-			lessonId : lessonId
+			lessonId : $lessonId.val()
 		}, function(arr) {
 			console.log(arr);
 			
@@ -399,5 +415,9 @@
 			}
 		}); //end ajax	
 	});
+	
+
+
+	$(document).(".note-editable card-block").css("background", "white");
 </script>
 </html>
