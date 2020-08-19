@@ -15,6 +15,7 @@ import alz.lesson.domain.CurriculumSubjectDTO;
 import alz.lesson.domain.LessonCriteria;
 import alz.lesson.domain.LessonDTO;
 import alz.lesson.domain.LessonDetailDTO;
+import alz.lesson.domain.LessonLikeDTO;
 import alz.lesson.domain.QuickReviewDTO;
 import alz.lesson.domain.ReviewDTO;
 import alz.lesson.domain.ScheduleDTO;
@@ -296,6 +297,26 @@ public class LessonServiceImpl implements LessonService {
 	public List<LessonFileDTO> getFileList(Long lessonId) {
 		log.info("get File list by lesson_id" + lessonId);
 		return lessonFileMapper.findByLessonId(lessonId);
+	}
+
+	@Override
+	public Long getLikeCnt(Long id) {
+		return lessonMapper.getLikeCnt(id);
+	}
+
+	@Override
+	public void addLike(LessonLikeDTO like) {
+		lessonMapper.addLike(like);
+	}
+
+	@Override
+	public boolean isLike(LessonLikeDTO likeDTO) {
+		return lessonMapper.isLike(likeDTO);
+	}
+
+	@Override
+	public boolean removeLike(LessonLikeDTO likeDTO) {
+		return lessonMapper.removeLike(likeDTO);
 	}
 	
 

@@ -369,4 +369,27 @@
       delete from alz_curriculum_detail
        where lesson_id = #{lessonId}
    </delete>
+   
+   
+   
+   
+   	<insert id="addLike" parameterType="alz.Lesson.domain.LessonLikeDTO">
+			<selectKey keyProperty="id" order="BEFORE" resultType="long">
+			select ALZ_LIKE_LESSON_SEQ.nextval from dual
+			</selectKey>	
+		insert into ALZ_LINK_LIKE_LESSON (id, user_id, lesson_id)
+		values(#{id}, #{userId}, #{lessonId})
+	</insert>
+	
+	<select id="getLike" parameterType="alz.Lesson.domain.LessonLikeDTO" resultType="alz.Lesson.domain.LessonLikeDTO">
+		select * from ALZ_LINK_LIKE_LESSON WHERE user_id = #{userId} and lesson_id = #{lessonId}
+	</select>
+	
+	<delete id="removeLike" parameterType="alz.Lesson.domain.LessonLikeDTO">
+		delete from ALZ_LINK_LIKE_LESSON WHERE user_id = #{userId} and lesson_id = #{lessonId}
+	</delete>
+   
+   
+   
+   
 </mapper>

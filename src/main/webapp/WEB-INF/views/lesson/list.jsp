@@ -81,14 +81,6 @@
             height: 160px;
             width: 200px;
         }
-        
-/*         .main_wrap section ul li .img img:hover {
-        	-webkit-transform:scale(1.1);
-        } */
-        
-/*          .main_wrap section ul li .img img:hover {
-  			-webkit-filter: grayscale(1); /* Google Chrome, Safari 6+ & Opera 15+ */
-		} */
 
         .main_wrap section ul li h3 {
             font-size: 18px;
@@ -138,6 +130,10 @@
         }
         
         .likeInfo a {color: #fff; display: flex; align-items:center; font-size: 20px; padding: 0 10px;}
+        
+        i {
+        	margin-right: 5px;
+        }
 
         h3 {
             margin: 10px 0px;
@@ -214,15 +210,88 @@
                 </div>
             </section>
         </div>
-
+			<!-- paging -->
+	
+	<div class="page-footer" id="pagingDiv">
+		<ul class="pagination pull-right">
+			<c:if test="${pageMaker.prev }">
+				<li class="paginate_button previous"><a href="${pageMaker.startPage -1 }">Previous</a></li>
+			</c:if>
+			
+			<c:forEach var="num" begin="${pageMaker.startPage }" end="${pageMaker.endPage }">
+				<li class="paginate_button ${pageMaker.cri.pageNum == num? 'active':'' }"><a href="${num }">${num }</a></li>
+			</c:forEach>
+			
+			<c:if test="${pageMaker.next }">
+				<li class="paginate_button next"><a href="${pageMaker.endPage +1 }">Next</a></li>
+			</c:if>
+		</ul>
+	</div>
+	
+	
+	<form id='actionForm' action="/lesson/list" method='get'>
+		<input type='hidden' name='pageNum' value='${pageMaker.cri.pageNum}'>
+		<input type='hidden' name='amount' value='${pageMaker.cri.amount}'>
+		<input type='hidden' name='keyword' value='<c:out value="${pageMaker.cri.keyword}"/>' />
+		<input type='hidden' name='categoryMain' value='<c:out value="${pageMaker.cri.categoryMain}"/>' />
+		<input type='hidden' name='categorySub' value='<c:out value="${pageMaker.cri.categorySub}"/>' />
+	</form>
     </div>
 	<script>
 		$(document).ready(function(e){
-			var hoverImg = $(".main_wrap section ul li .img img");
+			var hoverImg = $(".main_wrap section ul li .img");
 			hoverImg.hover(function(e) {
-				$(this).parent().parent().parent().find(".likeInfo").toggleClass("selected");
+				$(this).parent().find(".likeInfo").toggleClass("selected");
 			});
 		});
+		
+		
+		
+		var actionForm = $("#actionForm");
+		
+		$(".read").on("click", function(e) {
+			e.preventDefault();
+			actionForm.append("<input type='hidden' name='id' value='"+$(this).attr("href")+"'>");
+			actionForm.attr("action", "/lesson/read");
+			actionForm.submit();
+		})
+		
+		//페이지 번호 이동
+		$('#pagingDiv a').click(function(e){
+			e.preventDefault();
+			actionForm.find("input[name='pageNum']").val($(this).attr("href"));
+			actionForm.submit();
+			
+		});
+		
+		// 좋아요 추가
+		function addLike(likeData) {
+			return $.ajax({
+				type : "POST",
+				url : '/boards/like/',
+				data : JSON.stringify(likeData),
+				contentType : "application/json; charset=utf-8"
+			});
+		}
+		
+		// 좋아요 삭제
+		function removeLike(likeData) {
+			return $.ajax({
+				type : 'DELETE',
+				url : '/boards/like/' +likeData.userId+'/'+likeData.boardId,
+				contentType : "application/json; charset=utf-8"
+			});
+		}
+		
+		// 좋아요 수
+		function countLike(id) {
+			return $.ajax({
+				type : "GET",
+				url : '/boards/like/' + id,
+				contentType : "application/json; charset=utf-8;"
+			});
+		}
+
 	</script>
 
 </body>

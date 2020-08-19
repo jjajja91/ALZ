@@ -236,6 +236,7 @@
 					prevEl: '.swiper_prev',
 				},
 			});	
+			
 		});
 	</script>
 </body>
