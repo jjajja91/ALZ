@@ -69,8 +69,9 @@ button#registerCommentBtn, button.reCommentRegBtn, button.reCommentEditBtn {
 
 button.commentDropBtn {
 	float: right;
+	width: 27px;
 	border-radius: 5px 5px;
-	background-color: Tomato;
+	background-color: #335492;
 	border: 1px solid #dddddd;
 	color: #ffffff;
 }
