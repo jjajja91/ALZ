@@ -18,7 +18,6 @@
    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
 <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
 </head>
 <style>
@@ -84,9 +83,11 @@ header {
 
 .shortReview {
    padding-top: 10px;
+   
 }
-.shortReview p{
-   margin: 2px;
+.shortReview p {
+   margin: 0px; 
+   font-size: 14px;
 }
 .shortReview #lesson_star_rate a {
    text-decoration: none;
@@ -149,7 +150,7 @@ header {
     margin-bottom: 20px;
 }
 .lessonDate {
-	style="color:steelblue; 
+	color:steelblue; 
 	font-weight:600;
 }
 .curriculumSubject {
@@ -157,28 +158,133 @@ header {
     font-weight: 400;
     padding-bottom: 10px;
 }
+
+.curriculumDetailDiv {
+    padding: 4px;
+}
 .curriculumDetail {
-	font-size: 15px;
+    font-size: 15px;
     color: #585858;
     font-weight: 100;
-}
-.curriculumDetailDiv {
-	padding: 10px;
-	padding-top: 0;
+    padding-left: 5px;
 }
 
 .detailNumber {
-	border-radius: 50%;
-    width: 36px;
-    height: 36px;
+    border-radius: 50%;
+    padding-left: 5px;
+    padding-right: 5px;
+    font-size: 12px;
+    color: white;
+    background: #335492;
+    opacity: 80%;
+}
+
+.teacherNickname {
+	font-weight:500;
+    padding-top: 5px;
+}
+
+.snsIcon {
+    width: 15px;
+    padding-bottom: 3px;
+    margin-left: 20px;
+    
+}
+.teacherInfo {
+	padding-bottom:10px;
+}
+
+.snsId {
+    font-size: 13px;
+    color: darkgray;
+    font-weight: 600;
+}
+pre {
+    white-space: pre-wrap;
+    white-space: -moz-pre-wrap;
+    white-space: -pre-wrap;
+    white-space: -o-pre-wrap;
+    word-wrap: break-word;
+    font-family: 'Open Sans', 'Noto Sans KR', sans-serif;
+    font-weight: 100;
+}
+#quickReviewText {
+    width: 90%;
+    border-radius: 8px;
+    border-width: 1px;
+    border-color: #585858;
+    border-style: solid;
+    padding-left: 10px;
+    font-size: 13px;
+    height: 28px;
+}
+#submitQuickReview {
+	border: none;
+    background: #335492;
+    color: white;
+    font-size: 13px;
+    height: 28px;
+    border-radius: 50px;
+    width: 28px;
+    padding-left: 7px;
+}
+
+.reviewerDiv {
+    display: flex;
+    font-size: 13px;
+    padding-top: 3px;    
+    padding-bottom: 5px;
+}
+.reviewerNickname {
+	margin-right: 10px;
+}
+
+.refundText {
+	color: #858585;
+    font-size: 14px;
+    padding: 5px;
+    padding-bottom: 100px;
+}
+
+.myBlue {
+	color: #335492;
+    font-weight: 500;
+}
+
+.redText {
+    color: red;
+}
+
+.priceDiv {
+    font-size: 15px;
+    text-align: right;
+    padding: 10px;
+}
+.afterPrice {
+    font-size: 18px;
+    font-weight: 600;
+}
+.blueTag {
+    padding: 3px;
+    background: burlywood;
+    color: white;
+    font-size: 13px;
+}
+.buy {
+    border: none;
+    background: #335492;
+    color: white;
     padding: 8px;
-
-    background: #fff;
-    border: 2px solid #666;
-    color: #666;
-    text-align: center;
-
-    font: 32px Arial, sans-serif;
+    font-size: 14px;
+    width: 80%;
+}
+.addCart {
+    font-size: 14px;
+    border: none;
+    background: tomato;
+    color: white;
+    padding: 8px;
+    width: 18%;
 }
 </style>
 <body>
@@ -199,7 +305,7 @@ header {
 					<a href="#scheduleDiv">시간표</a> 
 					<a href="#curriculumDiv">커리큘럼</a> 
 					<a href="#teacherDiv">강사소개</a> 
-					<a href="#shortReview">후기</a> 
+					<a href="#quickReview">후기</a> 
 					<a href="#refundTerm">환불정책</a>
 				</div>
 				
@@ -249,19 +355,31 @@ header {
 				</div>
 				
 				<div class="teacherDiv" id="teacherDiv">
-					<br> <br> <br> <br>
-					<h3><strong>강사 소개</strong></h3>
-					<br>
-					<h4><c:out value="${teacher.nickname}" /></h4>
-					<c:out value="${teacher.snsType}" />-<c:out value="${teacher.snsId}" />
-					<br> <br>
-					<h5><c:out value="${teacher.profile}" /></h5>
+					<div class="detailReadTitle paddingTitle">강사 소개</div>
+					<div class="teacherInfo">
+						<span class="teacherNickname"><c:out value="${teacher.nickname}" /></span>
+						<span>
+							<c:if test="${teacher.snsType eq 'Instagram'}">
+								<img class="snsIcon" src="../../../../resources/img/instagram.png">
+							</c:if>
+							<c:if test="${teacher.snsType eq 'Facebook'}">
+								<img class="snsIcon" src="../../../../resources/img/facebook.png">
+							</c:if>
+							<c:if test="${teacher.snsType eq 'Youtube'}">
+								<img class="snsIcon" src="../../../../resources/img/youtube.png">
+							</c:if>
+						</span>
+						<span class="snsId"><c:out value="${teacher.snsId}" /></span>
+					</div>
+					<div>
+						<pre><c:out value="${teacher.profile}" /></pre>
+					</div>
 				</div>
 				
 				
-				<br> <br> <br> <br>
-				<h3><strong>한줄평</strong></h3>
-				<br>
+				<div class="detailReadTitle paddingTitle" id="quickReview">한줄평</div>
+				<input type='hidden' name='rate' id="rate"> 
+				<input type='hidden' name='lessonId' id="lessonId" value='<c:out value="${lesson.id}" />'> 
 				<p id="lesson_star_rate_quickReivew">
 					<a href="#" id="star1">★</a> 
 					<a href="#" id="star2">★</a> 
@@ -269,21 +387,15 @@ header {
 					<a href="#" id="star4">★</a> 
 					<a href="#" id="star5">★</a>
 				</p>
-				
-				<input type='hidden' name='rate' id="rate"> 
-				<input type='hidden' name='lessonId' id="lessonId" value='<c:out value="${lesson.id}" />'> 
-				+ 
-				<input type="text" class="quickReviewText" name="content" id="content" placeholder="별점과 한줄평을 입력해주세요">
-				
-				<button id="submitQuickReview">입력</button>
+				<input type="text" class="quickReviewText" name="quickReviewText" id="quickReviewText" placeholder="+ 별점과 한줄평을 입력해주세요">
+				<button id="submitQuickReview">▶</button>
+				<br> <br>
 				
 				<div class="shortReview" id="shortReview"></div>
 				
 				<div id="refundTerm">
-					<br> <br> <br> <br>
-					<h4><strong>환불정책</strong></h4>
-					환불은 1주일 전까지 해드립니다. <br> 수강 후에는 수업1회당 20% 차감 환불. 
-					<br> <br>
+					<div class="detailReadTitle paddingTitle">환불정책</div>
+					<div class="refundText">환불은 1주일 전까지 해드립니다. <br> 수강 후에는 수업1회당 20% 차감 환불.</div> 
 				</div>
 			</div>
 		</div>
@@ -291,19 +403,26 @@ header {
 		       
 		<div class="lesson-info">
 			<div class="lessonSideDiv">
-				<strong><c:out value="${teacher.nickname}" /></strong>
-				<h4>[<c:out value="${lesson.categoryName}" />]<c:out value="${lesson.title}" /></h4>
+			
+				<span class="blueTag"><c:out value="${lesson.levelName}" /></span>
+				<span class="blueTag"><c:out value="${lesson.categoryName}" /></span>
+				
+				<div class="teacherNickname"><c:out value="${teacher.nickname}" /></div>
+				<div class="detailReadTitleBlue myBlue"><c:out value="${lesson.title}" /></div>
 				
 				<fmt:formatNumber type="number" var="originPrice" maxFractionDigits="3" value="${merchandise.originPrice}" />
-				<small><del><c:out value="${originPrice }"/></del>원</small>
-				<br>
-				<fmt:parseNumber var= "discountRate" integerOnly= "true" value= "${merchandise.discountRate }" />
-				<c:out value="${discountRate}" />%
+				<div class="priceDiv">
+					<del><c:out value="${originPrice }"/></del>원
+					<span class="redText">
+						<fmt:parseNumber var= "discountRate" integerOnly= "true" value= "${merchandise.discountRate }" />
+						<c:out value="${discountRate}" />%
+					</span>
+					<div class="afterPrice">
+						<fmt:formatNumber type="number" var="salePrice" maxFractionDigits="3" value="${merchandise.salePrice}" />
+						<c:out value="${salePrice }"/>원
+					</div>
+				</div>
 				
-				<br>
-				<fmt:formatNumber type="number" var="salePrice" maxFractionDigits="3" value="${merchandise.salePrice}" />
-				<c:out value="${salePrice }"/>원
-				<p>수강대상[<c:out value="${lesson.levelName}" />]</p>
 				<form name="orderform" method="get" action="/order/orderForm">
 				
 					<input type="hidden" id="id" name="id" value='<c:out value="${lesson.id}"/>'>
@@ -313,9 +432,9 @@ header {
 					<input type='hidden' id='cartId' name='cartId' value="${lesson.id }">
 					
 					<button type="submit" class="buy">구매하기</button>
+					<button class="addCart">담기</button>
 				</form>
 				
-				<button class="addCart">장바구니 담기</button>
 			</div>
 		</div>
 	</div>
@@ -326,7 +445,7 @@ header {
    var $shortReviewDiv;
    var $lessonId = $("#lessonId");
    var $rate = $("#rate");
-   var $content = $("#content");
+   var $quickReviewText = $("#quickReviewText");
 
    $(document).ready(function() {
 
@@ -335,183 +454,194 @@ header {
 
       let str = "";
       <c:forEach items='${quickReview}' var='review'>
-      str += "<c:out value='${review.nickname}' />";
-      str += "<p id='lesson_star_rate'>";
+      str += "<div class='reviewerDiv'><span class='reviewerNickname'><c:out value='${review.nickname}' /></span>";
+      str += "<span><p id='lesson_star_rate'>";
       for (var i = 0; i < '${review.rate}'; i++) {
          str += "<a class='lessonOn'>★</a>"
       }
       for (var j = 0; j < (5 - '${review.rate}'); j++) {
          str += "<a>★</a>"
       }
-      str += "</p>";
+      str += "</p></span></div>";
       str += "<p><c:out value='${review.content}' /></p>";
       str += "<br>";
       </c:forEach>
       $shortReviewDiv.html(str);
+      
+ 	  // 별점 설정 부분
+      $('#lesson_star_rate_quickReivew a').click(
+            function(e) {
+               e.preventDefault();
+               $(this).parent().children("a").removeClass(
+                     "lessonOnQuickReview"); /* 별점의 on 클래스 전부 제거 */
+               $(this).addClass("lessonOnQuickReview").prevAll("a").addClass(
+                     "lessonOnQuickReview"); /* 클릭한 별과, 그 앞 까지 별점에 on 클래스 추가 */
+               var lesson_star_rate = $(".lessonOnQuickReview").length;
+               $("input[type=hidden][name=rate]").val(lesson_star_rate);
 
-   });
+            });
+      
+      // 파일 리스트 가져와서 보여주기
+      (function() {
 
-   // 별점 설정 부분
-   $('#lesson_star_rate_quickReivew a').click(
-         function(e) {
-            e.preventDefault();
-            $(this).parent().children("a").removeClass(
-                  "lessonOnQuickReview"); /* 별점의 on 클래스 전부 제거 */
-            $(this).addClass("lessonOnQuickReview").prevAll("a").addClass(
-                  "lessonOnQuickReview"); /* 클릭한 별과, 그 앞 까지 별점에 on 클래스 추가 */
-            var lesson_star_rate = $(".lessonOnQuickReview").length;
-            $("input[type=hidden][name=rate]").val(lesson_star_rate);
-
-         });
-   
-   // 파일 리스트 가져와서 보여주기
-   (function() {
-
-      $.getJSON("/lessons/getFileList", {
-         lessonId : $lessonId.val()
-      }, function(arr) {
-         console.log(arr);
-         
-         var str = "";
-         
-         $(arr).each(function(i, file){
+         $.getJSON("/lessons/getFileList", {
+            lessonId : $lessonId.val()
+         }, function(arr) {
+            console.log(arr);
             
-            //image type
-            if(file.fileType){
-               var fileCallPath = encodeURIComponent(file.uploadPath+"/s_"+file.uuid+"_"+file.fileName);
+            var str = "";
+            
+            $(arr).each(function(i, file){
                
-               str += "<li data-path='"+file.uploadPath+"' data-uuid='"+file.uuid+"' data-filename='"+file.fileName+"'";
-               str += "data-type='"+file.fileType+"'><div>";
-               str += "<img src='/file/display?fileName="+fileCallPath+"'>";
-               str += "</div></li>";
-            } else {
-               str += "<li data-path='"+file.uploadPath+"' data-uuid='"+file.uuid+"' data-filename='"+file.fileName+"'";
-               str += "data-type='"+file.fileType+"'><div>";
-               str += "<img src='/resources/img/attach.png'>";
-               str += "</div></li>";
-            }
+               //image type
+               if(file.fileType){
+                  var fileCallPath = encodeURIComponent(file.uploadPath+"/s_"+file.uuid+"_"+file.fileName);
+                  
+                  str += "<li data-path='"+file.uploadPath+"' data-uuid='"+file.uuid+"' data-filename='"+file.fileName+"'";
+                  str += "data-type='"+file.fileType+"'><div>";
+                  str += "<img src='/file/display?fileName="+fileCallPath+"'>";
+                  str += "</div></li>";
+               } else {
+                  str += "<li data-path='"+file.uploadPath+"' data-uuid='"+file.uuid+"' data-filename='"+file.fileName+"'";
+                  str += "data-type='"+file.fileType+"'><div>";
+                  str += "<img src='/resources/img/attach.png'>";
+                  str += "</div></li>";
+               }
+            });
+            $(".uploadResult ul").html(str);
          });
-         $(".uploadResult ul").html(str);
-      });
-   })();
-   
+      })();
+      
 
-   var $content = $('#content');
-   
-   //서머노트 툴바 삭제
-   $content.summernote('code', $content.val());
-   $("div[class*=toolbar]").css("display", "none");
-   $("div[class*=note-editable]").attr("contenteditable", "false");
+      var $content = $('#content');
+      
+      //서머노트 툴바 삭제
+      $content.summernote('code', $content.val());
+      $("div[class*=toolbar]").css("display", "none");
+      $("div[class*=note-editable]").attr("contenteditable", "false");
 
 
-   // 한줄평 리스트 가져오기
-   function getquickReviewList() {
+      // 한줄평 리스트 가져오기
+      function getquickReviewList() {
 
-      return $.getJSON("/lessons/quickReview/" + $lessonId.val());
+         return $.getJSON("/lessons/quickReview/" + $lessonId.val());
 
-   }
-
-   function quickReviewList() {
-
-      getquickReviewList().then(function(response) {
-         let str = "";
-
-         if (response == null || response.length == 0) {
-            $shortReviewDiv.html("");
-            return;
-         }
-
-         for (let i = 0; i < response.length; i++) {
-            str += "<h5>" + response[i].nickname + "</h5>";
-            str += "<p id='lesson_star_rate'>";
-            for (var j = 0; j < response[i].rate; j++) {
-               str += "<a class='lessonOn'>★</a>"
-            }
-            for (var k = 0; k < (5 - response[i].rate); k++) {
-               str += "<a>★</a>"
-            }
-            str += "</p>";
-            str += "<p>" + response[i].content + "</p>";
-            str += "<br>";
-         }
-         $shortReviewDiv.html(str);
-         $content.val("");
-         $("#lesson_star_rate_quickReivew a").removeClass();
-      });
-   }
-
-   // 한줄평 등록버튼 이벤트
-   $("#submitQuickReview").click(function(e) {
-
-      $rate = $("#rate");
-      $content = $("#content");
-
-      var quickReview = {
-         lessonId : $lessonId.val(),
-         rate : $rate.val(),
-         content : $content.val()
       }
 
-      addQuickReview(quickReview).then(function(response) {
-         // 한줄평 리스트 다시그려줌
-         quickReviewList();
-      });
-   });
+      function quickReviewList() {
 
-   // 한줄평 추가
-   function addQuickReview(quickReview) {
-      return $.ajax({
-         type : 'POST',
-         url : '/lessons/quickReview',
-         data : JSON.stringify(quickReview),
-         contentType : "application/json; charset=utf-8"
-      });
-   };
+         getquickReviewList().then(function(response) {
+            let str = "";
 
-   // 장바구니 담기
-   $(".addCart").click(function() {
-      var userId = $("#userId").val();
-      var id = $("#id").val();
-      console.log(userId);
-      console.log(id);
-      var data = {
-         userId : userId,
-         id : id
-      };
-
-      $.ajax({
-         type : "post",
-         async : true, //false인 경우 동기식으로 처리한다. 문제 발생.
-         url : "/merchandise/cartInsert",
-         data : data,
-         success : function(result) {
-            if (result == "true") {
-               if (confirm("장바구니에 추가하였습니다. 장바구니로 이동하시겠습니까?"))
-                  location.href = "/merchandise/cart";
-               else
-                  return false;
-            } else {
-               /* alert("이미 카트에 등록된 상품입니다."); */
-               if (confirm("이미 카트에 등록된 상품입니다. 장바구니로 이동하시겠습니까?"))
-                  location.href = "/merchandise/cart";
-               else
-                  return false;
+            if (response == null || response.length == 0) {
+               $shortReviewDiv.html("");
+               return;
             }
 
-         },
-         error : function(data, textStatus) {
-            alert("에러가 발생했습니다." + data);
-         },
-         complete : function(data, textStatus) {
-            //alert("작업을완료 했습니다");
+            for (let i = 0; i < response.length; i++) {
+               str += "<div class='reviewerDiv'>" + response[i].nickname + "</div>";
+               str += "<p id='lesson_star_rate'>";
+               for (var j = 0; j < response[i].rate; j++) {
+                  str += "<a class='lessonOn'>★</a>";
+               }
+               for (var k = 0; k < (5 - response[i].rate); k++) {
+                  str += "<a>★</a>";
+               }
+               str += "</p>";
+               str += "<p>" + response[i].content + "</p>";
+               str += "<br>";
+            }
+            $shortReviewDiv.html(str);
+            $quickReviewText.val("");
+            $rate.val("");
+            $("#lesson_star_rate_quickReivew a").removeClass();
+         });
+      }
+
+      // 한줄평 등록버튼 이벤트
+      $("#submitQuickReview").click(function(e) {
+
+         $rate = $("#rate");
+         $quickReviewText = $("#quickReviewText");
+
+         if($rate.val()=="") {
+        	 alert("별점을 입력해주세요!");
+        	 return;
          }
-      }); //end ajax   
+         if($quickReviewText.val()=="") {
+        	 alert("한줄평을 입력해주세요!");
+        	 return;
+         }
+         var quickReview = {
+            lessonId : $lessonId.val(),
+            rate : $rate.val(),
+            content : $quickReviewText.val()
+         }
+		
+         addQuickReview(quickReview).then(function(response) {
+            // 한줄평 리스트 다시그려줌
+            quickReviewList();
+         });
+      });
+
+      // 한줄평 추가
+      function addQuickReview(quickReview) {
+         return $.ajax({
+            type : 'POST',
+            url : '/lessons/quickReview',
+            data : JSON.stringify(quickReview),
+            contentType : "application/json; charset=utf-8"
+         });
+      };
+
+      // 장바구니 담기
+      $(".addCart").click(function() {
+         var userId = $("#userId").val();
+         var id = $("#id").val();
+         console.log(userId);
+         console.log(id);
+         var data = {
+            userId : userId,
+            id : id
+         };
+
+         $.ajax({
+            type : "post",
+            async : true, //false인 경우 동기식으로 처리한다. 문제 발생.
+            url : "/merchandise/cartInsert",
+            data : data,
+            success : function(result) {
+               if (result == "true") {
+                  if (confirm("장바구니에 추가하였습니다. 장바구니로 이동하시겠습니까?"))
+                     location.href = "/merchandise/cart";
+                  else
+                     return false;
+               } else {
+                  /* alert("이미 카트에 등록된 상품입니다."); */
+                  if (confirm("이미 카트에 등록된 상품입니다. 장바구니로 이동하시겠습니까?"))
+                     location.href = "/merchandise/cart";
+                  else
+                     return false;
+               }
+
+            },
+            error : function(data, textStatus) {
+               alert("에러가 발생했습니다." + data);
+            },
+            complete : function(data, textStatus) {
+               //alert("작업을완료 했습니다");
+            }
+         }); //end ajax   
+      });
+
+
+      document.getElementsByClassName('note-editable card-block')[0].style.background='white';
+      document.getElementsByClassName('note-editor note-frame card')[0].style.border='none';
+      document.getElementsByClassName('note-editor note-frame card')[0].style.width='80%';
+      document.getElementsByClassName('note-statusbar')[0].style.border='none';
+
    });
-   
-   document.getElementsByClassName('note-editable card-block')[0].style.background='white';
-   document.getElementsByClassName('note-editor note-frame card')[0].style.border='none';
-   document.getElementsByClassName('note-editor note-frame card')[0].style.width='80%';
-   document.getElementsByClassName('note-statusbar')[0].style.border='none';
+
    
 </script>
 </html>
