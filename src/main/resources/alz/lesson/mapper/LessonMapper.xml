@@ -370,7 +370,10 @@
        where lesson_id = #{lessonId}
    </delete>
    
-   
+   	<select id="getLikeCnt" resultType="long">
+		select like_cnt from
+		ALZ_LESSON where id = #{id}
+	</select>
    
    
    	<insert id="addLike" parameterType="alz.lesson.domain.LessonLikeDTO">

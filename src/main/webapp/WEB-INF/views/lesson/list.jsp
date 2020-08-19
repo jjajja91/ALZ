@@ -177,13 +177,19 @@
 				</div> -->
             <section class="sec">
                 <div class="inner">
+                	<sec:authentication var="principal" property="principal" />
+                	<input type='hidden' id='userId' value='${principal.id}'>
                     <ul>
+                    	<c:set var="lessonCnt" value="${-1}" />
                 		<c:forEach items="${list}" var="lesson">
+                		<c:set var= "lessonCnt" value="${lessonCnt + 1}"/>
                         	<li>
+                        		<input type="hidden" class="lessonId" data-order="${lessonCnt}" value="${lesson.id}">
                                 <div class="img">                           	
                         		<div class="likeInfo">
-                                	<a id="like" href=""><i class="xi-heart-o"></i>62</a>
-                                	<a id="reserv" href=""><i class="xi-star-o"></i>15</a>
+                                	<a class="like" data-order="${lessonCnt}" href=""><i class="xi-heart-o"></i></a>
+                                	<a class="reserv" data-order="${lessonCnt}" href=""><i class="xi-star-o"></i></a>
+                                	<input type="hidden" class="isLike" value="false">
                             	</div>
                             	<a href="/lesson/read?id=${lesson.id }">
                                 <c:if test= "${empty lesson.thumbnail}">
@@ -239,74 +245,162 @@
     </div>
 	<script>
 		$(document).ready(function(e){
-			var hoverImg = $(".main_wrap section ul li .img");
-			var likeBtn = $("#like");
-			var likeData = {
+			var $hoverImg = $(".main_wrap section ul li .img");
+			var $likeBtn = $(".like");
+			var $userId = $("#userId");
+			var $lessonId = $(".lessonId");
+			var $isLike = $(".isLike");
+			
+			// 좋아요 상태 갱신
+			for(let i = 0; i<$lessonId.length; i++){
+				var likeData = {
 					userId : $userId.val(),
-					boardId : $boardId.val()
-				};
+					lessonId : $($lessonId[i]).val()
+				}
+				
+				isLike(likeData)
+				.then(function(response){
+					// 좋아요 상태 반영
+					$($isLike[i]).val(response);
+				})
+				.then(function(response){
+					// 좋아요 수 반영
+					return countLike($($lessonId[i]).val());
+				})
+				.then(function(response){
+					// 좋아요 그리기(채워진/빈 하트)
+					drawLikeCnt(response, i);
+				})
+				.catch(function(error){
+					console.log(error);
+				});
+			}
 			
 			
 			
 			
-			hoverImg.hover(function(e) {
+			
+			$hoverImg.hover(function(e) {
 				$(this).parent().find(".likeInfo").toggleClass("selected");
 			});
 			
-			likeBtn.click(function(e){
+				$likeBtn.on().click(function(e){
+					e.preventDefault();
+					var cnt = $(this).data("order");
+					var likeData = {
+							userId : $userId.val(),
+							lessonId : $($lessonId[cnt]).val()
+						}
+					if($($isLike[cnt]).val()=="true"){
+						// 좋아요 제거
+						removeLike(likeData)
+						.then(function(response){
+							return countLike($($lessonId[cnt]).val());
+						})
+						.then(function(response){
+							$($isLike[cnt]).val('false');
+							drawLikeCnt(response, cnt);
+						})
+						.catch(function(error){
+							console.log(error);
+						});
+					// 좋아요 상태가 false면
+					} else {
+						// 좋아요 추가
+						addLike(likeData)
+						.then(function(response){
+							return countLike($($lessonId[cnt]).val());
+						})
+						.then(function(response){
+							$($isLike[cnt]).val('true');
+							drawLikeCnt(response, cnt);
+						})
+						.catch(function(error){
+							console.log(error);
+						});
+					}	
+				});
+
+			
+			
+			
+			
+			var actionForm = $("#actionForm");
+			
+			$(".read").on("click", function(e) {
 				e.preventDefault();
+				actionForm.append("<input type='hidden' name='id' value='"+$(this).attr("href")+"'>");
+				actionForm.attr("action", "/lesson/read");
+				actionForm.submit();
+			})
+			
+			//페이지 번호 이동
+			$('#pagingDiv a').click(function(e){
+				e.preventDefault();
+				actionForm.find("input[name='pageNum']").val($(this).attr("href"));
+				actionForm.submit();
 				
 			});
 			
+			// 좋아요 추가
+			function addLike(likeData) {
+				return $.ajax({
+					type : "POST",
+					url : '/lessons/like/',
+					data : JSON.stringify(likeData),
+					contentType : "application/json; charset=utf-8"
+				});
+			}
+			
+			// 좋아요 삭제
+			function removeLike(likeData) {
+				return $.ajax({
+					type : 'DELETE',
+					url : '/lessons/like/' +likeData.userId+'/'+likeData.lessonId,
+					contentType : "application/json; charset=utf-8"
+				});
+			}
+			
+			// 좋아요 수
+			function countLike(id) {
+				return $.ajax({
+					type : "GET",
+					url : '/lessons/like/' + id,
+					contentType : "application/json; charset=utf-8;"
+				});
+			}
+			
+			// 좋아요 수 갱신 반영 및 좋아요 여부 반영
+			function drawLikeCnt(likeCnt, i) {
+				if($($isLike[i]).val()=="true") {
+				var str = "";
+				str += "<i class='xi-heart'></i>"
+				$($likeBtn[i]).html(str+likeCnt);
+				} else {
+				var str = "";
+				str += "<i class='xi-heart-o'></i>"
+				$($likeBtn[i]).html(str+likeCnt);
+				}
+			}
+			
+			// 좋아요 여부 확인
+			function isLike(likeData){
+				return $.ajax({
+					type : "GET",
+					url : '/lessons/like/'+likeData.userId+'/'+likeData.lessonId,
+					contentType : "application/json; charset=utf-8"
+				});
+			}
+			
+			
+			
 			
 		});
 		
 		
 		
-		var actionForm = $("#actionForm");
 		
-		$(".read").on("click", function(e) {
-			e.preventDefault();
-			actionForm.append("<input type='hidden' name='id' value='"+$(this).attr("href")+"'>");
-			actionForm.attr("action", "/lesson/read");
-			actionForm.submit();
-		})
 		
-		//페이지 번호 이동
-		$('#pagingDiv a').click(function(e){
-			e.preventDefault();
-			actionForm.find("input[name='pageNum']").val($(this).attr("href"));
-			actionForm.submit();
-			
-		});
-		
-		// 좋아요 추가
-		function addLike(likeData) {
-			return $.ajax({
-				type : "POST",
-				url : '/lessons/like/',
-				data : JSON.stringify(likeData),
-				contentType : "application/json; charset=utf-8"
-			});
-		}
-		
-		// 좋아요 삭제
-		function removeLike(likeData) {
-			return $.ajax({
-				type : 'DELETE',
-				url : '/lessons/like/' +likeData.userId+'/'+likeData.lessonId,
-				contentType : "application/json; charset=utf-8"
-			});
-		}
-		
-		// 좋아요 수
-		function countLike(id) {
-			return $.ajax({
-				type : "GET",
-				url : '/lessons/like/' + id,
-				contentType : "application/json; charset=utf-8;"
-			});
-		}
 
 	</script>
 
