@@ -122,8 +122,14 @@ button.btn-danger {
 	padding: 1px 5px;
 	margin-bottom: 50px;
 }
+
 p {
-	padding: 5px 0;	
+	padding: 5px 0;
+}
+
+img.lessonImg {
+	width: 100px;
+	height: 100px;
 }
 </style>
 </head>
@@ -141,9 +147,17 @@ p {
 				<c:set var="finalTotalPrice" value="0" />
 				<c:forEach items="${orderList}" var="list">
 					<tr>
-						<td>이미지</td>
+						<td><a class='read' href='/lesson/read?id=${list.lessonId}'><c:if test="${empty list.thumbnail}">
+								<img class="lessonImg"
+									src="../../../resources/img/classtmpimg.jpg">
+							</c:if> <c:if test="${!empty list.thumbnail}">
+								<img class="lessonImg"
+									src='/resources/img/lesson/thumb/${list.teacherId}
+										<fmt:formatDate pattern = "yyyy-MM-dd" value="${list.openAt}" />
+										/${list.thumbnail}'>
+							</c:if></a></td>
 						<td>
-							<p>${list.name }</p>
+							<p><a class='read' href='/lesson/read?id=${list.lessonId}'>${list.name }</a></p>
 							<p>
 								<fmt:formatNumber value="${list.salePrice}" pattern="#,###" />
 								원
