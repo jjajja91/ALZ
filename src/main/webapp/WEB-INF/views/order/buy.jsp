@@ -146,6 +146,7 @@ img.lessonImg {
 	width: 100px;
 	height: 100px;
 }
+
 </style>
 <body>
 	<div class="container">

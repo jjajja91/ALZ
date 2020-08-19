@@ -131,7 +131,7 @@ public class MyPagePageController {
 		cri.setUserId(userId);
 		model.addAttribute("list", ordersService.cancelListPaging(cri));
 
-		int total = ordersService.getMyTotal(cri);
+		int total = ordersService.getMyCancelTotal(cri);
 		System.out.println("total: " + total);
 		model.addAttribute("pageMaker", new OrderPageDTO(cri, total));
 	}
