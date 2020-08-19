@@ -144,8 +144,8 @@ body {
 		<br>
 		<br>
 		<br>
-		&nbsp;<div class="txtb">
-			<h2>&nbsp;&nbsp;&nbsp;${ email }</h2>
+		<div class="txtb">
+			<h2>${email }</h2>
 		</div>
 		<br>
 		<br>

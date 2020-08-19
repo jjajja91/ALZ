@@ -138,18 +138,17 @@ body{
         <img src="/resources/img/로고.png" id="alzLogo">
 
         <div class="txtb">
-          <input type="text" id="nickname" name="nickname" required>
-          <span data-placeholder="닉네임"></span>
+          <input type="text" id="nickname" placeholder="닉네임" name="nickname" required>
         </div>
 
         <div class="txtb">
-          <input type="text" id="phoneNumber" name="phoneNumber" required>
-          <span data-placeholder="전화번호"></span>
+          <input type="text" id="phoneNumber" placeholder="전화번호" name="phoneNumber" required>
         </div>
         
         <input type="submit" class="idbtn" id=findBtn value="Find">
         
 		<div class="bottom-text">
+			비밀번호가 기억 안나시나요?<a href="/findPwd">비밀번호 찾기</a><br>
           	계정이 기억 나셨나요? <a href="/login">로그인하기</a>
           	<br>
 			<a href="/">메인 페이지 이동</a>

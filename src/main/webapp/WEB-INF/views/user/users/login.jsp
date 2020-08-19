@@ -166,7 +166,7 @@ body{
         <div class="bottom-text">
           	계정이 없으신가요? <a href="/join">회원가입</a><br>
           	<br>
-			<a href="/find_id_form">아이디 찾기</a>
+			<a href="/find_id_form">아이디 찾기</a> / 
 			<a href="/findPwd">비밀번호 찾기</a><br>
 			<br>
 			<a id="kakaoLogin">

@@ -138,32 +138,26 @@ body{
 		<div>
 			<div class="txtb" id="container">
 				<br>
-				<br>
-				<input type="text" id="nickname" name="nickname" required>
-          		<span data-placeholder="닉네임"></span>
-				<br>
+				<input type="text" id="nickname" placeholder="닉네임" name="nickname" required>
 			</div>
 			<div class="txtb" id="container">
 				<br>
-				<br>
-				<input type="text" id="email" name="email" required>
-          		<span data-placeholder="이메일"></span>
-				<br>
+				<input type="text" id="email" placeholder="이메일" name="email" required>
 			</div>
 			<input type="submit" class="idbtn" id="sendEmailCode" value="인증번호발송">
 			<input type="hidden" id="dice">
 				
 			<div class="txtb" id="container">
-				<br>
 				<br> 
-				<input type="text" id="inputCode" name="inputCode" required>
-          		<span data-placeholder="인증번호 입력"></span>
-				<br>
+				<input type="text" id="inputCode" placeholder="인증번호 입력" name="inputCode" required>
 			</div>
 			<input type="submit" class="idbtn" id=inputEmailCode value="입력">
-				
-			<form id="modifyPasswordForm" action="/modifyPwd" method="POST">
-			</form>
+			<div class="bottom-text">
+          		계정이 기억 나셨나요? <a href="/login">로그인하기</a>
+          		<br>
+				<a href="/">메인 페이지 이동</a>
+        	</div>	
+			<form id="modifyPasswordForm" action="/modifyPwd" method="POST"></form>
 		</div>
 	</div>
 	<script>
