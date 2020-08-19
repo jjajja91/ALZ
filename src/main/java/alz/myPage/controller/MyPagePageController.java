@@ -88,8 +88,9 @@ public class MyPagePageController {
 	public String activeLession(MyPageCriteria cri, Model model) {
 		cri.setId(getLoginUserInfo().getId());
 		model.addAttribute("list", myPageService.myLessonList(cri));
-		int total = myPageService.getActiveLessonTotal(cri);
-		model.addAttribute("pageMaker", new MyPagePageDTO(cri, total));
+		System.out.println(myPageService.myLessonList(cri));
+        int total = myPageService.getActiveLessonTotal(cri);
+		model.addAttribute("pageMaker", new MyPagePageDTO(cri, total));		
 		return "myPage/myLessonList";
 	}
 
