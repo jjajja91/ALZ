@@ -318,6 +318,16 @@ public class LessonServiceImpl implements LessonService {
 	public boolean removeLike(LessonLikeDTO likeDTO) {
 		return lessonMapper.removeLike(likeDTO) == 0 ? false : true;
 	}
+
+	@Override
+	public List<LessonDTO> getNewList() {
+		return lessonMapper.getNewList();
+	}
+
+	@Override
+	public List<LessonDTO> getSoonList() {
+		return lessonMapper.getSoonList();
+	}
 	
 
 
