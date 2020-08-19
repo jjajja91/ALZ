@@ -106,8 +106,6 @@ public class OrderPageController {
 		model.addAttribute("orderList", orderList);
 		model.addAttribute("orderer", order);
 		
-		
-
 
 		// 카트 비우기
 		long userId = getLoginUserInfo().getId();

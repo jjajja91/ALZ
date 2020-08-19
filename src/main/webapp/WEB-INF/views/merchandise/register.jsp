@@ -233,7 +233,7 @@ $(document).ready(function(e){
 		merchandiseRegister(data)
 		.then(function(response){
 			console.log(response);
-			self.location = "/merchandise/list";
+			self.location = "/merchandise/myList";
 		})
 		.catch (function(error){
 			var errorMessage = error.responseJSON.defaultMessage;

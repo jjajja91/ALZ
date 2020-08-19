@@ -125,13 +125,15 @@ public class MyPagePageController {
 //		}
 
 	// 환불된 클래스
-	@GetMapping(value = "/refundedLesson")
-	public String refundedLesson(MyPageCriteria cri, Model model) {
-		cri.setId(getLoginUserInfo().getId());
-		model.addAttribute("list", myPageService.refundedLesson(cri));
-		int total = myPageService.getRefundedLessonTotal(cri);
-		model.addAttribute("pageMaker", new MyPagePageDTO(cri, total));
-		return "myPage/refundedList";
+	@GetMapping(value = "/refundedList")
+	public void refundedLesson(OrderCriteria cri, Model model) {
+		long userId = getLoginUserInfo().getId();
+		cri.setUserId(userId);
+		model.addAttribute("list", ordersService.cancelListPaging(cri));
+
+		int total = ordersService.getMyTotal(cri);
+		System.out.println("total: " + total);
+		model.addAttribute("pageMaker", new OrderPageDTO(cri, total));
 	}
 
 	// 내 게시물

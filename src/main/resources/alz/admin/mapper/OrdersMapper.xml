@@ -209,6 +209,20 @@
 		order by order_at desc
 	</select>
 	
+	<select id="cancelListPaging"
+		resultType="alz.order.domain.OrderAllDTO">
+		SELECT * from (select rownum no, id, order_at, total_price, state
+		from alz_order
+		WHERE user_id = #{userId} and state = '취소 완료' and
+		<![CDATA[    
+      	rownum <= #{pageNum} * #{amount}
+      	)
+ 		WHERE no > (#{pageNum} -1) * #{amount}   
+  		]]>
+		order by order_at desc
+	</select>
+	
+	
 	<select id="getMyTotalCount" resultType="int">
 		select count(*) from alz_order
 		WHERE user_id = #{userId}

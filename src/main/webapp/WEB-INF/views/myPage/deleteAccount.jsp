@@ -60,13 +60,14 @@ button {
 	</div>
 	<script type="text/javascript">
 		$(document).ready(function() {
-			$(".del").click(function() {
+			$(".del").click(function(e) {
 
 				var delConfirm = confirm('정말로 탈퇴하시겠습니까?');
 
 				if (delConfirm) {
-					
 				} else {
+					e.preventDefault();
+					self.location = "/myPage/boardList";
 					return;
 				}
 
