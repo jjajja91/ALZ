@@ -150,7 +150,7 @@
 							<a href="#null" class="search_btn"><i class="xi-search"></i></a>
 						</div>
 						<div class="mypage">
-						<ul><li><a href="" class="m_menu"><i class="xi-user-o"></i></a>
+						<ul><li><a href="" class="m_menu" id="navUser"><i class="xi-user-o"></i></a>
 							<sec:authorize access="isAuthenticated()">
 							<ul class="s_nav">
 								<li><a href="/myPage/boardList">마이페이지</a></li>
