@@ -43,7 +43,7 @@
 }
 
 .content-table th {
-	padding: 13px 10px;
+	padding: 13px 5px;
 	font-weight: bold;
 	font-size: 18px;
 	text-align: center;
