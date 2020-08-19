@@ -19,6 +19,11 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Open+Sans:wght@300;400;700&display=swap" rel="stylesheet">
 	<style>
 		body * {font-family: 'Open Sans', 'Noto Sans KR', sans-serif;}
+		
+		.slide_wrap {
+			margin-top: 150px;
+		}
+		
 		.slide_wrap .swiper-container {
 			overflow: hidden;
 			position: relative;
@@ -40,10 +45,15 @@
 		.slide_wrap .pager_wrap .pager_line {
 			display: flex;
 			align-items: center;
+			background-color: black;
+			color: white;
+			width: 105px;
+			padding: 10px 5px;
 		}
 
 		.slide_wrap .pager_wrap .pager_line * {
 			line-height: 1;
+			cursor: pointer;
 		}
 
 		.slide_wrap .pager_wrap .swiper_fraction {
@@ -100,7 +110,8 @@
 		<div class="slide_wrap">
 			<div class="swiper-container">
 				<div class="swiper-wrapper">
-					<div class="swiper-slide">Slide 1</div>
+					<div class="swiper-slide"><a href=""><img src="/resources/img/배너1.png"></a>
+					</div>
 					<div class="swiper-slide">Slide 2</div>
 					<div class="swiper-slide">Slide 3</div>
 					<div class="swiper-slide">Slide 4</div>
@@ -121,10 +132,25 @@
 				<div class="inner">
 					<h2>베스트클래스</h2>
 					<ul>
-						<li><a href="">
-								<div class="img"></div>
-								<h3>리스트</h3>
-							</a></li>
+						<li>
+                            <div class="img">                           	
+                        		<div class="likeInfo">
+                                	<a class="like" href=""><i class="xi-heart-o">657</i></a>
+                                	<a class="reserv" href=""><i class="xi-star-o">329</i></a>
+                            	</div>
+                            	<a href="/lesson/read?id=">
+                            	<!-- /resources/img/lesson/thumb// -->
+								<img class="lessonImg" src="">
+                                </div>
+                                <span>타입이름</span><span>카테고리이름</span>
+                                <h3>제목</h3>
+                                <div class="price">
+                                	<h4>원</h4>
+                                    <h5>%</h5>
+                                    <h1>원</h1>
+                                </div>
+                                </a>
+                        	</li>
 						<li><a href="">
 								<div class="img"></div>
 								<h3>리스트</h3>
@@ -228,7 +254,7 @@
 				},
 				loop: true,
 				autoplay: {
-					delay: 2500,
+					delay: 5000,
 					disableOnInteraction: false,
 				},
 				navigation: {
