@@ -373,7 +373,7 @@
    
    
    
-   	<insert id="addLike" parameterType="alz.Lesson.domain.LessonLikeDTO">
+   	<insert id="addLike" parameterType="alz.lesson.domain.LessonLikeDTO">
 			<selectKey keyProperty="id" order="BEFORE" resultType="long">
 			select ALZ_LIKE_LESSON_SEQ.nextval from dual
 			</selectKey>	
@@ -381,11 +381,11 @@
 		values(#{id}, #{userId}, #{lessonId})
 	</insert>
 	
-	<select id="getLike" parameterType="alz.Lesson.domain.LessonLikeDTO" resultType="alz.Lesson.domain.LessonLikeDTO">
+	<select id="getLike" parameterType="alz.lesson.domain.LessonLikeDTO" resultType="alz.lesson.domain.LessonLikeDTO">
 		select * from ALZ_LINK_LIKE_LESSON WHERE user_id = #{userId} and lesson_id = #{lessonId}
 	</select>
 	
-	<delete id="removeLike" parameterType="alz.Lesson.domain.LessonLikeDTO">
+	<delete id="removeLike" parameterType="alz.lesson.domain.LessonLikeDTO">
 		delete from ALZ_LINK_LIKE_LESSON WHERE user_id = #{userId} and lesson_id = #{lessonId}
 	</delete>
    
