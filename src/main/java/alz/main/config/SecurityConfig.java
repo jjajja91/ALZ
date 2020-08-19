@@ -80,7 +80,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 		http.authorizeRequests()
 		.antMatchers("/", "/users/**", "/socialJoin", "/socialLogin", "/google/*", "/naver/*","/kakao/*", "/resources/**", "/join", "/create", "/find_id_form", "/find_id",
-					 "/findPwd", "/find_password_email", "/modifyPwd").permitAll()
+					 "/findPwd", "/find_password_email", "/modifyPwd", "/lesson/list").permitAll()
 		.anyRequest().authenticated()
         .expressionHandler(expressionHandler());
 

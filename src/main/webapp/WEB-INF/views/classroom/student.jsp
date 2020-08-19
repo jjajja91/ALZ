@@ -34,6 +34,7 @@
             padding: 5px 20px;
             background-color: #335492;
             color: #f4f4f4;
+            margin-bottom: 10px;
         }
 
         .classroomDiv {
@@ -42,16 +43,17 @@
         }
 
         header h1 {
-            margin-top: 10px;
-            font-size: 40px;
+            font-size: 30px;
+            width: 600px;
         }
 
         header h2 {
-            font-size: 30px;
+            font-size: 20px;
+            margin-top: 10px;
         }
 
         #mainInfo {
-            margin-top: 70px;
+            margin-top: 50px;
             line-height: 1.7;
         }
 
@@ -320,6 +322,25 @@
         #homework {
             display: none;
         }
+        
+        .home {
+			position: fixed;
+			width: 50px;
+			height: 50px;
+			right: 50px;
+			bottom: 50px;
+			margin: 0;
+			border-radius: 30px;
+		}
+		
+		.home a {
+			text-decoration: none;
+			color: #335492;
+		}
+		
+		.home i {
+			font-size: 40px;		
+		}
     </style>
 </head>
 
@@ -479,6 +500,9 @@
         	<input type="hidden" class="start" value="${schedule.startAt}">
         	<input type="hidden" class="end" value="${schedule.endAt}">
         </c:forEach>
+        <div class="home">
+			<a href="/"><i class="xi-home"></i>홈으로<a>
+		</div>
     </div>
     <script>
         var currentTitle = document.getElementById('current-year-month');
