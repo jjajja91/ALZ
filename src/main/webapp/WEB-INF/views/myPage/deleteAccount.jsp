@@ -59,20 +59,75 @@ button {
 		</form>
 	</div>
 	<script type="text/javascript">
-		$(document).ready(function() {
-			$(".del").click(function() {
+		$(document)
+				.ready(
+						function() {
+							$(".del")
+									.click(
+											function(e) {
 
-				var delConfirm = confirm('정말로 탈퇴하시겠습니까?');
+												var delConfirm = confirm('정말로 탈퇴하시겠습니까?');
 
-				if (delConfirm) {
-					
-				} else {
-					return;
-				}
+												if (delConfirm) {
+													if (confirm('정말로요!?')) {
+														if (confirm('한번만 더 생각해봐요!')) {
+															if (confirm('진심이신가요!?')) {
+																if (confirm('마지막으로 딱 한번만 더....')) {
+																	if (confirm('제가 졌습니다.')) {
+																		if (confirm('힝 속았지.')) {
+																			if (confirm('좋은 수업 많은데...')) {
+																				if (confirm('고생했어요 아디오스~')) {
+																				} else {
+																					e
+																							.preventDefault();
+																					self.location = "/myPage/boardList"
+																					return;
+																				}
+																				e
+																						.preventDefault();
+																				self.location = "/myPage/boardList"
+																				return;
+																			}
+																			e
+																					.preventDefault();
+																			self.location = "/myPage/boardList"
+																			return;
+																		}
+																		e
+																				.preventDefault();
+																		self.location = "/myPage/boardList"
+																		return;
+																	}
+																	e
+																			.preventDefault();
+																	self.location = "/myPage/boardList"
+																	return;
+																}
+																e
+																		.preventDefault();
+																self.location = "/myPage/boardList"
+																return;
+															}
+															e.preventDefault();
+															self.location = "/myPage/boardList"
+															return;
+														}
+														e.preventDefault();
+														self.location = "/myPage/boardList"
+														return;
+													}
+													e.preventDefault();
+													self.location = "/myPage/boardList"
+													return;
+												} else {
+													e.preventDefault();
+													self.location = "/myPage/boardList"
+													return;
+												}
 
-			});
+											});
 
-		});
+						});
 	</script>
 </body>
 </html>
