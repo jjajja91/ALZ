@@ -25,7 +25,7 @@ public class LessonCriteria {
 	private String keyword;
 	
 	public LessonCriteria() {
-		this(1,10);
+		this(1,8);
 	}
 	
 	public LessonCriteria(int pageNum, int amount) {

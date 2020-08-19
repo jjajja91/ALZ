@@ -8,6 +8,7 @@ import alz.lesson.domain.CurriculumSubjectDTO;
 import alz.lesson.domain.LessonCriteria;
 import alz.lesson.domain.LessonDTO;
 import alz.lesson.domain.LessonDetailDTO;
+import alz.lesson.domain.LessonLikeDTO;
 import alz.lesson.domain.QuickReviewDTO;
 import alz.lesson.domain.ScheduleDTO;
 import alz.lesson.domain.TeacherDTO;
@@ -54,5 +55,14 @@ public interface LessonService {
 	TeacherDTO updateTeacher(TeacherDTO teacher);
 	int updateLessonDetail(LessonDetailDTO detail);
 	int lessonSubmit(Long lessonId, Long userId); // 상태변경 제출
+	
+	// 좋아요 수(트리거가 올려줌)
+	Long getLikeCnt(Long id);
+	// 좋아요 추가
+	void addLike(LessonLikeDTO like);
+	// 좋아요 여부 확인
+	boolean isLike(LessonLikeDTO likeDTO);
+	// 좋아요 삭제
+	boolean removeLike(LessonLikeDTO likeDTO);
 	
 }

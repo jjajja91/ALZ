@@ -221,7 +221,7 @@
 												<!-- id는 수정이 불가능하도록 readonly속성 추가 -->
 												<td>
 													<div class="col-lg-5">
-														<input name="email" value="${dto.email}"
+														<input style="width:300px;" name="email" value="${dto.email}"
 															readonly="readonly">
 													</div>
 												</td>
@@ -232,7 +232,7 @@
 												<td>닉네임</td>
 												<td>
 													<div class="col-lg-3">
-														<input name="nickname" value="${dto.nickname}">
+														<input style="width:300px;" name="nickname" value="${dto.nickname}">
 													</div>
 												</td>
 											</tr>
@@ -242,7 +242,7 @@
 												<td>비밀번호</td>
 												<td>
 													<div class="col-lg-3">
-														<input type="password" name="password">
+														<input style="width:300px;" type="password" name="password">
 													</div>
 												</td>
 											</tr>
@@ -253,7 +253,7 @@
 												<td>전화번호</td>
 												<td>
 													<div class="col-lg-3">
-														<input name="phoneNumber" id="phoneNumber"
+														<input style="width:300px;" name="phoneNumber" id="phoneNumber"
 															value="${dto.phoneNumber}" type="text"
 															placeholder="'-'없이 번호만 입력하세요" maxlength="11"
 															autocomplete="off">
@@ -266,11 +266,7 @@
 												<td colspan="2" align="center"><input type="button"
 													value="수정" id="btnUpdate"> <!-- <input type="button" value="삭제" id="btnDelete"> -->
 													<button type="button" id=adminListBtn
-														class="btn btn-primary btn-sm">회원 목록</button> <br> <br>
-													<br>
-													<button type="button" id=adminHomeBtn
-														class="btn btn-primary btn-sm">관리자 홈으로</button> <br>
-													<br> <%-- <div style="color: red;">${message}</div> --%>
+														class="btn btn-primary btn-sm">회원 목록</button>
 												</td>
 											</tr>
 										</thead>

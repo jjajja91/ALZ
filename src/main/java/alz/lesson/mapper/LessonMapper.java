@@ -10,6 +10,7 @@ import alz.lesson.domain.CurriculumSubjectDTO;
 import alz.lesson.domain.LessonCriteria;
 import alz.lesson.domain.LessonDTO;
 import alz.lesson.domain.LessonDetailDTO;
+import alz.lesson.domain.LessonLikeDTO;
 import alz.lesson.domain.LessonScheduleDTO;
 import alz.lesson.domain.QuickReviewDTO;
 import alz.lesson.domain.ReviewDTO;
@@ -65,5 +66,9 @@ public interface LessonMapper {
 	int deleteLessonDetail(Long detailId);
 	int deleteCurriculum(Long lessonId);
 	int deleteCurriculumDetail(Long lessonId);
+	Long getLikeCnt(Long id);
+	void addLike(LessonLikeDTO like);
+	boolean isLike(LessonLikeDTO likeDTO);
+	boolean removeLike(LessonLikeDTO likeDTO);
 
 }
