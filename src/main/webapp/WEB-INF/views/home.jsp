@@ -20,6 +20,11 @@
 	<style>
 		body * {font-family: 'Open Sans', 'Noto Sans KR', sans-serif;}
 		
+		h2 {
+			font-size: 30px;
+			font-weight: 300px;
+		}
+		
 		.slide_wrap {
 			margin-top: 150px;
 		}
@@ -62,23 +67,120 @@
 		}
 
 		.main_wrap section {
-			padding: 80px 0 0;
-		}
-		.main_wrap section:last-child {padding-bottom: 80px;}
-		.main_wrap section h2 {
-			font-size: 30px;
-			font-weight: 500;
-		}
+            padding: 40px 0 0;
+        }
 
-		.main_wrap section ul {
-			display: flex;
-			flex-flow: row wrap;
-			margin-top: 30px;
-		}
-		.main_wrap section ul li {width: 220px; margin-right: 25px;}
-		.main_wrap section ul li:last-child {margin-right: 0;}
-		.main_wrap section ul li .img {height: 200px; background: #000;}
-		.main_wrap section ul li h3 {font-size: 18px; text-align: center; margin-top: 10px;}
+        .main_wrap section:last-child {
+            padding-bottom: 80px;
+        }
+
+        .main_wrap section ul {
+            display: flex;
+            flex-flow: row wrap;
+            margin-top: 30px;
+            margin-left: 30px;
+        }
+
+        .main_wrap section ul li {
+            width: 200px;
+            margin-left: 15px;
+            margin-right: 15px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .main_wrap section ul li .img {
+            height: 160px;
+            max-height: 160px;
+            width: 200px;
+            max-width: 200px;
+            margin-bottom: 10px;
+            position: relative;
+        }
+        
+        .main_wrap section ul li .img img {
+            height: 160px;
+            width: 200px;
+        }
+
+        .main_wrap section ul li h3 {
+            font-size: 18px;
+            text-align: left;
+            margin-top: 10px;
+        }
+
+        .main_wrap section ul li span {
+            border: none;
+            padding: 2px 10px;
+            background-color: #335492;
+            color: #f4f4f4;
+            margin-right: 5px;
+            font-size: 12px;
+        }
+        
+        .main_wrap section ul li a {
+            text-decoration: none;
+            color: black;
+        }
+
+        li h6 {
+            display: inline;
+        }
+        
+        .main_wrap section ul li .selected {
+        	display: flex;
+        }
+        
+        .main_wrap section ul li .selected a {
+        	color: white;
+        }
+        
+        .likeInfo {
+
+            position:absolute;
+            right: 0%;
+            top: 0%;
+                  width: 100%;
+                  height: 100%;
+                  justify-content:center;
+                  align-items:center;
+            display: none;
+            z-index: 1;
+                  background: rgba(0,0,0,0.7);
+
+        }
+        
+        .likeInfo a {color: #fff; display: flex; align-items:center; font-size: 20px; padding: 0 10px;}
+        
+        .likeInfo i {
+        	margin-right: 5px;
+        }
+
+        li h3 {
+            margin: 10px 0px;
+            height: 70px;
+        }
+
+        li h4 {
+            text-decoration: line-through;
+            display: inline;
+        }
+
+        li h5 {
+            display: inline;
+            color: red;
+        }
+
+        li h1 {
+            margin-top: 10px;
+            font-size: 25px;
+            font-weight: 200px;
+        }
+        
+        .price {
+            text-align: right;
+            margin-bottom: 50px;
+        }
 		footer {background: #335492; color: #fff; padding: 30px 0;}
 	
 	.bot {
@@ -110,11 +212,11 @@
 		<div class="slide_wrap">
 			<div class="swiper-container">
 				<div class="swiper-wrapper">
-					<div class="swiper-slide"><a href=""><img src="/resources/img/배너1.png"></a>
+					<div class="swiper-slide"><a href="/lesson/register"><img src="/resources/img/배너1.png"></a>
 					</div>
-					<div class="swiper-slide">Slide 2</div>
-					<div class="swiper-slide">Slide 3</div>
-					<div class="swiper-slide">Slide 4</div>
+					<div class="swiper-slide"><a href="#"><img src="/resources/img/배너2.png"></a></div>
+					<div class="swiper-slide"><a href="/lesson/list?main=2&sub=3"><img src="/resources/img/배너3.png"></a></div>
+					<div class="swiper-slide"><a href="/lesson/list?main=1&sub=2"><img src="/resources/img/배너4.png"></a></div>
 				</div>
 				<div class="pager_wrap">
 					<div class="inner">
@@ -151,22 +253,82 @@
                                 </div>
                                 </a>
                         	</li>
-						<li><a href="">
-								<div class="img"></div>
-								<h3>리스트</h3>
-							</a></li>
-						<li><a href="">
-								<div class="img"></div>
-								<h3>리스트</h3>
-							</a></li>
-						<li><a href="">
-								<div class="img"></div>
-								<h3>리스트</h3>
-							</a></li>
-						<li><a href="">
-								<div class="img"></div>
-								<h3>리스트</h3>
-							</a></li>
+						<li>
+                            <div class="img">                           	
+                        		<div class="likeInfo">
+                                	<a class="like" href=""><i class="xi-heart-o">657</i></a>
+                                	<a class="reserv" href=""><i class="xi-star-o">329</i></a>
+                            	</div>
+                            	<a href="/lesson/read?id=">
+                            	<!-- /resources/img/lesson/thumb// -->
+								<img class="lessonImg" src="">
+                                </div>
+                                <span>타입이름</span><span>카테고리이름</span>
+                                <h3>제목</h3>
+                                <div class="price">
+                                	<h4>원</h4>
+                                    <h5>%</h5>
+                                    <h1>원</h1>
+                                </div>
+                                </a>
+                        	</li>
+                        	<li>
+                            <div class="img">                           	
+                        		<div class="likeInfo">
+                                	<a class="like" href=""><i class="xi-heart-o">657</i></a>
+                                	<a class="reserv" href=""><i class="xi-star-o">329</i></a>
+                            	</div>
+                            	<a href="/lesson/read?id=">
+                            	<!-- /resources/img/lesson/thumb// -->
+								<img class="lessonImg" src="">
+                                </div>
+                                <span>타입이름</span><span>카테고리이름</span>
+                                <h3>제목</h3>
+                                <div class="price">
+                                	<h4>원</h4>
+                                    <h5>%</h5>
+                                    <h1>원</h1>
+                                </div>
+                                </a>
+                        	</li>
+                        	<li>
+                            <div class="img">                           	
+                        		<div class="likeInfo">
+                                	<a class="like" href=""><i class="xi-heart-o">657</i></a>
+                                	<a class="reserv" href=""><i class="xi-star-o">329</i></a>
+                            	</div>
+                            	<a href="/lesson/read?id=">
+                            	<!-- /resources/img/lesson/thumb// -->
+								<img class="lessonImg" src="">
+                                </div>
+                                <span>타입이름</span><span>카테고리이름</span>
+                                <h3>제목</h3>
+                                <div class="price">
+                                	<h4>원</h4>
+                                    <h5>%</h5>
+                                    <h1>원</h1>
+                                </div>
+                                </a>
+                        	</li>
+                        	<li>
+                            <div class="img">                           	
+                        		<div class="likeInfo">
+                                	<a class="like" href=""><i class="xi-heart-o">657</i></a>
+                                	<a class="reserv" href=""><i class="xi-star-o">329</i></a>
+                            	</div>
+                            	<a href="/lesson/read?id=">
+                            	<!-- /resources/img/lesson/thumb// -->
+								<img class="lessonImg" src="">
+                                </div>
+                                <span>타입이름</span><span>카테고리이름</span>
+                                <h3>제목</h3>
+                                <div class="price">
+                                	<h4>원</h4>
+                                    <h5>%</h5>
+                                    <h1>원</h1>
+                                </div>
+                                </a>
+                        	</li>
 					</ul>
 				</div>
 			</section>
