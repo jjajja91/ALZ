@@ -55,6 +55,11 @@ public class OrdersServiceImpl implements OrdersService {
 	public List<OrderAllDTO> cancelListPaging(OrderCriteria cri) {
 		return ordersMapper.cancelListPaging(cri);
 	}
+
+	@Override
+	public int getMyCancelTotal(OrderCriteria cri) {
+		return ordersMapper.cancelTotalCount(cri);
+	}
 	
 
 }
