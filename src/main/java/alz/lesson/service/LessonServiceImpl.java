@@ -311,12 +311,12 @@ public class LessonServiceImpl implements LessonService {
 
 	@Override
 	public boolean isLike(LessonLikeDTO likeDTO) {
-		return lessonMapper.isLike(likeDTO);
+		return lessonMapper.getLike(likeDTO) == null ? false : true;
 	}
 
 	@Override
 	public boolean removeLike(LessonLikeDTO likeDTO) {
-		return lessonMapper.removeLike(likeDTO);
+		return lessonMapper.removeLike(likeDTO) == 0 ? false : true;
 	}
 	
 

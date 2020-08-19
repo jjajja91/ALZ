@@ -54,5 +54,10 @@ public class MerchandiseDTO {
 	private Long userId;
 	@NotNull(message = "FK 자동 입력 예정입니다.")
 	private Long refId;
+	
+	private String thumbnail;
+	private Long teacherId;
+	private Date openAt;
+	private Long lessonId;
 
 }

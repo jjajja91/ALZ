@@ -68,7 +68,7 @@ public interface LessonMapper {
 	int deleteCurriculumDetail(Long lessonId);
 	Long getLikeCnt(Long id);
 	void addLike(LessonLikeDTO like);
-	boolean isLike(LessonLikeDTO likeDTO);
-	boolean removeLike(LessonLikeDTO likeDTO);
+	int removeLike(LessonLikeDTO likeDTO);
+	LessonLikeDTO getLike(LessonLikeDTO likeDTO);
 
 }
