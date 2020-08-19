@@ -11,7 +11,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="./resources/css/reset.css">
+    <link rel="stylesheet" href="/resources/css/reset.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
@@ -31,12 +31,13 @@
     		font-weight: 500;
     		padding: 20px;
     		border-bottom: solid;
-    		width: 75%;
+    		width: 95%;
 		}
 
         #lessonList {
             width: 1000px;
             margin: 0 auto;
+            padding-top: 180px;
         }
 
         h2 {
@@ -45,7 +46,7 @@
         }
 
         .main_wrap section {
-            padding: 80px 0 0;
+            padding: 40px 0 0;
         }
 
         .main_wrap section:last-child {
@@ -56,38 +57,43 @@
             display: flex;
             flex-flow: row wrap;
             margin-top: 30px;
+            margin-left: 30px;
         }
 
         .main_wrap section ul li {
             width: 200px;
-            margin-right: 25px;
+            margin-left: 15px;
+            margin-right: 15px;
             margin-bottom: 20px;
-        }
-
-        .main_wrap section ul li:last-child {
-            margin-right: 0;
+            position: relative;
         }
 
         .main_wrap section ul li .img {
             height: 160px;
+            max-height: 160px;
             width: 200px;
+            max-width: 200px;
             margin-bottom: 10px;
+            position: relative;
         }
         
         .main_wrap section ul li .img img {
             height: 160px;
             width: 200px;
         }
+        
+/*         .main_wrap section ul li .img img:hover {
+        	-webkit-transform:scale(1.1);
+        } */
+        
+/*          .main_wrap section ul li .img img:hover {
+  			-webkit-filter: grayscale(1); /* Google Chrome, Safari 6+ & Opera 15+ */
+		} */
 
         .main_wrap section ul li h3 {
             font-size: 18px;
             text-align: left;
             margin-top: 10px;
-        }
-
-        .main_wrap section ul li a {
-            text-decoration: none;
-            color: black;
         }
 
         .main_wrap section ul li span {
@@ -98,22 +104,44 @@
             margin-right: 5px;
             font-size: 12px;
         }
+        
+        .main_wrap section ul li a {
+            text-decoration: none;
+            color: black;
+        }
 
         h6 {
             display: inline;
         }
-
+        
+        .main_wrap section ul li .selected {
+        	display: flex;
+        }
+        
+        .main_wrap section ul li .selected a {
+        	color: white;
+        }
+        
         .likeInfo {
-            text-align: right;
-            font-size: 20px;
-        }
 
-        .likeInfo a {
-            margin-left: 10px;
+            position:absolute;
+            right: 0%;
+            top: 0%;
+                  width: 100%;
+                  height: 100%;
+                  justify-content:center;
+                  align-items:center;
+            display: none;
+            z-index: 1;
+                  background: rgba(0,0,0,0.7);
+
         }
+        
+        .likeInfo a {color: #fff; display: flex; align-items:center; font-size: 20px; padding: 0 10px;}
 
         h3 {
-            margin-bottom: 10px;
+            margin: 10px 0px;
+            height: 70px;
         }
 
         h4 {
@@ -129,11 +157,12 @@
         h1 {
             margin-top: 10px;
             font-size: 25px;
-            font-weight: bold;
+            font-weight: 200px;
         }
         
         .price {
             text-align: right;
+            margin-bottom: 50px;
         }
     </style>
 </head>
@@ -144,25 +173,23 @@
 			<c:forEach items="${list}" var="lesson" begin="1" end="1" step="1">
 			<div class="lessonHeaderTitle"><c:out value="${lesson.categoryName}" /></div>
 			</c:forEach>
-				<div class="lessonSortDiv">
+<!-- 				<div class="lessonSortDiv">
 					<select name="sort" id="lessonListSort">
 		    		<option value="newest">최신순</option>
 		    		<option value="rate">평점순</option>
 					</select>
-				</div>
+				</div> -->
             <section class="sec">
                 <div class="inner">
                     <ul>
                 		<c:forEach items="${list}" var="lesson">
-                        <li>
-                            <div class="likeInfo">
-                                <a id="like" href=""><i class="xi-heart-o"></i>
-                                <h6>200</h6></a>
-                                <a id="reserv" href=""><i class="xi-star-o"></i>
-                                <h6>200</h6></a>
-                            </div>
-                            <a href="">
-                                <div class="img">
+                        	<li>
+                                <div class="img">                           	
+                        		<div class="likeInfo">
+                                	<a id="like" href=""><i class="xi-heart-o"></i>62</a>
+                                	<a id="reserv" href=""><i class="xi-star-o"></i>15</a>
+                            	</div>
+                            	<a href="/lesson/read?id=${lesson.id }">
                                 <c:if test= "${empty lesson.thumbnail}">
 								<img class="lessonImg" src="../../../resources/img/classtmpimg.jpg">
 								</c:if>
@@ -180,8 +207,8 @@
                                     <fmt:formatNumber type="number" var="salePrice" maxFractionDigits="3" value="${lesson.salePrice}" />
                                     <h1>${salePrice}원</h1>
                                 </div>
-                            </a>
-                        </li>
+                                </a>
+                        	</li>
                         </c:forEach>
                     </ul>
                 </div>
@@ -189,7 +216,14 @@
         </div>
 
     </div>
-
+	<script>
+		$(document).ready(function(e){
+			var hoverImg = $(".main_wrap section ul li .img img");
+			hoverImg.hover(function(e) {
+				$(this).parent().parent().parent().find(".likeInfo").toggleClass("selected");
+			});
+		});
+	</script>
 
 </body>
 
