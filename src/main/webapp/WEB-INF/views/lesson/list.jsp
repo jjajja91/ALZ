@@ -240,9 +240,25 @@
 	<script>
 		$(document).ready(function(e){
 			var hoverImg = $(".main_wrap section ul li .img");
+			var likeBtn = $("#like");
+			var likeData = {
+					userId : $userId.val(),
+					boardId : $boardId.val()
+				};
+			
+			
+			
+			
 			hoverImg.hover(function(e) {
 				$(this).parent().find(".likeInfo").toggleClass("selected");
 			});
+			
+			likeBtn.click(function(e){
+				e.preventDefault();
+				
+			});
+			
+			
 		});
 		
 		
@@ -268,7 +284,7 @@
 		function addLike(likeData) {
 			return $.ajax({
 				type : "POST",
-				url : '/boards/like/',
+				url : '/lessons/like/',
 				data : JSON.stringify(likeData),
 				contentType : "application/json; charset=utf-8"
 			});
@@ -278,7 +294,7 @@
 		function removeLike(likeData) {
 			return $.ajax({
 				type : 'DELETE',
-				url : '/boards/like/' +likeData.userId+'/'+likeData.boardId,
+				url : '/lessons/like/' +likeData.userId+'/'+likeData.lessonId,
 				contentType : "application/json; charset=utf-8"
 			});
 		}
@@ -287,7 +303,7 @@
 		function countLike(id) {
 			return $.ajax({
 				type : "GET",
-				url : '/boards/like/' + id,
+				url : '/lessons/like/' + id,
 				contentType : "application/json; charset=utf-8;"
 			});
 		}
