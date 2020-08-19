@@ -1,6 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@include file="../../includes/admin_header.jsp"%>
+<style>
+img.lessonImg {
+	width: 100px;
+	height: 100px;
+}
+
+</style>
 <!-- Content Wrapper -->
 <div id="content-wrapper" class="d-flex flex-column">
 
@@ -40,8 +47,15 @@
 								<c:set var="finalTotalPrice" value="0" />
 								<c:forEach items="${orderList}" var="list">
 									<tr>
-										<td><img class="lessonImg"
-											src="/resources/img/classtmpimg.jpg"></td>
+										<td><c:if test="${empty list.thumbnail}">
+								<img class="lessonImg"
+									src="../../../resources/img/classtmpimg.jpg">
+							</c:if> <c:if test="${!empty list.thumbnail}">
+								<img class="lessonImg"
+									src='/resources/img/lesson/thumb/${list.teacherId}
+										<fmt:formatDate pattern = "yyyy-MM-dd" value="${list.openAt}" />
+										/${list.thumbnail}'>
+							</c:if></td>
 										<td>${list.name }<br> <fmt:formatNumber
 												value="${list.salePrice}" pattern="#,###" /> 원
 										</td>

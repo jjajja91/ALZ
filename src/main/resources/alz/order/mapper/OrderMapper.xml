@@ -41,9 +41,10 @@
 
 	<select id="orderResult"
 		resultType="alz.order.domain.OrderDetailDTO">
-		select o.order_id, m.id merchandise_id, m.NAME, m.ORIGIN_PRICE, m.SALE_PRICE
-		from alz_order_detail o, alz_merchandise m
+		select o.order_id, m.id merchandise_id, m.NAME, m.ORIGIN_PRICE, m.SALE_PRICE, l.thumbnail, l.open_at, l.teacher_id
+		from alz_order_detail o, alz_merchandise m, alz_lesson l
 		where o.order_id = #{orderId}
+		and m.ref_id = l.id
 		and m.id = o.merchandise_id
 	</select>
 	

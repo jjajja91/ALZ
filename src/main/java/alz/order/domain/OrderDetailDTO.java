@@ -1,5 +1,7 @@
 package alz.order.domain;
 
+import java.util.Date;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -27,5 +29,8 @@ public class OrderDetailDTO {
 	private Long originPrice;
 	private Long salePrice;
 	
+	private String thumbnail;
+	private Long teacherId;
+	private Date openAt;
 	
 }

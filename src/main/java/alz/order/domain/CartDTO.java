@@ -28,4 +28,8 @@ public class CartDTO {
 	private Long originPrice;
 	private Long salePrice;
 	
+	private String thumbnail;
+	private Long teacherId;
+	private Date openAt;
+	
 }

@@ -47,7 +47,7 @@
 }
 
 .content-table td {
-	padding: 8px 15px;
+	padding: 8px 5px;
 	font-size: 15px;
 	text-align: center;
 	vertical-align: middle;
@@ -86,7 +86,7 @@
 
 div.title {
 	margin-left: 300px;
-	margin-bottom: 20px;
+	margin-bottom: 35px;
 	font-size: 30px;
 	font-weight: bold;
 }
@@ -113,6 +113,12 @@ div.title {
 p.price {
 	margin: 5px 0;
 }
+
+img.lessonImg {
+	width: 100px;
+	height: 100px;
+}
+
 </style>
 <body>
 	<sec:authentication var="principal" property="principal" />
@@ -128,6 +134,7 @@ p.price {
 						<tr>
 							<th><input type="checkbox" name="allCheck" id="allCheck">
 							</th>
+							<th></th>
 							<th>상품명</th>
 							<th>금액</th>
 							<th></th>
@@ -145,6 +152,16 @@ p.price {
 								<td><input type="checkbox" id="chkBox${i}" name="chkBox"
 									class="chkBox" data-cartId="${row.id }"> <input
 									type="hidden" id="id${i}" name="id" value="${row.id }"></td>
+								<td><c:if
+									test="${empty row.thumbnail}">
+									<img class="lessonImg"
+										src="../../../resources/img/classtmpimg.jpg">
+								</c:if> <c:if test="${!empty row.thumbnail}">
+									<img class="lessonImg"
+										src='/resources/img/lesson/thumb/${row.teacherId}
+										<fmt:formatDate pattern = "yyyy-MM-dd" value="${row.openAt}" />
+										/${row.thumbnail}'>
+								</c:if></td>
 								<td>${row.name }</td>
 								<td><p class="price">
 										<fmt:formatNumber value="${row.salePrice }" pattern="#,###" />

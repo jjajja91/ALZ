@@ -137,8 +137,14 @@ a.main {
 	border: 1px solid #dddddd;
 	background-color: #335492;
 }
+
 div.toMain {
-    margin: 30px 0 30px 300px;
+	margin: 30px 0 30px 300px;
+}
+
+img.lessonImg {
+	width: 100px;
+	height: 100px;
 }
 </style>
 <body>
@@ -147,7 +153,7 @@ div.toMain {
 		<div class="title">|주문 완료</div>
 		<div class="notice">
 			<p style="margin-bottom: 5px;">주문이 완료되었습니다. 이용해 주셔서 감사합니다.</p>
-			<p>주문 내역은 [마이페이지 > 주문 내역]에서 다시 확인할 수 있습니다.</p>
+			<p>주문 내역은 [마이페이지 > 결제 내역]에서 다시 확인할 수 있습니다.</p>
 		</div>
 		<br>
 		<div class="orderNo">
@@ -168,8 +174,15 @@ div.toMain {
 					<c:set var="finalTotalPrice" value="0" />
 					<c:forEach items="${orderList}" var="list">
 						<tr>
-							<td><img class="lessonImg"
-								src="/resources/img/classtmpimg.jpg"></td>
+							<td><c:if test="${empty list.thumbnail}">
+									<img class="lessonImg"
+										src="../../../resources/img/classtmpimg.jpg">
+								</c:if> <c:if test="${!empty list.thumbnail}">
+									<img class="lessonImg"
+										src='/resources/img/lesson/thumb/${list.teacherId}
+										<fmt:formatDate pattern = "yyyy-MM-dd" value="${list.openAt}" />
+										/${list.thumbnail}'>
+								</c:if></td>
 							<td><p>${list.name }</p>
 								<p>
 									<fmt:formatNumber value="${list.salePrice}" pattern="#,###" />
