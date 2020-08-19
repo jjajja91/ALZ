@@ -32,6 +32,7 @@ public class CartListDTO {
 	private String thumbnail;
 	private Long teacherId;
 	private Date openAt;
+	private Long lessonId;
 	
 	
 	

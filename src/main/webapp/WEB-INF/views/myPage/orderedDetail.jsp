@@ -147,7 +147,7 @@ img.lessonImg {
 				<c:set var="finalTotalPrice" value="0" />
 				<c:forEach items="${orderList}" var="list">
 					<tr>
-						<td><c:if test="${empty list.thumbnail}">
+						<td><a class='read' href='/lesson/read?id=${list.lessonId}'><c:if test="${empty list.thumbnail}">
 								<img class="lessonImg"
 									src="../../../resources/img/classtmpimg.jpg">
 							</c:if> <c:if test="${!empty list.thumbnail}">
@@ -155,9 +155,9 @@ img.lessonImg {
 									src='/resources/img/lesson/thumb/${list.teacherId}
 										<fmt:formatDate pattern = "yyyy-MM-dd" value="${list.openAt}" />
 										/${list.thumbnail}'>
-							</c:if></td>
+							</c:if></a></td>
 						<td>
-							<p>${list.name }</p>
+							<p><a class='read' href='/lesson/read?id=${list.lessonId}'>${list.name }</a></p>
 							<p>
 								<fmt:formatNumber value="${list.salePrice}" pattern="#,###" />
 								원

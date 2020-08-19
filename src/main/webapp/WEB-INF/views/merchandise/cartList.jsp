@@ -118,6 +118,9 @@ img.lessonImg {
 	width: 100px;
 	height: 100px;
 }
+a.read {
+	color: black !important;
+}
 
 </style>
 <body>
@@ -152,7 +155,7 @@ img.lessonImg {
 								<td><input type="checkbox" id="chkBox${i}" name="chkBox"
 									class="chkBox" data-cartId="${row.id }"> <input
 									type="hidden" id="id${i}" name="id" value="${row.id }"></td>
-								<td><c:if
+								<td><a class='read' href='/lesson/read?id=${row.lessonId}'><c:if
 									test="${empty row.thumbnail}">
 									<img class="lessonImg"
 										src="../../../resources/img/classtmpimg.jpg">
@@ -161,8 +164,8 @@ img.lessonImg {
 										src='/resources/img/lesson/thumb/${row.teacherId}
 										<fmt:formatDate pattern = "yyyy-MM-dd" value="${row.openAt}" />
 										/${row.thumbnail}'>
-								</c:if></td>
-								<td>${row.name }</td>
+								</c:if></a></td>
+								<td><a class='read' href='/lesson/read?id=${row.lessonId}'><c:out value="${row.name}" /></a></td>
 								<td><p class="price">
 										<fmt:formatNumber value="${row.salePrice }" pattern="#,###" />
 										원
@@ -300,6 +303,7 @@ img.lessonImg {
 												e.preventDefault();
 											}
 										});
+						
 
 						$("input[type=checkbox]")
 								.change(

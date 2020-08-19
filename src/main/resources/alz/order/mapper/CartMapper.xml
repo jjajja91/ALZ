@@ -27,7 +27,7 @@
 		SELECT c.id, c.user_id,
 		p.ID
 		,
-		m.id, p.NAME, p.ORIGIN_PRICE, p.SALE_PRICE, l.thumbnail, l.open_at, l.teacher_id
+		m.id, p.NAME, p.ORIGIN_PRICE, p.SALE_PRICE, l.thumbnail, l.open_at, l.teacher_id, l.id lessonId
 		FROM alz_user m,
 		alz_merchandise p,
 		alz_cart c, alz_lesson l
@@ -66,7 +66,7 @@
 	<!-- 장바구니 선택 리스트 -->
 	<select id="buyList" resultType="alz.order.domain.CartListDTO">
 		SELECT c.id, c.user_id, p.ID merchandise_id,
-		m.id, p.NAME, p.ORIGIN_PRICE, p.SALE_PRICE, l.thumbnail, l.open_at, l.teacher_id
+		m.id, p.NAME, p.ORIGIN_PRICE, p.SALE_PRICE, l.thumbnail, l.open_at, l.teacher_id, l.id lessonId
 		FROM alz_user m,
 		alz_merchandise p,
 		alz_cart c, alz_lesson l
