@@ -7,28 +7,76 @@
 
 <%@include file="../includes/header.jsp"%>
 <head>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 
 <!-- include summernote-ko-KR -->
 <script src="/resources/js/summernote-ko-KR.js"></script>
-<script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-	integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-	integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
-	integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
-<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"
+	crossorigin="anonymous"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+	integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+	crossorigin="anonymous"></script>
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+	integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+	crossorigin="anonymous">
+<script
+	src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+	integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+	crossorigin="anonymous"></script>
+<link
+	href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css"
+	rel="stylesheet">
+<script
+	src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+<link rel="stylesheet"
+	href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
 </head>
 <style>
 .container {
 	margin-top: 200px;
-	margin-left: 400px;
+	margin-left: 27%;
+	width: 700px;
 	min-height: 100%;
 	position: relative;
+}
+div.commentDropdown {
+	margin-bottom: 10px;
+}
+
+div.comment {
+	margin-bottom: 50px;
+}
+
+div.panel-body {
+	margin-bottom: 30px;
+}
+
+button#registerCommentBtn, button.reCommentRegBtn, button.reCommentEditBtn {
+	vertical-align: middle;
+	margin-bottom: 45px;
+	margin-left: 10px;
+	border-radius: 5px 5px;
+	font-size: 16px;
+	color: #ffffff;
+	background-color: #335492;
+	border: 1px solid #dddddd;
+}
+
+button.commentDropBtn {
+	float: right;
+	width: 27px;
+	border-radius: 5px 5px;
+	background-color: #335492;
+	border: 1px solid #dddddd;
+	color: #ffffff;
+}
+a.coCommentBtn, a.commentEditBtn, a.commentDeleteBtn {
+	cursor:pointer;
 }
 </style>
 <body>
@@ -45,11 +93,11 @@
 					value='<c:out value="${board.title }"/>' readonly="readonly">
 			</div>
 			<div class="form-group">
-				<input name='nickname' value='<c:out value="${board.nickname }"/>'
+				작성자 <input name='nickname' value='<c:out value="${board.nickname }"/>'
 					readonly="readonly">
 			</div>
 			<div class="form-group">
-				<input name='writtenAt'
+				게시일 <input name='writtenAt'
 					value='<fmt:formatDate  value="${board.writtenAt }"/>'
 					readonly="readonly"> <label>조회</label> <input
 					name='viewCnt' value='<c:out value="${board.viewCnt }"/>'
@@ -85,8 +133,8 @@
 
 			</c:if>
 			<div class="form-group">
-				<textarea class="form-control" id='content' rows="10" 
-						  name='content' readonly="readonly"><c:out value="${board.content }" /></textarea>
+				<textarea class="form-control" id='content' rows="10" name='content'
+					readonly="readonly"><c:out value="${board.content }" /></textarea>
 			</div>
 
 			<div class="form-group">
@@ -100,18 +148,8 @@
 			</div>
 
 
-		<div class="form-group">
-			<input type="hidden" id="isLike" value="false"> <input
-				type="hidden" id="likeCnt" value="${board.likeCnt }" /> <a
-				class='likeCnt' href='<c:out value="${board.likeCnt }"/>'> ♡ 좋아요
-				<c:out value="${board.likeCnt }" />
-			</a> <a class='commentCnt' href='<c:out value="${board.commentCnt }"/>'>댓글
-				<c:out value="${board.commentCnt }" />
-			</a>
-		</div>
-
-		<button data-oper='write' class="btn btn-info"
-			onclick="location.href='/board/write?typeId=<c:out value="${board.typeId}"/>&id=<c:out value="${board.id}"/>&pid=<c:out value="${board.parentId}"/>&boardOrder=<c:out value="${board.boardOrder}"/>'">답글쓰기</button>
+			<button data-oper='write' class="btn btn-info"
+				onclick="location.href='/board/write?typeId=<c:out value="${board.typeId}"/>&id=<c:out value="${board.id}"/>&pid=<c:out value="${board.parentId}"/>&boardOrder=<c:out value="${board.boardOrder}"/>'">답글쓰기</button>
 
 
 
@@ -138,32 +176,30 @@
 		<!-- 댓글  -->
 		<input type='hidden' name='replyNickname' id='replyNickname'
 			value='${principal.nickname}'>
-		<div class="container">
-			<div class="panel panel-default">
-				<div class="panel-heading">
-					<i class="fa fa-comments fa-fw"></i> 댓글
-				</div>
-
-				<div class="panel-body">
-					<ul class="chat">
-						<li><strong class="primary-font">user00</strong> <small
-							class="pull-right text-muted">2020-07-03</small> <pre>Good job!</pre>
-						</li>
-					</ul>
-
-					<!-- 댓글입력 -->
-					<div>
-						<textarea id="commentContent" name='comment'
-							placeholder='댓글을 남겨보세요'></textarea>
-						<button id="registerCommentBtn">등록</button>
-					</div>
-				</div>
-				<input type="hidden" id="targetUser" name="targetUser"
-					value="<sec:authentication property="principal.nickname"/>" />
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<i class="fa fa-comments fa-fw"></i> 댓글
 			</div>
-		</div>
 
+			<div class="panel-body">
+				<ul class="chat">
+					<li><strong class="primary-font">user00</strong> <small
+						class="pull-right text-muted">2020-07-03</small> <pre>Good job!</pre>
+					</li>
+				</ul>
+
+				<!-- 댓글입력 -->
+				<div class="comment">
+					<textarea id="commentContent" name='comment' cols="70" rows="2"
+						placeholder='댓글을 남겨보세요'></textarea>
+					<button id="registerCommentBtn">등록</button>
+				</div>
+			</div>
+			<input type="hidden" id="targetUser" name="targetUser"
+				value="<sec:authentication property="principal.nickname"/>" />
+		</div>
 	</div>
+
 
 	<script type="text/javascript" src="/resources/js/comment.js"></script>
 
@@ -320,9 +356,9 @@
 						str += " 			<p style='margin:auto'>삭제된 댓글입니다.</p>";
 						str += "<hr> ";
 					} else if(list[i].deleted=='N') {
-						str += "			<strong class='primary-font'> 작성자 : "+list[i].nickname+"</strong>";
 						if(list[i].userId == $userId.val() ) {
 						str += "			<div class='commentDropdown'>";
+						str += "			<strong class='primary-font'> 작성자 : "+list[i].nickname+"</strong>";
 						str += "				<button class='commentDropBtn' data-toggle='dropdown'>:</button>";
 						str += "				<ul class='dropdown-menu'>";
 						str += "					<li><a class='commentEditBtn'>수정</a></li>";
@@ -369,6 +405,7 @@
 			 
 			var textArea = document.createElement("textarea");
 			textArea.setAttribute("id", "replyTextarea");
+			textArea.setAttribute("cols", "30");
 			textArea.setAttribute("placeholder", "댓글을 입력해주세요");
 			 
 			var reCommentRegBtn = document.createElement("button");

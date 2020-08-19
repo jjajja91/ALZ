@@ -30,14 +30,16 @@
 <style>
 .container {
 	margin-top: 200px;
-	margin-left: 400px;
+	margin-left: 27%;
+	width: 700px;
 	min-height: 100%;
 	position: relative;
 }
+div.form-group {
+	margin-bottom: 50px;
+}
 </style>
 <body>
-<br>
-<br><br><br><br><br><br><br><br><br>
 	<div class="container">
 		<div class="write-container">
 			<h2 id="head">Board Write</h2>

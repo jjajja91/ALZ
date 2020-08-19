@@ -124,6 +124,7 @@ div.sub1 {
 p.p1 {
 	margin: 10px 0;
 }
+
 p {
 	margin: 5px 0;
 }
@@ -131,8 +132,14 @@ p {
 p.originP {
 	font-weight: normal;
 }
+
 p>span {
 	font-weight: bold;
+}
+
+img.lessonImg {
+	width: 100px;
+	height: 100px;
 }
 </style>
 <body>
@@ -155,8 +162,16 @@ p>span {
 					<c:set var="salePrice" value="0" />
 					<c:forEach items="${buyList}" var="list">
 						<tr>
-							<td class="main_list_col1"><img class="lessonImg"
-								src="/resources/img/classtmpimg.jpg"></td>
+							<td class="main_list_col1"><c:if
+									test="${empty list.thumbnail}">
+									<img class="lessonImg"
+										src="../../../resources/img/classtmpimg.jpg">
+								</c:if> <c:if test="${!empty list.thumbnail}">
+									<img class="lessonImg"
+										src='/resources/img/lesson/thumb/${list.teacherId}
+										<fmt:formatDate pattern = "yyyy-MM-dd" value="${list.openAt}" />
+										/${list.thumbnail}'>
+								</c:if></td>
 							<td class="main_list_col2">${list.name}</td>
 							<td class="main_list_col3">
 								<p class="saleP">
