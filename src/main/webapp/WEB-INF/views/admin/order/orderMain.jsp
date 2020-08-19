@@ -115,7 +115,7 @@
 						<div>
 								선택한 항목 <select id="orderState">
 									<option value="결제 완료">결제 완료</option>
-									<option value="주문 취소">주문 취소</option>
+									<option value="취소 완료">취소 완료</option>
 									<option value="취소 요청">취소 요청</option>
 									<option value="기타">기타</option>
 								</select>

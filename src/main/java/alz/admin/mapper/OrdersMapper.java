@@ -14,4 +14,5 @@ public interface OrdersMapper {
 	public void stateChange(OrderDTO order);
 	public List<OrderAllDTO> myOrderListPaging(OrderCriteria cri);
 	public int getMyTotalCount(OrderCriteria cri);
+	public List<OrderAllDTO> cancelListPaging(OrderCriteria cri);
 }

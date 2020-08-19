@@ -19,4 +19,6 @@ public interface OrdersService {
 	public List<OrderAllDTO> myOrderListPaging(OrderCriteria cri);
 
 	public int getMyTotal(OrderCriteria cri);
+
+	public List<OrderAllDTO> cancelListPaging(OrderCriteria cri);
 }
