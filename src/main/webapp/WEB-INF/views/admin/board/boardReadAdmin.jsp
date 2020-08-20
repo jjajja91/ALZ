@@ -329,7 +329,7 @@
 				</div>
 			</div>
 			<input type="hidden" id="targetUser" name="targetUser"
-				value="<sec:authentication property="principal.nickname"/>" />
+				value='<sec:authentication property="principal.nickname"/>' />
 		</div>
 	</div>
 

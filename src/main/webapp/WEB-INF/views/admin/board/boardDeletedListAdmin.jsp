@@ -267,7 +267,7 @@
 									end="${pageMaker.endPage }">
 									<li
 										class="paginate_button ${pageMaker.cri.pageNum == num? 'active':'' }"><a
-										href="${num }" class="paging">${num }</a></li>
+										href="${num }" class="paging">&nbsp;${num }</a></li>
 								</c:forEach>
 
 								<c:if test="${pageMaker.next }">
