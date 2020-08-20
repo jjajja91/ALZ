@@ -284,4 +284,55 @@
 		set enable = 0
 		where id = #{id}
 	</update>
+	
+	
+	<select id="likeLessonSelectWithPaging"
+		resultType="alz.lesson.domain.LessonDTO">
+		<![CDATA[	
+    	select * from 
+    	(select rownum rn, id, teacher_id, title, thumbnail, open_at, close_at from
+    	(select l.id, l.teacher_id, l.title, l.thumbnail, l.open_at, l.close_at
+      	from
+        alz_lesson l, alz_link_like_lesson ll
+        where l.id = ll.lesson_id
+        and ll.user_id = #{id}
+        order by l.open_at desc))
+        where rn <= #{pageNum} * #{amount}
+        and rn > (#{pageNum}-1) * #{amount}
+		]]>
+	</select>
+	
+	
+	<select id="reservLessonSelectWithPaging"
+		resultType="alz.lesson.domain.LessonDTO">
+		<![CDATA[	
+    	select * from 
+    	(select rownum rn, id, teacher_id, title, thumbnail, open_at, close_at from
+    	(select l.id, l.teacher_id, l.title, l.thumbnail, l.open_at, l.close_at
+      	from
+        alz_lesson l, alz_link_reserv_lesson rl
+        where l.id = rl.lesson_id
+        and rl.user_id = #{id}
+        order by l.open_at desc))
+        where rn <= #{pageNum} * #{amount}
+        and rn > (#{pageNum}-1) * #{amount}
+		]]>
+	</select>
+	
+	<select id="getMyLikeLessonTotal" resultType="long">
+		select count(*) from 
+        alz_lesson l, alz_link_like_lesson ll
+        where l.id = ll.lesson_id
+        and ll.user_id = #{id}
+	</select>
+
+	<select id="getMyReservLessonTotal" resultType="long">
+		select count(*) from 
+        alz_lesson l, alz_link_reserv_lesson rl
+        where l.id = rl.lesson_id
+        and rl.user_id = #{id}
+	</select>
+	
+	
+	
 </mapper>

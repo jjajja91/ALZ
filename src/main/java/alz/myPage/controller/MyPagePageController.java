@@ -192,6 +192,24 @@ public class MyPagePageController {
 		model.addAttribute("pageMaker", new MyPagePageDTO(cri, total));
 	}
 
+	// 내 좋아요
+	@GetMapping("/likeLessonList")
+	public void likeLessonList(MyPageCriteria cri, Model model) {
+		cri.setId(getLoginUserInfo().getId());
+		model.addAttribute("list", myPageService.getMyLikeLessonList(cri));
+		Long total = myPageService.getMyLikeLessonTotal(cri);
+		model.addAttribute("pageMaker", new MyPagePageDTO(cri, total));
+	}
+	
+	// 내 좋아요
+	@GetMapping("/reservLessonList")
+	public void reservLessonList(MyPageCriteria cri, Model model) {
+		cri.setId(getLoginUserInfo().getId());
+		model.addAttribute("list", myPageService.getMyReservLessonList(cri));
+		Long total = myPageService.getMyReservLessonTotal(cri);
+		model.addAttribute("pageMaker", new MyPagePageDTO(cri, total));
+	}
+	
 	@GetMapping("/deleteAcc")
 	public String deleteAcc() {
 

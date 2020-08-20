@@ -55,6 +55,14 @@ public interface MyPageMapper {
 
 	int getRefundedLessonTotal(MyPageCriteria cri);
 
+	List<LessonDTO> reservLessonSelectWithPaging(MyPageCriteria cri);
+
+	List<LessonDTO> likeLessonSelectWithPaging(MyPageCriteria cri);
+
+	Long getMyLikeLessonTotal(MyPageCriteria cri);
+
+	Long getMyReservLessonTotal(MyPageCriteria cri);
+
 
 
 }

@@ -45,6 +45,14 @@ public interface MyPageService {
 	int getFinishedLessonTotal(MyPageCriteria cri);
 
 	int getRefundedLessonTotal(MyPageCriteria cri);
+
+	List<LessonDTO> getMyReservLessonList(MyPageCriteria cri);
+
+	List<LessonDTO> getMyLikeLessonList(MyPageCriteria cri);
+
+	Long getMyLikeLessonTotal(MyPageCriteria cri);
+
+	Long getMyReservLessonTotal(MyPageCriteria cri);
 	
 	
 }

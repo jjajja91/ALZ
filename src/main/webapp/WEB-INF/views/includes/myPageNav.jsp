@@ -122,8 +122,8 @@
         <li class="mypageItem" id="myList">
           <a href="#myList" class="mypageBtn">내 관심 목록</a>
           <div class="smenu">
- 			<a href="#about">찜 클래스</a>
-  			<a href="#services">좋아요 클래스</a>
+ 			<a href="/myPage/reservLessonList">찜 클래스</a>
+  			<a href="/myPage/likeLessonList">좋아요 클래스</a>
   			<a href="/myPage/boardList">내 게시글</a>
   			<a href="/myPage/commentList">내 댓글</a>
   			<a href="/myPage/likeList">내 좋아요</a>
