@@ -77,10 +77,7 @@
 }
 
 .page-footer {
-	right: 0%;
-	bottom: 0%;
-	margin-top: 20px;
-	padding-top: 60px;
+	margin-top: 40px;
 }
 
 .page-footer li {
@@ -127,6 +124,10 @@
 	border-width: 1px;
 	height: 30px;
 	width: 60px;
+}
+.pull-right {
+	float: left;
+	margin-left: 30%;
 }
 </style>
 </head>

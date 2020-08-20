@@ -97,14 +97,16 @@ div.search {
 }
 
 a#regBtn {
-	font-size: 18px;
+	font-size: 14px;
 	background-color: #335492;
-	margin-left: 277px; border-radius : 5px 5px;
-	box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+	margin-left: 277px;
+	border-radius: 5px 5px;
 	color: #ffffff;
 	border: 1px solid #dddddd;
 	background-color: #335492;
 	border-radius: 5px 5px;
+	padding: 6px 12px;
+	cursor: pointer;
 }
 </style>
 <body>
