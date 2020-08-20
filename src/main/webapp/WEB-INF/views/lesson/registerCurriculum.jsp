@@ -23,6 +23,8 @@
 	height:30px;    
 	border-bottom: solid 1px;
 	padding-right:20px;
+    position: sticky;
+    top: 10px;
 }
 
 .lessonHeaderLeft {
@@ -41,9 +43,9 @@
 }
 
 .lessonText {
-	color: #585858;
+	color: black;
 	font-weight: bold;
-	font-size: 16px;
+	font-size: 20px;
     margin-bottom: 20px;
 }
 
@@ -198,10 +200,10 @@ input[name="addSubject"] {
 
 .lessonForm button[name="prev"] {
     right: 27%;
+    background: lightgrey;
 }
 .lessonForm button[name="save"] {
     right: 21%;
-    background: lightgrey;
 }
 .lessonForm button[name="submit"] {
     right: 15%;

@@ -37,6 +37,8 @@
 	height:30px;    
 	border-bottom: solid 1px;
 	padding-right:20px;
+    position: sticky;
+    top: 10px;
 }
 
 .lessonHeaderLeft {
@@ -54,9 +56,9 @@
 }
 
 .lessonText {
-	color: #585858;
+	color: black;
 	font-weight: bold;
-	font-size: 16px;
+	font-size: 20px;
     margin-bottom: 20px;
     line-height: 30px;
 }
