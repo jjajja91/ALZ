@@ -73,9 +73,11 @@ public interface LessonMapper {
 	LessonLikeDTO getLike(LessonLikeDTO likeDTO);
 	List<LessonDTO> getNewList();
 	List<LessonDTO> getSoonList();
+
 	Long getReservCnt(Long id);
 	void addReserv(LessonReservDTO reserv);
 	LessonReservDTO getReserv(LessonReservDTO reservDTO);
 	int removeReserv(LessonReservDTO reservDTO);
+
 
 }

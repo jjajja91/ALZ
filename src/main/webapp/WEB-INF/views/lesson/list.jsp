@@ -186,12 +186,14 @@
 </head>
 
 <body>
-    <div id="lessonList">
-        <div class="main_wrap">    
+	<div id="lessonList">
+		<div class="main_wrap">
 			<c:forEach items="${list}" var="lesson" begin="1" end="1" step="1">
-			<div class="lessonHeaderTitle"><c:out value="${lesson.categoryName}" /></div>
+				<div class="lessonHeaderTitle">
+					<c:out value="${lesson.categoryName}" />
+				</div>
 			</c:forEach>
-<!-- 				<div class="lessonSortDiv">
+			<!-- 				<div class="lessonSortDiv">
 					<select name="sort" id="lessonListSort">
 		    		<option value="newest">최신순</option>
 		    		<option value="rate">평점순</option>
@@ -256,16 +258,6 @@
 			</c:if>
 		</ul>
 	</div>
-	
-	
-	<form id='actionForm' action="/lesson/list" method='get'>
-		<input type='hidden' name='pageNum' value='${pageMaker.cri.pageNum}'>
-		<input type='hidden' name='amount' value='${pageMaker.cri.amount}'>
-		<input type='hidden' name='keyword' value='<c:out value="${pageMaker.cri.keyword}"/>' />
-		<input type='hidden' name='categoryMain' value='<c:out value="${pageMaker.cri.categoryMain}"/>' />
-		<input type='hidden' name='categorySub' value='<c:out value="${pageMaker.cri.categorySub}"/>' />
-	</form>
-    </div>
 	<script>
 		$(document).ready(function(e){
 			var $hoverImg = $(".main_wrap section ul li .img");

@@ -119,6 +119,8 @@ button.btn-danger {
 	font-size: 20px;
 	padding: 1px 5px;
 	margin-bottom: 50px;
+	padding: 6px 12px;
+	cursor: pointer;
 }
 
 p {

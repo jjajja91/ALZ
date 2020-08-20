@@ -69,6 +69,10 @@
 	background-color: #f3f3f3;
 }
 
+.content-table tbody tr:first-of-type {
+	background-color: #335492;
+	color: #ffffff;
+}
 .content-table tbody tr:last-of-type {
 	border-bottom: 2px solid #335492;
 }
@@ -96,16 +100,18 @@ div.title {
 	margin-bottom: 30px;
 	background-color: #335492;
 	border-radius: 5px 5px;
-	box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
 	color: #ffffff;
 	border: 1px solid #dddddd;
+	padding: 6px 12px;
+	cursor: pointer;
 }
 
 .deleteBtn {
 	font-size: 18px;
-	box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
 	border-radius: 5px 5px;
 	border: 1px solid #dddddd;
+	padding: 6px 12px;
+	cursor: pointer;
 }
 
 p.price {
@@ -216,7 +222,7 @@ a.read {
 					</thead>
 					<tbody class="result">
 						<!-- 장바구니 금액 출력 부분 -->
-						<tr style="background-color: #f3f3f3;" align=center>
+						<tr style="background-color: #f3f3f3; color:black" align=center>
 							<td class="result" id="result_info_price"><span
 								class="result" id="totalPrice"></span> 원</td>
 							<td class="result"><img width="25" alt=""

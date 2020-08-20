@@ -47,8 +47,8 @@
 														<option value="P"
 															<c:out value="${pageMaker.cri.type eq 'P'?'selected':''}"/>>주문자
 															핸드폰 번호</option>
-														<option value="M"
-															<c:out value="${pageMaker.cri.type eq 'M'?'selected':''}"/>>상품명</option>
+														<!-- <option value="M"
+															<c:out value="${pageMaker.cri.type eq 'M'?'selected':''}"/>>상품명</option>  -->
 													</select>
 													<p>&nbsp; &nbsp;</p>
 													<input type='text' name='keyword'

@@ -65,6 +65,8 @@ public interface LessonService {
 	boolean isLike(LessonLikeDTO likeDTO);
 	// 좋아요 삭제
 	boolean removeLike(LessonLikeDTO likeDTO);
+	List<LessonDTO> getNewList();
+	List<LessonDTO> getSoonList();
 	
 	
 	// 찜 수(트리거가 올려줌)

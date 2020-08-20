@@ -166,6 +166,15 @@
     border: none;
     background: lightgray;
 }
+button.reCommentRegBtn, button#registerCommentBtn {
+	vertical-align: middle;
+	background-color: #335492;
+	color: #ffffff;
+	border: 1px solid #dddddd;
+	background-color: #335492;
+	padding: 6px 12px;
+	border-radius: 5px 5px;
+}
 </style>
 <body>
 
