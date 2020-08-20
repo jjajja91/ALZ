@@ -25,6 +25,8 @@
 	height:30px;    
 	border-bottom: solid 1px;
 	padding-right:20px;
+    position: sticky;
+    top: 10px;
 }
 
 .lessonHeaderLeft {
@@ -43,17 +45,18 @@
 }
 
 .lessonText {
-	color: #585858;
+	color: black;
 	font-weight: bold;
-	font-size: 16px;
+	font-size: 20px;
     margin-bottom: 20px;
 }
 
 .lessonForm {
-	font-size: 14px;
-	color: #585858;
+	font-size: 16px;
+	color: black;
     line-height: 30px;
     margin-top: 20px;
+    font-weight: 600;
 }
 
 .lessonForm button {

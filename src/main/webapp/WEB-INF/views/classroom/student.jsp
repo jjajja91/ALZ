@@ -704,7 +704,7 @@ a.read {
 				$(navTab[0]).css('display', 'block');
 				break;
 			case navMenu[1]:
-				self.location = "http://192.168.1.57:8888//"
+				self.location = "//192.168.1.57:8888/"
 				break;
 			case navMenu[2]:
 				$(navTab[2]).css('display', 'block');
