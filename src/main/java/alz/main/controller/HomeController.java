@@ -2,6 +2,7 @@ package alz.main.controller;
 
 import java.text.DateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import org.slf4j.Logger;
@@ -12,7 +13,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import alz.message.MessageService;
+import alz.lesson.domain.LessonDTO;
+import alz.lesson.service.LessonService;
 
 /**
  * Handles requests for the application home page.
@@ -21,6 +23,9 @@ import alz.message.MessageService;
 public class HomeController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
+	
+	@Autowired
+	LessonService lessonService;
 	
 //	@Autowired
 //	MessageService messageService;
@@ -37,7 +42,13 @@ public class HomeController {
 		
 		String formattedDate = dateFormat.format(date);
 		
+		List<LessonDTO> newList = lessonService.getNewList();
+		List<LessonDTO> soonList = lessonService.getSoonList();
+		
 		model.addAttribute("serverTime", formattedDate );
+		model.addAttribute("newList", newList);
+		model.addAttribute("soonList", soonList);
+		
 //		messageService.sendAlarm();
 		
 		return "home";

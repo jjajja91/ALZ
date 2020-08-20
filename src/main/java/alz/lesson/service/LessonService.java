@@ -64,5 +64,7 @@ public interface LessonService {
 	boolean isLike(LessonLikeDTO likeDTO);
 	// 좋아요 삭제
 	boolean removeLike(LessonLikeDTO likeDTO);
+	List<LessonDTO> getNewList();
+	List<LessonDTO> getSoonList();
 	
 }

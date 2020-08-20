@@ -53,6 +53,7 @@ public class BoardDTO {
 	private Long teacherReview;
 	private Long lessonId;
 	private String lessonTitle;
+	private Long merchandiseId;
 	
 	private List<BoardFileDTO> fileList;
 

@@ -31,9 +31,7 @@
 	font-size: 0.8em;
 	min-width: 400px;
 	width: 750px;
-	border-radius: 5px 5px 0 0;
 	overflow: hidden;
-	box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
 }
 
 .content-table thead tr {
@@ -43,7 +41,7 @@
 }
 
 .content-table th {
-	padding: 13px 10px;
+	padding: 13px 5px;
 	font-weight: bold;
 	font-size: 18px;
 	text-align: center;

@@ -10,6 +10,7 @@
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
 <style>
 *{
   margin: 0;
@@ -138,7 +139,7 @@
         </li>
   		</sec:authorize>
         <li class="mypageItem">
-          <a class="mypageBtn" href="#">마이페이지</a>
+          <a class="mypageBtn" href="#"><i class="xi-caret-up-circle-o"></i></a>
         </li>
       </div>
     </div>

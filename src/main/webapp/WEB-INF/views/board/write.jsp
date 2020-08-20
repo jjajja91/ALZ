@@ -38,6 +38,26 @@
 div.form-group {
 	margin-bottom: 50px;
 }
+#lesson_star_rate a.lessonOn {
+   color: red;
+}
+
+#lesson_star_rate a {
+   text-decoration: none;
+   color: gray;
+   font-size: 30px;
+}
+
+#teacher_star_rate a {
+   text-decoration: none;
+   color: gray;
+   font-size: 30px;
+}
+
+#teacher_star_rate a.teacherOn {
+   color: red;
+}
+
 </style>
 <body>
 	<div class="container">
