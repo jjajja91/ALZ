@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <%@include file="./includes/header.jsp"%>
 <!DOCTYPE html>
@@ -19,6 +20,16 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Open+Sans:wght@300;400;700&display=swap" rel="stylesheet">
 	<style>
 		body * {font-family: 'Open Sans', 'Noto Sans KR', sans-serif;}
+		
+		h2 {
+			font-size: 30px;
+			font-weight: 300px;
+		}
+		
+		.slide_wrap {
+			margin-top: 150px;
+		}
+		
 		.slide_wrap .swiper-container {
 			overflow: hidden;
 			position: relative;
@@ -40,10 +51,15 @@
 		.slide_wrap .pager_wrap .pager_line {
 			display: flex;
 			align-items: center;
+			background-color: black;
+			color: white;
+			width: 105px;
+			padding: 10px 5px;
 		}
 
 		.slide_wrap .pager_wrap .pager_line * {
 			line-height: 1;
+			cursor: pointer;
 		}
 
 		.slide_wrap .pager_wrap .swiper_fraction {
@@ -52,23 +68,120 @@
 		}
 
 		.main_wrap section {
-			padding: 80px 0 0;
-		}
-		.main_wrap section:last-child {padding-bottom: 80px;}
-		.main_wrap section h2 {
-			font-size: 30px;
-			font-weight: 500;
-		}
+            padding: 40px 0 0;
+        }
 
-		.main_wrap section ul {
-			display: flex;
-			flex-flow: row wrap;
-			margin-top: 30px;
-		}
-		.main_wrap section ul li {width: 220px; margin-right: 25px;}
-		.main_wrap section ul li:last-child {margin-right: 0;}
-		.main_wrap section ul li .img {height: 200px; background: #000;}
-		.main_wrap section ul li h3 {font-size: 18px; text-align: center; margin-top: 10px;}
+        .main_wrap section:last-child {
+            padding-bottom: 80px;
+        }
+
+        .main_wrap section ul {
+            display: flex;
+            flex-flow: row wrap;
+            margin-top: 30px;
+            margin-left: 30px;
+        }
+
+        .main_wrap section ul li {
+            width: 200px;
+            margin-left: 15px;
+            margin-right: 15px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .main_wrap section ul li .img {
+            height: 160px;
+            max-height: 160px;
+            width: 200px;
+            max-width: 200px;
+            margin-bottom: 10px;
+            position: relative;
+        }
+        
+        .main_wrap section ul li .img img {
+            height: 160px;
+            width: 200px;
+        }
+
+        .main_wrap section ul li h3 {
+            font-size: 18px;
+            text-align: left;
+            margin-top: 10px;
+        }
+
+        .main_wrap section ul li span {
+            border: none;
+            padding: 2px 10px;
+            background-color: #335492;
+            color: #f4f4f4;
+            margin-right: 5px;
+            font-size: 12px;
+        }
+        
+        .main_wrap section ul li a {
+            text-decoration: none;
+            color: black;
+        }
+
+        li h6 {
+            display: inline;
+        }
+        
+        .main_wrap section ul li .selected {
+        	display: flex;
+        }
+        
+        .main_wrap section ul li .selected a {
+        	color: white;
+        }
+        
+        .likeInfo {
+
+            position:absolute;
+            right: 0%;
+            top: 0%;
+                  width: 100%;
+                  height: 100%;
+                  justify-content:center;
+                  align-items:center;
+            display: none;
+            z-index: 1;
+                  background: rgba(0,0,0,0.7);
+
+        }
+        
+        .likeInfo a {color: #fff; display: flex; align-items:center; font-size: 20px; padding: 0 10px;}
+        
+        .likeInfo i {
+        	margin-right: 5px;
+        }
+
+        li h3 {
+            margin: 10px 0px;
+            height: 70px;
+        }
+
+        li h4 {
+            text-decoration: line-through;
+            display: inline;
+        }
+
+        li h5 {
+            display: inline;
+            color: red;
+        }
+
+        li h1 {
+            margin-top: 10px;
+            font-size: 25px;
+            font-weight: 200px;
+        }
+        
+        .price {
+            text-align: right;
+            margin-bottom: 50px;
+        }
 		footer {background: #335492; color: #fff; padding: 30px 0;}
 	
 	.bot {
@@ -100,10 +213,11 @@
 		<div class="slide_wrap">
 			<div class="swiper-container">
 				<div class="swiper-wrapper">
-					<div class="swiper-slide">Slide 1</div>
-					<div class="swiper-slide">Slide 2</div>
-					<div class="swiper-slide">Slide 3</div>
-					<div class="swiper-slide">Slide 4</div>
+					<div class="swiper-slide"><a href="/lesson/register"><img src="/resources/img/배너1.png"></a>
+					</div>
+					<div class="swiper-slide"><a href="#"><img src="/resources/img/배너2.png"></a></div>
+					<div class="swiper-slide"><a href="/lesson/list?main=2&sub=3"><img src="/resources/img/배너3.png"></a></div>
+					<div class="swiper-slide"><a href="/lesson/list?main=1&sub=2"><img src="/resources/img/배너4.png"></a></div>
 				</div>
 				<div class="pager_wrap">
 					<div class="inner">
@@ -121,81 +235,180 @@
 				<div class="inner">
 					<h2>베스트클래스</h2>
 					<ul>
-						<li><a href="">
-								<div class="img"></div>
-								<h3>리스트</h3>
-							</a></li>
-						<li><a href="">
-								<div class="img"></div>
-								<h3>리스트</h3>
-							</a></li>
-						<li><a href="">
-								<div class="img"></div>
-								<h3>리스트</h3>
-							</a></li>
-						<li><a href="">
-								<div class="img"></div>
-								<h3>리스트</h3>
-							</a></li>
-						<li><a href="">
-								<div class="img"></div>
-								<h3>리스트</h3>
-							</a></li>
+						<li>
+                            <div class="img">                           	
+                        		<div class="likeInfo">
+                                	<a class="like" href=""><i class="xi-heart-o">657</i></a>
+                                	<a class="reserv" href=""><i class="xi-star-o">329</i></a>
+                            	</div>
+                            	<a href="/lesson/read?id=">
+                            	<!-- /resources/img/lesson/thumb// -->
+								<img class="lessonImg" src="">
+                                </div>
+                                <span>타입이름</span><span>카테고리이름</span>
+                                <h3>제목</h3>
+                                <div class="price">
+                                	<h4>원</h4>
+                                    <h5>%</h5>
+                                    <h1>원</h1>
+                                </div>
+                                </a>
+                        	</li>
+						<li>
+                            <div class="img">                           	
+                        		<div class="likeInfo">
+                                	<a class="like" href=""><i class="xi-heart-o">657</i></a>
+                                	<a class="reserv" href=""><i class="xi-star-o">329</i></a>
+                            	</div>
+                            	<a href="/lesson/read?id=5">
+                            	<!-- /resources/img/lesson/thumb/42020-08-27/440b75e1-8804-43b6-97fa-8bce486af346_주석 2020-08-18 093855.png -->
+								<img class="lessonImg" src="/resources/img/lesson/thumb/42020-08-27/440b75e1-8804-43b6-97fa-8bce486af346_주석 2020-08-18 093855.png">
+                                </div>
+                                <span>원데이</span><span>공예</span>
+                                <h3>자연을 엮는 올라라탄의 라탄공예 입문</h3>
+                                <div class="price">
+                                	<h4>25,000원</h4>
+                                    <h5>5%</h5>
+                                    <h1>23,800원</h1>
+                                </div>
+                                </a>
+                        	</li>
+                        	<li>
+                            <div class="img">                           	
+                        		<div class="likeInfo">
+                                	<a class="like" href=""><i class="xi-heart-o">657</i></a>
+                                	<a class="reserv" href=""><i class="xi-star-o">329</i></a>
+                            	</div>
+                            	<a href="/lesson/read?id=17">
+                            	<!-- /resources/img/lesson/thumb/82020-10-05/0c77f485-62fa-4b46-a222-64aeed8134d8_주석 2020-08-18 181418.png -->
+								<img class="lessonImg" src="/resources/img/lesson/thumb/82020-10-05/0c77f485-62fa-4b46-a222-64aeed8134d8_주석 2020-08-18 181418.png">
+                                </div>
+                                <span>정규</span><span>개발/디자인</span>
+                                <h3>디자인은 '실무자'에게 배우세요, 기본기부터 탄탄한 디자이너가 되기까지</h3>
+                                <div class="price">
+                                	<h4>120,000원</h4>
+                                    <h5>10%</h5>
+                                    <h1>108,000원</h1>
+                                </div>
+                                </a>
+                        	</li>
+                        	<li>
+                            <div class="img">                           	
+                        		<div class="likeInfo">
+                                	<a class="like" href=""><i class="xi-heart-o">657</i></a>
+                                	<a class="reserv" href=""><i class="xi-star-o">329</i></a>
+                            	</div>
+                            	<a href="/lesson/read?id=4">
+                            	<!-- /resources/img/lesson/thumb/32020-09-01/c2636ccf-f333-43b3-830f-94f01047aa29_주석 2020-08-17 204747.png -->
+								<img class="lessonImg" src="/resources/img/lesson/thumb/32020-09-01/c2636ccf-f333-43b3-830f-94f01047aa29_주석 2020-08-17 204747.png">
+                                </div>
+                                <span>정규</span><span>디지털드로잉</span>
+                                <h3>또 다른 나를 그리다, 동글의 아이패드 캐릭터 드로잉</h3>
+                                <div class="price">
+                                	<h4>43,000원</h4>
+                                    <h5>5%</h5>
+                                    <h1>40,900원</h1>
+                                </div>
+                                </a>
+                        	</li>
+                        	<li>
+                            <div class="img">                           	
+                        		<div class="likeInfo">
+                                	<a class="like" href=""><i class="xi-heart-o">657</i></a>
+                                	<a class="reserv" href=""><i class="xi-star-o">329</i></a>
+                            	</div>
+                            	<a href="/lesson/read?id=">
+                            	<!-- /resources/img/lesson/thumb// -->
+								<img class="lessonImg" src="">
+                                </div>
+                                <span>타입이름</span><span>카테고리이름</span>
+                                <h3>제목</h3>
+                                <div class="price">
+                                	<h4>원</h4>
+                                    <h5>%</h5>
+                                    <h1>원</h1>
+                                </div>
+                                </a>
+                        	</li>
 					</ul>
 				</div>
 			</section>
 			<section class="sec02">
 				<div class="inner">
 					<h2>마감임박클래스</h2>
-					<ul>
-						<li><a href="">
-								<div class="img"></div>
-								<h3>리스트</h3>
-							</a></li>
-						<li><a href="">
-								<div class="img"></div>
-								<h3>리스트</h3>
-							</a></li>
-						<li><a href="">
-								<div class="img"></div>
-								<h3>리스트</h3>
-							</a></li>
-						<li><a href="">
-								<div class="img"></div>
-								<h3>리스트</h3>
-							</a></li>
-						<li><a href="">
-								<div class="img"></div>
-								<h3>리스트</h3>
-							</a></li>
-					</ul>
+                    <ul>
+                    	<c:set var="soonCnt" value="${-1}" />
+                		<c:forEach items="${soonList}" var="soonLesson">
+                		<c:set var= "soonCnt" value="${soonCnt + 1}"/>
+                        	<li>
+                        		<input type="hidden" class="lessonId" data-order="${soonCnt}" value="${soonLesson.id}">
+                                <div class="img">                           	
+                        		<div class="likeInfo">
+                                	<a class="like" data-order="${soonCnt}" href=""><i class="xi-heart-o"></i></a>
+                                	<a class="reserv" data-order="${soonCnt}" href=""><i class="xi-star-o"></i></a>
+                                	<input type="hidden" class="isLike" value="false">
+                            	</div>
+                            	<a href="/lesson/read?id=${soonLesson.id }">
+                                <c:if test= "${empty soonLesson.thumbnail}">
+								<img class="lessonImg" src="../../../resources/img/classtmpimg.jpg">
+								</c:if>
+								<c:if test= "${!empty soonLesson.thumbnail}">
+								<img class="lessonImg" src="/resources/img/lesson/thumb/${soonLesson.teacherId}${soonLesson.openAt}/${soonLesson.thumbnail}">
+								</c:if>
+                                </div>
+                                <span>${soonLesson.typeName}</span><span>${soonLesson.categoryName}</span>
+                                <h3>${soonLesson.title}</h3>
+                                <div class="price">
+                                	<fmt:formatNumber type="number" var="sOriginPrice" maxFractionDigits="3" value="${soonLesson.originPrice}" />
+                                    <h4>${sOriginPrice}원</h4>
+                                    <fmt:parseNumber var= "sDiscountRate" integerOnly= "true" value= "${soonLesson.discountRate }" />
+                                    <h5>${sDiscountRate}%</h5>
+                                    <fmt:formatNumber type="number" var="sSalePrice" maxFractionDigits="3" value="${soonLesson.salePrice}" />
+                                    <h1>${sSalePrice}원</h1>
+                                </div>
+                                </a>
+                        	</li>
+                        </c:forEach>
+                    </ul>
 				</div>
 			</section>
 			<section class="sec03">
 				<div class="inner">
 					<h2>신규출시클래스</h2>
-					<ul>
-						<li><a href="">
-								<div class="img"></div>
-								<h3>리스트</h3>
-							</a></li>
-						<li><a href="">
-								<div class="img"></div>
-								<h3>리스트</h3>
-							</a></li>
-						<li><a href="">
-								<div class="img"></div>
-								<h3>리스트</h3>
-							</a></li>
-						<li><a href="">
-								<div class="img"></div>
-								<h3>리스트</h3>
-							</a></li>
-						<li><a href="">
-								<div class="img"></div>
-								<h3>리스트</h3>
-							</a></li>
-					</ul>
+					    <ul>
+                    	<c:set var="newCnt" value="${-1}" />
+                		<c:forEach items="${newList}" var="newLesson">
+                		<c:set var= "newCnt" value="${newCnt + 1}"/>
+                        	<li>
+                        		<input type="hidden" class="lessonId" data-order="${newCnt}" value="${newLesson.id}">
+                                <div class="img">                           	
+                        		<div class="likeInfo">
+                                	<a class="like" data-order="${newCnt}" href=""><i class="xi-heart-o"></i></a>
+                                	<a class="reserv" data-order="${newCnt}" href=""><i class="xi-star-o"></i></a>
+                                	<input type="hidden" class="isLike" value="false">
+                            	</div>
+                            	<a href="/lesson/read?id=${newLesson.id }">
+                                <c:if test= "${empty newLesson.thumbnail}">
+								<img class="lessonImg" src="../../../resources/img/classtmpimg.jpg">
+								</c:if>
+								<c:if test= "${!empty newLesson.thumbnail}">
+								<img class="lessonImg" src="/resources/img/lesson/thumb/${newLesson.teacherId}${newLesson.openAt}/${newLesson.thumbnail}">
+								</c:if>
+                                </div>
+                                <span>${newLesson.typeName}</span><span>${newLesson.categoryName}</span>
+                                <h3>${newLesson.title}</h3>
+                                <div class="price">
+                                	<fmt:formatNumber type="number" var="nOriginPrice" maxFractionDigits="3" value="${newLesson.originPrice}" />
+                                    <h4>${nOriginPrice}원</h4>
+                                    <fmt:parseNumber var= "nDiscountRate" integerOnly= "true" value= "${newLesson.discountRate }" />
+                                    <h5>${nDiscountRate}%</h5>
+                                    <fmt:formatNumber type="number" var="nSalePrice" maxFractionDigits="3" value="${newLesson.salePrice}" />
+                                    <h1>${nSalePrice}원</h1>
+                                </div>
+                                </a>
+                        	</li>
+                        </c:forEach>
+                    </ul>
 				</div>
 			</section>
 		</div>
@@ -228,7 +441,7 @@
 				},
 				loop: true,
 				autoplay: {
-					delay: 2500,
+					delay: 5000,
 					disableOnInteraction: false,
 				},
 				navigation: {
@@ -236,6 +449,13 @@
 					prevEl: '.swiper_prev',
 				},
 			});	
+			
+			
+			var $hoverImg = $(".main_wrap section ul li .img");
+			
+			$hoverImg.hover(function(e) {
+				$(this).parent().find(".likeInfo").toggleClass("selected");
+			});
 			
 		});
 	</script>

@@ -70,5 +70,7 @@ public interface LessonMapper {
 	void addLike(LessonLikeDTO like);
 	int removeLike(LessonLikeDTO likeDTO);
 	LessonLikeDTO getLike(LessonLikeDTO likeDTO);
+	List<LessonDTO> getNewList();
+	List<LessonDTO> getSoonList();
 
 }
