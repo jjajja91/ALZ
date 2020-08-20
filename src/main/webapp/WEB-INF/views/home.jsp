@@ -215,7 +215,7 @@
 				<div class="swiper-wrapper">
 					<div class="swiper-slide"><a href="/lesson/register"><img src="/resources/img/배너1.png"></a>
 					</div>
-					<div class="swiper-slide"><a href="#"><img src="/resources/img/배너2.png"></a></div>
+					<div class="swiper-slide"><a href="/lesson/read?id=37"><img src="/resources/img/배너2.png"></a></div>
 					<div class="swiper-slide"><a href="/lesson/list?main=2&sub=3"><img src="/resources/img/배너3.png"></a></div>
 					<div class="swiper-slide"><a href="/lesson/list?main=1&sub=2"><img src="/resources/img/배너4.png"></a></div>
 				</div>
@@ -238,19 +238,19 @@
 						<li>
                             <div class="img">                           	
                         		<div class="likeInfo">
-                                	<a class="like" href=""><i class="xi-heart-o">657</i></a>
-                                	<a class="reserv" href=""><i class="xi-star-o">329</i></a>
+                                	<a class="like" href=""><i class="xi-heart-o">3457</i></a>
+                                	<a class="reserv" href=""><i class="xi-star-o">2321</i></a>
                             	</div>
-                            	<a href="/lesson/read?id=">
-                            	<!-- /resources/img/lesson/thumb// -->
-								<img class="lessonImg" src="">
+                            	<a href="/lesson/read?id=37">
+                            	<!-- /resources/img/lesson/thumb/132020-08-24/05d7f1a0-69bc-4cc0-a0e4-40dfd7706314_주석 2020-08-20 094231.png -->
+								<img class="lessonImg" src="/resources/img/lesson/thumb/132020-08-24/05d7f1a0-69bc-4cc0-a0e4-40dfd7706314_주석 2020-08-20 094231.png">
                                 </div>
-                                <span>타입이름</span><span>카테고리이름</span>
-                                <h3>제목</h3>
+                                <span>정규</span><span>개발/디자인</span>
+                                <h3>자바의 정석</h3>
                                 <div class="price">
-                                	<h4>원</h4>
-                                    <h5>%</h5>
-                                    <h1>원</h1>
+                                	<h4>5,000,000원</h4>
+                                    <h5>5%</h5>
+                                    <h1>4,750,000원</h1>
                                 </div>
                                 </a>
                         	</li>
@@ -276,8 +276,8 @@
                         	<li>
                             <div class="img">                           	
                         		<div class="likeInfo">
-                                	<a class="like" href=""><i class="xi-heart-o">657</i></a>
-                                	<a class="reserv" href=""><i class="xi-star-o">329</i></a>
+                                	<a class="like" href=""><i class="xi-heart-o">382</i></a>
+                                	<a class="reserv" href=""><i class="xi-star-o">221</i></a>
                             	</div>
                             	<a href="/lesson/read?id=17">
                             	<!-- /resources/img/lesson/thumb/82020-10-05/0c77f485-62fa-4b46-a222-64aeed8134d8_주석 2020-08-18 181418.png -->
@@ -295,8 +295,8 @@
                         	<li>
                             <div class="img">                           	
                         		<div class="likeInfo">
-                                	<a class="like" href=""><i class="xi-heart-o">657</i></a>
-                                	<a class="reserv" href=""><i class="xi-star-o">329</i></a>
+                                	<a class="like" href=""><i class="xi-heart-o">450</i></a>
+                                	<a class="reserv" href=""><i class="xi-star-o">122</i></a>
                             	</div>
                             	<a href="/lesson/read?id=4">
                             	<!-- /resources/img/lesson/thumb/32020-09-01/c2636ccf-f333-43b3-830f-94f01047aa29_주석 2020-08-17 204747.png -->
@@ -314,19 +314,19 @@
                         	<li>
                             <div class="img">                           	
                         		<div class="likeInfo">
-                                	<a class="like" href=""><i class="xi-heart-o">657</i></a>
-                                	<a class="reserv" href=""><i class="xi-star-o">329</i></a>
+                                	<a class="like" href=""><i class="xi-heart-o">127</i></a>
+                                	<a class="reserv" href=""><i class="xi-star-o">54</i></a>
                             	</div>
-                            	<a href="/lesson/read?id=">
-                            	<!-- /resources/img/lesson/thumb// -->
-								<img class="lessonImg" src="">
+                            	<a href="/lesson/read?id=36">
+                            	<!-- /resources/img/lesson/thumb/122020-09-04/b70b14a0-7f14-49af-b8cb-dccb0082b4f0_주석 2020-08-20 035041.png -->
+								<img class="lessonImg" src="/resources/img/lesson/thumb/122020-09-04/b70b14a0-7f14-49af-b8cb-dccb0082b4f0_주석 2020-08-20 035041.png">
                                 </div>
-                                <span>타입이름</span><span>카테고리이름</span>
-                                <h3>제목</h3>
+                                <span>정규</span><span>운동</span>
+                                <h3>하루 10분, 요가로 찾은 내 몸의 선</h3>
                                 <div class="price">
-                                	<h4>원</h4>
-                                    <h5>%</h5>
-                                    <h1>원</h1>
+                                	<h4>6000,000원</h4>
+                                    <h5>10%</h5>
+                                    <h1>540,000원</h1>
                                 </div>
                                 </a>
                         	</li>

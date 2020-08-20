@@ -160,6 +160,28 @@
             text-align: right;
             margin-bottom: 50px;
         }
+        
+        .page-footer{
+			right: 0%;
+			bottom: 0%;
+			margin-top: 20px;
+		}
+
+		.page-footer li{
+			float: left;
+		}
+
+		.paginate_button a {
+			text-decoration: none;
+			background-color: #eee;
+			padding: 5px 10px;
+			color: #335492;
+		}
+
+		.active a{
+			color: #eee;
+			background-color: #335492;
+		}
     </style>
 </head>
 
