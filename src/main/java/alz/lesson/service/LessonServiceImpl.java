@@ -16,6 +16,7 @@ import alz.lesson.domain.LessonCriteria;
 import alz.lesson.domain.LessonDTO;
 import alz.lesson.domain.LessonDetailDTO;
 import alz.lesson.domain.LessonLikeDTO;
+import alz.lesson.domain.LessonReservDTO;
 import alz.lesson.domain.QuickReviewDTO;
 import alz.lesson.domain.ReviewDTO;
 import alz.lesson.domain.ScheduleDTO;
@@ -327,6 +328,26 @@ public class LessonServiceImpl implements LessonService {
 	@Override
 	public List<LessonDTO> getSoonList() {
 		return lessonMapper.getSoonList();
+	}
+
+	@Override
+	public Long getReservCnt(Long id) {
+		return lessonMapper.getReservCnt(id);
+	}
+
+	@Override
+	public void addReserv(LessonReservDTO reserv) {
+		lessonMapper.addReserv(reserv);
+	}
+
+	@Override
+	public boolean isReserv(LessonReservDTO reservDTO) {
+		return lessonMapper.getReserv(reservDTO) == null ? false : true;
+	}
+
+	@Override
+	public boolean removeReserv(LessonReservDTO reservDTO) {
+		return lessonMapper.removeReserv(reservDTO) == 0 ? false : true;
 	}
 	
 

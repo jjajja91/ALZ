@@ -32,8 +32,7 @@
   border-collapse: collapse;
   font-size: 0.9em;
   min-width: 400px;
-  width: 100%;
-  border-radius: 5px 5px 0 0;
+  width: 700px;
   overflow: hidden;
 }
 

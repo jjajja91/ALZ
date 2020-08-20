@@ -48,11 +48,12 @@ header {
 }
 
 .lessonSideDiv {
-	display: inline-block;
-	padding: 15px;
-	border: 1px solid #eee;
-	position: sticky;
-	top: 20px;
+   display: inline-block;
+   padding: 15px;
+   border: 1px solid #eee;
+   position: sticky;
+   top: 20px;
+   width: 100%;
 }
 
 .lessonImg {
