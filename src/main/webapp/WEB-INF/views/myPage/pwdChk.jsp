@@ -27,7 +27,9 @@ button {
 	color: #ffffff;
 	border-radius: 5px 5px;
 	border: 1px solid #dddddd;
-	font-size: 24px;
+	font-size: 20px;
+	padding: 6px 12px;
+	cursor: pointer;
 }
 </style>
 <body>

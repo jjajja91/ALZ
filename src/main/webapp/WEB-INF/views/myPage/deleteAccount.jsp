@@ -19,6 +19,8 @@ p, label, input, button {
 	margin: 10px 5px;
 	vertical-align: middle;
 	text-align: center;
+	padding: 6px 12px;
+	cursor: pointer;
 }
 
 input {
@@ -30,8 +32,9 @@ button {
 	color: #ffffff;
 	border-radius: 5px 5px;
 	border: 1px solid #dddddd;
-	font-size: 24px;
-	padding: 1px 5px;
+	font-size: 20px;
+	padding: 6px 12px;
+	cursor: pointer;
 }
 </style>
 

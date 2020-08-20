@@ -66,6 +66,11 @@
 	background-color: #f3f3f3;
 }
 
+.content-table tbody tr:first-of-type {
+	background-color: #335492;
+	color: #ffffff;
+}
+
 .content-table tbody tr:last-of-type {
 	border-bottom: 2px solid #335492;
 }
@@ -86,11 +91,12 @@
 	margin-left: 320px;
 	background-color: #335492;
 	border-radius: 5px 5px;
-	box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
 	color: #ffffff;
 	border: 1px solid #dddddd;
 	background-color: #335492;
 	margin-left: 320px;
+	padding: 6px 12px;
+	cursor: pointer;
 }
 
 div.title {

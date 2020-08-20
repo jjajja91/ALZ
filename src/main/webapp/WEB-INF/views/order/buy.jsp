@@ -38,6 +38,11 @@
 	text-align: left;
 }
 
+.content-table tbody tr:first-of-type {
+	background-color: #335492;
+	color: #ffffff;
+}
+
 .content-table th {
 	padding: 10px 15px;
 	font-weight: bold;
@@ -64,9 +69,6 @@
 	font-weight: bold;
 }
 
-.content-table tbody tr:nth-of-type(even) {
-	background-color: #f3f3f3;
-}
 
 .content-table tbody tr:last-of-type {
 	border-bottom: 2px solid #335492;
@@ -129,11 +131,11 @@ p {
 a.main {
 	font-size: 18px;
 	background-color: #335492;
-	border-radius: 5px 5px;
-	box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
 	color: #ffffff;
 	border: 1px solid #dddddd;
 	background-color: #335492;
+	padding: 6px 12px;
+	border-radius: 5px 5px;
 }
 
 div.toMain {
@@ -233,7 +235,7 @@ img.lessonImg {
 			</div>
 		</div>
 		<div class="toMain">
-			<a class='main' href='/'> 메인으로 가기</a>
+			<a class='main' href='/'> 홈으로 </a>
 		</div>
 	</div>
 </body>
