@@ -77,8 +77,6 @@ public interface LessonService {
 	boolean isReserv(LessonReservDTO reservDTO);
 	// 찜 삭제
 	boolean removeReserv(LessonReservDTO reservDTO);
-	
-	List<LessonDTO> getNewList();
-	List<LessonDTO> getSoonList();
+
 	
 }
