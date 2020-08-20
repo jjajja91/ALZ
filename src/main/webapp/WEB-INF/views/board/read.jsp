@@ -101,9 +101,11 @@
     left: 95%;
    top: 0;
 }
-#replyTextarea {
+#replyTextarea, #textAreaEdit {
    width : 80%;
    resize: none;
+   padding: 10px;
+   margin-right: 10px;
 }
 #textAreaEdit {
    width : 80%;
@@ -112,6 +114,8 @@
 #commentContent {
    width : 90%;
    resize: none;
+   padding: 10px;
+   margin-right: 10px;
 }
 .chat, .chat li{
    padding-left: 0px;
@@ -136,6 +140,31 @@
     background: none;
     padding: 5px;
     font-size : 100%;
+    font-family: 'Open Sans', 'Noto Sans KR', sans-serif;
+    font-weight: 100;
+}
+.commentDate {
+    font-size: 14px;
+    padding-top: 10px;
+}
+.coCommentBtn {
+    padding: 3px;
+    border: solid 1px;
+}
+.coCommentBtn:hover {
+    cursor: pointer;
+}
+.btn-info:hover {
+	background: #335492;
+}
+.replyDiv, .commentEditDiv, .comment {
+	padding-top:10px;
+    display: flex;
+}
+.reCommentRegBtn, .reCommentEditBtn, #registerCommentBtn {
+    width: 65px;
+    border: none;
+    background: lightgray;
 }
 </style>
 <body>
@@ -402,7 +431,7 @@
 						str += "			<strong>"+list[i].nickname+"</strong>";
 						if(list[i].userId == $userId.val() ) {
 						str += "			<div class='commentDropdown'>";
-						str += "				<button class='commentDropBtn' data-toggle='dropdown'>:</button>";
+						str += "				<button class='commentDropBtn' data-toggle='dropdown'>‥</button>";
 						str += "				<ul class='dropdown-menu'>";
 						str += "					<li><a class='commentEditBtn'>수정</a></li>";
 						str += "					<li><a class='commentDeleteBtn'>삭제</a></li>";
@@ -410,8 +439,8 @@
 						str += "			</div>";
 						}
 						str += "			<pre class='preContent' style='margin:auto;'>"+list[i].content+"</pre>";
-						str += "			<small>" + moment(list[i].writtenAt).format('YYYY-MM-DD hh:mm')+"</small>";
-						str += "			<a role='button' class='coCommentBtn'>답글쓰기</a>";
+						str += "			<div class='commentDate'>" + moment(list[i].writtenAt).format('YYYY-MM-DD hh:mm');
+						str += "			<a role='button' class='coCommentBtn'>답글쓰기</a></div>";
 						str += "			<input type='hidden' class='commentId' id='commentId"+i+"' value='"+list[i].id+"'/>";
 						str += "			<input type='hidden' class='commentDepth' id='commentDepth"+i+"' value='"+list[i].depth+"'/>";
 						str += "			<input type='hidden' class='commentCnt' id='commentCnt"+i+"' value='"+list[i].commentCnt+"'/>";
@@ -453,7 +482,7 @@
 			 
 			var reCommentRegBtn = document.createElement("button");
 			reCommentRegBtn.setAttribute("class", "reCommentRegBtn");
-			reCommentRegBtn.innerHTML="답변 등록";
+			reCommentRegBtn.innerHTML="등록";
 
 			replyDiv.appendChild(textArea);
 			replyDiv.appendChild(reCommentRegBtn);
@@ -609,7 +638,7 @@
 			 
 			var reCommentEditBtn = document.createElement("button");
 			reCommentEditBtn.setAttribute("class", "reCommentEditBtn");
-			reCommentEditBtn.innerHTML="수정완료";
+			reCommentEditBtn.innerHTML="수정";
 
 			commentEditDiv.appendChild(textAreaEdit);
 			commentEditDiv.appendChild(reCommentEditBtn);

@@ -147,6 +147,11 @@ input[type="button"] {
     border: none;
     margin-top: 5px;
 }
+
+input[name="deleteLesson"] {
+	background: tomato;
+	width: 30px;
+}
 </style>
 <body>
 	<div class="lessonHeaderDiv">
@@ -162,15 +167,15 @@ input[type="button"] {
 			<input type="hidden" name="originalId" value='<c:out value="${param.originalId }"/>' readonly>
 
 
-			<div class="lessonText">수업 날짜와 수업 시간을 입력해주세요.</div>
+			<%--<div class="lessonText">수업 날짜와 수업 시간을 입력해주세요.</div>
 			
 			<label>스케줄 선택</label> 
 			<br>
-			<small>클래스 시작일과 종료일을 입력해주세요.</small>
+			 <small>클래스 시작일과 종료일을 입력해주세요.</small>
 			<br>
 			<input type="date" class="form-control dateInput" id="openAt" name="openAt" value='<c:out value="${schedule.openAt }"/>'> ~ 
 			<input type="date" class="form-control dateInput" id="closeAt" name="closeAt" value='<c:out value="${schedule.closeAt }"/>'>
-			<br> <br>
+			<br> <br> --%>
 			<div class="lessonText">추가 버튼을 눌러<br> 세부 날짜와 시간을 입력해주세요.</div>
 			<div>
 				<c:if test="${empty schedule.timeTable}">
@@ -196,14 +201,13 @@ input[type="button"] {
 						<input type="time" class="form-control endAt" name="endAt" value='<c:out value="${timeList.endAt }"/>'>
 
                   <c:if test="${loop.index != 0}">
-                     <input type="button" class="deleteLesson" name="deleteLesson"
-                        value="delete">
+                     <input type="button" class="deleteLesson" name="deleteLesson" value="-">
                   </c:if>
                </div>
-               <br>
             </c:forEach>
          </div>
-         <input type="button" id="addLesson" name="addLesson" value="+add" />
+         <br>
+         <input type="button" id="addLesson" name="addLesson" value="시간 추가" />
          <br> <br> <br>
          <button type="submit" name="prev">＜ 이전</button>
          <button type="submit" name="next">다음 ＞</button>
@@ -315,7 +319,7 @@ input[type="button"] {
 			var deleteBtn = document.createElement("input");
 			deleteBtn.setAttribute("type", "button");
 			deleteBtn.setAttribute("name", "deleteLesson");
-			deleteBtn.setAttribute("value", "시간 삭제");
+			deleteBtn.setAttribute("value", "-");
 
          clone.appendChild(deleteBtn);
          timesetDiv.parentNode.appendChild(clone);
