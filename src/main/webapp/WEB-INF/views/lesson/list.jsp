@@ -258,6 +258,15 @@
 			</c:if>
 		</ul>
 	</div>
+
+	<form id='actionForm' action="/lesson/list" method='get'>
+		<input type='hidden' name='pageNum' value='${pageMaker.cri.pageNum}'>
+		<input type='hidden' name='amount' value='${pageMaker.cri.amount}'>
+		<input type='hidden' name='keyword' value='<c:out value="${pageMaker.cri.keyword}"/>' />
+		<input type='hidden' name='categoryMain' value='<c:out value="${pageMaker.cri.categoryMain}"/>' />
+		<input type='hidden' name='categorySub' value='<c:out value="${pageMaker.cri.categorySub}"/>' />
+	</form>
+	
 	<script>
 		$(document).ready(function(e){
 			var $hoverImg = $(".main_wrap section ul li .img");
