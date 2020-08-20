@@ -82,7 +82,7 @@
 		   ]]>
 		<include refid="lessonCriteria"></include>
 		<![CDATA[
-                            order by lesson.id 
+                            order by lesson.id desc
                             )
                       where rownum <= #{pageNum} * #{amount}
                       )

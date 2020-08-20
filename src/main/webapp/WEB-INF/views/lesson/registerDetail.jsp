@@ -252,7 +252,7 @@ input[type="button"] {
 			$("div[class*=toolbar]").append(str);
 		}
 		
-		$('.note-editor').width($(window).width()* 0.8);
+		$('.note-editor').width($(window).width()* 0.6);
 		
 		// 파일 변경시 변경
 		$("input[type='file']").change(function(e){

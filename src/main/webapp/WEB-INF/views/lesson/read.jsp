@@ -42,6 +42,7 @@ header {
    border: 1px solid #eee;
    position: sticky;
    top: 20px;
+   width: 100%;
 }
 
 .lessonImg { 

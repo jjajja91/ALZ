@@ -136,8 +136,7 @@ public class BoardApiController {
 
 	// 하나 수정
 	@PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<?> updateOne(@PathVariable Long id, @RequestBody @Valid BoardDTO board,
-			BindingResult result) {
+	public ResponseEntity<?> updateOne(@PathVariable Long id, @RequestBody @Valid BoardDTO board, BindingResult result) {
 		if (result.hasErrors()) {
 			FieldError error = result.getFieldError();
 			if (result.getFieldError().getCode().indexOf("NotNull") != -1)
