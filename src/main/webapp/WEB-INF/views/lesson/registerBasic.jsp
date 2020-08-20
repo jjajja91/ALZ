@@ -22,6 +22,8 @@
 	height:30px;    
 	border-bottom: solid 1px;
 	padding-right:20px;
+    position: sticky;
+    top: 10px;
 }
 
 .lessonHeaderLeft {
@@ -40,17 +42,18 @@
 }
 
 .lessonText {
-	color: #585858;
+	color: black;
 	font-weight: bold;
-	font-size: 16px;
+	font-size: 20px;
     margin-bottom: 20px;
 }
 
 .lessonForm {
-	font-size: 14px;
-	color: #585858;
+	font-size: 16px;
+	color: black;
     line-height: 30px;
     margin-top: 20px;
+    font-weight: 600;
 }
 
 .lessonForm button {
@@ -229,7 +232,7 @@
 					<br> <br>
 					<label>클래스 인원</label> 
 					<br> 
-					<small>- 최소인원 미달 시 수업 2일전 자동취소/환불 됩니다.<br>- 최소인원은 1명으로 권장합니다..</small> 
+					<small>- 최소인원 미달 시 수업 2일전 자동취소/환불 됩니다.<br>- 최소인원은 1명으로 권장합니다.</small> 
 					<br> 
 					최소<input type="text" class="form-control studentAmount" placeholder="최소인원" name="minStudent" value='<c:out value="${lesson.minStudent}"/>'> ~ 
 					최대<input type="text" class="form-control studentAmount" placeholder="최대인원" name="maxStudent" value='<c:out value="${lesson.maxStudent}"/>'> 
