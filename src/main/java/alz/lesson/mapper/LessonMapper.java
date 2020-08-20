@@ -11,6 +11,7 @@ import alz.lesson.domain.LessonCriteria;
 import alz.lesson.domain.LessonDTO;
 import alz.lesson.domain.LessonDetailDTO;
 import alz.lesson.domain.LessonLikeDTO;
+import alz.lesson.domain.LessonReservDTO;
 import alz.lesson.domain.LessonScheduleDTO;
 import alz.lesson.domain.QuickReviewDTO;
 import alz.lesson.domain.ReviewDTO;
@@ -72,5 +73,9 @@ public interface LessonMapper {
 	LessonLikeDTO getLike(LessonLikeDTO likeDTO);
 	List<LessonDTO> getNewList();
 	List<LessonDTO> getSoonList();
+	Long getReservCnt(Long id);
+	void addReserv(LessonReservDTO reserv);
+	LessonReservDTO getReserv(LessonReservDTO reservDTO);
+	int removeReserv(LessonReservDTO reservDTO);
 
 }

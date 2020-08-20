@@ -212,6 +212,7 @@
                                 	<a class="like" data-order="${lessonCnt}" href=""><i class="xi-heart-o"></i></a>
                                 	<a class="reserv" data-order="${lessonCnt}" href=""><i class="xi-star-o"></i></a>
                                 	<input type="hidden" class="isLike" value="false">
+                                	<input type="hidden" class="isReserv" value="false">
                             	</div>
                             	<a href="/lesson/read?id=${lesson.id }">
                                 <c:if test= "${empty lesson.thumbnail}">
@@ -272,6 +273,8 @@
 			var $userId = $("#userId");
 			var $lessonId = $(".lessonId");
 			var $isLike = $(".isLike");
+			var $reservBtn = $(".reserv");
+			var $isReserv = $(".isReserv");
 			
 			// 좋아요 상태 갱신
 			for(let i = 0; i<$lessonId.length; i++){
@@ -410,6 +413,131 @@
 				return $.ajax({
 					type : "GET",
 					url : '/lessons/like/'+likeData.userId+'/'+likeData.lessonId,
+					contentType : "application/json; charset=utf-8"
+				});
+			}
+			
+			
+			// ---------------------------- 찜 -----------------------------
+			
+			
+			// 좋아요 상태 갱신
+			for(let i = 0; i<$lessonId.length; i++){
+				var reservData = {
+					userId : $userId.val(),
+					lessonId : $($lessonId[i]).val()
+				}
+				
+				isReserv(reservData)
+				.then(function(response){
+					// 좋아요 상태 반영
+					$($isReserv[i]).val(response);
+				})
+				.then(function(response){
+					// 좋아요 수 반영
+					return countReserv($($lessonId[i]).val());
+				})
+				.then(function(response){
+					// 좋아요 그리기(채워진/빈 하트)
+					drawReservCnt(response, i);
+				})
+				.catch(function(error){
+					console.log(error);
+				});
+			}
+			
+			
+			
+			
+			
+			
+				$reservBtn.on().click(function(e){
+					e.preventDefault();
+					var cnt = $(this).data("order");
+					var reservData = {
+							userId : $userId.val(),
+							lessonId : $($lessonId[cnt]).val()
+						}
+					if($($isReserv[cnt]).val()=="true"){
+						// 좋아요 제거
+						removeReserv(reservData)
+						.then(function(response){
+							return countReserv($($lessonId[cnt]).val());
+						})
+						.then(function(response){
+							$($isReserv[cnt]).val('false');
+							drawReservCnt(response, cnt);
+						})
+						.catch(function(error){
+							console.log(error);
+						});
+					// 좋아요 상태가 false면
+					} else {
+						// 좋아요 추가
+						addReserv(reservData)
+						.then(function(response){
+							return countReserv($($lessonId[cnt]).val());
+						})
+						.then(function(response){
+							$($isReserv[cnt]).val('true');
+							drawReservCnt(response, cnt);
+						})
+						.catch(function(error){
+							console.log(error);
+						});
+					}	
+				});
+			
+			
+			
+			
+			
+			// 찜 추가
+			function addReserv(reservData) {
+				return $.ajax({
+					type : "POST",
+					url : '/lessons/reserv/',
+					data : JSON.stringify(reservData),
+					contentType : "application/json; charset=utf-8"
+				});
+			}
+			
+			// 찜 삭제
+			function removeReserv(reservData) {
+				return $.ajax({
+					type : 'DELETE',
+					url : '/lessons/reserv/' +reservData.userId+'/'+reservData.lessonId,
+					contentType : "application/json; charset=utf-8"
+				});
+			}
+			
+			// 찜 수
+			function countReserv(id) {
+				return $.ajax({
+					type : "GET",
+					url : '/lessons/reserv/' + id,
+					contentType : "application/json; charset=utf-8;"
+				});
+			}
+			
+			// 찜 수 갱신 반영 및 찜 여부 반영
+			function drawReservCnt(reservCnt, i) {
+				if($($isReserv[i]).val()=="true") {
+				var str = "";
+				str += "<i class='xi-star'></i>"
+				$($reservBtn[i]).html(str+reservCnt);
+				} else {
+				var str = "";
+				str += "<i class='xi-star-o'></i>"
+				$($reservBtn[i]).html(str+reservCnt);
+				}
+			}
+			
+			// 찜 여부 확인
+			function isReserv(reservData){
+				return $.ajax({
+					type : "GET",
+					url : '/lessons/reserv/'+reservData.userId+'/'+reservData.lessonId,
 					contentType : "application/json; charset=utf-8"
 				});
 			}

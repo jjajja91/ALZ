@@ -471,6 +471,30 @@
 	<delete id="removeLike" parameterType="alz.lesson.domain.LessonLikeDTO">
 		delete from ALZ_LINK_LIKE_LESSON WHERE user_id = #{userId} and lesson_id = #{lessonId}
 	</delete>
+	
+	
+	
+	<select id="getReservCnt" resultType="long">
+		select reserv_cnt from
+		ALZ_LESSON where id = #{id}
+	</select>
+   
+   
+   	<insert id="addReserv" parameterType="alz.lesson.domain.LessonReservDTO">
+			<selectKey keyProperty="id" order="BEFORE" resultType="long">
+			select ALZ_RESERV_LESSON_SEQ.nextval from dual
+			</selectKey>	
+		insert into ALZ_LINK_RESERV_LESSON (id, user_id, lesson_id)
+		values(#{id}, #{userId}, #{lessonId})
+	</insert>
+	
+	<select id="getReserv" parameterType="alz.lesson.domain.LessonReservDTO" resultType="alz.lesson.domain.LessonReservDTO">
+		select * from ALZ_LINK_RESERV_LESSON WHERE user_id = #{userId} and lesson_id = #{lessonId}
+	</select>
+	
+	<delete id="removeReserv" parameterType="alz.lesson.domain.LessonReservDTO">
+		delete from ALZ_LINK_RESERV_LESSON WHERE user_id = #{userId} and lesson_id = #{lessonId}
+	</delete>
    
    
    

@@ -9,6 +9,7 @@ import alz.lesson.domain.LessonCriteria;
 import alz.lesson.domain.LessonDTO;
 import alz.lesson.domain.LessonDetailDTO;
 import alz.lesson.domain.LessonLikeDTO;
+import alz.lesson.domain.LessonReservDTO;
 import alz.lesson.domain.QuickReviewDTO;
 import alz.lesson.domain.ScheduleDTO;
 import alz.lesson.domain.TeacherDTO;
@@ -64,6 +65,17 @@ public interface LessonService {
 	boolean isLike(LessonLikeDTO likeDTO);
 	// 좋아요 삭제
 	boolean removeLike(LessonLikeDTO likeDTO);
+	
+	
+	// 찜 수(트리거가 올려줌)
+	Long getReservCnt(Long id);
+	// 찜 추가
+	void addReserv(LessonReservDTO reserv);
+	// 찜 여부 확인
+	boolean isReserv(LessonReservDTO reservDTO);
+	// 찜 삭제
+	boolean removeReserv(LessonReservDTO reservDTO);
+	
 	List<LessonDTO> getNewList();
 	List<LessonDTO> getSoonList();
 	

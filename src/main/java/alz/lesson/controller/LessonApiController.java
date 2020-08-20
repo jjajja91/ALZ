@@ -18,13 +18,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import alz.board.domain.LikeDTO;
 import alz.file.domain.LessonFileDTO;
 import alz.lesson.domain.CategoryDTO;
 import alz.lesson.domain.CurriculumSubjectDTO;
 import alz.lesson.domain.LessonDTO;
 import alz.lesson.domain.LessonDetailDTO;
 import alz.lesson.domain.LessonLikeDTO;
+import alz.lesson.domain.LessonReservDTO;
 import alz.lesson.domain.QuickReviewDTO;
 import alz.lesson.domain.ScheduleDTO;
 import alz.lesson.service.LessonServiceImpl;
@@ -162,5 +162,38 @@ public class LessonApiController {
 		return ResponseEntity.status(HttpStatus.OK).body(isLike);
 	}
 	
+	// --------------------------- 찜 ---------------------------------
+	
+	// 찜 수
+	@GetMapping(value = "/reserv/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<?> countReserv(@PathVariable Long id) {
+		Long reservCnt = lessonService.getReservCnt(id);
+		return ResponseEntity.status(HttpStatus.OK).body(reservCnt);
+	}
+
+	// 찜 생성
+	@PostMapping("/reserv")
+	public ResponseEntity<?> addReserv(@RequestBody LessonReservDTO reserv) {
+		lessonService.addReserv(reserv);
+		return ResponseEntity.status(HttpStatus.OK).body("좋아요");
+	}
+
+	// 찜 해제
+	@DeleteMapping(value = "/reserv/{userId}/{lessonId}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<?> removeReserv(@PathVariable Long userId, @PathVariable Long lessonId) {
+		LessonReservDTO reservDTO = new LessonReservDTO();
+		reservDTO.setUserId(userId).setLessonId(lessonId);
+		boolean isRemoved = lessonService.removeReserv(reservDTO);
+		return ResponseEntity.status(HttpStatus.OK).body(isRemoved);
+	}
+
+	// 찜 여부 확인
+	@GetMapping(value = "/reserv/{userId}/{lessonId}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<?> isReserv(@PathVariable Long userId, @PathVariable Long lessonId) {
+		LessonReservDTO reservDTO = new LessonReservDTO();
+		reservDTO.setUserId(userId).setLessonId(lessonId);
+		boolean isLike = lessonService.isReserv(reservDTO);
+		return ResponseEntity.status(HttpStatus.OK).body(isLike);
+	}
 	
 }
