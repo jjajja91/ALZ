@@ -122,7 +122,7 @@ p {
 										src="/resources/img/lesson/thumb/${myLessonList.teacherId}${myLessonList.openAt}/${myLessonList.thumbnail}">
 								</c:if></td>
 							<td><p>
-									<a href="/classroom/student?lessonId=${myLessonList.id}"><c:out
+									<a href="/lesson/read?id=${myLessonList.id}"><c:out
 											value="${myLessonList.title }" /></a>
 								</p>
 								<p>
