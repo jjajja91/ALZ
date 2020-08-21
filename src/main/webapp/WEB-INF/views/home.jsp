@@ -238,8 +238,8 @@
 						<li>
                             <div class="img">                           	
                         		<div class="likeInfo">
-                                	<a class="like" href=""><i class="xi-heart-o">3457</i></a>
-                                	<a class="reserv" href=""><i class="xi-star-o">2321</i></a>
+                                	<a class="like" href=""><i class="xi-heart-o">196</i></a>
+                                	<a class="reserv" href=""><i class="xi-star-o">231</i></a>
                             	</div>
                             	<a href="/lesson/read?id=37">
                             	<!-- /resources/img/lesson/thumb/132020-08-24/05d7f1a0-69bc-4cc0-a0e4-40dfd7706314_주석 2020-08-20 094231.png -->
@@ -324,7 +324,7 @@
                                 <span>정규</span><span>운동</span>
                                 <h3>하루 10분, 요가로 찾은 내 몸의 선</h3>
                                 <div class="price">
-                                	<h4>6000,000원</h4>
+                                	<h4>600,000원</h4>
                                     <h5>10%</h5>
                                     <h1>540,000원</h1>
                                 </div>
