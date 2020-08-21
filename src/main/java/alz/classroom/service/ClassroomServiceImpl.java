@@ -1,5 +1,7 @@
 package alz.classroom.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import alz.classroom.mapper.ClassroomMapper;
@@ -15,7 +17,14 @@ public class ClassroomServiceImpl implements ClassroomService {
 
 	@Override
 	public boolean checkStudent(Long lessonId, Long userId) {
-		return classroomMapper.findStudentByLesson(lessonId)==userId;
+		List<Long> students = classroomMapper.findStudentByLesson(lessonId);
+		
+		for(int i = 0; i<students.size(); i++) {
+			if(students.get(i)==userId) {
+			return true;
+			}
+		}
+		return false;
 	}
 	
 	

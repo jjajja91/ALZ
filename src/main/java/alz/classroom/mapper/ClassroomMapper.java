@@ -1,7 +1,9 @@
 package alz.classroom.mapper;
 
+import java.util.List;
+
 public interface ClassroomMapper {
 
-	Long findStudentByLesson(Long lessonId);
+	List<Long> findStudentByLesson(Long lessonId);
 
 }
