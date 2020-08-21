@@ -106,7 +106,7 @@
 							<li><a href="" class="m_menu">알랴쥼</a>
 								<ul class="s_nav">
 									<li><a href="/board/list?typeId=1">공지사항</a></li>
-									<li><a href="">알랴쥼</a></li>
+									<li><a href="">알랴쥼이란</a></li>
 									<li><a href="/board/list?typeId=2">이벤트</a></li>
 								</ul>
 							</li>
@@ -135,7 +135,7 @@
 							</li>
 							<li><a href="" class="m_menu">커뮤니티</a>
 								<ul class="s_nav">
-									<li><a href="/board/list?typeId=3">커뮤니티</a></li>
+									<li><a href="/board/list?typeId=3">자유게시판</a></li>
 									<li><a href="/board/list?typeId=4">후기</a></li>
 									<li><a href="/board/list?typeId=5">문의하기</a></li>
 								</ul>

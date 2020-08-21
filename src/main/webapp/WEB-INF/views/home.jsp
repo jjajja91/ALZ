@@ -248,17 +248,17 @@
                                 <span>정규</span><span>개발/디자인</span>
                                 <h3>자바의 정석</h3>
                                 <div class="price">
-                                	<h4>5,000,000원</h4>
+                                	<h4>1,000,000원</h4>
                                     <h5>5%</h5>
-                                    <h1>4,750,000원</h1>
+                                    <h1>950,000원</h1>
                                 </div>
                                 </a>
                         	</li>
 						<li>
                             <div class="img">                           	
                         		<div class="likeInfo">
-                                	<a class="like" href=""><i class="xi-heart-o">657</i></a>
-                                	<a class="reserv" href=""><i class="xi-star-o">329</i></a>
+                                	<a class="like" href=""><i class="xi-heart-o">24</i></a>
+                                	<a class="reserv" href=""><i class="xi-star-o">69</i></a>
                             	</div>
                             	<a href="/lesson/read?id=5">
                             	<!-- /resources/img/lesson/thumb/42020-08-27/440b75e1-8804-43b6-97fa-8bce486af346_주석 2020-08-18 093855.png -->
@@ -276,8 +276,8 @@
                         	<li>
                             <div class="img">                           	
                         		<div class="likeInfo">
-                                	<a class="like" href=""><i class="xi-heart-o">382</i></a>
-                                	<a class="reserv" href=""><i class="xi-star-o">221</i></a>
+                                	<a class="like" href=""><i class="xi-heart-o">45</i></a>
+                                	<a class="reserv" href=""><i class="xi-star-o">63</i></a>
                             	</div>
                             	<a href="/lesson/read?id=17">
                             	<!-- /resources/img/lesson/thumb/82020-10-05/0c77f485-62fa-4b46-a222-64aeed8134d8_주석 2020-08-18 181418.png -->
@@ -295,8 +295,8 @@
                         	<li>
                             <div class="img">                           	
                         		<div class="likeInfo">
-                                	<a class="like" href=""><i class="xi-heart-o">450</i></a>
-                                	<a class="reserv" href=""><i class="xi-star-o">122</i></a>
+                                	<a class="like" href=""><i class="xi-heart-o">34</i></a>
+                                	<a class="reserv" href=""><i class="xi-star-o">37</i></a>
                             	</div>
                             	<a href="/lesson/read?id=4">
                             	<!-- /resources/img/lesson/thumb/32020-09-01/c2636ccf-f333-43b3-830f-94f01047aa29_주석 2020-08-17 204747.png -->
@@ -314,8 +314,8 @@
                         	<li>
                             <div class="img">                           	
                         		<div class="likeInfo">
-                                	<a class="like" href=""><i class="xi-heart-o">127</i></a>
-                                	<a class="reserv" href=""><i class="xi-star-o">54</i></a>
+                                	<a class="like" href=""><i class="xi-heart-o">24</i></a>
+                                	<a class="reserv" href=""><i class="xi-star-o">47</i></a>
                             	</div>
                             	<a href="/lesson/read?id=36">
                             	<!-- /resources/img/lesson/thumb/122020-09-04/b70b14a0-7f14-49af-b8cb-dccb0082b4f0_주석 2020-08-20 035041.png -->
