@@ -17,13 +17,20 @@
 	position: relative;
 }
 
+body {
+	margin: 0px;
+}
+
 .lessonHeaderDiv {
 	width:100%;
-	height:30px;    
+	height:30px;
+	margin: 0px;
+	padding-top: 10px;
 	border-bottom: solid 1px;
-	padding-right:20px;
-    position: sticky;
-    top: 10px;
+    position: fixed;
+    top: 0px;
+    background-color: white;
+    z-index: 1;
 }
 
 .lessonHeaderLeft {

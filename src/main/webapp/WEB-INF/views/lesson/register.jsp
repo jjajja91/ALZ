@@ -12,6 +12,11 @@
 <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
 </head>
 <style>
+
+body {
+	margin: 0px;
+}
+
 .container {
 	margin-top: 70px;
 	margin-left: 10%;
@@ -21,19 +26,24 @@
 
 .lessonHeaderDiv {
 	width:100%;
-	height:30px;    
+	height:30px;
+	margin: 0px;
+	padding-top: 10px;
 	border-bottom: solid 1px;
-	padding-right:20px;
-    position: sticky;
-    top: 10px;
+    position: fixed;
+    top: 0px;
+    background-color: white;
+    z-index: 1;
 }
 
 .lessonHeaderLeft {
 	padding-left: 2%;
+	background-color: white;
 }
 .lessonHeaderRight {
     position: absolute;
     right: 20;
+    background-color: white;
 }
 .pageTitle {
     font-size: 30px;
@@ -93,10 +103,10 @@
 }
 </style>
 <body>
-	<div class="lessonHeaderDiv">
+	<nav class="lessonHeaderDiv">
 		<span class="lessonHeaderLeft">클래스 등록 > 1. 강사등록 </span>
 		<span class="lessonHeaderRight"><a href="/">HOME</a></span>
-	</div>
+	</nav>
 	<div class="container">
 
 		<div class="titleDiv">
