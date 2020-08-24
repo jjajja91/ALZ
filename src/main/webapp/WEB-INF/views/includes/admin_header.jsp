@@ -101,9 +101,10 @@
 					<div class="bg-white py-2 collapse-inner rounded">
 						<h6 class="collapse-header">관리 메뉴</h6>
 						<a class="collapse-item" href="/admin/order/orderMain">주문 통합
-							리스트</a> <a class="collapse-item" href="/admin/order/orderCanceled">주문
+							리스트</a> 
+							<!-- 	<a class="collapse-item" href="/admin/order/orderCanceled">주문
 							취소 리스트</a>
-						<!--  <a class="collapse-item" href="utilities-animation.html">메뉴3</a>
+						<a class="collapse-item" href="utilities-animation.html">메뉴3</a>
             <a class="collapse-item" href="utilities-other.html">메뉴4</a> -->
 					</div>
 				</div></li>
@@ -144,15 +145,6 @@
 					</div>
 				</div></li>
 
-			<!-- Nav Item - Charts -->
-			<li class="nav-item"><a class="nav-link" href="charts.html">
-					<i class="fas fa-fw fa-chart-area"></i> <span>차트</span>
-			</a></li>
-
-			<!-- Nav Item - Tables -->
-			<li class="nav-item"><a class="nav-link"
-				href="/admin/order/tables"> <i class="fas fa-fw fa-table"></i> <span>Tables</span></a>
-			</li>
 
 			<!-- Divider -->
 			<hr class="sidebar-divider d-none d-md-block">

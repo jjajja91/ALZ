@@ -13,7 +13,7 @@
 <style>
 .container {
 	margin-top: 200px;
-	margin-left: 600px;
+	margin-left: 27%;
 	min-height: 100%;
 	position: relative;
 }
@@ -28,9 +28,7 @@
 	font-size: 0.8em;
 	min-width: 400px;
 	width: 700px;
-	border-radius: 5px 5px 0 0;
 	overflow: hidden;
-	box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
 }
 
 .content-table thead tr {
@@ -47,9 +45,10 @@
 }
 
 .content-table td {
-	padding: 8px 15px;
+	padding: 8px 5px;
 	font-size: 15px;
 	text-align: center;
+	vertical-align: middle;
 }
 
 .content-table thead tr {
@@ -70,6 +69,10 @@
 	background-color: #f3f3f3;
 }
 
+.content-table tbody tr:first-of-type {
+	background-color: #335492;
+	color: #ffffff;
+}
 .content-table tbody tr:last-of-type {
 	border-bottom: 2px solid #335492;
 }
@@ -85,33 +88,44 @@
 
 div.title {
 	margin-left: 300px;
-	margin-bottom: 20px;
+	margin-bottom: 35px;
 	font-size: 30px;
 	font-weight: bold;
 }
 
 .orderBtn {
 	font-size: 18px;
-	margin-top: 30px;
+	margin-top: 15px;
 	margin-left: 300px;
+	margin-bottom: 30px;
 	background-color: #335492;
 	border-radius: 5px 5px;
-	box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
 	color: #ffffff;
 	border: 1px solid #dddddd;
+	padding: 6px 12px;
+	cursor: pointer;
 }
 
-.footer {
-	width: 100%;
-	position: absolute;
-	bottom: 0;
-	background: #5eaeff;
-	text-align: center;
-	color: white;
-	background: #335492;
-	color: #fff;
-	padding: 30px 0;
+.deleteBtn {
+	font-size: 18px;
+	border-radius: 5px 5px;
+	border: 1px solid #dddddd;
+	padding: 6px 12px;
+	cursor: pointer;
 }
+
+p.price {
+	margin: 5px 0;
+}
+
+img.lessonImg {
+	width: 100px;
+	height: 100px;
+}
+a.read {
+	color: black !important;
+}
+
 </style>
 <body>
 	<sec:authentication var="principal" property="principal" />
@@ -127,6 +141,7 @@ div.title {
 						<tr>
 							<th><input type="checkbox" name="allCheck" id="allCheck">
 							</th>
+							<th></th>
 							<th>상품명</th>
 							<th>금액</th>
 							<th></th>
@@ -144,13 +159,27 @@ div.title {
 								<td><input type="checkbox" id="chkBox${i}" name="chkBox"
 									class="chkBox" data-cartId="${row.id }"> <input
 									type="hidden" id="id${i}" name="id" value="${row.id }"></td>
-								<td>${row.name }</td>
-								<td><fmt:formatNumber value="${row.salePrice }"
-										pattern="#,###" /> 원<br> <del
-										style="font-weight: normal;">
-										<fmt:formatNumber value="${row.originPrice }" pattern="#,###" />
+								<td><a class='read' href='/lesson/read?id=${row.lessonId}'><c:if
+									test="${empty row.thumbnail}">
+									<img class="lessonImg"
+										src="../../../resources/img/classtmpimg.jpg">
+								</c:if> <c:if test="${!empty row.thumbnail}">
+									<img class="lessonImg"
+										src='/resources/img/lesson/thumb/${row.teacherId}
+										<fmt:formatDate pattern = "yyyy-MM-dd" value="${row.openAt}" />
+										/${row.thumbnail}'>
+								</c:if></a></td>
+								<td><a class='read' href='/lesson/read?id=${row.lessonId}'><c:out value="${row.name}" /></a></td>
+								<td><p class="price">
+										<fmt:formatNumber value="${row.salePrice }" pattern="#,###" />
 										원
-									</del></td>
+									</p>
+									<p class="price">
+										<del style="font-weight: normal;">
+											<fmt:formatNumber value="${row.originPrice }" pattern="#,###" />
+											원
+										</del>
+									</p></td>
 								<td><a class="delete"
 									href="/merchandise/delete?id=${row.id }"
 									style="font-weight: bold; font-size: 1.3rem;">X</a></td>
@@ -193,7 +222,7 @@ div.title {
 					</thead>
 					<tbody class="result">
 						<!-- 장바구니 금액 출력 부분 -->
-						<tr style="background-color: #f3f3f3;" align=center>
+						<tr style="background-color: #f3f3f3; color:black" align=center>
 							<td class="result" id="result_info_price"><span
 								class="result" id="totalPrice"></span> 원</td>
 							<td class="result"><img width="25" alt=""
@@ -216,11 +245,6 @@ div.title {
 		</div>
 	</div>
 
-	<footer class="footer">
-		<div>
-			<p class="copy">Copyright, ⓒ ALZ. All rights reserved.</p>
-		</div>
-	</footer>
 </body>
 <script type="text/javascript">
 	var link = document.location.href; //현재 페이지 url 
@@ -283,6 +307,7 @@ div.title {
 												e.preventDefault();
 											}
 										});
+						
 
 						$("input[type=checkbox]")
 								.change(

@@ -161,6 +161,30 @@ public class MyPageServiceImpl implements MyPageService {
 		return myPageMapper.getRefundedLessonTotal(cri);
 	}
 
+
+	@Override
+	public List<LessonDTO> getMyReservLessonList(MyPageCriteria cri) {
+		return myPageMapper.reservLessonSelectWithPaging(cri);
+	}
+
+
+	@Override
+	public List<LessonDTO> getMyLikeLessonList(MyPageCriteria cri) {
+		return myPageMapper.likeLessonSelectWithPaging(cri);
+	}
+
+
+	@Override
+	public Long getMyLikeLessonTotal(MyPageCriteria cri) {
+		return myPageMapper.getMyLikeLessonTotal(cri);
+	}
+
+
+	@Override
+	public Long getMyReservLessonTotal(MyPageCriteria cri) {
+		return myPageMapper.getMyReservLessonTotal(cri);
+	}
+
 	
 
 

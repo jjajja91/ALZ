@@ -47,8 +47,8 @@
 														<option value="P"
 															<c:out value="${pageMaker.cri.type eq 'P'?'selected':''}"/>>주문자
 															핸드폰 번호</option>
-														<option value="M"
-															<c:out value="${pageMaker.cri.type eq 'M'?'selected':''}"/>>상품명</option>
+														<!-- <option value="M"
+															<c:out value="${pageMaker.cri.type eq 'M'?'selected':''}"/>>상품명</option>  -->
 													</select>
 													<p>&nbsp; &nbsp;</p>
 													<input type='text' name='keyword'
@@ -114,10 +114,10 @@
 					<div class="table-responsive">
 						<div>
 								선택한 항목 <select id="orderState">
-									<option value="주문 취소">주문 취소</option>
-									<option value="3">Item3</option>
-									<option value="4">Item4</option>
-									<option value="5">Item5</option>
+									<option value="결제 완료">결제 완료</option>
+									<option value="취소 완료">취소 완료</option>
+									<option value="취소 요청">취소 요청</option>
+									<option value="기타">기타</option>
 								</select>
 								<button type="button" id="stateBtn"
 									class="btn btn-secondary btn-sm">실행</button>

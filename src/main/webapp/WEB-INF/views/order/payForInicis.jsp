@@ -171,8 +171,8 @@
 					name: name,
 					phone: phone,
 					totalPrice: totalPrice,
-					method: "카카오 페이",
-					state : "결제완료",
+					method: "카드 결제",
+					state : "결제 완료",
 					merchandiseId : merchandiseId
 				};
 				
@@ -215,8 +215,8 @@
 					name: name,
 					phone: phone,
 					totalPrice: totalPrice,
-					method: "카카오 페이",
-					state : "결제완료",
+					method: "카드 결제",
+					state : "결제 완료",
 					merchandiseId : itemId
 				};
 				

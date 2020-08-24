@@ -23,6 +23,7 @@ import alz.lesson.domain.LessonDetailDTO;
 import alz.lesson.domain.LessonPageDTO;
 import alz.lesson.domain.TeacherDTO;
 import alz.lesson.service.LessonServiceImpl;
+import alz.order.service.MerchandiseServiceImpl;
 import alz.user.domain.UserDTO;
 import lombok.extern.log4j.Log4j;
 
@@ -32,12 +33,14 @@ import lombok.extern.log4j.Log4j;
 public class LessonPageController {
    
    private LessonServiceImpl lessonService;
+   private MerchandiseServiceImpl merchandiseService;
    
    private ServletContext servletContext;
    
    @Autowired
-   public LessonPageController(LessonServiceImpl lessonService, ServletContext servletContext) {
+   public LessonPageController(LessonServiceImpl lessonService, MerchandiseServiceImpl merchandiseService, ServletContext servletContext) {
       this.lessonService = lessonService;
+      this.merchandiseService = merchandiseService;
       this.servletContext = servletContext;
    }
    
@@ -77,10 +80,12 @@ public class LessonPageController {
    @GetMapping("/read")
    public void get(@RequestParam Long id, Model model) {
       model.addAttribute("lesson", lessonService.readByLessonId(id));
+      model.addAttribute("detail", lessonService.detailByLessonId(id));
       model.addAttribute("curriculum", lessonService.curriculumByLessonId(id));
       model.addAttribute("schedule", lessonService.timeTableByLessonId(id));
       model.addAttribute("teacher", lessonService.teacherByLessonId(id));
       model.addAttribute("quickReview", lessonService.quickReviewByLessonId(id));
+      model.addAttribute("merchandise", merchandiseService.readByrefId(id));
    }
 
    // 강사등록
@@ -219,7 +224,6 @@ public class LessonPageController {
 		int id;
 	    Long originalId = lessonDetail.getOriginalId();
 	    Long lessonId = lessonDetail.getLessonId();
-	      
 	    id = lessonService.createLessonDetail(lessonDetail);
 	      
 	    String url = "redirect:/lesson/registerSchedule?originalId="+originalId;

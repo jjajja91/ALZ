@@ -1,92 +1,169 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://www.springframework.org/security/tags"
+	prefix="sec"%>
 <%@include file="../includes/myPageNav.jsp"%>
 <%@include file="../includes/header.jsp"%>
+<head>
+<style>
+.container {
+	position: relative;
+	margin-top: 200px;
+}
+
+.container h1 {
+	text-align: center;
+	font-size: 2em;
+	color: #335492;
+}
+div.empty {
+	text-align: center;
+	font-size: 20px;
+	margin-top: 30px;
+}
+
+.table-container {
+	position: absolute;
+	top: 90px;
+	right: 15%;
+}
+
+.content-table {
+	border-collapse: collapse;
+	font-size: 0.8em;
+	min-width: 400px;
+	width: 700px;
+	overflow: hidden;
+}
+
+.content-table thead tr {
+	background-color: #335492;
+	color: #ffffff;
+	text-align: left;
+}
+
+.content-table th {
+	padding: 13px 15px
+}
+
+.content-table td {
+	padding: 8px 15px;
+}
+
+.content-table td a {
+	text-decoration: none;
+	color: #335492;
+}
+
+.content-table tbody tr {
+	border-bottom: 1px solid #dddddd;
+}
+
+.content-table tbody tr:nth-of-type(even) {
+	background-color: #f3f3f3;
+}
+
+.content-table tbody tr:last-of-type {
+	border-bottom: 2px solid #335492;
+}
+
+.content-table tbody tr.active-row {
+	font-weight: bold;
+	color: #335492;
+}
+
+.page-footer {
+	right: 0%;
+	bottom: 0%;
+	margin-top: 20px;
+}
+
+.page-footer li {
+	float: left;
+}
+
+.paginate_button a {
+	text-decoration: none;
+	background-color: #eee;
+	padding: 5px 10px;
+	color: #335492;
+}
+
+.active a {
+	color: #eee;
+	background-color: #335492;
+}
+</style>
+</head>
 <body>
+
+
+
 	<div class="container">
+		<h1 class="page-header">취소 내역</h1>
+		<c:choose>
+			<c:when test="${pageMaker.total == 0}">
+				<div class="empty">취소 내역이 없습니다.</div>
+			</c:when>
+			<c:otherwise>
+				<div class="table-container">
 
-		<h1 class="page-header">
-		취소/환불 클래스
-		</h1>
-	</div>
-	<div class="container">
+					<table class="content-table" id="table">
+						<thead>
+							<tr>
+								<th>주문번호</th>
+								<th>주문일시</th>
+								<th>결제금액</th>
+								<th>결제상태</th>
+							</tr>
+						</thead>
+						<tbody>
+							<c:forEach items="${list }" var="order">
+								<tr>
+									<td><a class="move" href='<c:out value="${order.id}" />'>
+											<c:out value="${order.id}" />
+									</a></td>
+									<td><fmt:formatDate pattern="yyyy-MM-dd"
+											value="${order.orderAt }" /></td>
+									<td><c:out value="${order.totalPrice }" /></td>
+									<td><c:out value="${order.state }" /></td>
+								</tr>
+							</c:forEach>
+						</tbody>
+					</table>
+					<!-- paging -->
+					<div class="page-footer">
+						<ul class="pagination pull-right">
+							<c:if test="${pageMaker.prev }">
+								<li class="paginate_button previous"><a
+									href="${pageMaker.startPage -1 }">Previous</a></li>
+							</c:if>
 
-		<table class="table table-striped" id="table">
-	   <thead>
-	   <tr>
-          <th class="imgArea"></th>
-          <th></th>
-         
-        </tr>
-      </thead>
-			<tbody>
-				<c:forEach items="${list}" var="myLessonList">
+							<c:forEach var="num" begin="${pageMaker.startPage }"
+								end="${pageMaker.endPage }">
+								<li
+									class="paginate_button ${pageMaker.cri.pageNum == num? 'active':'' }"><a
+									href="${num }">${num }</a></li>
+							</c:forEach>
 
-					<tr>
-					<tr>
-						<td rowspan="2">
-						<c:if test= "${empty myLessonList.thumbnail}">
-						<img class="lessonImg" src="../../../resources/img/classtmpimg.jpg">
-						</c:if>
-						<c:if test= "${!empty myLessonList.thumbnail}">
-						<img class="lessonImg" src="/resources/img/lesson/thumb/${myLessonList.teacherId}${myLessonList.openAt}/${myLessonList.thumbnail}">
-						</c:if>
-						</td>
-					<td><c:out value="${myLessonList.title }" /></td>
-					</tr>
-					<tr>
-					<td><c:out value="${myLessonList.closeAt }" /></td>
-					</tr>
-					
-					<%-- <td><c:out value="${myLessonList.id }" /></td>
-					<td><a class='read' href='<c:out value="${board.id }"/>'><c:out
-								value="${board.title }" /> (<c:out value="${board.commentCnt}" />)</a>
-					</td>
-					<td><c:out value="${board.nickname }" /></td>
-					<td><fmt:formatDate pattern="yyyy-MM-dd"
-							value="${board.writtenAt }" /></td>
-					<td><c:out value="${board.viewCnt }" /></td>
-					
-					--%>
-					 
-	
-				</c:forEach>
-			</tbody>
-		</table>
-
-		<!-- paging -->
-		<div class="page-footer">
-			<ul class="pagination pull-right">
-				<c:if test="${pageMaker.prev }">
-					<li class="paginate_button previous"><a
-						href="${pageMaker.startPage -1 }">Previous</a></li>
-				</c:if>
-
-				<c:forEach var="num" begin="${pageMaker.startPage }"
-					end="${pageMaker.endPage }">
-					<li
-						class="paginate_button ${pageMaker.cri.pageNum == num? 'active':'' }"><a
-						href="${num }">${num }</a></li>
-				</c:forEach>
-
-				<c:if test="${pageMaker.next }">
-					<li class="paginate_button next"><a
-						href="${pageMaker.endPage +1 }">Next</a></li>
-				</c:if>
-			</ul>
-		</div>
+							<c:if test="${pageMaker.next }">
+								<li class="paginate_button next"><a
+									href="${pageMaker.endPage +1 }">Next</a></li>
+							</c:if>
+						</ul>
+					</div>
+				</div>
+			</c:otherwise>
+		</c:choose>
 
 
-
-		<form id='actionForm' action="/myPage/refundedLesson" method='get'>
+		<form id='actionForm' action="/myPage/paidOrderList" method='get'>
 			<input type='hidden' id='pageNum' name='pageNum'
 				value='<c:out value="${pageMaker.cri.pageNum }"/>' /> <input
 				type='hidden' id='amount' name='amount'
-				value='<c:out value="${pageMaker.cri.amount }"/>' /> 
+				value='<c:out value="${pageMaker.cri.amount }"/>' />
 		</form>
 
 	</div>
@@ -111,7 +188,8 @@
 			
 			data = {
 					pageNum : $pageNum.val(),
-					amount : $amount.val()
+					amount : $amount.val(),
+					writerId : $writerId.val()
 				};
 			
 			var targetPageNum = $(this).attr("href");
@@ -131,6 +209,16 @@
 			actionForm.submit();
 		});
 		
+		$(".move").on("click",function(e) {
+
+			e.preventDefault();
+			actionForm.append
+			("<input type='hidden' name='id' value='"+ $(this).attr("href")+ "'>");
+			
+			actionForm.attr("action","/myPage/orderedDetail");
+			actionForm.submit();
+
+		});
 		
 		 
 		var pageFooter = $(".page-footer");
@@ -220,10 +308,10 @@
 		
 		
 		// 글목록 출력
-		function printBoardList(lessons, page) {
+		function printBoardList(boards, page) {
 			if(page == -1) {
 				pageNum = Math.ceil(totalCnt/10.0);
-				printBoardList(lessons, pageNum);
+				printBoardList(boards, pageNum);
 				return;
 			}
 			
@@ -232,15 +320,13 @@
 			$table.append($tableHeader);
 			
 			var frag = document.createDocumentFragment();
-			for(var i=0; i<lessons.length; i++) {
-				var lesson= lessons[i];
+			for(var i=0; i<boards.length; i++) {
+				var board= boards[i];
 				
 				var tr = document.createElement("tr");
-				var img = document.createElement("td");
-				var id
-				img.setAttrivute("rowspan", "3");
-				img.textContent = "a";
-				tr.appendChild(img);
+				var id = document.createElement("td");
+				id.textContent = board.id;
+				tr.appendChild(id);
 				
 				var title = document.createElement("td");
 				var titleA = document.createElement("a");

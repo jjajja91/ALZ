@@ -104,7 +104,10 @@ public class BoardPageController {
 	
 	// 읽기와 수정 동시처리
 	@GetMapping( {"/read", "/update" })
-	public void read(@RequestParam("id") Long id, @ModelAttribute("cri") BoardCriteria cri, Model model) {
+	public void read(@RequestParam("id") Long id, @ModelAttribute("cri") BoardCriteria cri, Integer typeId, Model model) {
+		cri.setTypeId(typeId);
+		model.addAttribute("boardName", boardService.getBoardName(typeId));
+
 		BoardDTO board = boardService.readById(id);
 			if(board.getTypeId()==4) {		
 		board = boardService.readReview(board);
@@ -114,8 +117,10 @@ public class BoardPageController {
 	
 	// 리스트
 	@GetMapping("/list")
-	public void list(BoardCriteria cri, Model model) {
+	public void list(Integer typeId, BoardCriteria cri, Model model) {
 		
+		cri.setTypeId(typeId);
+		model.addAttribute("boardName", boardService.getBoardName(typeId));
         model.addAttribute("list", boardService.readAll(cri));
 
 		int total = boardService.getTotal(cri);

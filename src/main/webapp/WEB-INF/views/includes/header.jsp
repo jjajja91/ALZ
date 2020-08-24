@@ -106,7 +106,7 @@
 							<li><a href="" class="m_menu">알랴쥼</a>
 								<ul class="s_nav">
 									<li><a href="/board/list?typeId=1">공지사항</a></li>
-									<li><a href="">알랴쥼</a></li>
+									<li><a href="">알랴쥼이란</a></li>
 									<li><a href="/board/list?typeId=2">이벤트</a></li>
 								</ul>
 							</li>
@@ -115,29 +115,27 @@
 									<li><a href="/lesson/list?main=1&sub=1">미술</a></li>
 									<li><a href="/lesson/list?main=1&sub=2">공예</a></li>
 									<li><a href="/lesson/list?main=1&sub=3">디지털드로잉</a></li>
-									<li><a href="/lesson/list?main=1&sub=4">사진/영상</a></li>
-									<li><a href="/lesson/list?main=1&sub=5">라이프스타일</a></li>
-									<li><a href="/lesson/list?main=1&sub=6">뷰티</a></li>
-									<li><a href="/lesson/list?main=1&sub=7">요리/음료</a></li>
-									<li><a href="/lesson/list?main=1&sub=8">음악</a></li>
-									<li><a href="/lesson/list?main=1&sub=9">운동</a></li>
-									<li><a href="/lesson/list?main=1&sub=10">댄스</a></li>
+									<li><a href="/lesson/list?main=1&sub=4">플라워</a></li>
+									<li><a href="/lesson/list?main=1&sub=5">사진/영상</a></li>
+									<li><a href="/lesson/list?main=1&sub=6">요리/음료</a></li>
+									<li><a href="/lesson/list?main=1&sub=7">음악</a></li>
+									<li><a href="/lesson/list?main=1&sub=8">운동</a></li>
+									<li><a href="/lesson/list?main=1&sub=9">뷰티</a></li>
 								</ul>
 							</li>
 							<li><a href="" class="m_menu">자기계발</a>
 								<ul class="s_nav">
 									<li><a href="/lesson/list?main=2&sub=1">언어</a></li>
-									<li><a href="/lesson/list?main=2&sub=2">직무/커리어</a></li>
-									<li><a href="/lesson/list?main=2&sub=3">개발</a></li>
-									<li><a href="/lesson/list?main=2&sub=4">디자인</a></li>
-									<li><a href="/lesson/list?main=2&sub=5">부업/창업</a></li>
-									<li><a href="/lesson/list?main=2&sub=6">자격증</a></li>
-									<li><a href="/lesson/list?main=2&sub=7">심리상담</a></li>
+									<li><a href="/lesson/list?main=2&sub=2">직무</a></li>
+									<li><a href="/lesson/list?main=2&sub=3">개발/디자인</a></li>
+									<li><a href="/lesson/list?main=2&sub=4">부업/창업</a></li>
+									<li><a href="/lesson/list?main=2&sub=5">자격증</a></li>
+									<li><a href="/lesson/list?main=2&sub=6">심리상담</a></li>
 								</ul>
 							</li>
 							<li><a href="" class="m_menu">커뮤니티</a>
 								<ul class="s_nav">
-									<li><a href="/board/list?typeId=3">커뮤니티</a></li>
+									<li><a href="/board/list?typeId=3">자유게시판</a></li>
 									<li><a href="/board/list?typeId=4">후기</a></li>
 									<li><a href="/board/list?typeId=5">문의하기</a></li>
 								</ul>
@@ -152,7 +150,7 @@
 							<a href="#null" class="search_btn"><i class="xi-search"></i></a>
 						</div>
 						<div class="mypage">
-						<ul><li><a href="" class="m_menu"><i class="xi-user-o"></i></a>
+						<ul><li><a href="" class="m_menu" id="navUser"><i class="xi-user-o"></i></a>
 							<sec:authorize access="isAuthenticated()">
 							<ul class="s_nav">
 								<li><a href="/myPage/boardList">마이페이지</a></li>

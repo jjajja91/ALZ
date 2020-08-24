@@ -90,8 +90,7 @@ public class CommentApiController {
 	}
 	
 	// 해당 글 전체 댓글 목록
-	@GetMapping(value = "/{boardId}",
-			produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_UTF8_VALUE})
+	@GetMapping(value = "/{boardId}", produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_UTF8_VALUE})
 	public ResponseEntity<?> readAll(@PathVariable("boardId") Long boardId) {
 		List<CommentDTO> comments = commentService.readAll(boardId);
 		return ResponseEntity.status(HttpStatus.OK).body(comments);
@@ -100,13 +99,14 @@ public class CommentApiController {
 	// 수정하기
 	@PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> updateOne(@PathVariable Long id, @RequestBody @Valid CommentDTO comment, BindingResult result){
-		
+
 		// 작성자와 로그인 유저가 다른 경우
-		if(commentService.readById(id).getUserId()!=getLoginUserInfo().getId()) {
+		if(!commentService.readById(id).getUserId().equals(getLoginUserInfo().getId())) {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(false); // 임시
 		// 작성자와 로그인 유저가 같은 경우
 		} else {
 			CommentDTO updatedComment;
+
 			if(result.hasErrors()) {
 				FieldError error = result.getFieldError();
 				if(result.getFieldError().getCode().indexOf("NotNull")!=-1)
@@ -122,7 +122,7 @@ public class CommentApiController {
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> deleteOne(@PathVariable Long id) {
 		// 작성자와 로그인 유저가 다른 경우
-		if(commentService.readById(id).getUserId()!=getLoginUserInfo().getId()) {
+		if(!commentService.readById(id).getUserId().equals(getLoginUserInfo().getId())) {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("fail"); // 임시		
 		// 작성자와 로그인 유저가 같은 경우
 		} else {			

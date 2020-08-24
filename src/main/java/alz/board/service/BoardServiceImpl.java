@@ -179,7 +179,8 @@ public class BoardServiceImpl implements BoardService {
 	public void createReviewRate(BoardDTO board) {
 		boardMapper.createReviewRate(board);
 		Long merchandiseId = boardMapper.lessonChk(board);
-		boardMapper.reviewChk(merchandiseId);
+		board.setMerchandiseId(merchandiseId);
+		boardMapper.reviewChk(board);
 	}
 
 	@Override
@@ -190,6 +191,11 @@ public class BoardServiceImpl implements BoardService {
 		.setLessonReview(review.getLessonReview()).setLessonTitle(lesson.getTitle());
 		
 		return board;
+	}
+
+	@Override
+	public String getBoardName(Integer id) {
+		return boardMapper.getBoardName(id);
 	}
 
 }

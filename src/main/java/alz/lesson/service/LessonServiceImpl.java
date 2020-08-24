@@ -6,29 +6,40 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import alz.file.domain.BoardFileDTO;
+import alz.file.domain.LessonFileDTO;
+import alz.file.mapper.LessonFileMapper;
 import alz.lesson.domain.CategoryDTO;
 import alz.lesson.domain.CurriculumDetailDTO;
 import alz.lesson.domain.CurriculumSubjectDTO;
 import alz.lesson.domain.LessonCriteria;
 import alz.lesson.domain.LessonDTO;
 import alz.lesson.domain.LessonDetailDTO;
+import alz.lesson.domain.LessonLikeDTO;
+import alz.lesson.domain.LessonReservDTO;
 import alz.lesson.domain.QuickReviewDTO;
+import alz.lesson.domain.ReviewDTO;
 import alz.lesson.domain.ScheduleDTO;
 import alz.lesson.domain.TeacherDTO;
 import alz.lesson.domain.TimeTableDTO;
 import alz.lesson.mapper.LessonMapper;
 import alz.user.mapper.UserMapper;
+import lombok.extern.log4j.Log4j;
 
+@Log4j
 @Service
 public class LessonServiceImpl implements LessonService {
 
 	private LessonMapper lessonMapper;
 	private UserMapper userMapper;
+	private LessonFileMapper lessonFileMapper;
 	
 	@Autowired
-	public LessonServiceImpl(LessonMapper lessonMapper, UserMapper userMapper) {
+	public LessonServiceImpl(LessonMapper lessonMapper, UserMapper userMapper, LessonFileMapper lessonFileMapper) {
 		this.lessonMapper = lessonMapper;
 		this.userMapper = userMapper;
+		this.lessonFileMapper = lessonFileMapper;
+		
 	}
 	
 	// 강사등록
@@ -78,10 +89,31 @@ public class LessonServiceImpl implements LessonService {
 		if(detail.getId()!=null) {
 			lessonMapper.deleteLessonDetail(detail.getId());
 		}
+		
 		// 만들어진 클래스 id 보내줌
 		int affectedRowCount = lessonMapper.insertLessonDetail(detail);
 		int detailId = detail.getId().intValue();
 		return detailId;
+	}
+	
+	// 클래스 세부 이미지파일 등록
+	public void createLessonDetailFile(LessonDetailDTO detail) {
+		
+		// 원래 있던 세부설명 삭제하고 새로만듬
+		if(detail.getId()!=null) {
+			// 파일삭제 추가해야됨
+			lessonFileMapper.deleteAll(detail.getLessonId());
+		}
+		
+		if (detail.getFileList() == null || detail.getFileList().size() <= 0) {
+			return;
+		}
+		
+		System.out.println(detail.getFileList());
+		detail.getFileList().forEach(file -> {
+			file.setLessonId(detail.getLessonId());
+			lessonFileMapper.insert(file);
+		});
 	}
 	
 	// 클래스 커리큘럼 등록
@@ -197,9 +229,27 @@ public class LessonServiceImpl implements LessonService {
 	// 카테고리별 페이징한 목록
 	public List<LessonDTO> readAll(LessonCriteria cri) {
 		List<LessonDTO> lessons = lessonMapper.findWithPaging(cri);
+		List<ReviewDTO> reviewList = lessonMapper.findReview();
+		List<ReviewDTO> quickReviewList = lessonMapper.findQuickReview();
+		
+		Long rate;
+		for(int i=0; i<lessons.size(); i++) {
+			for(int j=0; j<reviewList.size(); j++) {
+				int lessonReview = reviewList.get(j).getLessonReviewRate().intValue(); 
+				int teacherReview = reviewList.get(j).getTeacherReviewRate().intValue();
+				rate = (lessonReview+teacherReview)/2L;
+				
+				if(lessons.get(i).getId()==reviewList.get(j).getLessonId()) {
+					lessons.get(i).setRate(rate);		
+				}
+			}
+			
+			for(int k=0; k<quickReviewList.size(); k++) {
+			}
+		}
+		System.out.println(lessons);
 		return lessons;
 	}
-	
 	
 	// 스케줄
 	public ScheduleDTO scheduleByLessonId(Long lessonId) {
@@ -244,6 +294,61 @@ public class LessonServiceImpl implements LessonService {
 		return total;
 	}
 
+	@Override
+	public List<LessonFileDTO> getFileList(Long lessonId) {
+		log.info("get File list by lesson_id" + lessonId);
+		return lessonFileMapper.findByLessonId(lessonId);
+	}
+
+	@Override
+	public Long getLikeCnt(Long id) {
+		return lessonMapper.getLikeCnt(id);
+	}
+
+	@Override
+	public void addLike(LessonLikeDTO like) {
+		lessonMapper.addLike(like);
+	}
+
+	@Override
+	public boolean isLike(LessonLikeDTO likeDTO) {
+		return lessonMapper.getLike(likeDTO) == null ? false : true;
+	}
+
+	@Override
+	public boolean removeLike(LessonLikeDTO likeDTO) {
+		return lessonMapper.removeLike(likeDTO) == 0 ? false : true;
+	}
+
+	@Override
+	public List<LessonDTO> getNewList() {
+		return lessonMapper.getNewList();
+	}
+
+	@Override
+	public List<LessonDTO> getSoonList() {
+		return lessonMapper.getSoonList();
+	}
+
+	@Override
+	public Long getReservCnt(Long id) {
+		return lessonMapper.getReservCnt(id);
+	}
+
+	@Override
+	public void addReserv(LessonReservDTO reserv) {
+		lessonMapper.addReserv(reserv);
+	}
+
+	@Override
+	public boolean isReserv(LessonReservDTO reservDTO) {
+		return lessonMapper.getReserv(reservDTO) == null ? false : true;
+	}
+
+	@Override
+	public boolean removeReserv(LessonReservDTO reservDTO) {
+		return lessonMapper.removeReserv(reservDTO) == 0 ? false : true;
+	}
 	
 
 

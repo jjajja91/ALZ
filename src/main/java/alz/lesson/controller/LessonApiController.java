@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
@@ -17,9 +18,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import alz.file.domain.LessonFileDTO;
 import alz.lesson.domain.CategoryDTO;
 import alz.lesson.domain.CurriculumSubjectDTO;
 import alz.lesson.domain.LessonDTO;
+import alz.lesson.domain.LessonDetailDTO;
+import alz.lesson.domain.LessonLikeDTO;
+import alz.lesson.domain.LessonReservDTO;
 import alz.lesson.domain.QuickReviewDTO;
 import alz.lesson.domain.ScheduleDTO;
 import alz.lesson.service.LessonServiceImpl;
@@ -44,9 +49,17 @@ public class LessonApiController {
 	}
    
 	@PostMapping
-	public ResponseEntity<?> create(@RequestBody LessonDTO classes){
-//		LessonDTO openedClass = lessonService.create(classes);
-		return ResponseEntity.status(HttpStatus.CREATED).body("");
+	public ResponseEntity<?> create(@RequestBody LessonDetailDTO detail){
+		System.out.println(detail);
+		lessonService.createLessonDetailFile(detail);
+		return ResponseEntity.status(HttpStatus.CREATED).body(detail);
+	}
+	
+	// 파일 리스트 얻어오기
+	@GetMapping(value = "/getFileList", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public ResponseEntity<List<LessonFileDTO>> getFileList(Long lessonId) {
+		List<LessonFileDTO> lessonFiles = lessonService.getFileList(lessonId);
+		return ResponseEntity.status(HttpStatus.OK).body(lessonFiles);
 	}
 	
 	// 자동완성 클래스 선택
@@ -116,4 +129,71 @@ public class LessonApiController {
 //		int affectedRowCount = lessonService.deleteById(id);
 		return ResponseEntity.status(HttpStatus.OK).body("ok");
 	}
+	
+	// 좋아요 수
+	@GetMapping(value = "/like/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<?> countLike(@PathVariable Long id) {
+		Long likeCnt = lessonService.getLikeCnt(id);
+		return ResponseEntity.status(HttpStatus.OK).body(likeCnt);
+	}
+
+	// 좋아요 생성
+	@PostMapping("/like")
+	public ResponseEntity<?> addLike(@RequestBody LessonLikeDTO like) {
+		lessonService.addLike(like);
+		return ResponseEntity.status(HttpStatus.OK).body("좋아요");
+	}
+
+	// 좋아요 해제
+	@DeleteMapping(value = "/like/{userId}/{lessonId}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<?> removeLike(@PathVariable Long userId, @PathVariable Long lessonId) {
+		LessonLikeDTO likeDTO = new LessonLikeDTO();
+		likeDTO.setUserId(userId).setLessonId(lessonId);
+		boolean isRemoved = lessonService.removeLike(likeDTO);
+		return ResponseEntity.status(HttpStatus.OK).body(isRemoved);
+	}
+
+	// 좋아요 여부 확인
+	@GetMapping(value = "/like/{userId}/{lessonId}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<?> isLike(@PathVariable Long userId, @PathVariable Long lessonId) {
+		LessonLikeDTO likeDTO = new LessonLikeDTO();
+		likeDTO.setUserId(userId).setLessonId(lessonId);
+		boolean isLike = lessonService.isLike(likeDTO);
+		return ResponseEntity.status(HttpStatus.OK).body(isLike);
+	}
+	
+	// --------------------------- 찜 ---------------------------------
+	
+	// 찜 수
+	@GetMapping(value = "/reserv/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<?> countReserv(@PathVariable Long id) {
+		Long reservCnt = lessonService.getReservCnt(id);
+		return ResponseEntity.status(HttpStatus.OK).body(reservCnt);
+	}
+
+	// 찜 생성
+	@PostMapping("/reserv")
+	public ResponseEntity<?> addReserv(@RequestBody LessonReservDTO reserv) {
+		lessonService.addReserv(reserv);
+		return ResponseEntity.status(HttpStatus.OK).body("좋아요");
+	}
+
+	// 찜 해제
+	@DeleteMapping(value = "/reserv/{userId}/{lessonId}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<?> removeReserv(@PathVariable Long userId, @PathVariable Long lessonId) {
+		LessonReservDTO reservDTO = new LessonReservDTO();
+		reservDTO.setUserId(userId).setLessonId(lessonId);
+		boolean isRemoved = lessonService.removeReserv(reservDTO);
+		return ResponseEntity.status(HttpStatus.OK).body(isRemoved);
+	}
+
+	// 찜 여부 확인
+	@GetMapping(value = "/reserv/{userId}/{lessonId}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<?> isReserv(@PathVariable Long userId, @PathVariable Long lessonId) {
+		LessonReservDTO reservDTO = new LessonReservDTO();
+		reservDTO.setUserId(userId).setLessonId(lessonId);
+		boolean isLike = lessonService.isReserv(reservDTO);
+		return ResponseEntity.status(HttpStatus.OK).body(isLike);
+	}
+	
 }

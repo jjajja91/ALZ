@@ -62,7 +62,7 @@ public interface BoardMapper {
 		Long lessonChk (BoardDTO board);
 
 		//리뷰쓰고 체크값 변경
-		int reviewChk(Long merchandiseId);
+		int reviewChk(BoardDTO board);
 
 		//리뷰값 불러오기
 		ReviewDTO readReview(BoardDTO board);
@@ -72,4 +72,6 @@ public interface BoardMapper {
 
 		//리뷰값 수정
 		Long updateReview(BoardDTO Board);
+
+		String getBoardName(Integer id);
 }

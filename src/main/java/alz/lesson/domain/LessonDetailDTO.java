@@ -1,7 +1,8 @@
 package alz.lesson.domain;
 
-import java.sql.Date;
+import java.util.List;
 
+import alz.file.domain.LessonFileDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -25,5 +26,7 @@ public class LessonDetailDTO {
 	private String Detail;
 	
 	private String location;
+	
+	private List<LessonFileDTO> fileList;
 
 }

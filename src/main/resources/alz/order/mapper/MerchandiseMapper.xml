@@ -13,14 +13,14 @@
 		</selectKey>
 		INSERT INTO
 		alz_merchandise(
-		ID, CODE_TYPE, NAME, DESCRIPTION,
+		ID, CODE_TYPE, NAME, DESCRIPTION, REGISTER_AT,
 		CLOSED_AT,
 		ORIGIN_PRICE, SALE_PRICE, DISCOUNT_RATE, DISCOUNT_DEADLINE,
 		DISPLAY_STATE, REF_ID, USER_ID, STATE
 		)
 		VALUES (
 		#{id}, #{codeType},
-		#{name}, #{description}, #{closedAt},
+		#{name}, #{description}, #{registerAt}, #{closedAt},
 		#{originPrice},#{salePrice},#{discountRate}, #{discountDeadline},
 		#{displayState}, #{refId}, #{userId}, '등록'
 		)
@@ -130,7 +130,7 @@
       )
   		where rn > (#{pageNum} -1) * #{amount}
   	]]>
-
+		order by id desc
 	</select>
 
 	<select id="getTotalCount" resultType="int">

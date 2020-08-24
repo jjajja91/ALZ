@@ -190,7 +190,8 @@
 		update alz_order_detail
 		set
 		review_chk = 1
-		where merchandise_id = #{merchandiseId}
+		where merchandise_id = #{merchandiseId} 
+		and user_id = #{id}
 	</update>
 
 	<select id="lessonChk" resultType="long">
@@ -217,6 +218,12 @@
 		alz_lesson
 		where id
 		= #{lessonId}
+	</select>
+	
+	<select id="getBoardName" resultType="String">
+		select name
+		from alz_board_type
+		where id = #{id}
 	</select>
 
 	<update id="updateReview"

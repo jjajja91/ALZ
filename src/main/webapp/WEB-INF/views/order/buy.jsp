@@ -13,10 +13,9 @@
 <style>
 .container {
 	margin-top: 200px;
-	margin-left: 600px;
+	margin-left: 27%;
 	min-height: 100%;
 	position: relative;
-	
 }
 
 .table-container {
@@ -29,15 +28,19 @@
 	font-size: 0.8em;
 	min-width: 400px;
 	width: 700px;
-	border-radius: 5px 5px 0 0;
 	overflow: hidden;
-	box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+	margin-bottom: 15px;
 }
 
 .content-table thead tr {
 	background-color: #335492;
 	color: #ffffff;
 	text-align: left;
+}
+
+.content-table tbody tr:first-of-type {
+	background-color: #335492;
+	color: #ffffff;
 }
 
 .content-table th {
@@ -49,6 +52,7 @@
 .content-table td {
 	padding: 8px 15px;
 	font-size: 15px;
+	vertical-align: middle;
 }
 
 .content-table thead tr {
@@ -65,9 +69,6 @@
 	font-weight: bold;
 }
 
-.content-table tbody tr:nth-of-type(even) {
-	background-color: #f3f3f3;
-}
 
 .content-table tbody tr:last-of-type {
 	border-bottom: 2px solid #335492;
@@ -100,9 +101,10 @@ p.orderNo {
 	display: inline-block;
 }
 
-.footer {
-	width: 100%;
+footer {
 	position: absolute;
+	margin-top: 30px;
+	width: 100%;
 	bottom: 0;
 	background: #5eaeff;
 	text-align: center;
@@ -110,6 +112,7 @@ p.orderNo {
 	background: #335492;
 	color: #fff;
 	padding: 30px 0;
+	bottom: 0;
 }
 
 th.th1 {
@@ -121,16 +124,29 @@ td.td2 {
 	width: 300px;
 }
 
+p {
+	margin: 10px 0;
+}
+
 a.main {
 	font-size: 18px;
-	margin-left: 300px;
 	background-color: #335492;
-	border-radius: 5px 5px;
-	box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
 	color: #ffffff;
 	border: 1px solid #dddddd;
 	background-color: #335492;
+	padding: 6px 12px;
+	border-radius: 5px 5px;
 }
+
+div.toMain {
+	margin: 30px 0 30px 300px;
+}
+
+img.lessonImg {
+	width: 100px;
+	height: 100px;
+}
+
 </style>
 <body>
 	<div class="container">
@@ -138,7 +154,7 @@ a.main {
 		<div class="title">|주문 완료</div>
 		<div class="notice">
 			<p style="margin-bottom: 5px;">주문이 완료되었습니다. 이용해 주셔서 감사합니다.</p>
-			<p>주문 내역은 [마이페이지 > 주문 내역]에서 다시 확인할 수 있습니다.</p>
+			<p>주문 내역은 [마이페이지 > 결제 내역]에서 다시 확인할 수 있습니다.</p>
 		</div>
 		<br>
 		<div class="orderNo">
@@ -159,10 +175,20 @@ a.main {
 					<c:set var="finalTotalPrice" value="0" />
 					<c:forEach items="${orderList}" var="list">
 						<tr>
-							<td>이미지</td>
-							<td>${list.name }<br> <fmt:formatNumber
-									value="${list.salePrice}" pattern="#,###" /> 원
-							</td>
+							<td><c:if test="${empty list.thumbnail}">
+									<img class="lessonImg"
+										src="../../../resources/img/classtmpimg.jpg">
+								</c:if> <c:if test="${!empty list.thumbnail}">
+									<img class="lessonImg"
+										src='/resources/img/lesson/thumb/${list.teacherId}
+										<fmt:formatDate pattern = "yyyy-MM-dd" value="${list.openAt}" />
+										/${list.thumbnail}'>
+								</c:if></td>
+							<td><p>${list.name }</p>
+								<p>
+									<fmt:formatNumber value="${list.salePrice}" pattern="#,###" />
+									원
+								</p></td>
 							<td>결제 완료</td>
 						</tr>
 						<c:set var="finalTotalPrice"
@@ -207,14 +233,11 @@ a.main {
 					</tr>
 				</table>
 			</div>
-			<br><br> <a class='main' href='/'> 메인으로 가기</a>
+		</div>
+		<div class="toMain">
+			<a class='main' href='/'> 홈으로 </a>
 		</div>
 	</div>
-	<footer class="footer">
-		<div>
-			<p class="copy">Copyright, ⓒ ALZ. All rights reserved.</p>
-		</div>
-	</footer>
 </body>
 <script type="text/javascript">
 	

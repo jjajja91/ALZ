@@ -86,6 +86,20 @@ public class MyPageApiController {
 		return ResponseEntity.status(HttpStatus.OK).body(refundedLessonList);
 	}
 	
+	@GetMapping(value = "/reservLessonList/{pageNum}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<?> myReservLessonList(@PathVariable Integer pageNum){
+		MyPageCriteria cri = new MyPageCriteria(pageNum, 10, getLoginUserInfo().getId());
+		List<LessonDTO> reservList = myPageService.getMyReservLessonList(cri);
+		return ResponseEntity.status(HttpStatus.OK).body(reservList);
+	}
+
+	@GetMapping(value = "/likeLessonList/{pageNum}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<?> mylikeLessonList(@PathVariable Integer pageNum){
+		MyPageCriteria cri = new MyPageCriteria(pageNum, 10, getLoginUserInfo().getId());
+		List<LessonDTO> likeList = myPageService.getMyLikeLessonList(cri);
+		return ResponseEntity.status(HttpStatus.OK).body(likeList);
+	}
+	
 //	@GetMapping(value = "/teachingLessonList/{pageNum}", produces = MediaType.APPLICATION_JSON_VALUE)
 //	public ResponseEntity<?> teachingLessonList(@PathVariable Integer pageNum){
 //		MyPageCriteria cri = new MyPageCriteria(pageNum, 10, getLoginUserInfo().getId());

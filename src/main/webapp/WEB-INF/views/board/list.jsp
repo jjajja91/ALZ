@@ -6,13 +6,26 @@
 <head>
 <style>
 .container {
-	position: relative;
+    width: 100%;
+    display: flex;
+    padding-top: 200px;
+    margin: 0 auto;
+    justify-content: center;
+    padding-top: 200px;
 }
-
+.boardNameDiv {
+    background: beige;
+    writing-mode: vertical-lr;
+    text-align: center;
+    inline-size: 400px;
+    font-size: 70px;
+    padding: 5%;
+    letter-spacing: 10px;
+    font-weight: 500;
+}
 .table-container {
-	position: absolute;
-	top: 30%;
-	left: 20%;
+    width: 60%;
+    padding-left: 30px;
 }
 
 .content-table {
@@ -20,22 +33,20 @@
   font-size: 0.9em;
   min-width: 400px;
   width: 700px;
-  border-radius: 5px 5px 0 0;
   overflow: hidden;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
 }
 
 .content-table thead tr {
   background-color: #335492;
   color: #ffffff;
-  text-align: left;
+  text-align: center;
 }
 
 .content-table th {
 padding: 13px 15px
 }
 .content-table td {
-  padding: 8px 15px;
+  padding: 13px 15px;
 }
 
 .content-table td a {
@@ -65,6 +76,7 @@ padding: 13px 15px
 	right: 0%;
 	bottom: 0%;
 	margin-top: 20px;
+    padding-top: 60px;
 }
 
 .page-footer li{
@@ -82,79 +94,108 @@ padding: 13px 15px
 	color: #eee;
 	background-color: #335492;
 }
+
+.searchDiv {
+	padding: 10px;
+	padding-bottom: 20px;
+}
+.search {
+    width: 150px;
+    height: 30px;
+}
+.searchInput {
+    width: 200px;
+    height: 24px;
+}
+
+#searchBtn {
+	height: 30px;
+    border: none;
+    background: lightgrey;
+    width: 60px;
+}
+#writeBtn {
+    background: white;
+    border: solid;
+    border-width: 1px;
+	height: 30px;
+    width: 60px;
+}
 </style>
 </head>
 <body>
 
 <div class="container">
-   <h1 class="page-header">Board</h1>
-</div>
-
-<div class="table-container">
-
-	<!-- 검색 -->
-	<div>
-		<form id='actionForm' action="/board/list" method='get'>
-			<select id='type' name='type'>
-				<option value="T" <c:out value="${pageMaker.cri.type == 'T'? 'selected':'' }"/>>제목</option>
-				<option value="C" <c:out value="${pageMaker.cri.type == 'C'? 'selected':'' }"/>>내용</option>
-				<option value="W" <c:out value="${pageMaker.cri.type == 'W'? 'selected':'' }"/>>작성자</option>
-				<option value="TC" <c:out value="${pageMaker.cri.type == 'TC'? 'selected':'' }"/>>제목 or 내용</option>
-				<option value="TW" <c:out value="${pageMaker.cri.type == 'TW'? ' selected':'' }"/>>제목 or 작성자</option>
-				<option value="TWC" <c:out value="${pageMaker.cri.type == 'TWC'? 'selected':'' }"/>>제목 or 내용 or 작성자</option>
-			</select>
-			<input type='text' id='keyword' name='keyword' value='<c:out value="${pageMaker.cri.keyword }"/>' />
-			<input type='hidden' id='pageNum' name='pageNum' value='<c:out value="${pageMaker.cri.pageNum }"/>' />
-			<input type='hidden' id='amount' name='amount' value='<c:out value="${pageMaker.cri.amount }"/>' />
-			<input type='hidden' id='typeId' name='typeId' value='<c:out value="${pageMaker.cri.typeId }"/>' />
-			<button class='writeBtn' id='searchBtn' >Search</button>
-			<button class='writeBtn' id='writeBtn' type="button">글쓰기</button>
-		</form>
+	<div class="boardNameDiv">
+	   <h1 class="page-header">${boardName}</h1>
 	</div>
+   
+	<div class="table-container">
 	
-	<!-- 글목록 -->
-	<table class="content-table" id="table" >
-		<thead id="table-header">
-			<tr>
-				<th>번호</th>
-				<th>제목</th>
-				<th>작성자</th>
-				<th>작성일</th>
-				<th>조회수</th>
-			</tr>
-		</thead>
-		<tbody>
-			<c:forEach items="${list }" var="board">
+		<!-- 검색 -->
+		<div class="searchDiv">
+			<form id='actionForm' action="/board/list" method='get'>
+				<select class="form-control search" id='type' name='type'>
+					<option value="T" <c:out value="${pageMaker.cri.type == 'T'? 'selected':'' }"/>>제목</option>
+					<option value="C" <c:out value="${pageMaker.cri.type == 'C'? 'selected':'' }"/>>내용</option>
+					<option value="W" <c:out value="${pageMaker.cri.type == 'W'? 'selected':'' }"/>>작성자</option>
+					<option value="TC" <c:out value="${pageMaker.cri.type == 'TC'? 'selected':'' }"/>>제목 or 내용</option>
+					<option value="TW" <c:out value="${pageMaker.cri.type == 'TW'? ' selected':'' }"/>>제목 or 작성자</option>
+					<option value="TWC" <c:out value="${pageMaker.cri.type == 'TWC'? 'selected':'' }"/>>제목 or 내용 or 작성자</option>
+				</select>
+				<input class="form-control searchInput" type='text' id='keyword' name='keyword' value='<c:out value="${pageMaker.cri.keyword }"/>' />
+				<input type='hidden' id='pageNum' name='pageNum' value='<c:out value="${pageMaker.cri.pageNum }"/>' />
+				<input type='hidden' id='amount' name='amount' value='<c:out value="${pageMaker.cri.amount }"/>' />
+				<input type='hidden' id='typeId' name='typeId' value='<c:out value="${pageMaker.cri.typeId }"/>' />
+				<button class='writeBtn' id='searchBtn' >검색</button>
+				<button class='writeBtn' id='writeBtn' type="button">글쓰기</button>
+			</form>
+		</div>
+		
+		<!-- 글목록 -->
+		<table class="content-table" id="table" >
+			<thead id="table-header">
 				<tr>
-					<td><c:out value="${board.id }" /></td>
-					<td>
-						<a class='read' href='<c:out value="${board.id }"/>'><c:out value="${board.title }"/> (<c:out value="${board.commentCnt}"/>)</a>
-					</td>
-					<td><c:out value="${board.nickname }" /></td>
-					<td><fmt:formatDate pattern="yyyy-MM-dd" value="${board.writtenAt }"/></td>
-					<td><c:out value="${board.viewCnt }"/></td>
+					<th>번호</th>
+					<th>제목</th>
+					<th>작성자</th>
+					<th>작성일</th>
+					<th>조회수</th>
 				</tr>
-			</c:forEach>
-		</tbody>
-	</table>
-	 
-	<!-- paging -->
-	<div class="page-footer" id="pagingDiv">
-		<ul class="pagination pull-right">
-			<c:if test="${pageMaker.prev }">
-				<li class="paginate_button previous"><a href="${pageMaker.startPage -1 }">Previous</a></li>
-			</c:if>
-			
-			<c:forEach var="num" begin="${pageMaker.startPage }" end="${pageMaker.endPage }">
-				<li class="paginate_button ${pageMaker.cri.pageNum == num? 'active':'' }"><a href="${num }">${num }</a></li>
-			</c:forEach>
-			
-			<c:if test="${pageMaker.next }">
-				<li class="paginate_button next"><a href="${pageMaker.endPage +1 }">Next</a></li>
-			</c:if>
-		</ul>
+			</thead>
+			<tbody>
+				<c:forEach items="${list }" var="board">
+					<tr>
+						<td style="text-align:center"><c:out value="${board.id }" /></td>
+						<td>
+							<a class='read' href='<c:out value="${board.id }"/>'><c:out value="${board.title }"/> (<c:out value="${board.commentCnt}"/>)</a>
+						</td>
+						<td><c:out value="${board.nickname }" /></td>
+						<td><fmt:formatDate pattern="yyyy-MM-dd" value="${board.writtenAt }"/></td>
+						<td style="text-align:center"><c:out value="${board.viewCnt }"/></td>
+					</tr>
+				</c:forEach>
+			</tbody>
+		</table>
+		 
+		<!-- paging -->
+		<div class="page-footer" id="pagingDiv">
+			<ul class="pagination pull-right">
+				<c:if test="${pageMaker.prev }">
+					<li class="paginate_button previous"><a href="${pageMaker.startPage -1 }">Previous</a></li>
+				</c:if>
+				
+				<c:forEach var="num" begin="${pageMaker.startPage }" end="${pageMaker.endPage }">
+					<li class="paginate_button ${pageMaker.cri.pageNum == num? 'active':'' }"><a href="${num }">${num }</a></li>
+				</c:forEach>
+				
+				<c:if test="${pageMaker.next }">
+					<li class="paginate_button next"><a href="${pageMaker.endPage +1 }">Next</a></li>
+				</c:if>
+			</ul>
+		</div>
+	
 	</div>
-
 </div>
 
 <script type="text/javascript">

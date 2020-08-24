@@ -10,6 +10,7 @@
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
 <style>
 *{
   margin: 0;
@@ -104,7 +105,7 @@
         <li class="mypageItem" id="teacher">
           <a href="#teacher" class="mypageBtn">선생님메뉴</a>
           <div class="smenu">
-  			<a href="/merchandise/list">강의 등록</a>
+  			<a href="/merchandise/myList">강의 등록</a>
   			<a href="/myPage/teachingLesson">강의 중 클래스</a>
   			<a href="#">모집 중 클래스</a>
   			<a href="/myPage/teachedLesson">강의종료 클래스</a>
@@ -114,15 +115,15 @@
     	<li class="mypageItem" id="paymentList">
           <a href="#paymentList" class="mypageBtn">결제정보</a>
           <div class="smenu">
-  			<a href="/myPage/refundedLesson">취소/환불</a>
-  			<a href="#">결제 내역</a>
+  			<a href="/myPage/refundedList">취소/환불</a>
+  			<a href="/myPage/paidOrderList">결제 내역</a>
           </div>
         </li>
         <li class="mypageItem" id="myList">
           <a href="#myList" class="mypageBtn">내 관심 목록</a>
           <div class="smenu">
- 			<a href="#about">찜 클래스</a>
-  			<a href="#services">좋아요 클래스</a>
+ 			<a href="/myPage/reservLessonList">찜 클래스</a>
+  			<a href="/myPage/likeLessonList">좋아요 클래스</a>
   			<a href="/myPage/boardList">내 게시글</a>
   			<a href="/myPage/commentList">내 댓글</a>
   			<a href="/myPage/likeList">내 좋아요</a>
@@ -138,7 +139,7 @@
         </li>
   		</sec:authorize>
         <li class="mypageItem">
-          <a class="mypageBtn" href="#">마이페이지</a>
+          <a class="mypageBtn" href="#"><i class="xi-caret-up-circle-o"></i></a>
         </li>
       </div>
     </div>
